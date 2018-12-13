@@ -1,0 +1,11 @@
+{
+	"brace_style" : "expand",
+
+	"indent_size" : 4,
+	"indent_with_tabs" : true,
+
+	"newline_between_rules" : true,
+
+	"keep_array_indentation" : true,
+	"keep_function_indentation" : true
+}

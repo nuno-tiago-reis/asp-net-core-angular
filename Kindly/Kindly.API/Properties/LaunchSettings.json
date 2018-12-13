@@ -1,0 +1,52 @@
+﻿{
+	"$schema": "http://json.schemastore.org/launchsettings.json",
+
+	"iisSettings":
+	{
+		"windowsAuthentication": false,
+		"anonymousAuthentication": true,
+		"iisExpress":
+		{
+			"applicationUrl": "http://localhost:21571",
+			"sslPort": 44351
+		}
+	},
+
+	"profiles":
+	{
+		"Kindly.API [IIS]":
+		{
+			"commandName": "IISExpress",
+			"launchBrowser": true,
+			"launchUrl": "api/values",
+			"applicationUrl": "https://localhost:44351",
+			"environmentVariables":
+			{
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		"Kindly.API [Kestrel]":
+		{
+			"commandName": "Project",
+			"launchBrowser": false,
+			"launchUrl": "api/values",
+			"applicationUrl": "https://localhost:44351",
+			"environmentVariables":
+			{
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		"Kindly.API.Watch [Kestrel]":
+		{
+			"commandName": "Executable",
+			"commandLineArgs": "watch --project ..\\..\\..\\Kindly.API.csproj run",
+			"executablePath": "C:\\Program Files\\dotnet\\dotnet.exe",
+			"launchBrowser": true,
+			"applicationUrl": "https://localhost:44351",
+			"environmentVariables":
+			{
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		}
+	}
+}
