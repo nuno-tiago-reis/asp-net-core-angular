@@ -4,14 +4,16 @@ using Kindly.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kindly.API.Migrations
 {
     [DbContext(typeof(KindlyContext))]
-    partial class KindlyContextModelSnapshot : ModelSnapshot
+    [Migration("20181214151420_AddedUsersTable")]
+    partial class AddedUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,14 +48,11 @@ namespace Kindly.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("EmailAddress")
-                        .IsUnique();
+                    b.HasIndex("EmailAddress");
 
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique();
+                    b.HasIndex("PhoneNumber");
 
-                    b.HasIndex("UserName")
-                        .IsUnique();
+                    b.HasIndex("UserName");
 
                     b.ToTable("Users");
                 });

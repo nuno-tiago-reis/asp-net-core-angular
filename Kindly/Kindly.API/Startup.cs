@@ -1,10 +1,16 @@
-﻿using Kindly.API.Models;
+﻿using System.Text;
+using AutoMapper;
+
+using Kindly.API.Models;
+using Kindly.API.Models.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Kindly.API
 {
@@ -33,20 +39,35 @@ namespace Kindly.API
 			// Cors
 			services.AddCors();
 
-			// Compatibility
-			services.AddMvc().SetCompatibilityVersion
+			// Auto Mapper
+			services.AddAutoMapper();
+
+			// Authentication
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
 			(
-				CompatibilityVersion.Version_2_1
+				options => options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey
+					(
+						Encoding.UTF8.GetBytes(this.Configuration.GetSection("AppSettings:Secret").Value)
+					)
+				}
 			);
+
+			// Compatibility
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 			// Database Context
 			services.AddDbContext<KindlyContext>
 			(
-				options => options.UseSqlServer
-				(
-					this.Configuration.GetConnectionString("DefaultConnection")
-				)
+				options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"))
 			);
+
+			// Database Repositories
+			services.AddScoped<IUserRepository, UserRepository>();
 		}
 
 		/// <summary>
@@ -66,6 +87,7 @@ namespace Kindly.API
 			}
 
 			appBuilder.UseCors(action => action.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+			appBuilder.UseAuthentication();
 			appBuilder.UseMvc();
 		}
 	}
