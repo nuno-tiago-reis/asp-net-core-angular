@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, LoginWithUserNameRequest } from '../-services/auth/auth.service';
+import { AlertifyService } from '../-services/alertify/alertify.service';
 
 @Component({
 
@@ -17,7 +18,7 @@ export class NavComponent implements OnInit
 	 *
 	 * @param auth The auth service.
 	 */
-	public constructor (private auth: AuthService)
+	public constructor (private auth: AuthService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -35,7 +36,17 @@ export class NavComponent implements OnInit
 	 */
 	public logIn (): void
 	{
-		this.auth.loginWithUserName(this.model);
+		this.auth.loginWithUserName(this.model).subscribe(
+
+			(next: any) =>
+			{
+				this.alertify.success('Logged in successfully.');
+			},
+			(error: any) =>
+			{
+				this.alertify.error(error);
+			}
+		);
 	}
 
 	/**
@@ -44,6 +55,8 @@ export class NavComponent implements OnInit
 	public logOut (): void
 	{
 		localStorage.removeItem('token');
+
+		this.alertify.success('Logged out successfully.');
 	}
 
 	/**

@@ -9,7 +9,7 @@ import { tap, catchError } from 'rxjs/operators';
 	providedIn: 'root'
 })
 
-export class ServiceInterceptor implements HttpInterceptor
+export class KindlyHttpInterceptor implements HttpInterceptor
 {
 	public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
 	{
@@ -70,7 +70,8 @@ export class ServiceInterceptor implements HttpInterceptor
 
 					// A client-side or network error occurred. Handle it accordingly.
 					console.error(`An internal server error occured: ${error.message}`);
-					return throwError('Internal server error');
+					console.error(error.error);
+					return throwError(`Something bad happened; please try again later.`);
 				}
 				else
 				{
@@ -78,10 +79,8 @@ export class ServiceInterceptor implements HttpInterceptor
 					// The response body may contain clues as to what went wrong,
 					console.error(`A backend error occurred: ${error.message}`);
 					console.error(error.error);
+					return throwError(`Something bad happened; please try again later.`);
 				}
-
-				// return an observable with a user-facing error message
-				return throwError(`Something bad happened; please try again later.`);
 			})
 		);
 	}
@@ -90,6 +89,6 @@ export class ServiceInterceptor implements HttpInterceptor
 export const ServiceInterceptorProvider =
 {
 	provide: HTTP_INTERCEPTORS,
-	useClass: ServiceInterceptor,
+	useClass: KindlyHttpInterceptor,
 	multi: true
 };

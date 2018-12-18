@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
 
@@ -82,7 +83,7 @@ export class AuthService
 	private login (url: string, model: any): Observable<LoginResponse>
 	{
 		const observable = this.http.post<LoginResponse>(url, model);
-		observable.subscribe(
+		observable.pipe(map(
 
 			(body: LoginResponse) =>
 			{
@@ -93,7 +94,7 @@ export class AuthService
 					localStorage.setItem('token', token);
 				}
 			}
-		);
+		));
 
 		return observable;
 	}
@@ -114,7 +115,6 @@ export class AuthService
 	public register (model: RegisterRequest): Observable<RegisterResponse>
 	{
 		const observable = this.http.post<RegisterResponse>(this.baseURL + 'register', model);
-		observable.subscribe();
 
 		return observable;
 	}
@@ -133,7 +133,6 @@ export class AuthService
 	public addPassword (model: AddPasswordRequest): Observable<void>
 	{
 		const observable = this.http.post<void>(this.baseURL + 'password', model);
-		observable.subscribe();
 
 		return observable;
 	}
@@ -153,7 +152,6 @@ export class AuthService
 	public changePassword (model: ChangePasswordRequest): Observable<void>
 	{
 		const observable = this.http.put<void>(this.baseURL + 'password', model);
-		observable.subscribe();
 
 		return observable;
 	}

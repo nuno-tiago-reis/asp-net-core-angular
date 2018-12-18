@@ -7,7 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 // Services
 import { AuthService } from './-services/auth/auth.service';
 import { UsersService } from './-services/users/users.service';
-import { ServiceInterceptorProvider } from './-services/service.interceptor';
+import { AlertifyService } from './-services/alertify/alertify.service';
+import { ServiceInterceptorProvider } from './-services/http.interceptor';
 
 // Components
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { RegisterComponent } from './register/register.component';
 	providers: [
 		AuthService,
 		UsersService,
+		AlertifyService,
 		ServiceInterceptorProvider
 	],
 	bootstrap: [
