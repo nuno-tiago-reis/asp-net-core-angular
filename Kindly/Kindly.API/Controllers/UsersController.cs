@@ -52,17 +52,10 @@ namespace Kindly.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetUsers()
 		{
-			try
-			{
-				var users = await this.Repository.GetUsers();
-				var userDtos = users.Select(user => this.Mapper.Map<UserDto>(user));
+			var users = await this.Repository.GetUsers();
+			var userDtos = users.Select(user => this.Mapper.Map<UserDto>(user));
 
-				return this.Ok(userDtos);
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Ok(userDtos);
 		}
 
 		/// <summary>
@@ -73,17 +66,10 @@ namespace Kindly.API.Controllers
 		[HttpGet("{id:Guid}")]
 		public async Task<IActionResult> GetUser(Guid id)
 		{
-			try
-			{
-				var user = await this.Repository.GetUserByID(id);
-				var userDto = this.Mapper.Map<UserDto>(user);
+			var user = await this.Repository.GetUserByID(id);
+			var userDto = this.Mapper.Map<UserDto>(user);
 
-				return this.Ok(userDto);
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Ok(userDto);
 		}
 
 		/// <summary>
@@ -94,23 +80,16 @@ namespace Kindly.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(CreateDto createInfo)
 		{
-			try
+			var user = new User
 			{
-				var user = new User
-				{
-					UserName = createInfo.UserName,
-					PhoneNumber = createInfo.PhoneNumber,
-					EmailAddress = createInfo.EmailAddress
-				};
+				UserName = createInfo.UserName,
+				PhoneNumber = createInfo.PhoneNumber,
+				EmailAddress = createInfo.EmailAddress
+			};
 
-				await this.Repository.CreateUser(user);
+			await this.Repository.CreateUser(user);
 
-				return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
 		}
 
 		/// <summary>
@@ -122,23 +101,16 @@ namespace Kindly.API.Controllers
 		[HttpPut("{id:Guid}")]
 		public async Task<IActionResult> Update(Guid id, UpdateDto updateInfo)
 		{
-			try
+			var user = new User
 			{
-				var user = new User
-				{
-					ID = id,
-					PhoneNumber = updateInfo.PhoneNumber,
-					EmailAddress = updateInfo.EmailAddress
-				};
+				ID = id,
+				PhoneNumber = updateInfo.PhoneNumber,
+				EmailAddress = updateInfo.EmailAddress
+			};
 
-				await this.Repository.UpdateUser(user);
+			await this.Repository.UpdateUser(user);
 
-				return this.Ok();
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Ok();
 		}
 
 		/// <summary>
@@ -149,16 +121,9 @@ namespace Kindly.API.Controllers
 		[HttpDelete("{id:Guid}")]
 		public async Task<IActionResult> DeleteUser(Guid id)
 		{
-			try
-			{
-				await this.Repository.DeleteUser(id);
+			await this.Repository.DeleteUser(id);
 
-				return this.Ok();
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Ok();
 		}
 		#endregion
 	}

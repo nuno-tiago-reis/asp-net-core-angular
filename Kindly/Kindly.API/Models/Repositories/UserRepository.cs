@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-	
+
+using Kindly.API.Utility;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Kindly.API.Models.Repositories
@@ -35,19 +37,19 @@ namespace Kindly.API.Models.Repositories
 		public async Task<User> CreateUser(User user)
 		{
 			if (string.IsNullOrWhiteSpace(user.UserName))
-				throw new Exception("User name is invalid.");
+				throw new KindlyException("User name is invalid.");
 			if (await this.UserNameExists(user.UserName))
-				throw new Exception("User name is taken.");
+				throw new KindlyException("User name is taken.");
 
 			if (string.IsNullOrWhiteSpace(user.PhoneNumber))
-				throw new Exception("Phone number is invalid.");
+				throw new KindlyException("Phone number is invalid.");
 			if (await this.PhoneNumberExists(user.PhoneNumber))
-				throw new Exception("Phone number is taken.");
+				throw new KindlyException("Phone number is taken.");
 
 			if (string.IsNullOrWhiteSpace(user.EmailAddress))
-				throw new Exception("Email address is invalid.");
+				throw new KindlyException("Email address is invalid.");
 			if (await this.EmailAddressExists(user.EmailAddress))
-				throw new Exception("Email address is taken.");
+				throw new KindlyException("Email address is taken.");
 
 			this.Context.Add(user);
 			await this.Context.SaveChangesAsync();
@@ -60,13 +62,13 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.GetUserByID(user.ID);
 			if (databaseUser == null)
-				throw new Exception("User does not exist.");
+				throw new KindlyException("User does not exist.");
 
 			if (!string.IsNullOrWhiteSpace(user.PhoneNumber) && databaseUser.PhoneNumber != user.PhoneNumber && await this.PhoneNumberExists(user.PhoneNumber))
-				throw new Exception("Phone number already exists.");
+				throw new KindlyException("Phone number already exists.");
 
 			if (!string.IsNullOrWhiteSpace(user.EmailAddress) && databaseUser.EmailAddress != user.EmailAddress && await this.EmailAddressExists(user.EmailAddress))
-				throw new Exception("Email address already exists.");
+				throw new KindlyException("Email address already exists.");
 
 			databaseUser.PhoneNumber = user.PhoneNumber ?? databaseUser.PhoneNumber;
 			databaseUser.EmailAddress = user.EmailAddress ?? databaseUser.EmailAddress;
@@ -81,7 +83,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.Context.Users.FindAsync(userID);
 			if (databaseUser == null)
-				throw new Exception("User does not exist.");
+				throw new KindlyException("User does not exist.");
 
 			this.Context.Users.Remove(databaseUser);
 			await this.Context.SaveChangesAsync();
@@ -126,10 +128,10 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.GetUserByID(user.ID);
 			if (databaseUser == null)
-				throw new Exception("User does not exist.");
+				throw new KindlyException("User does not exist.");
 
 			if(databaseUser.PasswordHash != null)
-				throw new Exception("User already has a password.");
+				throw new KindlyException("User already has a password.");
 
 			CreatePasswordHashAndSalt(databaseUser, password);
 
@@ -143,10 +145,10 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.GetUserByID(user.ID);
 			if (databaseUser == null)
-				throw new Exception("User does not exist.");
+				throw new KindlyException("User does not exist.");
 
 			if (CheckIfPasswordMatches(databaseUser, oldPassword) == false)
-				throw new Exception("The password is incorrect.");
+				throw new KindlyException("The password is incorrect.");
 
 			CreatePasswordHashAndSalt(databaseUser, newPassword);
 
@@ -227,10 +229,10 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = user != null ? await this.GetUserByID(user.ID) : null;
 			if (databaseUser == null)
-				throw new Exception("The user or the password are incorrect.");
+				throw new KindlyException("The user or password are incorrect.");
 
 			if (CheckIfPasswordMatches(databaseUser, password) == false)
-				throw new Exception("The user or the password are incorrect.");
+				throw new KindlyException("The user or password are incorrect.");
 
 			return databaseUser;
 		}

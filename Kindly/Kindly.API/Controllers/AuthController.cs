@@ -4,10 +4,12 @@ using Kindly.API.Contracts.Auth;
 using Kindly.API.Contracts.Users;
 using Kindly.API.Models;
 using Kindly.API.Models.Repositories;
+using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -73,24 +75,17 @@ namespace Kindly.API.Controllers
 		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterDto registerInfo)
 		{
-			try
+			var user = new User
 			{
-				var user = new User
-				{
-					UserName = registerInfo.UserName,
-					PhoneNumber = registerInfo.PhoneNumber,
-					EmailAddress = registerInfo.EmailAddress
-				};
+				UserName = registerInfo.UserName,
+				PhoneNumber = registerInfo.PhoneNumber,
+				EmailAddress = registerInfo.EmailAddress
+			};
 
-				await this.Repository.CreateUser(user);
-				await this.Repository.AddPassword(user, registerInfo.Password);
+			await this.Repository.CreateUser(user);
+			await this.Repository.AddPassword(user, registerInfo.Password);
 
-				return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
 		}
 
 		/// <summary>
@@ -107,9 +102,11 @@ namespace Kindly.API.Controllers
 
 				return this.Ok(new { token = this.GenerateLoginToken(user) });
 			}
-			catch (Exception)
+			catch (KindlyException exception)
 			{
-				return this.Unauthorized();
+				exception.StatusCode = StatusCodes.Status401Unauthorized;
+
+				throw;
 			}
 		}
 
@@ -127,9 +124,11 @@ namespace Kindly.API.Controllers
 
 				return this.Ok(new { token = this.GenerateLoginToken(user) });
 			}
-			catch (Exception)
+			catch (KindlyException exception)
 			{
-				return this.Unauthorized();
+				exception.StatusCode = StatusCodes.Status401Unauthorized;
+
+				throw;
 			}
 		}
 
@@ -147,9 +146,11 @@ namespace Kindly.API.Controllers
 
 				return this.Ok(new { token = this.GenerateLoginToken(user) });
 			}
-			catch (Exception)
+			catch (KindlyException exception)
 			{
-				return this.Unauthorized();
+				exception.StatusCode = StatusCodes.Status401Unauthorized;
+
+				throw;
 			}
 		}
 
@@ -167,9 +168,11 @@ namespace Kindly.API.Controllers
 
 				return this.Ok(new { token = this.GenerateLoginToken(user)});
 			}
-			catch (Exception)
+			catch (KindlyException exception)
 			{
-				return this.Unauthorized();
+				exception.StatusCode = StatusCodes.Status401Unauthorized;
+
+				throw;
 			}
 		}
 
@@ -182,21 +185,14 @@ namespace Kindly.API.Controllers
 		[HttpPost("password")]
 		public async Task<IActionResult> AddPassword(AddPasswordDto passwordInfo)
 		{
-			try
+			var user = new User
 			{
-				var user = new User
-				{
-					ID = passwordInfo.ID
-				};
+				ID = passwordInfo.ID
+			};
 
-				await this.Repository.AddPassword(user, passwordInfo.Password);
+			await this.Repository.AddPassword(user, passwordInfo.Password);
 
-				return this.Ok();
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Ok();
 		}
 
 		/// <summary>
@@ -208,21 +204,14 @@ namespace Kindly.API.Controllers
 		[HttpPut("password")]
 		public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordInfo)
 		{
-			try
+			var user = new User
 			{
-				var user = new User
-				{
-					ID = passwordInfo.ID
-				};
+				ID = passwordInfo.ID
+			};
 
-				await this.Repository.ChangePassword(user, passwordInfo.OldPassword, passwordInfo.NewPassword);
+			await this.Repository.ChangePassword(user, passwordInfo.OldPassword, passwordInfo.NewPassword);
 
-				return this.Ok();
-			}
-			catch (Exception exception)
-			{
-				return this.BadRequest(exception.Message);
-			}
+			return this.Ok();
 		}
 		#endregion
 

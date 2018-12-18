@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 
+using System.Net;
 using System.Text;
 
 using Kindly.API.Models;
 using Kindly.API.Models.Repositories;
-
+using Kindly.API.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,17 +42,14 @@ namespace Kindly.API
 		{
 			// Cors
 			services.AddCors();
-
 			// Auto Mapper
 			services.AddAutoMapper();
-
 			// Compatibility
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
 			// Authentication
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
-			(
-				options => options.TokenValidationParameters = new TokenValidationParameters
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+			{
+				options.TokenValidationParameters = new TokenValidationParameters
 				{
 					ValidateIssuer = false,
 					ValidateAudience = false,
@@ -59,15 +58,13 @@ namespace Kindly.API
 					(
 						Encoding.UTF8.GetBytes(this.Configuration.GetSection("AppSettings:Secret").Value)
 					)
-				}
-			);
-
+				};
+			});
 			// Database Context
-			services.AddDbContext<KindlyContext>
-			(
-				options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"))
-			);
-
+			services.AddDbContext<KindlyContext>(options =>
+			{
+				options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
+			});
 			// Database Repositories
 			services.AddScoped<IUserRepository, UserRepository>();
 		}
@@ -81,14 +78,47 @@ namespace Kindly.API
 		{
 			if (environment.IsDevelopment())
 			{
-				appBuilder.UseDeveloperExceptionPage();
+				//appBuilder.UseDeveloperExceptionPage();
+				appBuilder.UseExceptionHandler(builder =>
+				{
+					builder.Run(async context =>
+					{
+						var error = context.Features.Get<IExceptionHandlerFeature>();
+
+						if (error.Error is KindlyException kindlyException && kindlyException.StatusCode.HasValue)
+							context.Response.StatusCode = kindlyException.StatusCode.Value;
+						else
+							context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+						await context.Response.AddApplicationError(error.Error.Message);
+
+					});
+				});
 			}
 			else
 			{
+				appBuilder.UseExceptionHandler(builder =>
+				{
+					builder.Run(async context =>
+					{
+						var error = context.Features.Get<IExceptionHandlerFeature>();
+
+						if (error.Error is KindlyException kindlyException && kindlyException.StatusCode.HasValue)
+							context.Response.StatusCode = kindlyException.StatusCode.Value;
+						else
+							context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+						await context.Response.AddApplicationError(error.Error.Message);
+
+					});
+				});
 				appBuilder.UseHsts();
 			}
 
-			appBuilder.UseCors(action => action.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+			appBuilder.UseCors(action =>
+			{
+				action.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+			});
 			appBuilder.UseAuthentication();
 			appBuilder.UseMvc();
 		}
