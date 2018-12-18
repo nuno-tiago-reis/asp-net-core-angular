@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { BsDropdownModule } from 'ngx-bootstrap';
 
 // Services
 import { AuthService } from './-services/auth/auth.service';
@@ -21,7 +22,8 @@ import { RegisterComponent } from './register/register.component';
 	imports: [
 		FormsModule,
 		BrowserModule,
-		HttpClientModule
+		HttpClientModule,
+		BsDropdownModule.forRoot()
 	],
 	providers: [
 		AuthService,

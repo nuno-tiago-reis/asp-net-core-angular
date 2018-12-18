@@ -230,10 +230,10 @@ namespace Kindly.API.Controllers
 				(
 					new[]
 					{
-						new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
-						new Claim(ClaimTypes.Name, user.UserName),
-						new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
-						new Claim(ClaimTypes.Email, user.EmailAddress)
+						new Claim("id", user.ID.ToString()),
+						new Claim("userName", user.UserName),
+						new Claim("phoneNumber", user.PhoneNumber),
+						new Claim("emailAddress", user.EmailAddress)
 					}
 				),
 				Expires = DateTime.Now.AddDays(1),

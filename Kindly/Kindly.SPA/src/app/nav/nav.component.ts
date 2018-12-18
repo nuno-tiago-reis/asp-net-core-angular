@@ -11,7 +11,23 @@ import { AlertifyService } from '../-services/alertify/alertify.service';
 
 export class NavComponent implements OnInit
 {
+	/**
+	 * The login model.
+	 */
 	model: LoginWithUserNameRequest = { userName: '', password: '' };
+
+	/**
+	 * The current users name.
+	 */
+	userName: string;
+	/**
+	 * The current users phone number.
+	 */
+	phoneNumber: string;
+	/**
+	 * The current users email address.
+	 */
+	emailAddress: string;
 
 	/**
 	 * Creates an instance of the nav component.
@@ -28,7 +44,10 @@ export class NavComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		// Nothing to do here.
+		if (this.isLoggedIn() === true)
+		{
+			this.getUserInformation();
+		}
 	}
 
 	/**
@@ -36,10 +55,12 @@ export class NavComponent implements OnInit
 	 */
 	public logIn (): void
 	{
-		this.auth.loginWithUserName(this.model).subscribe(
+		this.auth.logInWithUserName(this.model).subscribe(
 
 			(next: any) =>
 			{
+				this.getUserInformation();
+
 				this.alertify.success('Logged in successfully.');
 			},
 			(error: any) =>
@@ -54,7 +75,7 @@ export class NavComponent implements OnInit
 	 */
 	public logOut (): void
 	{
-		localStorage.removeItem('token');
+		this.auth.logOut();
 
 		this.alertify.success('Logged out successfully.');
 	}
@@ -62,18 +83,28 @@ export class NavComponent implements OnInit
 	/**
 	 * Checks whether the user is logged in.
 	 */
-	public loggedIn(): boolean
+	public isLoggedIn(): boolean
 	{
-		const token = localStorage.getItem('token');
-
-		return !!token;
+		return this.auth.isLoggedIn();
 	}
 
 	/**
 	 * Checks whether the user is logged out.
 	 */
-	public loggedOut (): boolean
+	public isLoggedOut (): boolean
 	{
-		return this.loggedIn() === false;
+		return this.auth.isLoggedOut();
+	}
+
+	/**
+	 * Gets the users information from the auth service.
+	 */
+	private getUserInformation(): void
+	{
+		const decodedToken = this.auth.decodedToken;
+
+		this.userName = decodedToken.userName;
+		this.phoneNumber = decodedToken.phoneNumber;
+		this.emailAddress = decodedToken.emailAddress;
 	}
 }

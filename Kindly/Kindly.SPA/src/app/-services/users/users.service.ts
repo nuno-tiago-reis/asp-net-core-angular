@@ -13,7 +13,7 @@ export class UsersService
 	/**
 	 * The users API base url.
 	 */
-	protected baseURL = 'https://localhost:44351/api/users/';
+	private baseURL = 'https://localhost:44351/api/users/';
 
 	/**
 	 * Creates an instance of the users service.
@@ -40,7 +40,6 @@ export class UsersService
 	public create (model: CreateRequest): Observable<User>
 	{
 		const observable = this.http.post<User>(this.baseURL, model);
-		observable.subscribe();
 
 		return observable;
 	}
@@ -61,7 +60,6 @@ export class UsersService
 	public update (id: string, model: UpdateRequest): Observable<void>
 	{
 		const observable = this.http.put<void>(this.baseURL + id, model);
-		observable.subscribe();
 
 		return observable;
 	}
@@ -75,7 +73,6 @@ export class UsersService
 	public delete (id: string): Observable<void>
 	{
 		const observable = this.http.delete<void>(this.baseURL + id);
-		observable.subscribe();
 
 		return observable;
 	}
@@ -89,7 +86,6 @@ export class UsersService
 	public get (id: string): Observable<User>
 	{
 		const observable = this.http.get<User>(this.baseURL + id);
-		observable.subscribe();
 
 		return observable;
 	}
@@ -100,7 +96,6 @@ export class UsersService
 	public getAll (): Observable<User[]>
 	{
 		const observable = this.http.get<User[]>(this.baseURL);
-		observable.subscribe();
 
 		return observable;
 	}

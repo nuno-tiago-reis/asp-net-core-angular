@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +15,17 @@ export class AuthService
 	/**
 	 * The auth API base url.
 	 */
-	protected baseURL = 'https://localhost:44351/api/auth/';
+	private baseURL = 'https://localhost:44351/api/auth/';
+
+	/**
+	 * The jwt helper service.
+	 */
+	private jtwHelper = new JwtHelperService();
+
+	/**
+	 * The decoded auth token.
+	 */
+	public decodedToken: DecodedToken;
 
 	/**
 	 * Creates an instance of the auth service.
@@ -23,7 +34,12 @@ export class AuthService
 	 */
 	public constructor (protected readonly http: HttpClient)
 	{
-		// Nothing to do here.
+		const encodedToken = localStorage.getItem('token');
+
+		if (encodedToken)
+		{
+			this.decodedToken = this.jtwHelper.decodeToken(encodedToken);
+		}
 	}
 
 	/**
@@ -37,9 +53,9 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public loginWithUserName (model: LoginWithUserNameRequest): Observable<LoginResponse>
+	public logInWithUserName (model: LoginWithUserNameRequest): Observable<LoginResponse>
 	{
-		return this.login(this.baseURL + 'login/user-name', model);
+		return this.logIn(this.baseURL + 'login/user-name', model);
 	}
 
 	/**
@@ -53,9 +69,9 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public loginWithPhoneNumber (model: LoginWithPhoneNumberRequest): Observable<LoginResponse>
+	public logInWithPhoneNumber (model: LoginWithPhoneNumberRequest): Observable<LoginResponse>
 	{
-		return this.login(this.baseURL + 'login/phone-number', model);
+		return this.logIn(this.baseURL + 'login/phone-number', model);
 	}
 
 	/**
@@ -69,34 +85,64 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public loginWithEmailAddress (model: LoginWithEmailAddressRequest): Observable<LoginResponse>
+	public logInWithEmailAddress (model: LoginWithEmailAddressRequest): Observable<LoginResponse>
 	{
-		return this.login(this.baseURL + 'login/email-address', model);
+		return this.logIn(this.baseURL + 'login/email-address', model);
 	}
 
 	/**
-	 * Logs in using the given url and model.
+	 * Logs in a user using the given url and model.
 	 *
 	 * @param url The url.
 	 * @param model The model.
 	 */
-	private login (url: string, model: any): Observable<LoginResponse>
+	private logIn (url: string, model: any): Observable<LoginResponse>
 	{
-		const observable = this.http.post<LoginResponse>(url, model);
-		observable.pipe(map(
+		const observable = this.http.post<LoginResponse>(url, model).pipe(map(
 
 			(body: LoginResponse) =>
 			{
-				const token = body.token;
+				const encodedToken = body.token;
 
-				if (token)
+				if (encodedToken)
 				{
-					localStorage.setItem('token', token);
+					localStorage.setItem('token', encodedToken);
+					this.decodedToken = this.jtwHelper.decodeToken(encodedToken);
 				}
+
+				return body;
 			}
 		));
 
 		return observable;
+	}
+
+	/**
+	 * Logs out a user.
+	 */
+	public logOut (): void
+	{
+		localStorage.removeItem('token');
+
+		this.decodedToken = null;
+	}
+
+	/**
+	 * Checks whether the user is logged in.
+	 */
+	public isLoggedIn (): boolean
+	{
+		const encodedToken = localStorage.getItem('token');
+
+		return this.jtwHelper.isTokenExpired(encodedToken) === false;
+	}
+
+	/**
+	 * Checks whether the user is logged out.
+	 */
+	public isLoggedOut (): boolean
+	{
+		return this.isLoggedIn() === false;
 	}
 
 	/**
@@ -207,4 +253,15 @@ export interface ChangePasswordRequest
 	id: string;
 	oldPassword: string;
 	newPassword: string;
+}
+
+export interface DecodedToken
+{
+	id: string;
+	userName: string;
+	phoneNumber: string;
+	emailAddress: string;
+	nbf: number;
+	exp: number;
+	iat: number;
 }

@@ -14,6 +14,9 @@ export class RegisterComponent implements OnInit
 	@Output() submitRegistry = new EventEmitter;
 	@Output() cancelRegistry = new EventEmitter;
 
+	/**
+	 * The registration model.
+	 */
 	model: RegisterRequest = { userName: '', phoneNumber: '', emailAddress: '', password: ''  };
 
 	/**
