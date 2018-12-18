@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { AuthService, RegisterRequest, RegisterResponse } from '../-services/auth/auth.service';
+import { AuthService, RegisterRequest } from '../-services/auth/auth.service';
 
 @Component({
 

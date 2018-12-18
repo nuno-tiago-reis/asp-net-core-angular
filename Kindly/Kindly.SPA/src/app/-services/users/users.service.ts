@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { Service } from './../service';
 
 @Injectable({
 
 	providedIn: 'root'
 })
 
-export class UsersService extends Service
+export class UsersService
 {
 	/**
 	 * The users API base url.
@@ -25,7 +22,7 @@ export class UsersService extends Service
 	 */
 	public constructor (protected readonly http: HttpClient)
 	{
-		super();
+		// Nothing to do here.
 	}
 
 	/**
@@ -42,20 +39,10 @@ export class UsersService extends Service
 	 */
 	public create (model: CreateRequest): Observable<User>
 	{
-		const observable = this.http.post<User>(this.baseURL, model, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.post<User>(this.baseURL, model);
+		observable.subscribe();
 
-			(response: HttpResponse<User>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<User>) => response.body));
+		return observable;
 	}
 
 	/**
@@ -73,20 +60,10 @@ export class UsersService extends Service
 	 */
 	public update (id: string, model: UpdateRequest): Observable<void>
 	{
-		const observable = this.http.put<void>(this.baseURL + id, model, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.put<void>(this.baseURL + id, model);
+		observable.subscribe();
 
-			(response: HttpResponse<void>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<void>) => response.body));
+		return observable;
 	}
 
 	/**
@@ -97,20 +74,10 @@ export class UsersService extends Service
 	 */
 	public delete (id: string): Observable<void>
 	{
-		const observable = this.http.delete<void>(this.baseURL + id, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.delete<void>(this.baseURL + id);
+		observable.subscribe();
 
-			(response: HttpResponse<void>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<void>) => response.body));
+		return observable;
 	}
 
 	/**
@@ -121,20 +88,10 @@ export class UsersService extends Service
 	 */
 	public get (id: string): Observable<User>
 	{
-		const observable = this.http.get<User>(this.baseURL + id, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.get<User>(this.baseURL + id);
+		observable.subscribe();
 
-			(response: HttpResponse<User>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<User>) => response.body));
+		return observable;
 	}
 
 	/**
@@ -142,20 +99,10 @@ export class UsersService extends Service
 	 */
 	public getAll (): Observable<User[]>
 	{
-		const observable = this.http.get<User[]>(this.baseURL, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.get<User[]>(this.baseURL);
+		observable.subscribe();
 
-			(response: HttpResponse<User[]>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<User[]>) => response.body));
+		return observable;
 	}
 }
 

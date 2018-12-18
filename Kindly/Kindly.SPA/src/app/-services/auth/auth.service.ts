@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { Service } from './../service';
 
 @Injectable({
 
 	providedIn: 'root'
 })
 
-export class AuthService extends Service
+export class AuthService
 {
 	/**
 	 * The auth API base url.
@@ -25,7 +22,7 @@ export class AuthService extends Service
 	 */
 	public constructor (protected readonly http: HttpClient)
 	{
-		super();
+		// Nothing to do here.
 	}
 
 	/**
@@ -84,27 +81,21 @@ export class AuthService extends Service
 	 */
 	private login (url: string, model: any): Observable<LoginResponse>
 	{
-		const observable = this.http.post<LoginResponse>(url, model, { observe: 'response' });
+		const observable = this.http.post<LoginResponse>(url, model);
 		observable.subscribe(
 
-			(response: HttpResponse<LoginResponse>) =>
+			(body: LoginResponse) =>
 			{
-				const token = response.body.token;
+				const token = body.token;
 
 				if (token)
 				{
 					localStorage.setItem('token', token);
 				}
-
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
 			}
 		);
 
-		return observable.pipe(map((response: HttpResponse<LoginResponse>) => response.body));
+		return observable;
 	}
 
 	/**
@@ -122,20 +113,10 @@ export class AuthService extends Service
 	 */
 	public register (model: RegisterRequest): Observable<RegisterResponse>
 	{
-		const observable = this.http.post<RegisterResponse>(this.baseURL + 'register', model, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.post<RegisterResponse>(this.baseURL + 'register', model);
+		observable.subscribe();
 
-			(response: HttpResponse<RegisterResponse>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<RegisterResponse>) => response.body));
+		return observable;
 	}
 
 	/**
@@ -151,20 +132,10 @@ export class AuthService extends Service
 	 */
 	public addPassword (model: AddPasswordRequest): Observable<void>
 	{
-		const observable = this.http.post<void>(this.baseURL + 'password', model, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.post<void>(this.baseURL + 'password', model);
+		observable.subscribe();
 
-			(response: HttpResponse<void>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<void>) => response.body));
+		return observable;
 	}
 
 	/**
@@ -181,20 +152,10 @@ export class AuthService extends Service
 	 */
 	public changePassword (model: ChangePasswordRequest): Observable<void>
 	{
-		const observable = this.http.put<void>(this.baseURL + 'password', model, { observe: 'response' });
-		observable.subscribe(
+		const observable = this.http.put<void>(this.baseURL + 'password', model);
+		observable.subscribe();
 
-			(response: HttpResponse<void>) =>
-			{
-				this.handleResponse(response);
-			},
-			(errorResponse: HttpErrorResponse) =>
-			{
-				this.handleErrorResponse(errorResponse);
-			}
-		);
-
-		return observable.pipe(map((response: HttpResponse<void>) => response.body));
+		return observable;
 	}
 }
 
