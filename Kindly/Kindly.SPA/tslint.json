@@ -91,7 +91,6 @@
 		"one-line":
 		[
 			true,
-			"check-else",
 			"check-whitespace"
 		],
 		"prefer-const": true,
