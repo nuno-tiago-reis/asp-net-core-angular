@@ -1,8 +1,10 @@
-﻿using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
+
+using System.Text;
 
 using Kindly.API.Models;
 using Kindly.API.Models.Repositories;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +44,9 @@ namespace Kindly.API
 			// Auto Mapper
 			services.AddAutoMapper();
 
+			// Compatibility
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
 			// Authentication
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
 			(
@@ -56,9 +61,6 @@ namespace Kindly.API
 					)
 				}
 			);
-
-			// Compatibility
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 			// Database Context
 			services.AddDbContext<KindlyContext>

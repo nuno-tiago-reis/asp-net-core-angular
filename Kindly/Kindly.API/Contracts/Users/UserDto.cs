@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Users
 {
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class UserDto
 	{
 		/// <summary>

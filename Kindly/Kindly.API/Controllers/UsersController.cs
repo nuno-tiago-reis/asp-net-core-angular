@@ -21,23 +21,24 @@ namespace Kindly.API.Controllers
 	{
 		#region [Properties]
 		/// <summary>
-		/// Gets or sets the repository.
-		/// </summary>
-		private IUserRepository Repository { get; set; }
-
-		/// <summary>
 		/// Gets or sets the mapper.
 		/// </summary>
 		private IMapper Mapper { get; set; }
+
+		/// <summary>
+		/// Gets or sets the repository.
+		/// </summary>
+		private IUserRepository Repository { get; set; }
 		#endregion
 
 		#region [Constructors]
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UsersController"/> class.
 		/// </summary>
-		/// <param name="repository">The repository.</param>
+		/// 
 		/// <param name="mapper">The mapper.</param>
-		public UsersController(IUserRepository repository, IMapper mapper)
+		/// <param name="repository">The repository.</param>
+		public UsersController(IMapper mapper, IUserRepository repository)
 		{
 			this.Repository = repository;
 			this.Mapper = mapper;

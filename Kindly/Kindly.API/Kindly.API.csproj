@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Kindly.API.Postman.Collection.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="automapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
@@ -12,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AutoMapper\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

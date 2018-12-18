@@ -11,12 +11,7 @@ namespace Kindly.API.Models
 		public DbSet<User> Users { get; set; }
 
 		/// <summary>
-		/// The values.
-		/// </summary>
-		public DbSet<Value> Values { get; set; }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Kindly.API.Models.KindlyContext" /> class.
+		/// Initializes a new instance of the <see cref="KindlyContext" /> class.
 		/// </summary>
 		public KindlyContext(DbContextOptions options) : base(options)
 		{

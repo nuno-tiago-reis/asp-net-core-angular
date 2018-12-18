@@ -5,6 +5,7 @@ using Kindly.API.Contracts.Users;
 using Kindly.API.Models;
 using Kindly.API.Models.Repositories;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,11 @@ namespace Kindly.API.Controllers
 	public sealed class AuthController : ControllerBase
 	{
 		#region [Properties]
+		/// <summary>
+		/// Gets or sets the mapper.
+		/// </summary>
+		private IMapper Mapper { get; set; }
+
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
@@ -43,12 +49,15 @@ namespace Kindly.API.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UsersController"/> class.
 		/// </summary>
+		/// 
+		/// <param name="mapper">The mapper.</param>
 		/// <param name="repository">The repository.</param>
 		/// <param name="configuration">The configuration.</param>
-		public AuthController(IUserRepository repository, IConfiguration configuration)
+		public AuthController(IMapper mapper, IUserRepository repository, IConfiguration configuration)
 		{
 			string secret = configuration.GetSection("AppSettings:Secret").Value;
 
+			this.Mapper = mapper;
 			this.Repository = repository;
 			this.SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
 			this.SigningCredentials = new SigningCredentials(this.SecurityKey, SecurityAlgorithms.HmacSha512Signature);
@@ -169,6 +178,7 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="passwordInfo">The password information.</param>
+		[Authorize]
 		[HttpPost("password")]
 		public async Task<IActionResult> AddPassword(AddPasswordDto passwordInfo)
 		{
@@ -194,6 +204,7 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="passwordInfo">The password information.</param>
+		[Authorize]
 		[HttpPut("password")]
 		public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordInfo)
 		{
