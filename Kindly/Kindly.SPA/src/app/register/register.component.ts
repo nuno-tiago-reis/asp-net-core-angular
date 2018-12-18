@@ -2,8 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService, RegisterRequest } from '../-services/auth/auth.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
 
-@Component({
-
+@Component
+({
 	selector: 'app-register',
 	templateUrl: './register.component.html',
 	styleUrls: [ './register.component.css' ]
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit
 	/**
 	 * The registration model.
 	 */
-	model: RegisterRequest = { userName: '', phoneNumber: '', emailAddress: '', password: ''  };
+	public model: RegisterRequest = { userName: '', phoneNumber: '', emailAddress: '', password: ''  };
 
 	/**
 	 * Creates an instance of the register component.

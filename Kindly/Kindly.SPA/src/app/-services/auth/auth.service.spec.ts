@@ -1,12 +1,12 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { AuthService } from './Auth.service';
 
 describe('Service: Auth', () =>
 {
 	beforeEach(() =>
 	{
-		TestBed.configureTestingModule({
-
+		TestBed.configureTestingModule
+		({
 			providers: [ AuthService ]
 		});
 	});

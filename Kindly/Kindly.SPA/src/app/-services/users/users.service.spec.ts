@@ -1,12 +1,12 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { UsersService } from './Users.service';
 
 describe('Service: Users', () =>
 {
 	beforeEach(() =>
 	{
-		TestBed.configureTestingModule({
-
+		TestBed.configureTestingModule
+		({
 			providers: [ UsersService ]
 		});
 	});

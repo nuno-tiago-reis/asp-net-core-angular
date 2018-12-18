@@ -5,8 +5,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-
+@Injectable
+({
 	providedIn: 'root'
 })
 
@@ -98,8 +98,8 @@ export class AuthService
 	 */
 	private logIn (url: string, model: any): Observable<LoginResponse>
 	{
-		const observable = this.http.post<LoginResponse>(url, model).pipe(map(
-
+		const observable = this.http.post<LoginResponse>(url, model).pipe(map
+		(
 			(body: LoginResponse) =>
 			{
 				const encodedToken = body.token;

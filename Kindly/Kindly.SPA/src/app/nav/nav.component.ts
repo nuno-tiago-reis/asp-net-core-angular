@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService, LoginWithUserNameRequest } from '../-services/auth/auth.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
 
-@Component({
-
+@Component
+({
 	selector: 'app-nav',
 	templateUrl: './nav.component.html',
 	styleUrls: [ './nav.component.css' ]
@@ -14,27 +15,27 @@ export class NavComponent implements OnInit
 	/**
 	 * The login model.
 	 */
-	model: LoginWithUserNameRequest = { userName: '', password: '' };
+	public model: LoginWithUserNameRequest = { userName: '', password: '' };
 
 	/**
 	 * The current users name.
 	 */
-	userName: string;
+	public userName: string;
 	/**
 	 * The current users phone number.
 	 */
-	phoneNumber: string;
+	public phoneNumber: string;
 	/**
 	 * The current users email address.
 	 */
-	emailAddress: string;
+	public emailAddress: string;
 
 	/**
 	 * Creates an instance of the nav component.
 	 *
 	 * @param auth The auth service.
 	 */
-	public constructor (private auth: AuthService, private alertify: AlertifyService)
+	public constructor (private auth: AuthService, private alertify: AlertifyService, private router: Router)
 	{
 		// Nothing to do here.
 	}
@@ -55,13 +56,14 @@ export class NavComponent implements OnInit
 	 */
 	public logIn (): void
 	{
-		this.auth.logInWithUserName(this.model).subscribe(
-
+		this.auth.logInWithUserName(this.model).subscribe
+		(
 			(next: any) =>
 			{
 				this.getUserInformation();
 
 				this.alertify.success('Logged in successfully.');
+				this.router.navigate(['/members']);
 			},
 			(error: any) =>
 			{
@@ -78,6 +80,7 @@ export class NavComponent implements OnInit
 		this.auth.logOut();
 
 		this.alertify.success('Logged out successfully.');
+		this.router.navigate(['/home']);
 	}
 
 	/**

@@ -4,8 +4,8 @@ import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse, Htt
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
-@Injectable({
-
+@Injectable
+({
 	providedIn: 'root'
 })
 
@@ -13,8 +13,8 @@ export class KindlyHttpInterceptor implements HttpInterceptor
 {
 	public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
 	{
-		return next.handle(request).pipe(
-
+		return next.handle(request).pipe
+		(
 			tap((event: HttpEvent<any>) =>
 			{
 				if (event instanceof HttpResponse)

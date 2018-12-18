@@ -5,11 +5,12 @@ describe('AppComponent', () =>
 {
 	beforeEach(async(() =>
 	{
-		TestBed.configureTestingModule({
+		TestBed.configureTestingModule
+		({
 			declarations:
-				[
-					AppComponent
-				],
+			[
+				AppComponent
+			]
 		}).compileComponents();
 	}));
 
