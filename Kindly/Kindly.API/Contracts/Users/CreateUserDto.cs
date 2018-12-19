@@ -7,19 +7,13 @@ using Kindly.API.Models.Domain;
 namespace Kindly.API.Contracts.Users
 {
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
-	public sealed class UserDto
+	public sealed class CreateUserDto
 	{
-		/// <summary>
-		/// Gets or sets the user identifier.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public Guid ID { get; set; }
-
 		/// <summary>
 		/// Gets or sets the user name.
 		/// </summary>
 		[Required]
+		[MinLength(5)]
 		[DataType(DataType.Text)]
 		public string UserName { get; set; }
 
@@ -31,21 +25,11 @@ namespace Kindly.API.Contracts.Users
 		public string PhoneNumber { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the [phone number is confirmed].
-		/// </summary>
-		public bool PhoneNumberConfirmed { get; set; }
-
-		/// <summary>
 		/// Gets or sets the email address.
 		/// </summary>
 		[Required]
 		[DataType(DataType.EmailAddress)]
 		public string EmailAddress { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether the [email address is confirmed].
-		/// </summary>
-		public bool EmailAddressConfirmed { get; set; }
 
 		/// <summary>
 		/// Gets or sets the known as name.
@@ -58,15 +42,16 @@ namespace Kindly.API.Contracts.Users
 		/// Gets or sets the gender.
 		/// </summary>
 		[Required]
+		
 		[DataType(DataType.Text)]
 		public Gender Gender { get; set; }
 
 		/// <summary>
-		/// Gets or sets the age.
+		/// Gets or sets the birth date.
 		/// </summary>
 		[Required]
-		[DataType(DataType.Text)]
-		public int Age { get; set; }
+		[DataType(DataType.Date)]
+		public DateTime BirthDate { get; set; }
 
 		/// <summary>
 		/// Gets or sets the introduction.
@@ -102,26 +87,5 @@ namespace Kindly.API.Contracts.Users
 		[Required]
 		[DataType(DataType.Text)]
 		public string Country { get; set; }
-
-		/// <summary>
-		/// Gets or sets the created at date.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Date)]
-		public DateTime CreatedAt { get; set; }
-
-		/// <summary>
-		/// Gets or sets the last active at date.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Date)]
-		public DateTime LastActiveAt { get; set; }
-
-		/// <summary>
-		/// Gets or sets the picture url.
-		/// </summary>
-		[Required]
-		[DataType(DataType.ImageUrl)]
-		public string ProfilePictureUrl { get; set; }
 	}
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Kindly.API.Models.Domain;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Kindly.API.Models.Configurations
@@ -19,15 +21,57 @@ namespace Kindly.API.Models.Configurations
 			// Properties
 			builder.Property(user => user.UserName)
 				.IsRequired()
-				.HasMaxLength(200);
+				.HasMaxLength(25);
 
 			builder.Property(user => user.PhoneNumber)
 				.IsRequired()
-				.HasMaxLength(200);
+				.HasMaxLength(15);
 
 			builder.Property(user => user.EmailAddress)
 				.IsRequired()
-				.HasMaxLength(200);
+				.HasMaxLength(254);
+
+			builder.Property(user => user.KnownAs)
+				.IsRequired()
+				.HasMaxLength(25);
+
+			builder.Property(user => user.Gender)
+				.IsRequired()
+				.HasMaxLength(10);
+
+			builder.Property(user => user.BirthDate)
+				.IsRequired()
+				.HasColumnType("Date");
+
+			builder.Property(user => user.Introduction)
+				.IsRequired()
+				.HasMaxLength(500);
+
+			builder.Property(user => user.Interests)
+				.IsRequired()
+				.HasMaxLength(250);
+
+			builder.Property(user => user.LookingFor)
+				.IsRequired()
+				.HasMaxLength(250);
+
+			builder.Property(user => user.City)
+				.IsRequired()
+				.HasMaxLength(50);
+
+			builder.Property(user => user.Country)
+				.IsRequired()
+				.HasMaxLength(50);
+
+			builder.Property(user => user.CreatedAt)
+				.IsRequired()
+				.ValueGeneratedOnAdd()
+				.HasDefaultValueSql("GetUtcDate()");
+
+			builder.Property(user => user.LastActiveAt)
+				.IsRequired()
+				.ValueGeneratedOnAdd()
+				.HasDefaultValueSql("GetUtcDate()");
 		}
 	}
 }

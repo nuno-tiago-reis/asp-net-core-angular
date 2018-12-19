@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Kindly.API.Contracts.Users;
-using Kindly.API.Models;
+using Kindly.API.Models.Domain;
 using Kindly.API.Models.Repositories;
 
 using Microsoft.AspNetCore.Authorization;
@@ -47,47 +47,14 @@ namespace Kindly.API.Controllers
 
 		#region [Interface Methods]
 		/// <summary>
-		/// Gets the users.
-		/// </summary>
-		[HttpGet]
-		public async Task<IActionResult> GetUsers()
-		{
-			var users = await this.Repository.GetUsers();
-			var userDtos = users.Select(user => this.Mapper.Map<UserDto>(user));
-
-			return this.Ok(userDtos);
-		}
-
-		/// <summary>
-		/// Gets a user.
-		/// </summary>
-		/// 
-		/// <param name="id">The user identifier.</param>
-		[HttpGet("{id:Guid}")]
-		public async Task<IActionResult> GetUser(Guid id)
-		{
-			var user = await this.Repository.GetUserByID(id);
-			var userDto = this.Mapper.Map<UserDto>(user);
-
-			return this.Ok(userDto);
-		}
-
-		/// <summary>
 		/// Creates the specified user.
 		/// </summary>
 		/// 
-		/// <param name="createInfo">The create information.</param>
+		/// <param name="createUserInfo">The create information.</param>
 		[HttpPost]
-		public async Task<IActionResult> Create(CreateDto createInfo)
+		public async Task<IActionResult> Create(CreateUserDto createUserInfo)
 		{
-			var user = new User
-			{
-				UserName = createInfo.UserName,
-				PhoneNumber = createInfo.PhoneNumber,
-				EmailAddress = createInfo.EmailAddress
-			};
-
-			await this.Repository.CreateUser(user);
+			var user = await this.Repository.Create(Mapper.Map<User>(createUserInfo));
 
 			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
 		}
@@ -96,19 +63,11 @@ namespace Kindly.API.Controllers
 		/// Updates the specified user.
 		/// </summary>
 		/// 
-		/// <param name="id">The user identifier.</param>
-		/// <param name="updateInfo">The update information.</param>
-		[HttpPut("{id:Guid}")]
-		public async Task<IActionResult> Update(Guid id, UpdateDto updateInfo)
+		/// <param name="updateUserInfo">The update information.</param>
+		[HttpPut]
+		public async Task<IActionResult> Update(UpdateUserDto updateUserInfo)
 		{
-			var user = new User
-			{
-				ID = id,
-				PhoneNumber = updateInfo.PhoneNumber,
-				EmailAddress = updateInfo.EmailAddress
-			};
-
-			await this.Repository.UpdateUser(user);
+			await this.Repository.Update(Mapper.Map<User>(updateUserInfo));
 
 			return this.Ok();
 		}
@@ -119,11 +78,37 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="id">The user identifier.</param>
 		[HttpDelete("{id:Guid}")]
-		public async Task<IActionResult> DeleteUser(Guid id)
+		public async Task<IActionResult> Delete(Guid id)
 		{
-			await this.Repository.DeleteUser(id);
+			await this.Repository.Delete(id);
 
 			return this.Ok();
+		}
+
+		/// <summary>
+		/// Gets a user.
+		/// </summary>
+		/// 
+		/// <param name="id">The user identifier.</param>
+		[HttpGet("{id:Guid}")]
+		public async Task<IActionResult> Get(Guid id)
+		{
+			var user = await this.Repository.Get(id);
+			var userDto = this.Mapper.Map<UserDetailedDto>(user);
+
+			return this.Ok(userDto);
+		}
+
+		/// <summary>
+		/// Gets the users.
+		/// </summary>
+		[HttpGet]
+		public async Task<IActionResult> GetAll()
+		{
+			var users = await this.Repository.GetAll();
+			var userDtos = users.Select(user => this.Mapper.Map<UserDto>(user));
+
+			return this.Ok(userDtos);
 		}
 		#endregion
 	}

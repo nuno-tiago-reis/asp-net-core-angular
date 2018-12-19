@@ -5,9 +5,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-using Kindly.API.Utility;
-
 using Microsoft.EntityFrameworkCore;
+
+using Kindly.API.Models.Domain;
+using Kindly.API.Utility;
 
 namespace Kindly.API.Models.Repositories
 {
@@ -32,25 +33,52 @@ namespace Kindly.API.Models.Repositories
 		}
 		#endregion
 
-		#region [Interface Methods]
+		#region [Methods] IEntityRepository
 		/// <inheritdoc />
-		public async Task<User> CreateUser(User user)
+		public async Task<User> Create(User user)
 		{
+			// Keys
 			if (string.IsNullOrWhiteSpace(user.UserName))
-				throw new KindlyException("User name is invalid.");
+				throw new KindlyException(user.InvalidFieldMessage(u => u.UserName));
 			if (await this.UserNameExists(user.UserName))
-				throw new KindlyException("User name is taken.");
+				throw new KindlyException(user.ExistingFieldMessage(u => u.UserName));
 
 			if (string.IsNullOrWhiteSpace(user.PhoneNumber))
-				throw new KindlyException("Phone number is invalid.");
+				throw new KindlyException(user.InvalidFieldMessage(u => u.PhoneNumber));
 			if (await this.PhoneNumberExists(user.PhoneNumber))
-				throw new KindlyException("Phone number is taken.");
+				throw new KindlyException(user.ExistingFieldMessage(u => u.PhoneNumber));
 
 			if (string.IsNullOrWhiteSpace(user.EmailAddress))
-				throw new KindlyException("Email address is invalid.");
+				throw new KindlyException(user.InvalidFieldMessage(u => u.EmailAddress));
 			if (await this.EmailAddressExists(user.EmailAddress))
-				throw new KindlyException("Email address is taken.");
+				throw new KindlyException(user.ExistingFieldMessage(u => u.EmailAddress));
 
+			// Properties
+			if (string.IsNullOrWhiteSpace(user.KnownAs))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.KnownAs));
+
+			if (string.IsNullOrWhiteSpace(user.Introduction))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.Introduction));
+
+			if (string.IsNullOrWhiteSpace(user.Interests))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.Interests));
+
+			if (string.IsNullOrWhiteSpace(user.LookingFor))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.LookingFor));
+
+			if (string.IsNullOrWhiteSpace(user.City))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.City));
+
+			if (string.IsNullOrWhiteSpace(user.Country))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.Country));
+
+			if (user.Gender == default(Gender))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.Gender));
+
+			if (user.BirthDate == default(DateTime))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.BirthDate));
+
+			// Create
 			this.Context.Add(user);
 			await this.Context.SaveChangesAsync();
 
@@ -58,109 +86,160 @@ namespace Kindly.API.Models.Repositories
 		}
 
 		/// <inheritdoc />
-		public async Task<User> UpdateUser(User user)
+		public async Task<User> Update(User user)
 		{
-			var databaseUser = await this.GetUserByID(user.ID);
+			var databaseUser = await this.Context.Users.FindAsync(user.ID);
 			if (databaseUser == null)
-				throw new KindlyException("User does not exist.");
+				throw new KindlyException(User.DoesNotExist);
 
+			// Keys
 			if (!string.IsNullOrWhiteSpace(user.PhoneNumber) && databaseUser.PhoneNumber != user.PhoneNumber && await this.PhoneNumberExists(user.PhoneNumber))
-				throw new KindlyException("Phone number already exists.");
+				throw new KindlyException(user.ExistingFieldMessage(u => u.PhoneNumber));
 
 			if (!string.IsNullOrWhiteSpace(user.EmailAddress) && databaseUser.EmailAddress != user.EmailAddress && await this.EmailAddressExists(user.EmailAddress))
-				throw new KindlyException("Email address already exists.");
+				throw new KindlyException(user.ExistingFieldMessage(u => u.EmailAddress));
 
-			databaseUser.PhoneNumber = user.PhoneNumber ?? databaseUser.PhoneNumber;
-			databaseUser.EmailAddress = user.EmailAddress ?? databaseUser.EmailAddress;
+			databaseUser.PhoneNumber =
+				!string.IsNullOrWhiteSpace(user.PhoneNumber) ? user.PhoneNumber : databaseUser.PhoneNumber;
 
+			databaseUser.EmailAddress =
+				!string.IsNullOrWhiteSpace(user.EmailAddress) ? user.EmailAddress : databaseUser.EmailAddress;
+
+			// Properties
+			databaseUser.KnownAs =
+				!string.IsNullOrWhiteSpace(user.KnownAs) ? user.KnownAs : databaseUser.KnownAs;
+
+			databaseUser.Introduction =
+				!string.IsNullOrWhiteSpace(user.Introduction) ? user.Introduction : databaseUser.Introduction;
+
+			databaseUser.Interests =
+				!string.IsNullOrWhiteSpace(user.Interests) ? user.Interests : databaseUser.Interests;
+
+			databaseUser.LookingFor =
+				!string.IsNullOrWhiteSpace(user.LookingFor) ? user.LookingFor : databaseUser.LookingFor;
+
+			databaseUser.City =
+				!string.IsNullOrWhiteSpace(user.City) ? user.City : databaseUser.City;
+
+			databaseUser.Country =
+				!string.IsNullOrWhiteSpace(user.Country) ? user.Country : databaseUser.Country;
+
+			databaseUser.Gender =
+				user.Gender != default(Gender) ? user.Gender : databaseUser.Gender;
+
+			databaseUser.BirthDate =
+				user.BirthDate != default(DateTime) ? user.BirthDate : databaseUser.BirthDate;
+
+			databaseUser.LastActiveAt =
+				user.LastActiveAt != default(DateTime) ? user.LastActiveAt : databaseUser.LastActiveAt;
+
+			databaseUser.Pictures =
+				user.Pictures ?? databaseUser.Pictures;
+
+			// Update
 			await this.Context.SaveChangesAsync();
 
 			return databaseUser;
 		}
 
 		/// <inheritdoc />
-		public async Task<User> DeleteUser(Guid userID)
+		public async Task Delete(Guid userID)
 		{
 			var databaseUser = await this.Context.Users.FindAsync(userID);
 			if (databaseUser == null)
-				throw new KindlyException("User does not exist.");
+				throw new KindlyException(User.DoesNotExist);
 
+			// Delete
 			this.Context.Users.Remove(databaseUser);
 			await this.Context.SaveChangesAsync();
-
-			return databaseUser;
 		}
 
 		/// <inheritdoc />
+		public async Task<User> Get(Guid userID)
+		{
+			return await this.Context.Users
+				.Include(user => user.Pictures)
+				.SingleOrDefaultAsync(user => user.ID == userID);
+		}
+
+		/// <inheritdoc />
+		public async Task<IEnumerable<User>> GetAll()
+		{
+			return await this.Context.Users
+				.Include(user => user.Pictures)
+				.ToListAsync();
+		}
+		#endregion
+
+		#region [Methods] IUserRepository
+		/// <inheritdoc />
 		public async Task<User> LoginWithID(Guid userID, string password)
 		{
-			var databaseUser = await this.GetUserByID(userID);
+			var databaseUser = await this.Get(userID);
 
-			return await this.Login(databaseUser, password);
+			await this.Login(databaseUser, password);
+
+			return databaseUser;
 		}
 
 		/// <inheritdoc />
 		public async Task<User> LoginWithUserName(string userName, string password)
 		{
-			var databaseUser = await this.GetUserByUserName(userName);
+			var databaseUser = await this.GetByUserName(userName);
 
-			return await this.Login(databaseUser, password);
+			await this.Login(databaseUser, password);
+
+			return databaseUser;
 		}
 
 		/// <inheritdoc />
 		public async Task<User> LoginWithPhoneNumber(string phoneNumber, string password)
 		{
-			var databaseUser = await this.GetUserByPhoneNumber(phoneNumber);
+			var databaseUser = await this.GetByPhoneNumber(phoneNumber);
 
-			return await this.Login(databaseUser, password);
+			await this.Login(databaseUser, password);
+
+			return databaseUser;
 		}
 
 		/// <inheritdoc />
 		public async Task<User> LoginWithEmailAddress(string emailAddress, string password)
 		{
-			var databaseUser = await this.GetUserByEmailAddress(emailAddress);
+			var databaseUser = await this.GetByEmailAddress(emailAddress);
 
-			return await this.Login(databaseUser, password);
+			await this.Login(databaseUser, password);
+
+			return databaseUser;
 		}
 
 		/// <inheritdoc />
-		public async Task<User> AddPassword(User user, string password)
+		public async Task AddPassword(User user, string password)
 		{
-			var databaseUser = await this.GetUserByID(user.ID);
+			var databaseUser = await this.Get(user.ID);
 			if (databaseUser == null)
-				throw new KindlyException("User does not exist.");
+				throw new KindlyException(User.DoesNotExist);
 
 			if(databaseUser.PasswordHash != null)
-				throw new KindlyException("User already has a password.");
+				throw new KindlyException(User.PasswordAlreadyExists);
 
 			CreatePasswordHashAndSalt(databaseUser, password);
 
 			await this.Context.SaveChangesAsync();
-
-			return databaseUser;
 		}
 
 		/// <inheritdoc />
-		public async Task<User> ChangePassword(User user, string oldPassword, string newPassword)
+		public async Task ChangePassword(User user, string oldPassword, string newPassword)
 		{
-			var databaseUser = await this.GetUserByID(user.ID);
+			var databaseUser = await this.Get(user.ID);
 			if (databaseUser == null)
-				throw new KindlyException("User does not exist.");
+				throw new KindlyException(User.DoesNotExist);
 
 			if (CheckIfPasswordMatches(databaseUser, oldPassword) == false)
-				throw new KindlyException("The password is incorrect.");
+				throw new KindlyException(User.PasswordIsIncorrect);
 
 			CreatePasswordHashAndSalt(databaseUser, newPassword);
 
 			await this.Context.SaveChangesAsync();
-
-			return databaseUser;
-		}
-
-		/// <inheritdoc />
-		public async Task<bool> UserIdExists(Guid userID)
-		{
-			return await this.Context.Users.AnyAsync(user => user.ID == userID);
 		}
 
 		/// <inheritdoc />
@@ -182,37 +261,26 @@ namespace Kindly.API.Models.Repositories
 		}
 
 		/// <inheritdoc />
-		public async Task<User> GetUserByID(Guid userID)
-		{
-			return await this.Context.Users.FindAsync(userID);
-		}
-
-		/// <inheritdoc />
-		public async Task<User> GetUserByUserName(string userName)
+		public async Task<User> GetByUserName(string userName)
 		{
 			return await this.Context.Users.SingleOrDefaultAsync(user => user.UserName == userName);
 		}
 
 		/// <inheritdoc />
-		public async Task<User> GetUserByPhoneNumber(string phoneNumber)
+		public async Task<User> GetByPhoneNumber(string phoneNumber)
 		{
 			return await this.Context.Users.SingleOrDefaultAsync(user => user.PhoneNumber == phoneNumber);
 		}
 
 		/// <inheritdoc />
-		public async Task<User> GetUserByEmailAddress(string emailAddress)
+		public async Task<User> GetByEmailAddress(string emailAddress)
 		{
 			return await this.Context.Users.SingleOrDefaultAsync(user => user.EmailAddress == emailAddress);
 		}
 
-		/// <inheritdoc />
-		public async Task<IEnumerable<User>> GetUsers()
-		{
-			return await this.Context.Users.ToListAsync();
-		}
 		#endregion
 
-		#region [Utility Methods]
+		#region [Methods] Utility
 		/// <summary>
 		/// Logs in the specified user.
 		/// </summary>
@@ -227,12 +295,12 @@ namespace Kindly.API.Models.Repositories
 		/// </exception>
 		private async Task<User> Login(User user, string password)
 		{
-			var databaseUser = user != null ? await this.GetUserByID(user.ID) : null;
+			var databaseUser = user != null ? await this.Get(user.ID) : null;
 			if (databaseUser == null)
-				throw new KindlyException("The user or password are incorrect.");
+				throw new KindlyException(User.UserOrPasswordAreIncorrect);
 
 			if (CheckIfPasswordMatches(databaseUser, password) == false)
-				throw new KindlyException("The user or password are incorrect.");
+				throw new KindlyException(User.UserOrPasswordAreIncorrect);
 
 			return databaseUser;
 		}
@@ -243,7 +311,7 @@ namespace Kindly.API.Models.Repositories
 		/// 
 		/// <param name="user">The user.</param>
 		/// <param name="password">The password.</param>
-		private static void CreatePasswordHashAndSalt(User user, string password)
+		public static void CreatePasswordHashAndSalt(User user, string password)
 		{
 			using (var hmac = new HMACSHA512())
 			{
@@ -261,7 +329,7 @@ namespace Kindly.API.Models.Repositories
 		/// 
 		/// <param name="user">The user.</param>
 		/// <param name="password">The password.</param>
-		private static bool CheckIfPasswordMatches(User user, string password)
+		public static bool CheckIfPasswordMatches(User user, string password)
 		{
 			using (var hmac = new HMACSHA512(user.PasswordSalt))
 			{

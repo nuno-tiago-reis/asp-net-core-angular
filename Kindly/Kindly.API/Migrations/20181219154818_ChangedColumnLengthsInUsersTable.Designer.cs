@@ -4,14 +4,16 @@ using Kindly.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kindly.API.Migrations
 {
     [DbContext(typeof(KindlyContext))]
-    partial class KindlyContextModelSnapshot : ModelSnapshot
+    [Migration("20181219154818_ChangedColumnLengthsInUsersTable")]
+    partial class ChangedColumnLengthsInUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,15 +27,13 @@ namespace Kindly.API.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("AddedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetUtcDate()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200);
 
-                    b.Property<bool?>("IsProfilePicture")
-                        .IsRequired()
+                    b.Property<bool>("IsProfilePicture")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
@@ -67,8 +67,7 @@ namespace Kindly.API.Migrations
                         .HasMaxLength(50);
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetUtcDate()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -92,8 +91,7 @@ namespace Kindly.API.Migrations
                         .HasMaxLength(25);
 
                     b.Property<DateTime>("LastActiveAt")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetUtcDate()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("LookingFor")
                         .IsRequired()
@@ -129,7 +127,7 @@ namespace Kindly.API.Migrations
 
             modelBuilder.Entity("Kindly.API.Models.Domain.Picture", b =>
                 {
-                    b.HasOne("Kindly.API.Models.Domain.User")
+                    b.HasOne("Kindly.API.Models.Domain.User", "User")
                         .WithMany("Pictures")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade);

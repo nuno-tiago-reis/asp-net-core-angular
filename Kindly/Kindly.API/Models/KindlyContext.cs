@@ -1,4 +1,6 @@
 ﻿using Kindly.API.Models.Configurations;
+using Kindly.API.Models.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Kindly.API.Models
@@ -9,6 +11,11 @@ namespace Kindly.API.Models
 		/// The users.
 		/// </summary>
 		public DbSet<User> Users { get; set; }
+
+		/// <summary>
+		/// The pictures.
+		/// </summary>
+		public DbSet<Picture> Pictures { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="KindlyContext" /> class.
@@ -23,8 +30,8 @@ namespace Kindly.API.Models
 		{
 			base.OnModelCreating(builder);
 
-			// Apply the custom configurations
 			builder.ApplyConfiguration(new UserConfiguration());
+			builder.ApplyConfiguration(new PictureConfiguration());
 		}
 	}
 }

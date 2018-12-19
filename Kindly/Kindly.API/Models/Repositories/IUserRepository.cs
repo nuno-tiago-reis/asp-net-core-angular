@@ -1,32 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+
+using Kindly.API.Models.Domain;
 
 namespace Kindly.API.Models.Repositories
 {
-	public interface IUserRepository
+	public interface IUserRepository : IEntityRepository<User>
 	{
-		/// <summary>
-		/// Creates the specified user.
-		/// </summary>
-		/// 
-		/// <param name="user">The user.</param>
-		Task<User> CreateUser(User user);
-
-		/// <summary>
-		/// Updates the specified user.
-		/// </summary>
-		/// 
-		/// <param name="user">The user.</param>
-		Task<User> UpdateUser(User user);
-
-		/// <summary>
-		/// Deletes the specified user.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		Task<User> DeleteUser(Guid userID);
-
 		/// <summary>
 		/// Logs in the user using its user ID.
 		/// </summary>
@@ -65,7 +45,7 @@ namespace Kindly.API.Models.Repositories
 		/// 
 		/// <param name="user">The user.</param>
 		/// <param name="password">The password.</param>
-		Task<User> AddPassword(User user, string password);
+		Task AddPassword(User user, string password);
 
 		/// <summary>
 		/// Updates the password.
@@ -74,14 +54,7 @@ namespace Kindly.API.Models.Repositories
 		/// <param name="user">The user.</param>
 		/// <param name="oldPassword">The old password.</param>
 		/// <param name="newPassword">The new password.</param>
-		Task<User> ChangePassword(User user, string oldPassword, string newPassword);
-
-		/// <summary>
-		/// Checks if a user exists with the given user userID.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		Task<bool> UserIdExists(Guid userID);
+		Task ChangePassword(User user, string oldPassword, string newPassword);
 
 		/// <summary>
 		/// Checks if a user exists with the given user name.
@@ -105,36 +78,24 @@ namespace Kindly.API.Models.Repositories
 		Task<bool> EmailAddressExists(string emailAddress);
 
 		/// <summary>
-		/// Gets a user by userID.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		Task<User> GetUserByID(Guid userID);
-
-		/// <summary>
 		/// Gets a user by user name.
 		/// </summary>
 		/// 
 		/// <param name="userName">The user name.</param>
-		Task<User> GetUserByUserName(string userName);
+		Task<User> GetByUserName(string userName);
 
 		/// <summary>
 		/// Gets a user by phone number.
 		/// </summary>
 		/// 
 		/// <param name="phoneNumber">The phone number.</param>
-		Task<User> GetUserByPhoneNumber(string phoneNumber);
+		Task<User> GetByPhoneNumber(string phoneNumber);
 
 		/// <summary>
 		/// Gets a user by email address.
 		/// </summary>
 		/// 
 		/// <param name="emailAddress">The email address.</param>
-		Task<User> GetUserByEmailAddress(string emailAddress);
-
-		/// <summary>
-		/// Gets the users.
-		/// </summary>
-		Task<IEnumerable<User>> GetUsers();
+		Task<User> GetByEmailAddress(string emailAddress);
 	}
 }

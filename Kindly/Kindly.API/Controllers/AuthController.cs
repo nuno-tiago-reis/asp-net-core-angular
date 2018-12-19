@@ -2,7 +2,7 @@
 
 using Kindly.API.Contracts.Auth;
 using Kindly.API.Contracts.Users;
-using Kindly.API.Models;
+using Kindly.API.Models.Domain;
 using Kindly.API.Models.Repositories;
 using Kindly.API.Utility;
 
@@ -75,6 +75,7 @@ namespace Kindly.API.Controllers
 		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterDto registerInfo)
 		{
+			// TODO
 			var user = new User
 			{
 				UserName = registerInfo.UserName,
@@ -82,7 +83,7 @@ namespace Kindly.API.Controllers
 				EmailAddress = registerInfo.EmailAddress
 			};
 
-			await this.Repository.CreateUser(user);
+			await this.Repository.Create(Mapper.Map<User>(registerInfo));
 			await this.Repository.AddPassword(user, registerInfo.Password);
 
 			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));

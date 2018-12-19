@@ -1,0 +1,147 @@
+[
+  '{{repeat(20)}}',
+  {
+    KnownAs:'{{firstName("female")}} {{surname("female")}}',
+    Username:function()
+    {
+      return this.KnownAs.replace(' ', '-').toLowerCase();
+    },
+    EmailAddress:function()
+    {
+      return (this.Username + '@outlook.com').toLowerCase();
+    },
+    PhoneNumber:'{{phone("+xxx xxxxxxxxxxxx")}}',
+    Gender:'female',
+    DateOfBirth:'{{date(new Date(1975,0,1), new Date(1999, 11, 31), "YYYY-MM-dd")}}',
+    Password:'kindly#2018',
+    Created:'{{date(new Date(2017,0,1), new Date(2018, 11, 31), "YYYY-MM-dd")}}',
+    LastActive:function()
+    {
+      return this.Created;
+    },
+    Introduction:'{{lorem(1, "paragraphs")}}',
+    LookingFor:'{{lorem(1, "sentences")}}',
+    Interests:'{{lorem(1, "sentences")}}',
+    City:'{{city()}}',
+    Country:'{{country()}}',
+    Pictures:
+    [
+      {
+        Url:function(num)
+        {
+          window.photoID = num.integer(1,99);
+          
+          return 'https://randomuser.me/api/portraits/women/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:true,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/women/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/women/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/women/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/women/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      }
+    ]
+  }
+]
+
+[
+  '{{repeat(20)}}',
+  {
+    KnownAs:'{{firstName("male")}} {{surname("male")}}',
+    Username:function()
+    {
+      return this.KnownAs.replace(' ', '-').toLowerCase();
+    },
+    EmailAddress:function()
+    {
+      return (this.Username + '@outlook.com').toLowerCase();
+    },
+    PhoneNumber:'{{phone("+xxx xxxxxxxxxxxx")}}',
+    Gender:'male',
+    DateOfBirth:'{{date(new Date(1975,0,1), new Date(1999, 11, 31), "YYYY-MM-dd")}}',
+    Password:'kindly#2018',
+    Created:'{{date(new Date(2017,0,1), new Date(2018, 11, 31), "YYYY-MM-dd")}}',
+    LastActive:function()
+    {
+      return this.Created;
+    },
+    Introduction:'{{lorem(1, "paragraphs")}}',
+    LookingFor:'{{lorem(1, "sentences")}}',
+    Interests:'{{lorem(1, "sentences")}}',
+    City:'{{city()}}',
+    Country:'{{country()}}',
+    Pictures:
+    [
+      {
+        Url:function(num)
+        {
+          window.photoID = num.integer(1,99);
+          
+          return 'https://randomuser.me/api/portraits/men/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:true,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/men/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/men/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/men/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      },
+      {
+        Url:function(num)
+        {
+          return 'https://randomuser.me/api/portraits/men/' + window.photoID + '.jpg';
+        },
+        IsProfilePicture:false,
+        Description:'{{lorem()}}'
+      }
+    ]
+  }
+]

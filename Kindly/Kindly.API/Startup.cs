@@ -6,6 +6,7 @@ using System.Text;
 using Kindly.API.Models;
 using Kindly.API.Models.Repositories;
 using Kindly.API.Utility;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -15,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Kindly.API
 {
@@ -28,6 +31,7 @@ namespace Kindly.API
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Startup"/> class.
 		/// </summary>
+		/// 
 		/// <param name="configuration">The configuration.</param>
 		public Startup(IConfiguration configuration)
 		{
@@ -37,6 +41,7 @@ namespace Kindly.API
 		/// <summary>
 		/// This method gets called by the runtime. Use this method to add services to the container.
 		/// </summary>
+		/// 
 		/// <param name="services">The services.</param>
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -45,7 +50,12 @@ namespace Kindly.API
 			// Auto Mapper
 			services.AddAutoMapper();
 			// Compatibility
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddMvc()
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+				.AddJsonOptions(options =>
+				{
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+				});
 			// Authentication
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 			{
@@ -61,25 +71,28 @@ namespace Kindly.API
 				};
 			});
 			// Database Context
+			services.AddTransient<KindlySeeder>();
 			services.AddDbContext<KindlyContext>(options =>
 			{
 				options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
 			});
 			// Database Repositories
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IPictureRepository, PictureRepository>();
 		}
 
 		/// <summary>
 		/// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		/// </summary>
-		/// <param name="appBuilder">The application builder.</param>
+		/// 
+		/// <param name="applicationBuilder">The application builder.</param>
 		/// <param name="environment">The environment.</param>
-		public void Configure(IApplicationBuilder appBuilder, IHostingEnvironment environment)
+		/// <param name="seeder">The seeder.</param>
+		public void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment environment, KindlySeeder seeder)
 		{
 			if (environment.IsDevelopment())
 			{
-				//appBuilder.UseDeveloperExceptionPage();
-				appBuilder.UseExceptionHandler(builder =>
+				applicationBuilder.UseExceptionHandler(builder =>
 				{
 					builder.Run(async context =>
 					{
@@ -94,10 +107,11 @@ namespace Kindly.API
 
 					});
 				});
+				seeder.SeedUsers();
 			}
 			else
 			{
-				appBuilder.UseExceptionHandler(builder =>
+				applicationBuilder.UseExceptionHandler(builder =>
 				{
 					builder.Run(async context =>
 					{
@@ -112,15 +126,15 @@ namespace Kindly.API
 
 					});
 				});
-				appBuilder.UseHsts();
+				applicationBuilder.UseHsts();
 			}
 
-			appBuilder.UseCors(action =>
+			applicationBuilder.UseCors(action =>
 			{
 				action.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 			});
-			appBuilder.UseAuthentication();
-			appBuilder.UseMvc();
+			applicationBuilder.UseAuthentication();
+			applicationBuilder.UseMvc();
 		}
 	}
 }

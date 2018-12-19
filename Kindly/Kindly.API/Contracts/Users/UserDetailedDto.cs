@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
+using Kindly.API.Contracts.Pictures;
 using Kindly.API.Models.Domain;
 
 namespace Kindly.API.Contracts.Users
 {
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
-	public sealed class UserDto
+	public sealed class UserDetailedDto
 	{
 		/// <summary>
 		/// Gets or sets the user identifier.
@@ -123,5 +125,11 @@ namespace Kindly.API.Contracts.Users
 		[Required]
 		[DataType(DataType.ImageUrl)]
 		public string ProfilePictureUrl { get; set; }
+
+		/// <summary>
+		/// Gets or sets the pictures.
+		/// </summary>
+		[Required]
+		public ICollection<PictureDto> Pictures { get; set; }
 	}
 }
