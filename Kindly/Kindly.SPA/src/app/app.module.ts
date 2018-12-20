@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { NgxGalleryModule } from 'ngx-gallery';
 import { JwtModule } from '@auth0/angular-jwt';
 
 // services
@@ -12,6 +13,13 @@ import { AuthService } from './-services/auth/auth.service';
 import { UsersService } from './-services/users/users.service';
 import { AlertifyService } from './-services/alertify/alertify.service';
 import { ServiceInterceptorProvider } from './-services/http.interceptor';
+
+// guards
+import { AuthGuard } from './-guards/auth.guard';
+
+// resolvers
+import { MemberListResolver } from './-resolvers/member-list.resolver';
+import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
 
 // components
 import { AppComponent } from './app.component';
@@ -22,12 +30,10 @@ import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MemberCardComponent } from './members/card/member-card.component';
 import { MemberListComponent } from './members/list/member-list.component';
+import { MemberDetailComponent } from './members/detail/member-detail.component';
 
 // routes
 import { AppRoutes } from './routes';
-
-// guards
-import { AuthGuard } from './-guards/auth.guard';
 
 // token
 export function tokenGetter()
@@ -58,7 +64,9 @@ export function tokenGetter()
 		RouterModule.forRoot(AppRoutes),
 		BrowserModule,
 		HttpClientModule,
-		BsDropdownModule.forRoot()
+		BsDropdownModule.forRoot(),
+		NgxGalleryModule,
+		TabsModule.forRoot()
 	],
 	providers:
 	[
@@ -66,6 +74,8 @@ export function tokenGetter()
 		AuthService,
 		UsersService,
 		AlertifyService,
+		MemberListResolver,
+		MemberDetailResolver,
 		ServiceInterceptorProvider
 	],
 	bootstrap:
@@ -81,7 +91,8 @@ export function tokenGetter()
 		ListsComponent,
 		MessagesComponent,
 		MemberCardComponent,
-		MemberListComponent
+		MemberListComponent,
+		MemberDetailComponent
 	]
 })
 

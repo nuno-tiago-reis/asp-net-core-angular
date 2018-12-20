@@ -25,5 +25,4 @@ export class ListsComponent implements OnInit
 	{
 		// Nothing to do here.
 	}
-
 }

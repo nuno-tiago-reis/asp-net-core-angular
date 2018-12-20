@@ -1,0 +1,56 @@
+<div class="container mt-5">
+	<div class="row">
+		<h1>{{this.user.knownAs}}'s Profile</h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="card">
+				<img class="card-img-top img-thumbnail" src="{{this.user.profilePictureUrl}}" alt="{{this.user.knownAs}}" />
+				<div class="card-body">
+					<div>
+						<strong>Location:</strong>
+						<p>{{this.user.city}}, {{this.user.country}}</p>
+					</div>
+					<div>
+						<strong>Age:</strong>
+						<p>{{this.user.age}}</p>
+					</div>
+					<div>
+						<strong>Last Active:</strong>
+						<p>{{this.user.lastActiveAt}}</p>
+					</div>
+					<div>
+						<strong>Member Since:</strong>
+						<p>{{this.user.createdAt}}</p>
+					</div>
+				</div>
+				<div class="card-footer">
+					<div class="btn-group d-flex">
+						<button class="btn btn-primary w-100">Like</button>
+						<button class="btn btn-success w-100">Message</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<div class="tab-panel">
+				<tabset class="member-tabset">
+					<tab heading="About {{this.user.knownAs}}">
+						<h4>Description:</h4>
+						<p>{{this.user.introduction}}</p>
+						<h4>Looking For:</h4>
+						<p>{{this.user.lookingFor}}</p>
+						<h4>Interests:</h4>
+						<p>{{this.user.interests}}</p>
+					</tab>
+					<tab heading="Pictures">
+						<ngx-gallery [options]="this.galleryOptions" [images]="this.galleryImages"></ngx-gallery>
+					</tab>
+					<tab heading="Messages">
+						<p>Messages!</p>
+					</tab>
+				</tabset>
+			</div>
+		</div>
+	</div>
+</div>

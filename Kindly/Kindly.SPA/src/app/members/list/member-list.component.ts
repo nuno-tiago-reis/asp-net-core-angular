@@ -1,12 +1,13 @@
 // components
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 // services
 import { UsersService } from '../../-services/users/users.service';
+import { AlertifyService } from '../../-services/alertify/alertify.service';
 
 // models
 import { User } from '../../-models/user';
-import { AlertifyService } from '../../-services/alertify/alertify.service';
 
 @Component
 ({
@@ -25,10 +26,11 @@ export class MemberListComponent implements OnInit
 	/**
 	 * Creates an instance of the member list component.
 	 *
+	 * @param route The activated route.
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor (private route: ActivatedRoute, private usersApi: UsersService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -38,16 +40,6 @@ export class MemberListComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		this.usersApi.getAll().subscribe
-		(
-			(users) =>
-			{
-				this.users = users;
-			},
-			(error) =>
-			{
-				this.alertify.error(error);
-			}
-		);
+		this.route.data.subscribe(data => { this.users = data['users']; });
 	}
 }

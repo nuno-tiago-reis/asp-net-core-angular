@@ -32,5 +32,6 @@ export class MemberCardComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
+		// Nothing to do here.
 	}
 }
