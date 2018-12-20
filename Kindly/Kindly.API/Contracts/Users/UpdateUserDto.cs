@@ -10,13 +10,6 @@ namespace Kindly.API.Contracts.Users
 	public sealed class UpdateUserDto
 	{
 		/// <summary>
-		/// Gets or sets the user identifier.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public Guid ID { get; set; }
-
-		/// <summary>
 		/// Gets or sets the phone number.
 		/// </summary>
 		[DataType(DataType.PhoneNumber)]

@@ -12,4 +12,10 @@
 		/// </summary>
 		public const string ExistingFieldMessage = "The {0} field is taken.";
 	}
+
+	public enum KindlyClaimTypes
+	{
+		ID,
+		ProfileName
+	}
 }

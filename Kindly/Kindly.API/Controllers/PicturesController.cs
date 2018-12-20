@@ -17,7 +17,7 @@ namespace Kindly.API.Controllers
 	[Authorize]
 	[ApiController]
 	[Route("api/[controller]")]
-	public sealed class PicturesController : ControllerBase
+	public sealed class PicturesController : KindlyController
 	{
 		#region [Properties]
 		/// <summary>
@@ -63,11 +63,19 @@ namespace Kindly.API.Controllers
 		/// Updates the specified picture.
 		/// </summary>
 		/// 
+		/// <param name="id">The picture identifier.</param>
 		/// <param name="updatePictureInfo">The update information.</param>
-		[HttpPut]
-		public async Task<IActionResult> Update(UpdatePictureDto updatePictureInfo)
+		[HttpPut("{id:Guid}")]
+		public async Task<IActionResult> Update(Guid id, UpdatePictureDto updatePictureInfo)
 		{
-			await this.Repository.Update(Mapper.Map<Picture>(updatePictureInfo));
+			var picture = await this.Repository.Get(id);
+			if (picture.UserID != this.GetInvocationUserID())
+					return this.Unauthorized();
+
+			picture = Mapper.Map<Picture>(updatePictureInfo);
+			picture.ID = id;
+
+			await this.Repository.Update(picture);
 
 			return this.Ok();
 		}
@@ -80,6 +88,10 @@ namespace Kindly.API.Controllers
 		[HttpDelete("{id:Guid}")]
 		public async Task<IActionResult> Delete(Guid id)
 		{
+			var picture = await this.Repository.Get(id);
+			if (picture.UserID != this.GetInvocationUserID())
+				return this.Unauthorized();
+
 			await this.Repository.Delete(id);
 
 			return this.Ok();

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Pictures
 {
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class CreatePictureDto
 	{
 		/// <summary>

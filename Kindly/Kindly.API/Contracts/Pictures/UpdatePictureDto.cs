@@ -1,17 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Pictures
 {
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class UpdatePictureDto
 	{
-		/// <summary>
-		/// Gets or sets the picture identifier.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public Guid ID { get; set; }
-
 		/// <summary>
 		/// Gets or sets the url.
 		/// </summary>

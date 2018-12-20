@@ -17,7 +17,7 @@ namespace Kindly.API.Controllers
 	[Authorize]
 	[ApiController]
 	[Route("api/[controller]")]
-	public sealed class UsersController : ControllerBase
+	public sealed class UsersController : KindlyController
 	{
 		#region [Properties]
 		/// <summary>
@@ -63,11 +63,18 @@ namespace Kindly.API.Controllers
 		/// Updates the specified user.
 		/// </summary>
 		/// 
+		/// <param name="id">The user identifier.</param>
 		/// <param name="updateUserInfo">The update information.</param>
-		[HttpPut]
-		public async Task<IActionResult> Update(UpdateUserDto updateUserInfo)
+		[HttpPut("{id:Guid}")]
+		public async Task<IActionResult> Update(Guid id, UpdateUserDto updateUserInfo)
 		{
-			await this.Repository.Update(Mapper.Map<User>(updateUserInfo));
+			if (id != this.GetInvocationUserID())
+				return this.Unauthorized();
+
+			var user = Mapper.Map<User>(updateUserInfo);
+			user.ID = id;
+
+			await this.Repository.Update(user);
 
 			return this.Ok();
 		}
@@ -80,6 +87,9 @@ namespace Kindly.API.Controllers
 		[HttpDelete("{id:Guid}")]
 		public async Task<IActionResult> Delete(Guid id)
 		{
+			if (id != this.GetInvocationUserID())
+				return this.Unauthorized();
+
 			await this.Repository.Delete(id);
 
 			return this.Ok();

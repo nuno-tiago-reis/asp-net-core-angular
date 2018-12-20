@@ -50,6 +50,26 @@ namespace Kindly.API.Utility
 		}
 
 		/// <summary>
+		/// Converts a string to lower camel case.
+		/// </summary>
+		/// 
+		/// <param name="value">The value.</param>
+		public static string ToLowerCamelCase(this string value)
+		{
+			string camelCase = string.Empty;
+
+			foreach (char @char in value)
+			{
+				if (char.IsUpper(@char))
+					camelCase += char.ToLowerInvariant(@char);
+				else
+					break;
+			}
+
+			return camelCase + value.Substring(camelCase.Length);
+		}
+
+		/// <summary>
 		/// Converts the string to a message field representation by applying spaces from camel and lower case.
 		/// </summary>
 		/// 

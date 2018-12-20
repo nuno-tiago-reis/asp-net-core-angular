@@ -23,7 +23,7 @@ namespace Kindly.API.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public sealed class AuthController : ControllerBase
+	public sealed class AuthController : KindlyController
 	{
 		#region [Properties]
 		/// <summary>
@@ -178,6 +178,9 @@ namespace Kindly.API.Controllers
 		[HttpPost("password")]
 		public async Task<IActionResult> AddPassword(AddPasswordDto passwordInfo)
 		{
+			if (passwordInfo.ID != this.GetInvocationUserID())
+				return this.Unauthorized();
+
 			var user = new User
 			{
 				ID = passwordInfo.ID
@@ -197,6 +200,9 @@ namespace Kindly.API.Controllers
 		[HttpPut("password")]
 		public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordInfo)
 		{
+			if (passwordInfo.ID != this.GetInvocationUserID())
+				return this.Unauthorized();
+
 			var user = new User
 			{
 				ID = passwordInfo.ID
@@ -223,11 +229,8 @@ namespace Kindly.API.Controllers
 				(
 					new[]
 					{
-						new Claim("id", user.ID.ToString()),
-						new Claim("userName", user.UserName),
-						new Claim("profileName", user.KnownAs),
-						new Claim("phoneNumber", user.PhoneNumber),
-						new Claim("emailAddress", user.EmailAddress)
+						new Claim(KindlyClaimTypes.ID.ToString().ToLowerCamelCase(), user.ID.ToString()),
+						new Claim(KindlyClaimTypes.ProfileName.ToString().ToLowerCamelCase(), user.KnownAs)
 					}
 				),
 				Expires = DateTime.Now.AddDays(1),
