@@ -23,6 +23,11 @@ namespace Kindly.API.Models.Domain
 		public string Url { get; set; }
 
 		/// <summary>
+		/// Gets or sets the public identifier.
+		/// </summary>
+		public string PublicID { get; set; }
+
+		/// <summary>
 		/// Gets or sets the description.
 		/// </summary>
 		public string Description { get; set; }

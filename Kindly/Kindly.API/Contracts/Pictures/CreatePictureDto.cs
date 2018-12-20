@@ -1,6 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.AspNetCore.Http;
 
 namespace Kindly.API.Contracts.Pictures
 {
@@ -8,11 +9,11 @@ namespace Kindly.API.Contracts.Pictures
 	public sealed class CreatePictureDto
 	{
 		/// <summary>
-		/// Gets or sets the url.
+		/// Gets or sets the file.
 		/// </summary>
 		[Required]
-		[DataType(DataType.Text)]
-		public string Url { get; set; }
+		[DataType(DataType.Upload)]
+		public IFormFile File { get; set; }
 
 		/// <summary>
 		/// Gets or sets the description.
@@ -26,11 +27,5 @@ namespace Kindly.API.Contracts.Pictures
 		/// </summary>
 		[Required]
 		public bool? IsProfilePicture { get; set; }
-
-		/// <summary>
-		/// Gets or sets the user identifier.
-		/// </summary>
-		[Required]
-		public Guid UserID { get; set; }
 	}
 }

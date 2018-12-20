@@ -40,8 +40,8 @@ namespace Kindly.API.Controllers
 		/// <param name="repository">The repository.</param>
 		public UsersController(IMapper mapper, IUserRepository repository)
 		{
-			this.Repository = repository;
 			this.Mapper = mapper;
+			this.Repository = repository;
 		}
 		#endregion
 

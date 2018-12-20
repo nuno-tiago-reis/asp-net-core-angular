@@ -1,18 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
+using Microsoft.AspNetCore.Http;
+
 namespace Kindly.API.Contracts.Pictures
 {
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class UpdatePictureDto
 	{
-		/// <summary>
-		/// Gets or sets the url.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public string Url { get; set; }
-
 		/// <summary>
 		/// Gets or sets the description.
 		/// </summary>

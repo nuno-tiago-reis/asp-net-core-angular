@@ -1,22 +1,27 @@
 ﻿using AutoMapper;
 
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+
 using Kindly.API.Contracts.Pictures;
 using Kindly.API.Models.Domain;
 using Kindly.API.Models.Repositories;
-
+using Kindly.API.Utility.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Kindly.API.Controllers
 {
 	[Authorize]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/users/{userID}/[controller]")]
 	public sealed class PicturesController : KindlyController
 	{
 		#region [Properties]
@@ -24,6 +29,11 @@ namespace Kindly.API.Controllers
 		/// Gets or sets the mapper.
 		/// </summary>
 		private IMapper Mapper { get; set; }
+
+		/// <summary>
+		/// Gets or sets the cloudinary.
+		/// </summary>
+		private Cloudinary Cloudinary { get; set; }
 
 		/// <summary>
 		/// Gets or sets the repository.
@@ -38,10 +48,17 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="mapper">The mapper.</param>
 		/// <param name="repository">The repository.</param>
-		public PicturesController(IMapper mapper, IPictureRepository repository)
+		/// <param name="cloudinarySettings">The cloudinary settings.</param>
+		public PicturesController(IMapper mapper, IPictureRepository repository, IOptions<CloudinarySettings> cloudinarySettings)
 		{
-			this.Repository = repository;
 			this.Mapper = mapper;
+			this.Repository = repository;
+			this.Cloudinary = new Cloudinary(new Account
+			(
+				cloud: cloudinarySettings.Value.Cloud,
+				apiKey: cloudinarySettings.Value.ApiKey,
+				apiSecret: cloudinarySettings.Value.ApiSecret
+			));
 		}
 		#endregion
 
@@ -50,30 +67,65 @@ namespace Kindly.API.Controllers
 		/// Creates the specified picture.
 		/// </summary>
 		/// 
+		/// <param name="userID">The user identifier.</param>
 		/// <param name="createPictureInfo">The create information.</param>
 		[HttpPost]
-		public async Task<IActionResult> Create(CreatePictureDto createPictureInfo)
+		public async Task<IActionResult> Create(Guid userID, [FromForm][FromBody] CreatePictureDto createPictureInfo)
 		{
-			var picture = await this.Repository.Create(Mapper.Map<Picture>(createPictureInfo));
+			if (userID != this.GetInvocationUserID())
+				return this.Unauthorized();
 
-			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{picture.ID}"), Mapper.Map<PictureDto>(picture));
+			if (createPictureInfo.File == null || createPictureInfo.File.Length <= 0)
+				return this.BadRequest("The picture is empty.");
+
+			// Open the file
+			var file = createPictureInfo.File;
+
+			using (var stream = file.OpenReadStream())
+			{
+				// Parametrize the upload
+				var uploadParameters = new ImageUploadParams()
+				{
+					File = new FileDescription(file.Name, stream),
+					Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
+				};
+
+				// Upload the file
+				var uploadResult = this.Cloudinary.Upload(uploadParameters);
+				if (uploadResult.Error != null)
+					return this.BadRequest("There was an error uploading the picture: " + uploadResult.Error.Message);
+
+				// Convert the picture
+				var picture = this.Mapper.Map<Picture>(createPictureInfo);
+				picture.UserID = userID;
+				picture.Url = uploadResult.Uri.ToString();
+				picture.PublicID = uploadResult.PublicId;
+
+				await this.Repository.Create(picture);
+
+				return this.Created(new Uri($"{this.Request.GetDisplayUrl()}/{picture.ID}"), this.Mapper.Map<PictureDto>(picture));
+			}
 		}
 
 		/// <summary>
 		/// Updates the specified picture.
 		/// </summary>
 		/// 
-		/// <param name="id">The picture identifier.</param>
+		/// <param name="userID">The user identifier.</param>
+		/// <param name="pictureID">The picture identifier.</param>
 		/// <param name="updatePictureInfo">The update information.</param>
-		[HttpPut("{id:Guid}")]
-		public async Task<IActionResult> Update(Guid id, UpdatePictureDto updatePictureInfo)
+		[HttpPut("{pictureID:Guid}")]
+		public async Task<IActionResult> Update(Guid userID, Guid pictureID, UpdatePictureDto updatePictureInfo)
 		{
-			var picture = await this.Repository.Get(id);
-			if (picture.UserID != this.GetInvocationUserID())
+			if (userID != this.GetInvocationUserID())
 					return this.Unauthorized();
 
-			picture = Mapper.Map<Picture>(updatePictureInfo);
-			picture.ID = id;
+			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
+				return this.NotFound();
+
+			var picture = Mapper.Map<Picture>(updatePictureInfo);
+			picture.ID = pictureID;
+			picture.UserID = userID;
 
 			await this.Repository.Update(picture);
 
@@ -84,15 +136,18 @@ namespace Kindly.API.Controllers
 		/// Deletes a picture.
 		/// </summary>
 		/// 
-		/// <param name="id">The picture identifier.</param>
-		[HttpDelete("{id:Guid}")]
-		public async Task<IActionResult> Delete(Guid id)
+		/// <param name="userID">The user identifier.</param>
+		/// <param name="pictureID">The picture identifier.</param>
+		[HttpDelete("{pictureID:Guid}")]
+		public async Task<IActionResult> Delete(Guid userID, Guid pictureID)
 		{
-			var picture = await this.Repository.Get(id);
-			if (picture.UserID != this.GetInvocationUserID())
+			if (userID != this.GetInvocationUserID())
 				return this.Unauthorized();
 
-			await this.Repository.Delete(id);
+			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
+				return this.NotFound();
+
+			await this.Repository.Delete(pictureID);
 
 			return this.Ok();
 		}
@@ -101,11 +156,18 @@ namespace Kindly.API.Controllers
 		/// Gets a picture.
 		/// </summary>
 		/// 
-		/// <param name="id">The picture identifier.</param>
-		[HttpGet("{id:Guid}")]
-		public async Task<IActionResult> Get(Guid id)
+		/// <param name="userID">The user identifier.</param>
+		/// <param name="pictureID">The picture identifier.</param>
+		[HttpGet("{pictureID:Guid}")]
+		public async Task<IActionResult> Get(Guid userID, Guid pictureID)
 		{
-			var picture = await this.Repository.Get(id);
+			if (userID != this.GetInvocationUserID())
+				return this.Unauthorized();
+
+			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
+				return this.NotFound();
+
+			var picture = await this.Repository.Get(pictureID);
 			var pictureDto = this.Mapper.Map<PictureDto>(picture);
 
 			return this.Ok(pictureDto);
@@ -114,10 +176,12 @@ namespace Kindly.API.Controllers
 		/// <summary>
 		/// Gets the pictures.
 		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
 		[HttpGet]
-		public async Task<IActionResult> GetAll()
+		public async Task<IActionResult> GetAll(Guid userID)
 		{
-			var pictures = await this.Repository.GetAll();
+			var pictures = await this.Repository.GetByUser(userID);
 			var pictureDtos = pictures.Select(picture => this.Mapper.Map<PictureDto>(picture));
 
 			return this.Ok(pictureDtos);

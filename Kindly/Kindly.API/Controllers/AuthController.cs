@@ -57,7 +57,7 @@ namespace Kindly.API.Controllers
 		/// <param name="configuration">The configuration.</param>
 		public AuthController(IMapper mapper, IUserRepository repository, IConfiguration configuration)
 		{
-			string secret = configuration.GetSection("AppSettings:Secret").Value;
+			string secret = configuration.GetSection(KindlyConstants.AppSettingsEncryptionKey).Value;
 
 			this.Mapper = mapper;
 			this.Repository = repository;

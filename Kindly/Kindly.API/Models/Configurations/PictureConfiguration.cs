@@ -18,6 +18,10 @@ namespace Kindly.API.Models.Configurations
 				.IsRequired()
 				.HasMaxLength(200);
 
+			builder.Property(user => user.PublicID)
+				.IsRequired()
+				.HasMaxLength(200);
+
 			builder.Property(user => user.Description)
 				.IsRequired()
 				.HasMaxLength(200);

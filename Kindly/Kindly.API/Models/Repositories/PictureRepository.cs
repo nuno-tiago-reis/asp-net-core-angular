@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using System.Linq;
 using Kindly.API.Models.Domain;
 using Kindly.API.Utility;
 
@@ -45,6 +45,9 @@ namespace Kindly.API.Models.Repositories
 			var databaseUser = await this.Context.Users.FindAsync(picture.UserID);
 			if (databaseUser == null)
 				throw new KindlyException(User.DoesNotExist, true);
+
+			if (await this.Context.Pictures.AnyAsync(p => p.UserID == picture.UserID) == false)
+				picture.IsProfilePicture = true;
 
 			// Create
 			this.Context.Add(picture);
@@ -98,6 +101,28 @@ namespace Kindly.API.Models.Repositories
 		public async Task<IEnumerable<Picture>> GetAll()
 		{
 			return await this.Context.Pictures.ToListAsync();
+		}
+		#endregion
+
+		#region [Methods] IPictureRepository
+		/// <inheritdoc />
+		public async Task<bool> PictureBelongsToUser(Guid userID, Guid pictureID)
+		{
+			var databaseUser = await this.Context.Users.FindAsync(userID);
+			if (databaseUser == null)
+				throw new KindlyException(User.DoesNotExist, true);
+
+			var databasePicture = await this.Context.Pictures.SingleOrDefaultAsync(picture => picture.ID == pictureID && picture.UserID == userID);
+			if (databasePicture == null)
+				throw new KindlyException(Picture.DoesNotExist, true);
+
+			return true;
+		}
+
+		/// <inheritdoc />
+		public async Task<IEnumerable<Picture>> GetByUser(Guid userID)
+		{
+			return await this.Context.Pictures.Where(picture => picture.UserID == userID).ToListAsync();
 		}
 		#endregion
 	}

@@ -22,6 +22,13 @@ namespace Kindly.API.Contracts.Pictures
 		public string Url { get; set; }
 
 		/// <summary>
+		/// Gets or sets the public identifier.
+		/// </summary>
+		[Required]
+		[DataType(DataType.Text)]
+		public string PublicID { get; set; }
+
+		/// <summary>
 		/// Gets or sets the description.
 		/// </summary>
 		[Required]
