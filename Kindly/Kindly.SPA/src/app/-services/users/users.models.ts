@@ -11,12 +11,10 @@ export interface CreateRequest
 	introduction: string;
 	lookingFor: string;
 	interests: string;
-	password: string;
 }
 
 export interface UpdateRequest
 {
-	id: string;
 	userName: string;
 	phoneNumber: string;
 	emailAddress: string;
@@ -28,5 +26,4 @@ export interface UpdateRequest
 	introduction: string;
 	lookingFor: string;
 	interests: string;
-	password: string;
 }

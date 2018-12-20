@@ -16,8 +16,10 @@ import { ServiceInterceptorProvider } from './-services/http.interceptor';
 
 // guards
 import { AuthGuard } from './-guards/auth.guard';
+import { PreventUnsavedChangesGuard } from './-guards/prevent-unsaved-changes.guard';
 
 // resolvers
+import { MemberEditResolver } from './-resolvers/member-edit.resolver';
 import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
 
@@ -30,6 +32,7 @@ import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MemberCardComponent } from './members/card/member-card.component';
 import { MemberListComponent } from './members/list/member-list.component';
+import { MemberEditComponent } from './members/edit/member-edit.component';
 import { MemberDetailComponent } from './members/detail/member-detail.component';
 
 // routes
@@ -71,9 +74,11 @@ export function tokenGetter()
 	providers:
 	[
 		AuthGuard,
+		PreventUnsavedChangesGuard,
 		AuthService,
 		UsersService,
 		AlertifyService,
+		MemberEditResolver,
 		MemberListResolver,
 		MemberDetailResolver,
 		ServiceInterceptorProvider
@@ -92,6 +97,7 @@ export function tokenGetter()
 		MessagesComponent,
 		MemberCardComponent,
 		MemberListComponent,
+		MemberEditComponent,
 		MemberDetailComponent
 	]
 })

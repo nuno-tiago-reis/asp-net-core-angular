@@ -17,8 +17,12 @@ export class MemberDetailResolver implements Resolve<User>
 {
 	/**
 	 * Creates an instance of the member detail resolver.
+	 *
+	 * @param router The router.
+	 * @param usersApi The users service.
+	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private userApi: UsersService, private alertify: AlertifyService)
+	public constructor(private router: Router, private usersApi: UsersService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -30,7 +34,7 @@ export class MemberDetailResolver implements Resolve<User>
 	 */
 	public resolve(route: ActivatedRouteSnapshot): Observable<User>
 	{
-		return this.userApi.get(route.params['id']).pipe
+		return this.usersApi.get(route.params['id']).pipe
 		(
 			catchError
 			((error) =>

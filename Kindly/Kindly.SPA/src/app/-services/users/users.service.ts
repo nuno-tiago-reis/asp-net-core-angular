@@ -54,11 +54,12 @@ export class UsersService
 	/**
 	 * Updates a user.
 	 *
+	 * @param id The id.
 	 * @param model The model.
 	 */
-	public update (model: UpdateRequest): Observable<void>
+	public update (id: string, model: UpdateRequest): Observable<void>
 	{
-		const observable = this.http.put<void>(this.baseURL, model);
+		const observable = this.http.put<void>(this.baseURL + id, model);
 
 		return observable;
 	}

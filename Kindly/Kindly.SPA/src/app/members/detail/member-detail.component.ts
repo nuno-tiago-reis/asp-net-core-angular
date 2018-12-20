@@ -1,6 +1,7 @@
 // components
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { NgxGalleryImage, NgxGalleryOptions, NgxGalleryAnimation } from 'ngx-gallery';
 
 // services
@@ -19,6 +20,11 @@ import { User } from '../../-models/user';
 
 export class MemberDetailComponent implements OnInit
 {
+	/**
+	 * The date pipe.
+	 */
+	public datePipe = new DatePipe('en-US');
+
 	/**
 	 * The user.
 	 */

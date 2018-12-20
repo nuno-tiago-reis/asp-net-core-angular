@@ -22,6 +22,9 @@ export class AuthGuard implements CanActivate
 		// Nothing to do here.
 	}
 
+	/**
+	 * Checks if a route can be activated.
+	 */
 	public canActivate (): Observable<boolean> | Promise<boolean> | boolean
 	{
 		if (this.auth.isLoggedIn())

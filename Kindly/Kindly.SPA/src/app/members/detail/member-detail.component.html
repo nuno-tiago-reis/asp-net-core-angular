@@ -1,6 +1,10 @@
 <div class="container mt-5">
 	<div class="row">
-		<h1>{{this.user.knownAs}}'s Profile</h1>
+		<div class="col-sm-4 text-center">
+			<h1>{{this.user.knownAs}}'s Profile</h1>
+		</div>
+		<div class="col-sm-8">
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-4">
@@ -17,17 +21,17 @@
 					</div>
 					<div>
 						<strong>Last Active:</strong>
-						<p>{{this.user.lastActiveAt}}</p>
+						<p>{{this.datePipe.transform(this.user.lastActiveAt, 'dd-MM-yyy')}}</p>
 					</div>
 					<div>
 						<strong>Member Since:</strong>
-						<p>{{this.user.createdAt}}</p>
+						<p>{{this.datePipe.transform(this.user.createdAt, 'dd-MM-yyy')}}</p>
 					</div>
 				</div>
 				<div class="card-footer">
 					<div class="btn-group d-flex">
-						<button class="btn btn-primary w-100">Like</button>
-						<button class="btn btn-success w-100">Message</button>
+						<button class="btn btn-primary w-100 mr-1">Like</button>
+						<button class="btn btn-success w-100 ml-1">Message</button>
 					</div>
 				</div>
 			</div>

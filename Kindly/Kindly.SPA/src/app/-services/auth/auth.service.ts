@@ -61,6 +61,8 @@ export class AuthService
 		{
 			this.encodedToken = storedToken;
 			this.decodedToken = this.jtwHelper.decodeToken(this.encodedToken);
+
+			console.log(this.decodedToken);
 		}
 	}
 
