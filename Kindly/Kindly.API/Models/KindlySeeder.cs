@@ -46,11 +46,6 @@ namespace Kindly.API.Models
 
 			foreach (var user in users)
 			{
-				// Confirm the contacts
-				user.PhoneNumberConfirmed = true;
-				user.EmailAddressConfirmed = true;
-
-				// Update the passwords
 				UserRepository.CreatePasswordHashAndSalt(user, UserPassword);
 
 				// Save the pictures
@@ -59,7 +54,6 @@ namespace Kindly.API.Models
 
 			// Save the users
 			this.context.AddRange(users);
-
 			// Save the changes
 			this.context.SaveChanges();
 		}

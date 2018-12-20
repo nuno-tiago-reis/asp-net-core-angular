@@ -30,9 +30,9 @@ namespace Kindly.API.Models.Domain
 		public const string PasswordAlreadyExists = "The user already has a password.";
 
 		/// <summary>
-		/// The user or password are incorrect message.
+		/// The user or password is incorrect message.
 		/// </summary>
-		public const string UserOrPasswordAreIncorrect = "The user of the password are incorrect.";
+		public const string UserOrPasswordAreIncorrect = "The user or the password is incorrect.";
 		#endregion
 
 		#region [Properties]
@@ -52,21 +52,9 @@ namespace Kindly.API.Models.Domain
 		public string PhoneNumber { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the [phone number is confirmed].
-		/// </summary>
-		[UsedImplicitly] 
-		public bool PhoneNumberConfirmed { get; set; }
-
-		/// <summary>
 		/// Gets or sets the email address.
 		/// </summary>
 		public string EmailAddress { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether the [email address is confirmed].
-		/// </summary>
-		[UsedImplicitly]
-		public bool EmailAddressConfirmed { get; set; }
 
 		/// <summary>
 		/// Gets or sets the password hash.

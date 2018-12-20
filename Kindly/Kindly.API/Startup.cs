@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Kindly.API
 {
@@ -53,6 +54,7 @@ namespace Kindly.API
 				.AddJsonOptions(options =>
 				{
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.Converters.Add(new StringEnumConverter());
 				});
 			// Authentication
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

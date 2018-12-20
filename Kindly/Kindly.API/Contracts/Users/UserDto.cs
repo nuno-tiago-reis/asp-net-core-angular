@@ -7,7 +7,7 @@ using Kindly.API.Models.Domain;
 namespace Kindly.API.Contracts.Users
 {
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
-	public sealed class UserDto
+	public class UserDto
 	{
 		/// <summary>
 		/// Gets or sets the user identifier.
@@ -31,21 +31,11 @@ namespace Kindly.API.Contracts.Users
 		public string PhoneNumber { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the [phone number is confirmed].
-		/// </summary>
-		public bool PhoneNumberConfirmed { get; set; }
-
-		/// <summary>
 		/// Gets or sets the email address.
 		/// </summary>
 		[Required]
 		[DataType(DataType.EmailAddress)]
 		public string EmailAddress { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether the [email address is confirmed].
-		/// </summary>
-		public bool EmailAddressConfirmed { get; set; }
 
 		/// <summary>
 		/// Gets or sets the known as name.
@@ -67,27 +57,6 @@ namespace Kindly.API.Contracts.Users
 		[Required]
 		[DataType(DataType.Text)]
 		public int Age { get; set; }
-
-		/// <summary>
-		/// Gets or sets the introduction.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public string Introduction { get; set; }
-
-		/// <summary>
-		/// Gets or sets the interests.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public string Interests { get; set; }
-
-		/// <summary>
-		/// Gets or sets what the user is looking for.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public string LookingFor { get; set; }
 
 		/// <summary>
 		/// Gets or sets the city.

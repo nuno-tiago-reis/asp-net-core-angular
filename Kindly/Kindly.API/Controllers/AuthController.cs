@@ -225,6 +225,7 @@ namespace Kindly.API.Controllers
 					{
 						new Claim("id", user.ID.ToString()),
 						new Claim("userName", user.UserName),
+						new Claim("profileName", user.KnownAs),
 						new Claim("phoneNumber", user.PhoneNumber),
 						new Claim("emailAddress", user.EmailAddress)
 					}
