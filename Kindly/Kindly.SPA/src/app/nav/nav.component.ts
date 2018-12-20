@@ -1,7 +1,14 @@
+// components
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, LoginWithUserNameRequest } from '../-services/auth/auth.service';
+
+// services
+import { AuthService } from '../-services/auth/auth.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
+
+// models
+import { LoginWithUserNameRequest } from '../-services/auth/auth.models';
+import { DecodedToken } from '../-models/token';
 
 @Component
 ({
@@ -13,22 +20,18 @@ import { AlertifyService } from '../-services/alertify/alertify.service';
 export class NavComponent implements OnInit
 {
 	/**
-	 * The login model.
+	 * The login request.
 	 */
-	public model: LoginWithUserNameRequest = { userName: '', password: '' };
+	public model: LoginWithUserNameRequest =
+	{
+		userName: '',
+		password: ''
+	};
 
 	/**
-	 * The current users name.
+	 * The decoded token.
 	 */
-	public userName: string;
-	/**
-	 * The current users phone number.
-	 */
-	public phoneNumber: string;
-	/**
-	 * The current users email address.
-	 */
-	public emailAddress: string;
+	public decodedToken: DecodedToken = null;
 
 	/**
 	 * Creates an instance of the nav component.
@@ -47,7 +50,7 @@ export class NavComponent implements OnInit
 	{
 		if (this.isLoggedIn() === true)
 		{
-			this.getUserInformation();
+			this.decodedToken = this.auth.decodedToken;
 		}
 	}
 
@@ -60,8 +63,7 @@ export class NavComponent implements OnInit
 		(
 			(next: any) =>
 			{
-				this.getUserInformation();
-
+				this.decodedToken = this.auth.decodedToken;
 				this.alertify.success('Logged in successfully.');
 				this.router.navigate(['/members']);
 			},
@@ -79,6 +81,7 @@ export class NavComponent implements OnInit
 	{
 		this.auth.logOut();
 
+		this.decodedToken = null;
 		this.alertify.success('Logged out successfully.');
 		this.router.navigate(['/home']);
 	}
@@ -97,17 +100,5 @@ export class NavComponent implements OnInit
 	public isLoggedOut (): boolean
 	{
 		return this.auth.isLoggedOut();
-	}
-
-	/**
-	 * Gets the users information from the auth service.
-	 */
-	private getUserInformation(): void
-	{
-		const decodedToken = this.auth.decodedToken;
-
-		this.userName = decodedToken.userName;
-		this.phoneNumber = decodedToken.phoneNumber;
-		this.emailAddress = decodedToken.emailAddress;
 	}
 }

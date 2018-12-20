@@ -1,9 +1,26 @@
+// components
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+// models
+import { User } from '../../-models/user';
+import { Token, DecodedToken } from '../../-models/token';
+import
+{
+	RegisterRequest ,
+	AddPasswordRequest,
+	ChangePasswordRequest,
+	LoginWithUserNameRequest,
+	LoginWithPhoneNumberRequest,
+	LoginWithEmailAddressRequest
+}
+from './auth.models';
+
+// environment
+import { environment } from '../../../environments/environment.development';
 
 @Injectable
 ({
@@ -15,7 +32,7 @@ export class AuthService
 	/**
 	 * The auth API base url.
 	 */
-	private baseURL = 'https://localhost:44351/api/auth/';
+	private baseURL = environment.apiUrl + 'auth/';
 
 	/**
 	 * The jwt helper service.
@@ -53,7 +70,7 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public logInWithUserName (model: LoginWithUserNameRequest): Observable<LoginResponse>
+	public logInWithUserName (model: LoginWithUserNameRequest): Observable<Token>
 	{
 		return this.logIn(this.baseURL + 'login/user-name', model);
 	}
@@ -69,7 +86,7 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public logInWithPhoneNumber (model: LoginWithPhoneNumberRequest): Observable<LoginResponse>
+	public logInWithPhoneNumber (model: LoginWithPhoneNumberRequest): Observable<Token>
 	{
 		return this.logIn(this.baseURL + 'login/phone-number', model);
 	}
@@ -85,7 +102,7 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public logInWithEmailAddress (model: LoginWithEmailAddressRequest): Observable<LoginResponse>
+	public logInWithEmailAddress (model: LoginWithEmailAddressRequest): Observable<Token>
 	{
 		return this.logIn(this.baseURL + 'login/email-address', model);
 	}
@@ -96,11 +113,11 @@ export class AuthService
 	 * @param url The url.
 	 * @param model The model.
 	 */
-	private logIn (url: string, model: any): Observable<LoginResponse>
+	private logIn (url: string, model: any): Observable<Token>
 	{
-		const observable = this.http.post<LoginResponse>(url, model).pipe(map
+		const observable = this.http.post<Token>(url, model).pipe(map
 		(
-			(body: LoginResponse) =>
+			(body: Token) =>
 			{
 				const encodedToken = body.token;
 
@@ -158,9 +175,9 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public register (model: RegisterRequest): Observable<RegisterResponse>
+	public register (model: RegisterRequest): Observable<User>
 	{
-		const observable = this.http.post<RegisterResponse>(this.baseURL + 'register', model);
+		const observable = this.http.post<User>(this.baseURL + 'register', model);
 
 		return observable;
 	}
@@ -201,67 +218,4 @@ export class AuthService
 
 		return observable;
 	}
-}
-
-export interface LoginWithUserNameRequest
-{
-	userName: string;
-	password: string;
-}
-
-export interface LoginWithPhoneNumberRequest
-{
-	phoneNumber: string;
-	password: string;
-}
-
-export interface LoginWithEmailAddressRequest
-{
-	emailAddress: string;
-	password: string;
-}
-
-export interface LoginResponse
-{
-	token: string;
-}
-
-export interface RegisterRequest
-{
-	userName: string;
-	phoneNumber: string;
-	emailAddress: string;
-	password: string;
-}
-
-export interface RegisterResponse
-{
-	id: string;
-	userName: string;
-	phoneNumber: string;
-	emailAddress: string;
-}
-
-export interface AddPasswordRequest
-{
-	id: string;
-	password: string;
-}
-
-export interface ChangePasswordRequest
-{
-	id: string;
-	oldPassword: string;
-	newPassword: string;
-}
-
-export interface DecodedToken
-{
-	id: string;
-	userName: string;
-	phoneNumber: string;
-	emailAddress: string;
-	nbf: number;
-	exp: number;
-	iat: number;
 }

@@ -1,6 +1,12 @@
+// components
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { AuthService, RegisterRequest } from '../-services/auth/auth.service';
+
+// services
+import { AuthService } from '../-services/auth/auth.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
+
+// models
+import { RegisterRequest } from '../-services/auth/auth.models';
 
 @Component
 ({
@@ -17,7 +23,21 @@ export class RegisterComponent implements OnInit
 	/**
 	 * The registration model.
 	 */
-	public model: RegisterRequest = { userName: '', phoneNumber: '', emailAddress: '', password: ''  };
+	public model: RegisterRequest =
+	{
+		userName: '',
+		phoneNumber: '',
+		emailAddress: '',
+		knownAs: '',
+		gender: '',
+		age: 0,
+		city: '',
+		country: '',
+		introduction: '',
+		lookingFor: '',
+		interests: '',
+		password: '',
+	};
 
 	/**
 	 * Creates an instance of the register component.

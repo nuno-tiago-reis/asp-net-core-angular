@@ -1,6 +1,16 @@
+// components
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import
+{
+	HttpEvent,
+	HttpHandler,
+	HttpRequest,
+	HttpResponse,
+	HttpErrorResponse,
+	HttpInterceptor,
+	HTTP_INTERCEPTORS
+}
+from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
@@ -13,6 +23,8 @@ export class KindlyHttpInterceptor implements HttpInterceptor
 {
 	public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
 	{
+		// request.headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
 		return next.handle(request).pipe
 		(
 			tap((event: HttpEvent<any>) =>
@@ -42,6 +54,8 @@ export class KindlyHttpInterceptor implements HttpInterceptor
 
 					// Model errors are ASP.NET model validation errors
 					const serverError = error.error;
+
+					console.log(error);
 
 					if (serverError && typeof serverError === 'object')
 					{

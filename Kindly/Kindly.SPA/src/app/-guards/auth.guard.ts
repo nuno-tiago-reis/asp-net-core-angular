@@ -1,8 +1,9 @@
+// components
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-
 import { Observable } from 'rxjs';
 
+// services
 import { AuthService } from '../-services/auth/auth.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
 

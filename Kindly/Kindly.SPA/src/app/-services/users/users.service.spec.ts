@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { UsersService } from './Users.service';
+import { UsersService } from './users.service';
 
 describe('Service: Users', () =>
 {
