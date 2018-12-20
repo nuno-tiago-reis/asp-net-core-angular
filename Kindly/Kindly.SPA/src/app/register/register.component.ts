@@ -17,8 +17,11 @@ import { RegisterRequest } from '../-services/auth/auth.models';
 
 export class RegisterComponent implements OnInit
 {
-	@Output() submitRegistry = new EventEmitter;
-	@Output() cancelRegistry = new EventEmitter;
+	@Output()
+	public submitRegistry = new EventEmitter;
+
+	@Output()
+	public cancelRegistry = new EventEmitter;
 
 	/**
 	 * The registration model.
@@ -42,9 +45,9 @@ export class RegisterComponent implements OnInit
 	/**
 	 * Creates an instance of the register component.
 	 *
-	 * @param auth The auth service.
+	 * @param authApi The auth service.
 	 */
-	public constructor (private auth: AuthService, private alertify: AlertifyService)
+	public constructor (private authApi: AuthService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -57,9 +60,12 @@ export class RegisterComponent implements OnInit
 		// Nothing to do here.
 	}
 
+	/**
+	 * Invoked when the forms submit button is clicked.
+	 */
 	public submit (): void
 	{
-		this.auth.register(this.model).subscribe(
+		this.authApi.register(this.model).subscribe(
 
 			(next: any) =>
 			{
@@ -74,6 +80,9 @@ export class RegisterComponent implements OnInit
 		this.submitRegistry.emit(this.model);
 	}
 
+	/**
+	 * Invoked when the forms cancel button is clicked.
+	 */
 	public cancel (): void
 	{
 		this.cancelRegistry.emit(this.model);

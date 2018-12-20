@@ -40,9 +40,13 @@ export class AuthService
 	private jtwHelper = new JwtHelperService();
 
 	/**
+	 * The encoded auth token.
+	 */
+	public encodedToken: string = null;
+	/**
 	 * The decoded auth token.
 	 */
-	public decodedToken: DecodedToken;
+	public decodedToken: DecodedToken = null;
 
 	/**
 	 * Creates an instance of the auth service.
@@ -51,11 +55,12 @@ export class AuthService
 	 */
 	public constructor (protected readonly http: HttpClient)
 	{
-		const encodedToken = localStorage.getItem('token');
+		const storedToken = localStorage.getItem('token');
 
-		if (encodedToken)
+		if (storedToken)
 		{
-			this.decodedToken = this.jtwHelper.decodeToken(encodedToken);
+			this.encodedToken = storedToken;
+			this.decodedToken = this.jtwHelper.decodeToken(this.encodedToken);
 		}
 	}
 
@@ -119,12 +124,12 @@ export class AuthService
 		(
 			(body: Token) =>
 			{
-				const encodedToken = body.token;
-
-				if (encodedToken)
+				if (body.token)
 				{
-					localStorage.setItem('token', encodedToken);
-					this.decodedToken = this.jtwHelper.decodeToken(encodedToken);
+					this.encodedToken = body.token;
+					this.decodedToken = this.jtwHelper.decodeToken(this.encodedToken);
+
+					localStorage.setItem('token', this.encodedToken);
 				}
 
 				return body;
@@ -139,9 +144,10 @@ export class AuthService
 	 */
 	public logOut (): void
 	{
-		localStorage.removeItem('token');
-
+		this.encodedToken = null;
 		this.decodedToken = null;
+
+		localStorage.removeItem('token');
 	}
 
 	/**
@@ -149,9 +155,7 @@ export class AuthService
 	 */
 	public isLoggedIn (): boolean
 	{
-		const encodedToken = localStorage.getItem('token');
-
-		return this.jtwHelper.isTokenExpired(encodedToken) === false;
+		return this.jtwHelper.isTokenExpired(this.encodedToken) === false;
 	}
 
 	/**

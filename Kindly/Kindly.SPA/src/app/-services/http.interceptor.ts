@@ -21,10 +21,16 @@ import { tap, catchError } from 'rxjs/operators';
 
 export class KindlyHttpInterceptor implements HttpInterceptor
 {
+	/**
+	 * Creates an instance of the kindly http interceptor.
+	 */
+	public constructor()
+	{
+		// Nothing to do here.
+	}
+
 	public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
 	{
-		// request.headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
-
 		return next.handle(request).pipe
 		(
 			tap((event: HttpEvent<any>) =>
@@ -54,8 +60,6 @@ export class KindlyHttpInterceptor implements HttpInterceptor
 
 					// Model errors are ASP.NET model validation errors
 					const serverError = error.error;
-
-					console.log(error);
 
 					if (serverError && typeof serverError === 'object')
 					{

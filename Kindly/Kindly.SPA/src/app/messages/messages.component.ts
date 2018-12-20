@@ -1,7 +1,8 @@
 // components
 import { Component, OnInit } from '@angular/core';
 
-@Component({
+@Component
+({
 	selector: 'app-messages',
 	templateUrl: './messages.component.html',
 	styleUrls: [ './messages.component.css' ]
@@ -9,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 
 export class MessagesComponent implements OnInit
 {
-	public constructor () { }
-
-	public ngOnInit ()
+	/**
+	 * Creates an instance of the messages component.
+	 */
+	public constructor ()
 	{
+		// Nothing to do here.
+	}
+
+	/**
+	 * A lifecycle hook that is called after Angular has initialized all data-bound properties of a directive.
+	 */
+	public ngOnInit (): void
+	{
+		// Nothing to do here.
 	}
 }

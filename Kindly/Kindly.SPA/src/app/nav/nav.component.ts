@@ -36,9 +36,9 @@ export class NavComponent implements OnInit
 	/**
 	 * Creates an instance of the nav component.
 	 *
-	 * @param auth The auth service.
+	 * @param authApi The auth service.
 	 */
-	public constructor (private auth: AuthService, private alertify: AlertifyService, private router: Router)
+	public constructor (private authApi: AuthService, private alertify: AlertifyService, private router: Router)
 	{
 		// Nothing to do here.
 	}
@@ -50,7 +50,7 @@ export class NavComponent implements OnInit
 	{
 		if (this.isLoggedIn() === true)
 		{
-			this.decodedToken = this.auth.decodedToken;
+			this.decodedToken = this.authApi.decodedToken;
 		}
 	}
 
@@ -59,11 +59,11 @@ export class NavComponent implements OnInit
 	 */
 	public logIn (): void
 	{
-		this.auth.logInWithUserName(this.model).subscribe
+		this.authApi.logInWithUserName(this.model).subscribe
 		(
 			(next: any) =>
 			{
-				this.decodedToken = this.auth.decodedToken;
+				this.decodedToken = this.authApi.decodedToken;
 				this.alertify.success('Logged in successfully.');
 				this.router.navigate(['/members']);
 			},
@@ -79,7 +79,7 @@ export class NavComponent implements OnInit
 	 */
 	public logOut (): void
 	{
-		this.auth.logOut();
+		this.authApi.logOut();
 
 		this.decodedToken = null;
 		this.alertify.success('Logged out successfully.');
@@ -91,7 +91,7 @@ export class NavComponent implements OnInit
 	 */
 	public isLoggedIn(): boolean
 	{
-		return this.auth.isLoggedIn();
+		return this.authApi.isLoggedIn();
 	}
 
 	/**
@@ -99,6 +99,6 @@ export class NavComponent implements OnInit
 	 */
 	public isLoggedOut (): boolean
 	{
-		return this.auth.isLoggedOut();
+		return this.authApi.isLoggedOut();
 	}
 }

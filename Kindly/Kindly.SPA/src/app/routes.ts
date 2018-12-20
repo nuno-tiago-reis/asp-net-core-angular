@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ListsComponent } from './lists/lists.component';
-import { MembersComponent } from './members/members.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MemberListComponent } from './members/list/member-list.component';
 import { AuthGuard } from './-guards/auth.guard';
 
 export const AppRoutes: Routes =
@@ -15,7 +15,7 @@ export const AppRoutes: Routes =
 		children:
 		[
 			{ path: 'lists', component: ListsComponent },
-			{ path: 'members', component: MembersComponent },
+			{ path: 'members', component: MemberListComponent },
 			{ path: 'messages', component: MessagesComponent }
 		]
 	},
