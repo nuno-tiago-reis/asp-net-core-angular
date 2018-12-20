@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
 using Kindly.API.Models.Domain;
 using Kindly.API.Utility;
@@ -45,7 +44,7 @@ namespace Kindly.API.Models.Repositories
 			// Foreign Keys
 			var databaseUser = await this.Context.Users.FindAsync(picture.UserID);
 			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist);
+				throw new KindlyException(User.DoesNotExist, true);
 
 			// Create
 			this.Context.Add(picture);
@@ -59,7 +58,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databasePicture = await this.Context.Pictures.FindAsync(picture.ID);
 			if (databasePicture == null)
-				throw new KindlyException(Picture.DoesNotExist);
+				throw new KindlyException(Picture.DoesNotExist, true);
 
 			// Properties
 			databasePicture.Url =
@@ -69,7 +68,7 @@ namespace Kindly.API.Models.Repositories
 				!string.IsNullOrWhiteSpace(picture.Description) ? picture.Description : databasePicture.Description;
 
 			databasePicture.IsProfilePicture =
-				picture.IsProfilePicture != default(bool) ? picture.IsProfilePicture : databasePicture.IsProfilePicture;
+				picture.IsProfilePicture ?? databasePicture.IsProfilePicture;
 
 			// Update
 			await this.Context.SaveChangesAsync();
@@ -82,7 +81,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databasePicture = await this.Context.Pictures.FindAsync(pictureID);
 			if (databasePicture == null)
-				throw new KindlyException(Picture.DoesNotExist);
+				throw new KindlyException(Picture.DoesNotExist, true);
 
 			// Delete
 			this.Context.Pictures.Remove(databasePicture);
@@ -99,14 +98,6 @@ namespace Kindly.API.Models.Repositories
 		public async Task<IEnumerable<Picture>> GetAll()
 		{
 			return await this.Context.Pictures.ToListAsync();
-		}
-		#endregion
-
-		#region [Methods] IPictureRepository
-		/// <inheritdoc />
-		public async Task<IEnumerable<Picture>> GetByUserID(Guid userID)
-		{
-			return await this.Context.Pictures.Where(picture => picture.UserID == userID).ToListAsync();
 		}
 		#endregion
 	}

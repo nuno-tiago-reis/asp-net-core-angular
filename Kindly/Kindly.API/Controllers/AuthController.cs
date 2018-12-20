@@ -75,15 +75,7 @@ namespace Kindly.API.Controllers
 		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterDto registerInfo)
 		{
-			// TODO
-			var user = new User
-			{
-				UserName = registerInfo.UserName,
-				PhoneNumber = registerInfo.PhoneNumber,
-				EmailAddress = registerInfo.EmailAddress
-			};
-
-			await this.Repository.Create(Mapper.Map<User>(registerInfo));
+			var user = await this.Repository.Create(Mapper.Map<User>(registerInfo));
 			await this.Repository.AddPassword(user, registerInfo.Password);
 
 			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));

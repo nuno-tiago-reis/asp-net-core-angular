@@ -13,7 +13,6 @@
     PhoneNumber:'{{phone("+xxx xxxxxxxxxxxx")}}',
     Gender:'female',
     DateOfBirth:'{{date(new Date(1975,0,1), new Date(1999, 11, 31), "YYYY-MM-dd")}}',
-    Password:'kindly#2018',
     Created:'{{date(new Date(2017,0,1), new Date(2018, 11, 31), "YYYY-MM-dd")}}',
     LastActive:function()
     {
@@ -87,7 +86,6 @@
     PhoneNumber:'{{phone("+xxx xxxxxxxxxxxx")}}',
     Gender:'male',
     DateOfBirth:'{{date(new Date(1975,0,1), new Date(1999, 11, 31), "YYYY-MM-dd")}}',
-    Password:'kindly#2018',
     Created:'{{date(new Date(2017,0,1), new Date(2018, 11, 31), "YYYY-MM-dd")}}',
     LastActive:function()
     {

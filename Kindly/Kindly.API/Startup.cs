@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 
-using System.Net;
 using System.Text;
 
 using Kindly.API.Models;
@@ -9,15 +8,14 @@ using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Kindly.API
 {
@@ -94,18 +92,7 @@ namespace Kindly.API
 			{
 				applicationBuilder.UseExceptionHandler(builder =>
 				{
-					builder.Run(async context =>
-					{
-						var error = context.Features.Get<IExceptionHandlerFeature>();
-
-						if (error.Error is KindlyException kindlyException && kindlyException.StatusCode.HasValue)
-							context.Response.StatusCode = kindlyException.StatusCode.Value;
-						else
-							context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-						await context.Response.AddApplicationError(error.Error.Message);
-
-					});
+					builder.Run(KindlyUtilities.ProcessException);
 				});
 				seeder.SeedUsers();
 			}
@@ -113,18 +100,7 @@ namespace Kindly.API
 			{
 				applicationBuilder.UseExceptionHandler(builder =>
 				{
-					builder.Run(async context =>
-					{
-						var error = context.Features.Get<IExceptionHandlerFeature>();
-
-						if (error.Error is KindlyException kindlyException && kindlyException.StatusCode.HasValue)
-							context.Response.StatusCode = kindlyException.StatusCode.Value;
-						else
-							context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-						await context.Response.AddApplicationError(error.Error.Message);
-
-					});
+					builder.Run(KindlyUtilities.ProcessException);
 				});
 				applicationBuilder.UseHsts();
 			}

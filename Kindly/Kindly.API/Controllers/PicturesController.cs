@@ -110,20 +110,6 @@ namespace Kindly.API.Controllers
 
 			return this.Ok(pictureDtos);
 		}
-
-		/// <summary>
-		/// Gets the pictures by user identifier.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		[HttpGet("{userID:Guid}")]
-		public async Task<IActionResult> GetByUsedID(Guid userID)
-		{
-			var pictures = await this.Repository.GetByUserID(userID);
-			var pictureDtos = pictures.Select(picture => this.Mapper.Map<PictureDto>(picture));
-
-			return this.Ok(pictureDtos);
-		}
 		#endregion
 	}
 }

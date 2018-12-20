@@ -23,7 +23,7 @@ namespace Kindly.API.Contracts.Pictures
 		/// Gets or sets a value indicating whether this instance is the profile picture.
 		/// </summary>
 		[Required]
-		public bool IsProfilePicture { get; set; }
+		public bool? IsProfilePicture { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user identifier.

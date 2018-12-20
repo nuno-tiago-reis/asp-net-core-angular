@@ -90,7 +90,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.Context.Users.FindAsync(user.ID);
 			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist);
+				throw new KindlyException(User.DoesNotExist, true);
 
 			// Keys
 			if (!string.IsNullOrWhiteSpace(user.PhoneNumber) && databaseUser.PhoneNumber != user.PhoneNumber && await this.PhoneNumberExists(user.PhoneNumber))
@@ -147,7 +147,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.Context.Users.FindAsync(userID);
 			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist);
+				throw new KindlyException(User.DoesNotExist, true);
 
 			// Delete
 			this.Context.Users.Remove(databaseUser);
@@ -217,7 +217,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.Get(user.ID);
 			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist);
+				throw new KindlyException(User.DoesNotExist, true);
 
 			if(databaseUser.PasswordHash != null)
 				throw new KindlyException(User.PasswordAlreadyExists);
@@ -232,7 +232,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databaseUser = await this.Get(user.ID);
 			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist);
+				throw new KindlyException(User.DoesNotExist, true);
 
 			if (CheckIfPasswordMatches(databaseUser, oldPassword) == false)
 				throw new KindlyException(User.PasswordIsIncorrect);
