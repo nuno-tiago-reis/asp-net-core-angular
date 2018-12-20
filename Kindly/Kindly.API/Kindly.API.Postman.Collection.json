@@ -6,34 +6,660 @@
 	},
 	"item": [
 		{
-			"name": "Values",
+			"name": "Auth",
 			"item": [
 				{
-					"name": "GetValues",
+					"name": "Register-Guest",
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n\t\"userName\" : \"guest\",\n\t\"phoneNumber\" : \"+351939999999\",\n\t\"emailAddress\" : \"nuno.reis@aitec.pt\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": ""
+							"raw": "https://localhost:44351/api/auth/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "GetValue",
+					"name": "Register-Premium",
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\" : \"premium\",\n\t\"phoneNumber\" : \"+351919999999\",\n\t\"emailAddress\" : \"nuno.reis@link.pt\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register-Moderator",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\" : \"moderator\",\n\t\"phoneNumber\" : \"+351969999999\",\n\t\"emailAddress\" : \"nuno.reis@linkconsulting.com\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddPassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\" : \"08e94d9c-0f57-4e90-a143-08d66668316d\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/password",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangePassword",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\" : \"e4fb1bc5-afad-42df-269e-08d661d903a1\",\n\t\"oldPassword\" : \"kindly#2018\",\n\t\"newPassword\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/password",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginByID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\" : \"08e94d9c-0f57-4e90-a143-08d66668316d\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/login/id",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginByUserName",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\" : \"tiago-reis\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/login/user-name",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								"user-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginByPhoneNumber",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"phoneNumber\" : \"+351919999999\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/login/phone-number",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								"phone-number"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginByEmailAddress",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"nuno.reis@linkconsulting.com\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/login/email-address",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								"email-address"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"knownAs\": \"Tiago Reis\",\n\t\"username\": \"tiago-reis\",\n\t\"emailAddress\" : \"nuno-tiago-reis@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1991-12-08\",\n\t\"introduction\": \"Quis nisi mollit enim ad est exercitation eiusmod aute elit esse consectetur consequat officia. Nostrud et aute aliquip cillum dolore duis elit id mollit. In esse laborum id enim cupidatat qui pariatur fugiat tempor culpa. Aute commodo commodo dolore commodo. Duis cupidatat minim consectetur consequat qui ad ut fugiat voluptate ipsum excepteur tempor consectetur excepteur.\",\n\t\"lookingFor\": \"Tempor nisi esse nulla nostrud sunt Lorem anim laboris incididunt cillum do minim.\",\n\t\"interests\": \"Proident veniam voluptate est laboris ex.\",\n\t\"city\": \"Lisboa\",\n\t\"country\": \"Portugal\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"knownAs\": \"Tiago Reis\",\n\t\"username\": \"tiago-reis\",\n\t\"emailAddress\" : \"nuno-tiago-reis@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1991-12-08\",\n\t\"introduction\": \"Quis nisi mollit enim ad est exercitation eiusmod aute elit esse consectetur consequat officia. Nostrud et aute aliquip cillum dolore duis elit id mollit. In esse laborum id enim cupidatat qui pariatur fugiat tempor culpa. Aute commodo commodo dolore commodo. Duis cupidatat minim consectetur consequat qui ad ut fugiat voluptate ipsum excepteur tempor consectetur excepteur.\",\n\t\"lookingFor\": \"Tempor nisi esse nulla nostrud sunt Lorem anim laboris incididunt cillum do minim.\",\n\t\"interests\": \"Proident veniam voluptate est laboris ex.\",\n\t\"city\": \"Lisboa\",\n\t\"country\": \"Portugal\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/08e94d9c-0f57-4e90-a143-08d66668316d",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"08e94d9c-0f57-4e90-a143-08d66668316d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
 						"url": {
+							"raw": "https://localhost:44351/api/users/999b4045-19e9-419b-6356-08d66663f760",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"999b4045-19e9-419b-6356-08d66663f760"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
 							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/999b4045-19e9-419b-6356-08d66663f760",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"999b4045-19e9-419b-6356-08d66663f760"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pictures",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\": \"https://randomuser.me/api/portraits/men/57.jpg\",\n    \"description\": \"Culpa et esse enim officia ut dolore qui ullamco minim pariatur anim enim in.\",\n    \"isProfilePicture\": false,\n    \"userID\": \"08e94d9c-0f57-4e90-a143-08d66668316d\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/pictures",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"pictures"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\": \"https://randomuser.me/api/portraits/men/57.jpg2\",\n    \"description\": \"Culpa et esse enim officia ut dolore qui ullamco minim pariatur anim enim in.2\",\n    \"isProfilePicture\": true,\n    \"userID\": \"08e94d9c-0f57-4e90-a143-08d66668316d\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/pictures/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"pictures",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/pictures/bc4fa689-666e-442c-217c-08d666684bde",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"pictures",
+								"bc4fa689-666e-442c-217c-08d666684bde"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/pictures/bc4fa689-666e-442c-217c-08d666684bde",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"pictures",
+								"bc4fa689-666e-442c-217c-08d666684bde"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/pictures",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"pictures"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "",
+									"disabled": true
+								}
+							]
 						}
 					},
 					"response": []
