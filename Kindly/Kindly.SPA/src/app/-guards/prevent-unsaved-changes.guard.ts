@@ -2,14 +2,14 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
-import { MemberEditComponent } from '../members/edit/member-edit.component';
+import { ProfileEditorComponent } from '../members/profile-editor/profile-editor.component';
 
 @Injectable
 ({
 	providedIn: 'root'
 })
 
-export class PreventUnsavedChangesGuard implements CanDeactivate<MemberEditComponent>
+export class PreventUnsavedChangesGuard implements CanDeactivate<ProfileEditorComponent>
 {
 	/**
 	 * Creates an instance of the auth guard.
@@ -22,7 +22,7 @@ export class PreventUnsavedChangesGuard implements CanDeactivate<MemberEditCompo
 	/**
 	 * Checks if a route can be deactivated.
 	 */
-	public canDeactivate (component: MemberEditComponent): Observable<boolean> | Promise<boolean> | boolean
+	public canDeactivate (component: ProfileEditorComponent): Observable<boolean> | Promise<boolean> | boolean
 	{
 		if (component.editForm.dirty)
 		{

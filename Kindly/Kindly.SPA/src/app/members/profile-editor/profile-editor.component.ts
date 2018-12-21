@@ -13,12 +13,12 @@ import { User } from '../../-models/user';
 
 @Component
 ({
-	selector: 'app-member-edit',
-	templateUrl: './member-edit.component.html',
-	styleUrls: [ './member-edit.component.css' ]
+	selector: 'app-profile-editor',
+	templateUrl: './profile-editor.component.html',
+	styleUrls: [ './profile-editor.component.css' ]
 })
 
-export class MemberEditComponent implements OnInit
+export class ProfileEditorComponent implements OnInit
 {
 	/**
 	 * The date pipe.

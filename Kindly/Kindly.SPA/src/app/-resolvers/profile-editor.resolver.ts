@@ -14,10 +14,10 @@ import { AuthService } from '../-services/auth/auth.service';
 
 @Injectable()
 
-export class MemberEditResolver implements Resolve<User>
+export class ProfileEditorResolver implements Resolve<User>
 {
 	/**
-	 * Creates an instance of the member edit resolver.
+	 * Creates an instance of the profile editor resolver.
 	 *
 	 * @param router The router.
 	 * @param authApi The auth service.

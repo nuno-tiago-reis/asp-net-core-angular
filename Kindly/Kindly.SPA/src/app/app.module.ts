@@ -19,21 +19,22 @@ import { AuthGuard } from './-guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './-guards/prevent-unsaved-changes.guard';
 
 // resolvers
-import { MemberEditResolver } from './-resolvers/member-edit.resolver';
 import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
+import { ProfileEditorResolver } from './-resolvers/profile-editor.resolver';
 
 // components
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './footer/footer.component';
 import { RegisterComponent } from './register/register.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
-import { MemberCardComponent } from './members/card/member-card.component';
-import { MemberListComponent } from './members/list/member-list.component';
-import { MemberEditComponent } from './members/edit/member-edit.component';
-import { MemberDetailComponent } from './members/detail/member-detail.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { ProfileEditorComponent } from './members/profile-editor/profile-editor.component';
 
 // routes
 import { AppRoutes } from './routes';
@@ -78,7 +79,7 @@ export function tokenGetter()
 		AuthService,
 		UsersService,
 		AlertifyService,
-		MemberEditResolver,
+		ProfileEditorResolver,
 		MemberListResolver,
 		MemberDetailResolver,
 		ServiceInterceptorProvider
@@ -91,14 +92,15 @@ export function tokenGetter()
 	[
 		AppComponent,
 		NavComponent,
-		RegisterComponent,
 		HomeComponent,
+		FooterComponent,
+		RegisterComponent,
 		ListsComponent,
 		MessagesComponent,
 		MemberCardComponent,
 		MemberListComponent,
-		MemberEditComponent,
-		MemberDetailComponent
+		MemberDetailComponent,
+		ProfileEditorComponent
 	]
 })
 
