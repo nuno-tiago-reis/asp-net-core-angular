@@ -5,12 +5,12 @@
 		/// <summary>
 		/// The invalid field message.
 		/// </summary>
-		public const string InvalidFieldMessage = "The {0} field is invalid.";
+		public const string InvalidFieldMessage = "The {0} is invalid.";
 
 		/// <summary>
 		/// The existing field message.
 		/// </summary>
-		public const string ExistingFieldMessage = "The {0} field is taken.";
+		public const string ExistingFieldMessage = "The {0} is taken.";
 
 		/// <summary>
 		/// The app settings encryption key section.

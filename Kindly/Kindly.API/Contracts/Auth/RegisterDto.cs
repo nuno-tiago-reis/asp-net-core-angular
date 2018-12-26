@@ -50,27 +50,6 @@ namespace Kindly.API.Contracts.Auth
 		public DateTime BirthDate { get; set; }
 
 		/// <summary>
-		/// Gets or sets the introduction.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public string Introduction { get; set; }
-
-		/// <summary>
-		/// Gets or sets the interests.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public string Interests { get; set; }
-
-		/// <summary>
-		/// Gets or sets what the user is looking for.
-		/// </summary>
-		[Required]
-		[DataType(DataType.Text)]
-		public string LookingFor { get; set; }
-
-		/// <summary>
 		/// Gets or sets the city.
 		/// </summary>
 		[Required]

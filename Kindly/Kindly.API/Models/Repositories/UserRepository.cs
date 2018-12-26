@@ -57,15 +57,6 @@ namespace Kindly.API.Models.Repositories
 			if (string.IsNullOrWhiteSpace(user.KnownAs))
 				throw new KindlyException(user.InvalidFieldMessage(u => u.KnownAs));
 
-			if (string.IsNullOrWhiteSpace(user.Introduction))
-				throw new KindlyException(user.InvalidFieldMessage(u => u.Introduction));
-
-			if (string.IsNullOrWhiteSpace(user.Interests))
-				throw new KindlyException(user.InvalidFieldMessage(u => u.Interests));
-
-			if (string.IsNullOrWhiteSpace(user.LookingFor))
-				throw new KindlyException(user.InvalidFieldMessage(u => u.LookingFor));
-
 			if (string.IsNullOrWhiteSpace(user.City))
 				throw new KindlyException(user.InvalidFieldMessage(u => u.City));
 

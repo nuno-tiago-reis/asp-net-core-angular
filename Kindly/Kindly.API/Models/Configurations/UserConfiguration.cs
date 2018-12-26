@@ -44,15 +44,12 @@ namespace Kindly.API.Models.Configurations
 				.HasColumnType("Date");
 
 			builder.Property(user => user.Introduction)
-				.IsRequired()
 				.HasMaxLength(500);
 
 			builder.Property(user => user.Interests)
-				.IsRequired()
 				.HasMaxLength(250);
 
 			builder.Property(user => user.LookingFor)
-				.IsRequired()
 				.HasMaxLength(250);
 
 			builder.Property(user => user.City)

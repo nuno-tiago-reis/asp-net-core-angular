@@ -46,7 +46,7 @@ namespace Kindly.API.Utility
 				result.Add(item);
 			}
 
-			return new string(result.ToArray());
+			return new string(result.ToArray()).Trim();
 		}
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Kindly.API.Utility
 					break;
 			}
 
-			return camelCase + value.Substring(camelCase.Length);
+			return (camelCase + value.Substring(camelCase.Length)).Trim();
 		}
 
 		/// <summary>
