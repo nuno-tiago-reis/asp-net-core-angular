@@ -38,16 +38,29 @@ namespace Kindly.API.Models.Repositories
 			if (string.IsNullOrWhiteSpace(picture.Url))
 				throw new KindlyException(picture.InvalidFieldMessage(p => p.Url));
 
-			if (string.IsNullOrWhiteSpace(picture.Description))
-				throw new KindlyException(picture.InvalidFieldMessage(p => p.Description));
+			if (string.IsNullOrWhiteSpace(picture.PublicID))
+				throw new KindlyException(picture.InvalidFieldMessage(p => p.PublicID));
 
 			// Foreign Keys
 			var databaseUser = await this.Context.Users.FindAsync(picture.UserID);
 			if (databaseUser == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			if (await this.Context.Pictures.AnyAsync(p => p.UserID == picture.UserID) == false)
+			if (picture.IsProfilePicture)
+			{
+				// Don't allow the indicator to be 'removed'
+				// The only way to 'remove' a profile picture is to add a new one
+				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture);
+				if (profilePicture != null)
+					profilePicture.IsProfilePicture = false;
+
 				picture.IsProfilePicture = true;
+			}
+			else
+			{
+				if (await this.Context.Pictures.AnyAsync(p => p.UserID == picture.UserID) == false)
+					picture.IsProfilePicture = true;
+			}
 
 			// Create
 			this.Context.Add(picture);
@@ -67,11 +80,22 @@ namespace Kindly.API.Models.Repositories
 			databasePicture.Url =
 				!string.IsNullOrWhiteSpace(picture.Url) ? picture.Url : databasePicture.Url;
 
+			databasePicture.PublicID =
+				!string.IsNullOrWhiteSpace(picture.PublicID) ? picture.PublicID : databasePicture.PublicID;
+
 			databasePicture.Description =
 				!string.IsNullOrWhiteSpace(picture.Description) ? picture.Description : databasePicture.Description;
 
-			databasePicture.IsProfilePicture =
-				picture.IsProfilePicture ?? databasePicture.IsProfilePicture;
+			if (picture.IsProfilePicture)
+			{
+				// Don't allow the indicator to be 'removed'
+				// The only way to 'remove' a profile picture is to add a new one
+				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture);
+				if (profilePicture != null)
+					profilePicture.IsProfilePicture = false;
+
+				databasePicture.IsProfilePicture = true;
+			}
 
 			// Update
 			await this.Context.SaveChangesAsync();
@@ -85,6 +109,8 @@ namespace Kindly.API.Models.Repositories
 			var databasePicture = await this.Context.Pictures.FindAsync(pictureID);
 			if (databasePicture == null)
 				throw new KindlyException(Picture.DoesNotExist, true);
+			if (databasePicture.IsProfilePicture)
+				throw new KindlyException(Picture.CannotDeleteTheProfilePicture);
 
 			// Delete
 			this.Context.Pictures.Remove(databasePicture);

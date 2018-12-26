@@ -9,6 +9,11 @@ namespace Kindly.API.Models.Domain
 		/// The picture does not exist message.
 		/// </summary>
 		public const string DoesNotExist = "The picture does not exist.";
+
+		/// <summary>
+		/// The profile picture cannot be deleted message.
+		/// </summary>
+		public const string CannotDeleteTheProfilePicture = "The profile picture cannot be deleted.";
 		#endregion
 
 		#region [Properties]
@@ -40,7 +45,7 @@ namespace Kindly.API.Models.Domain
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is the profile picture.
 		/// </summary>
-		public bool? IsProfilePicture { get; set; }
+		public bool IsProfilePicture { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user identifier.

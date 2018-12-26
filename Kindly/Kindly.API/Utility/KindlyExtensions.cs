@@ -74,10 +74,12 @@ namespace Kindly.API.Utility
 		/// </summary>
 		/// 
 		/// <param name="value">The value.</param>
-		/// <param name="property">The property.</param>
-		public static string InvalidFieldMessage<T>(this T value, Expression<Func<T, object>> property)
+		/// <param name="expression">The expression.</param>
+		public static string InvalidFieldMessage<T, TP>(this T value, Expression<Func<T, TP>> expression)
 		{
-			return string.Format(KindlyConstants.InvalidFieldMessage, property.Name.SpacesFromCamel().ToLower());
+			string name = ((MemberExpression) expression.Body).Member.Name;
+
+			return string.Format(KindlyConstants.InvalidFieldMessage, name.SpacesFromCamel().ToLower());
 		}
 
 		/// <summary>
@@ -85,10 +87,12 @@ namespace Kindly.API.Utility
 		/// </summary>
 		/// 
 		/// <param name="value">The value.</param>
-		/// <param name="property">The property.</param>
-		public static string ExistingFieldMessage<T>(this T value, Expression<Func<T, object>> property)
+		/// <param name="expression">The expression.</param>
+		public static string ExistingFieldMessage<T, TP>(this T value, Expression<Func<T, TP>> expression)
 		{
-			return string.Format(KindlyConstants.ExistingFieldMessage, property.Name.SpacesFromCamel().ToLower());
+			string name = ((MemberExpression)expression.Body).Member.Name;
+
+			return string.Format(KindlyConstants.ExistingFieldMessage, name.SpacesFromCamel().ToLower());
 		}
 
 		/// <summary>

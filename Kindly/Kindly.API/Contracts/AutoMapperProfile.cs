@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+
 using AutoMapper;
 
 using Kindly.API.Contracts.Auth;
@@ -30,9 +30,9 @@ namespace Kindly.API.Contracts
 				.ForMember
 				(
 					userDto => userDto.ProfilePictureUrl,
-					option => option.MapFrom(source => source.Pictures.FirstOrDefault
-						(
-							picture => picture.IsProfilePicture.Value).Url
+					option => option.MapFrom
+					(
+						source => source.Pictures.FirstOrDefault(picture => picture.IsProfilePicture).Url
 					)
 				);
 
@@ -46,9 +46,9 @@ namespace Kindly.API.Contracts
 				.ForMember
 				(
 					userDto => userDto.ProfilePictureUrl,
-					option => option.MapFrom(source => source.Pictures.FirstOrDefault
+					option => option.MapFrom
 					(
-							picture => picture.IsProfilePicture.Value).Url
+						source => source.Pictures.FirstOrDefault(picture => picture.IsProfilePicture).Url
 					)
 				);
 

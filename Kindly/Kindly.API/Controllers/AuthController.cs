@@ -92,8 +92,9 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithID(loginInfo.ID, loginInfo.Password);
+				var userDto = Mapper.Map<UserDto>(user);
 
-				return this.Ok(new { token = this.GenerateLoginToken(user) });
+				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}
 			catch (KindlyException exception)
 			{
@@ -114,8 +115,9 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithUserName(loginInfo.UserName, loginInfo.Password);
+				var userDto = Mapper.Map<UserDto>(user);
 
-				return this.Ok(new { token = this.GenerateLoginToken(user) });
+				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}
 			catch (KindlyException exception)
 			{
@@ -136,8 +138,9 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithPhoneNumber(loginInfo.PhoneNumber, loginInfo.Password);
+				var userDto = Mapper.Map<UserDto>(user);
 
-				return this.Ok(new { token = this.GenerateLoginToken(user) });
+				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}
 			catch (KindlyException exception)
 			{
@@ -158,8 +161,9 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithEmailAddress(loginInfo.EmailAddress, loginInfo.Password);
+				var userDto = Mapper.Map<UserDto>(user);
 
-				return this.Ok(new { token = this.GenerateLoginToken(user)});
+				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}
 			catch (KindlyException exception)
 			{

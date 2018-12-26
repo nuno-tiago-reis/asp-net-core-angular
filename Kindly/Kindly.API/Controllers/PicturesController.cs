@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 
-
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +11,7 @@ using Kindly.API.Contracts.Pictures;
 using Kindly.API.Models.Domain;
 using Kindly.API.Models.Repositories;
 using Kindly.API.Utility.Configurations;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -83,23 +83,23 @@ namespace Kindly.API.Controllers
 
 			using (var stream = file.OpenReadStream())
 			{
-				// Parametrize the upload
-				var uploadParameters = new ImageUploadParams()
+				// Parametrize the cloudinary upload
+				var uploadParameters = new ImageUploadParams
 				{
 					File = new FileDescription(file.Name, stream),
 					Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
 				};
 
-				// Upload the file
+				// Upload the file to cloudinary
 				var uploadResult = this.Cloudinary.Upload(uploadParameters);
 				if (uploadResult.Error != null)
 					return this.BadRequest("There was an error uploading the picture: " + uploadResult.Error.Message);
 
-				// Convert the picture
 				var picture = this.Mapper.Map<Picture>(createPictureInfo);
 				picture.UserID = userID;
 				picture.Url = uploadResult.Uri.ToString();
 				picture.PublicID = uploadResult.PublicId;
+				picture.Description = string.Empty;
 
 				await this.Repository.Create(picture);
 
@@ -146,6 +146,16 @@ namespace Kindly.API.Controllers
 
 			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
 				return this.NotFound();
+
+			var picture = await this.Repository.Get(pictureID);
+
+			if (string.IsNullOrWhiteSpace(picture.PublicID) == false)
+			{
+				// Delete the file in cloudinary
+				var deleteResult = this.Cloudinary.Destroy(new DeletionParams(picture.PublicID));
+				if (deleteResult.Error != null)
+					return this.BadRequest("There was an error deleting the picture: " + deleteResult.Error.Message);
+			}
 
 			await this.Repository.Delete(pictureID);
 
