@@ -24,7 +24,7 @@ export class PreventUnsavedChangesGuard implements CanDeactivate<ProfileEditorCo
 	 */
 	public canDeactivate (component: ProfileEditorComponent): Observable<boolean> | Promise<boolean> | boolean
 	{
-		if (component.editForm.dirty)
+		if (component.contactsForm.dirty || component.profileForm.dirty)
 		{
 			return confirm('Are you sure you want to continue? Any unsaved changes will be lost.');
 		}

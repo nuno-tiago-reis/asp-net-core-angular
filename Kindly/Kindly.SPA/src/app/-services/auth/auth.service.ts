@@ -1,5 +1,5 @@
 // modules
-import { DEFAULT_PICTURE } from '../../app.constants';
+import { DEFAULT_PICTURE, DEFAULT_KNOWN_AS } from '../../app.constants';
 
 // components
 import { Injectable } from '@angular/core';
@@ -53,6 +53,16 @@ export class AuthService
 	public readonly profilePictureUrlObservable = this.profilePictureUrl.asObservable();
 
 	/**
+	 * The known as behaviour subject.
+	 */
+	public readonly knownAs = new BehaviorSubject<string>(DEFAULT_KNOWN_AS);
+
+	/**
+	 * The known as observable.
+	 */
+	public readonly knownAsObservable = this.knownAs.asObservable();
+
+	/**
 	 * The logged in user.
 	 */
 	public user: User = null;
@@ -80,6 +90,8 @@ export class AuthService
 			this.user = JSON.parse(storedUser);
 			this.encodedToken = storedToken;
 			this.decodedToken = this.jtwHelper.decodeToken(this.encodedToken);
+
+			this.knownAs.next(this.user.knownAs);
 			this.profilePictureUrl.next(this.user.profilePictureUrl);
 		}
 	}
@@ -154,6 +166,8 @@ export class AuthService
 					this.user = body.user;
 					this.encodedToken = body.token;
 					this.decodedToken = this.jtwHelper.decodeToken(this.encodedToken);
+
+					this.knownAs.next(this.user.knownAs);
 					this.profilePictureUrl.next(this.user.profilePictureUrl);
 
 					localStorage.setItem('user', JSON.stringify(this.user));
@@ -173,9 +187,11 @@ export class AuthService
 	public logOut (): void
 	{
 		this.user = null;
-		this.profilePictureUrl.next(null);
 		this.encodedToken = null;
 		this.decodedToken = null;
+
+		this.knownAs.next(null);
+		this.profilePictureUrl.next(null);
 
 		localStorage.removeItem('user');
 		localStorage.removeItem('token');
@@ -263,6 +279,19 @@ export class AuthService
 	{
 		this.user.profilePictureUrl = profilePictureUrl;
 		this.profilePictureUrl.next(profilePictureUrl);
+
+		localStorage.setItem('user', JSON.stringify(this.user));
+	}
+
+	/**
+	 * Sets the known as.
+	 *
+	 * @param knownAs The known as.
+	 */
+	public setKnownAs (knownAs: string)
+	{
+		this.user.knownAs = knownAs;
+		this.knownAs.next(knownAs);
 
 		localStorage.setItem('user', JSON.stringify(this.user));
 	}

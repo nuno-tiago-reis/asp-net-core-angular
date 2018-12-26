@@ -59,8 +59,6 @@ export class NavComponent implements OnInit
 			this.user = this.authApi.user;
 			this.decodedToken = this.authApi.decodedToken;
 		}
-
-		this.authApi.profilePictureUrlObservable.subscribe(url => this.user.profilePictureUrl = url);
 	}
 
 	/**
@@ -76,6 +74,9 @@ export class NavComponent implements OnInit
 				this.decodedToken = this.authApi.decodedToken;
 				this.alertify.success('Logged in successfully.');
 				this.router.navigate(['/members']);
+
+				this.authApi.knownAs.subscribe(knownAs => this.user.knownAs = knownAs);
+				this.authApi.profilePictureUrlObservable.subscribe(profilePictureUrl => this.user.profilePictureUrl = profilePictureUrl);
 			},
 			(error: any) =>
 			{

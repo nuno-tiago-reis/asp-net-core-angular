@@ -27,10 +27,16 @@ export class ProfileEditorComponent implements OnInit
 	public datePipe = new DatePipe('en-US');
 
 	/**
-	 * The edit form.
+	 * The contacts form.
 	 */
-	@ViewChild('editForm')
-	public editForm: NgForm;
+	@ViewChild('contactsForm')
+	public contactsForm: NgForm;
+
+	/**
+	 * The profile form.
+	 */
+	@ViewChild('profileForm')
+	public profileForm: NgForm;
 
 	/**
 	 * The user.
@@ -95,7 +101,11 @@ export class ProfileEditorComponent implements OnInit
 		(
 			(next) =>
 			{
-				this.editForm.reset(this.user);
+				// emit the known as change
+				this.authApi.setKnownAs(this.user.knownAs);
+
+				this.profileForm.reset(this.user);
+				this.contactsForm.reset(this.user);
 				this.alertify.success('Profile updated succesfully');
 			},
 			(error) =>
@@ -113,7 +123,7 @@ export class ProfileEditorComponent implements OnInit
 	@HostListener('window:beforeunload', ['$event'])
 	public unloadNotification($event: any): void
 	{
-		if (this.editForm.dirty)
+		if (this.profileForm.dirty || this.contactsForm.dirty)
 		{
 			$event.returnValue = true;
 		}

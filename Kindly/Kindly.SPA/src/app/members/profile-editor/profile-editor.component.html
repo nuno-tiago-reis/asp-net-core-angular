@@ -4,7 +4,7 @@
 			<h1>Your Profile</h1>
 		</div>
 		<div class="col-sm-8">
-			<div *ngIf="editForm.dirty" class="alert alert-info">
+			<div *ngIf="this.contactsForm.dirty || this.profileForm.dirty" class="alert alert-info">
 				<strong>Information:</strong><br>You have unsaved changes. Any unsaved changes will be lost if you navigate to
 				another page.
 			</div>
@@ -33,15 +33,25 @@
 					</div>
 				</div>
 				<div class="card-footer">
-					<button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block w-200">Save Changes</button>
+					<button [disabled]="!this.contactsForm.dirty && !this.profileForm.dirty" (click)="this.updateUser()" class="btn btn-success btn-block w-200">Save Changes</button>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-8">
 			<div class="tab-panel">
 				<tabset class="member-tabset">
+					<tab heading="Edit Contacts">
+						<form id="contactsForm" #contactsForm="ngForm">
+							<h4 class="mt-2">Phone Number:</h4>
+							<input class="form-control ml-2" type="text" name="phoneNumber" [(ngModel)]="this.user.phoneNumber">
+							<h4 class="mt-2">Email Address:</h4>
+							<input class="form-control ml-2" type="text" name="emailAddress" [(ngModel)]="this.user.emailAddress">
+						</form>
+					</tab>
 					<tab heading="Edit Profile">
-						<form id="editForm" #editForm="ngForm" (ngSubmit)="updateUser()">
+						<form id="profileForm" #profileForm="ngForm">
+							<h4 class="mt-2">Known As:</h4>
+							<input class="form-control ml-2" type="text" name="knownAs" [(ngModel)]="this.user.knownAs">
 							<h4 class="mt-2">Description:</h4>
 							<textarea name="introduction" rows="6" class="form-control" [(ngModel)]="this.user.introduction">{{this.user.introduction}}</textarea>
 							<h4 class="mt-2">Looking For:</h4>
@@ -58,7 +68,7 @@
 						</form>
 					</tab>
 					<tab heading="Edit Pictures">
-						<app-picture-editor [pictures]="this.user.pictures" (profilePictureChanges)="this.updateProfilePicture($event)"></app-picture-editor>
+						<app-picture-editor [pictures]="this.user.pictures"></app-picture-editor>
 					</tab>
 				</tabset>
 			</div>
