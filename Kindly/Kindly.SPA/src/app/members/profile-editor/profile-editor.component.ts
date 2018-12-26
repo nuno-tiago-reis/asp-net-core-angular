@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 
 // services
+import { AuthService } from '../../-services/auth/auth.service';
 import { UsersService } from '../../-services/users/users.service';
 import { AlertifyService } from '../../-services/alertify/alertify.service';
 
@@ -37,13 +38,19 @@ export class ProfileEditorComponent implements OnInit
 	public user: User;
 
 	/**
+	 * The profile picture url.
+	 */
+	public profilePictureUrl: string;
+
+	/**
 	 * Creates an instance of the member edit component.
 	 *
 	 * @param route The activated route.
+	 * @param authApi The auth service.
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private route: ActivatedRoute, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor (private route: ActivatedRoute, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -60,6 +67,8 @@ export class ProfileEditorComponent implements OnInit
 				this.user = data['user'];
 			}
 		);
+
+		this.authApi.profilePictureUrlObservable.subscribe(p => this.profilePictureUrl = p);
 	}
 
 	/**

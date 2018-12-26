@@ -11,6 +11,9 @@
 @import '../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 
+/* material */
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
 .tab-panel
 {
 	border: 1px solid #ddd;

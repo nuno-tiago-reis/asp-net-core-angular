@@ -9,6 +9,7 @@ import { AlertifyService } from '../-services/alertify/alertify.service';
 // models
 import { LoginWithUserNameRequest } from '../-services/auth/auth.models';
 import { DecodedToken } from '../-models/token';
+import { User } from '../-models/user';
 
 @Component
 ({
@@ -27,6 +28,11 @@ export class NavComponent implements OnInit
 		userName: '',
 		password: ''
 	};
+
+	/**
+	 * The user.
+	 */
+	public user: User = null;
 
 	/**
 	 * The decoded token.
@@ -50,8 +56,11 @@ export class NavComponent implements OnInit
 	{
 		if (this.isLoggedIn() === true)
 		{
+			this.user = this.authApi.user;
 			this.decodedToken = this.authApi.decodedToken;
 		}
+
+		this.authApi.profilePictureUrlObservable.subscribe(url => this.user.profilePictureUrl = url);
 	}
 
 	/**
@@ -63,6 +72,7 @@ export class NavComponent implements OnInit
 		(
 			(next: any) =>
 			{
+				this.user = this.authApi.user;
 				this.decodedToken = this.authApi.decodedToken;
 				this.alertify.success('Logged in successfully.');
 				this.router.navigate(['/members']);
@@ -81,6 +91,7 @@ export class NavComponent implements OnInit
 	{
 		this.authApi.logOut();
 
+		this.user = null;
 		this.decodedToken = null;
 		this.alertify.success('Logged out successfully.');
 		this.router.navigate(['/home']);

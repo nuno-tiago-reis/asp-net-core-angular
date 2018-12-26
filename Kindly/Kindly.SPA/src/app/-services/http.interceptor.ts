@@ -37,7 +37,6 @@ export class KindlyHttpInterceptor implements HttpInterceptor
 			{
 				if (event instanceof HttpResponse)
 				{
-					// console.log(event.body);
 					console.log(event.status + `: ${event.url} successfull`);
 				}
 

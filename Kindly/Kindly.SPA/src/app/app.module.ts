@@ -4,8 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TabsModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { FileUploadModule } from 'ng2-file-upload';
 import { JwtModule } from '@auth0/angular-jwt';
 
 // services
@@ -34,12 +38,13 @@ import { MessagesComponent } from './messages/messages.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { PictureEditorComponent } from './members/picture-editor/picture-editor.component';
 import { ProfileEditorComponent } from './members/profile-editor/profile-editor.component';
 
 // routes
 import { AppRoutes } from './routes';
 
-// token
+// tokens
 export function tokenGetter()
 {
 	return localStorage.getItem('token');
@@ -68,7 +73,10 @@ export function tokenGetter()
 		RouterModule.forRoot(AppRoutes),
 		BrowserModule,
 		HttpClientModule,
+		MatTooltipModule,
+		BrowserAnimationsModule,
 		BsDropdownModule.forRoot(),
+		FileUploadModule,
 		NgxGalleryModule,
 		TabsModule.forRoot()
 	],
@@ -100,8 +108,11 @@ export function tokenGetter()
 		MemberCardComponent,
 		MemberListComponent,
 		MemberDetailComponent,
+		PictureEditorComponent,
 		ProfileEditorComponent
 	]
 })
 
-export class AppModule { }
+export class AppModule
+{
+}

@@ -21,14 +21,17 @@ export class AlertifyService
 	/**
 	 * Creates a confirmation pop-up using alertify.
 	 *
+	 * @param title The pop-up title.
 	 * @param message The pop-up message.
 	 * @param onConfirm The confirmation callback.
 	 * @param onCancel The cancelation callback.
 	 */
-	public confirm (message: string, onConfirm: () => any, onCancel: () => any): void
+	public confirm (title: string, message: string, onConfirm: () => any, onCancel: () => any): void
 	{
 		alertify.confirm
 		(
+			// Title
+			title,
 			// Message
 			message,
 

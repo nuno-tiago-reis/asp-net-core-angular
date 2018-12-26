@@ -1,13 +1,16 @@
+// modules
+import { DEFAULT_PICTURE } from '../../app.constants';
+
 // components
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // models
 import { User } from '../../-models/user';
-import { Token, DecodedToken } from '../../-models/token';
+import { LoginToken, DecodedToken } from '../../-models/token';
 import
 {
 	RegisterRequest ,
@@ -20,7 +23,7 @@ import
 from './auth.models';
 
 // environment
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable
 ({
@@ -32,13 +35,27 @@ export class AuthService
 	/**
 	 * The auth API base url.
 	 */
-	private baseURL = environment.apiUrl + 'auth/';
+	private readonly baseURL = environment.apiUrl + 'auth/';
 
 	/**
 	 * The jwt helper service.
 	 */
-	private jtwHelper = new JwtHelperService();
+	private readonly jtwHelper = new JwtHelperService();
 
+	/**
+	 * The profile picture url behaviour subject.
+	 */
+	public readonly profilePictureUrl = new BehaviorSubject<string>(DEFAULT_PICTURE);
+
+	/**
+	 * The profile picture url observable.
+	 */
+	public readonly profilePictureUrlObservable = this.profilePictureUrl.asObservable();
+
+	/**
+	 * The logged in user.
+	 */
+	public user: User = null;
 	/**
 	 * The encoded auth token.
 	 */
@@ -53,16 +70,17 @@ export class AuthService
 	 *
 	 * @param http The http client.
 	 */
-	public constructor (protected readonly http: HttpClient)
+	public constructor (private readonly http: HttpClient)
 	{
+		const storedUser = localStorage.getItem('user');
 		const storedToken = localStorage.getItem('token');
 
-		if (storedToken)
+		if (storedUser && storedToken)
 		{
+			this.user = JSON.parse(storedUser);
 			this.encodedToken = storedToken;
 			this.decodedToken = this.jtwHelper.decodeToken(this.encodedToken);
-
-			console.log(this.decodedToken);
+			this.profilePictureUrl.next(this.user.profilePictureUrl);
 		}
 	}
 
@@ -77,7 +95,7 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public logInWithUserName (model: LoginWithUserNameRequest): Observable<Token>
+	public logInWithUserName (model: LoginWithUserNameRequest): Observable<LoginToken>
 	{
 		return this.logIn(this.baseURL + 'login/user-name', model);
 	}
@@ -93,7 +111,7 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public logInWithPhoneNumber (model: LoginWithPhoneNumberRequest): Observable<Token>
+	public logInWithPhoneNumber (model: LoginWithPhoneNumberRequest): Observable<LoginToken>
 	{
 		return this.logIn(this.baseURL + 'login/phone-number', model);
 	}
@@ -109,7 +127,7 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public logInWithEmailAddress (model: LoginWithEmailAddressRequest): Observable<Token>
+	public logInWithEmailAddress (model: LoginWithEmailAddressRequest): Observable<LoginToken>
 	{
 		return this.logIn(this.baseURL + 'login/email-address', model);
 	}
@@ -120,17 +138,25 @@ export class AuthService
 	 * @param url The url.
 	 * @param model The model.
 	 */
-	private logIn (url: string, model: any): Observable<Token>
+	private logIn (url: string, model: any): Observable<LoginToken>
 	{
-		const observable = this.http.post<Token>(url, model).pipe(map
+		const observable = this.http.post<LoginToken>(url, model).pipe(map
 		(
-			(body: Token) =>
+			(body: LoginToken) =>
 			{
-				if (body.token)
+				if (body.user && body.token)
 				{
+					if (body.user.profilePictureUrl === '' || body.user.profilePictureUrl === null)
+					{
+						body.user.profilePictureUrl = DEFAULT_PICTURE;
+					}
+
+					this.user = body.user;
 					this.encodedToken = body.token;
 					this.decodedToken = this.jtwHelper.decodeToken(this.encodedToken);
+					this.profilePictureUrl.next(this.user.profilePictureUrl);
 
+					localStorage.setItem('user', JSON.stringify(this.user));
 					localStorage.setItem('token', this.encodedToken);
 				}
 
@@ -146,9 +172,12 @@ export class AuthService
 	 */
 	public logOut (): void
 	{
+		this.user = null;
+		this.profilePictureUrl.next(null);
 		this.encodedToken = null;
 		this.decodedToken = null;
 
+		localStorage.removeItem('user');
 		localStorage.removeItem('token');
 	}
 
@@ -223,5 +252,18 @@ export class AuthService
 		const observable = this.http.put<void>(this.baseURL + 'password', model);
 
 		return observable;
+	}
+
+	/**
+	 * Sets the profile picture url.
+	 *
+	 * @param profilePictureUrl The profile picture url.
+	 */
+	public setProfilePictureUrl (profilePictureUrl: string)
+	{
+		this.user.profilePictureUrl = profilePictureUrl;
+		this.profilePictureUrl.next(profilePictureUrl);
+
+		localStorage.setItem('user', JSON.stringify(this.user));
 	}
 }

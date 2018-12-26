@@ -1,5 +1,8 @@
-export interface Token
+import { User } from './user';
+
+export interface LoginToken
 {
+	user: User;
 	token: string;
 }
 

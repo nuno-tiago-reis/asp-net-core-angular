@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="card">
-				<img class="card-img-top img-thumbnail" src="{{this.user.profilePictureUrl}}" alt="{{this.user.knownAs}}" />
+				<img class="card-img-top img-thumbnail" src="{{this.profilePictureUrl}}" alt="{{this.user.knownAs}}" />
 				<div class="card-body">
 					<div>
 						<strong>Location:</strong>
@@ -58,7 +58,7 @@
 						</form>
 					</tab>
 					<tab heading="Edit Pictures">
-						<p>Pictures!</p>
+						<app-picture-editor [pictures]="this.user.pictures" (profilePictureChanges)="this.updateProfilePicture($event)"></app-picture-editor>
 					</tab>
 				</tabset>
 			</div>

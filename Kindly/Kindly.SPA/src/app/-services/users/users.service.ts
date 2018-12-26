@@ -1,14 +1,18 @@
+// modules
+import { DEFAULT_PICTURE } from '../../app.constants';
+
 // components
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 // models
 import { User } from '../../-models/user';
 import { CreateRequest, UpdateRequest } from './users.models';
 
 // environment
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable
 ({
@@ -20,27 +24,20 @@ export class UsersService
 	/**
 	 * The users API base url.
 	 */
-	private baseURL = environment.apiUrl + 'users/';
+	private readonly baseURL = environment.apiUrl + 'users/';
 
 	/**
 	 * Creates an instance of the users service.
 	 *
 	 * @param http The http client.
 	 */
-	public constructor (protected readonly http: HttpClient)
+	public constructor (private readonly http: HttpClient)
 	{
 		// Nothing to do here.
 	}
 
 	/**
 	 * Creates a user.
-	 * The username, phone number and email address are mandatory (sample model below).
-	 *
-	 * {
-	 * 	"userName" : "<placeholder>",
-	 * 	"phoneNumber" : "<placeholder>",
-	 * 	"emailAddress" : "<placeholder>"
-	 * }
 	 *
 	 * @param model The model.
 	 */
@@ -52,7 +49,7 @@ export class UsersService
 	}
 
 	/**
-	 * Updates a user.
+	 * Updates a user (the id is mandatory).
 	 *
 	 * @param id The id.
 	 * @param model The model.
@@ -83,7 +80,18 @@ export class UsersService
 	 */
 	public get (id: string): Observable<User>
 	{
-		const observable = this.http.get<User>(this.baseURL + id);
+		const observable = this.http.get<User>(this.baseURL + id).pipe(map
+		(
+			(body: User) =>
+			{
+				if (body.profilePictureUrl === '' || body.profilePictureUrl === null)
+				{
+					body.profilePictureUrl = DEFAULT_PICTURE;
+				}
+
+				return body;
+			}
+		));
 
 		return observable;
 	}
@@ -93,7 +101,24 @@ export class UsersService
 	 */
 	public getAll (): Observable<User[]>
 	{
-		const observable = this.http.get<User[]>(this.baseURL);
+		const observable = this.http.get<User[]>(this.baseURL).pipe(map
+		(
+			(body: User[]) =>
+			{
+				body.forEach(
+
+					(user) =>
+					{
+						if (user.profilePictureUrl === '' || user.profilePictureUrl === null)
+						{
+							user.profilePictureUrl = DEFAULT_PICTURE;
+						}
+					}
+				);
+
+				return body;
+			}
+		));
 
 		return observable;
 	}
