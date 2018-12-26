@@ -24,7 +24,7 @@ export interface RegisterRequest
 	emailAddress: string;
 	knownAs: string;
 	gender: string;
-	age: number;
+	birthDate: Date;
 	city: string;
 	country: string;
 	introduction: string;

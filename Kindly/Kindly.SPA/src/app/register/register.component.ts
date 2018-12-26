@@ -7,6 +7,7 @@ import { AlertifyService } from '../-services/alertify/alertify.service';
 
 // models
 import { RegisterRequest } from '../-services/auth/auth.models';
+import { NullAstVisitor } from '@angular/compiler';
 
 @Component
 ({
@@ -33,7 +34,7 @@ export class RegisterComponent implements OnInit
 		emailAddress: '',
 		knownAs: '',
 		gender: '',
-		age: 0,
+		birthDate: null,
 		city: '',
 		country: '',
 		introduction: '',
@@ -70,14 +71,14 @@ export class RegisterComponent implements OnInit
 			(next: any) =>
 			{
 				this.alertify.success('Registered successfully.');
+
+				this.submitRegistry.emit(this.model);
 			},
 			(error: any) =>
 			{
 				this.alertify.error(error);
 			}
 		);
-
-		this.submitRegistry.emit(this.model);
 	}
 
 	/**
