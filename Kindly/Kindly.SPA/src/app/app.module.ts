@@ -23,6 +23,9 @@ import { FileUploadModule } from 'ng2-file-upload';
 // auth0 modules
 import { JwtModule } from '@auth0/angular-jwt';
 
+// pipes
+import { TimeAgoPipe } from 'time-ago-pipe';
+
 // services
 import { AuthService } from './-services/auth/auth.service';
 import { UsersService } from './-services/users/users.service';
@@ -141,10 +144,15 @@ export function getDatepickerConfig(): BsDatepickerConfig
 	],
 	bootstrap:
 	[
+		// components
 		AppComponent
 	],
 	declarations:
 	[
+		// pipes
+		TimeAgoPipe,
+
+		// components
 		AppComponent,
 		NavComponent,
 		HomeComponent,

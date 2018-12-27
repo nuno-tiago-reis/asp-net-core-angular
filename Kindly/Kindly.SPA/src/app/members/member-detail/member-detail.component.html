@@ -21,11 +21,11 @@
 					</div>
 					<div>
 						<strong>Last Active:</strong>
-						<p>{{this.datePipe.transform(this.user.lastActiveAt, 'dd-MM-yyy')}}</p>
+						<p>{{this.user.lastActiveAt | timeAgo}}</p>
 					</div>
 					<div>
 						<strong>Member Since:</strong>
-						<p>{{this.datePipe.transform(this.user.createdAt, 'dd-MM-yyy')}}</p>
+						<p>{{this.user.createdAt | date: 'dd MMMM yyyy'}}</p>
 					</div>
 				</div>
 				<div class="card-footer">
