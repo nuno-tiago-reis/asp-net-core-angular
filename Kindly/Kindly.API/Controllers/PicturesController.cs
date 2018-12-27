@@ -10,6 +10,7 @@ using CloudinaryDotNet.Actions;
 using Kindly.API.Contracts.Pictures;
 using Kindly.API.Models.Domain;
 using Kindly.API.Models.Repositories;
+using Kindly.API.Utility;
 using Kindly.API.Utility.Configurations;
 
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,7 @@ namespace Kindly.API.Controllers
 	[Authorize]
 	[ApiController]
 	[Route("api/users/{userID}/[controller]")]
+	[ServiceFilter(typeof(LogUserActivityFilter))]
 	public sealed class PicturesController : KindlyController
 	{
 		#region [Properties]

@@ -87,6 +87,9 @@ namespace Kindly.API
 
 			// Configurations
 			services.Configure<CloudinarySettings>(Configuration.GetSection(KindlyConstants.AppSettingsCloudinary));
+
+			// Filters
+			services.AddScoped<LogUserActivityFilter>();
 		}
 
 		/// <summary>

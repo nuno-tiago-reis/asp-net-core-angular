@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Kindly.API.Contracts.Users;
 using Kindly.API.Models.Domain;
 using Kindly.API.Models.Repositories;
+using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -17,6 +18,7 @@ namespace Kindly.API.Controllers
 	[Authorize]
 	[ApiController]
 	[Route("api/[controller]")]
+	[ServiceFilter(typeof(LogUserActivityFilter))]
 	public sealed class UsersController : KindlyController
 	{
 		#region [Properties]
