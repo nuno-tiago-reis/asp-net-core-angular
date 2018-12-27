@@ -1,16 +1,90 @@
-.dropdown-toggle
+nav
 {
-	cursor: pointer;
+	padding-bottom: 0px;
+	max-height: 54px;
+	border-bottom: 4px solid black;
 }
 
-.dropdown-item
+nav div.container
 {
-	cursor: pointer;
-}
-
-img
-{
+	padding: 0px;
 	max-height: 50px;
-	border: 2px solid white;
-	display: inline;
 }
+
+nav img
+{
+	max-height: 45px;
+	border: 1px solid black;
+	margin-bottom: 7.5px;
+}
+
+nav form
+{
+	max-height: 35px;
+	margin-bottom: 7.5px!important;
+}
+
+nav form input
+{
+	max-height: 35px;
+	font-size: 14px;
+}
+
+nav form button
+{
+	font-size: 14px;
+}
+
+.dropdown .dropdown-toggle
+{
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.dropdown .dropdown-menu
+{
+	transform: translateX(-25%)!important;
+}
+
+.dropdown .dropdown-menu .dropdown-item
+{
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+li.nav-item > a.nav-link
+{
+	color: #fff;
+	font-size: 14px;
+	border-bottom: 3px solid transparent;
+	transition: border-bottom ease-in-out .15s;
+	padding-bottom: 10px;
+}
+
+	li.nav-item > a.nav-link:focus,
+	li.nav-item > a.nav-link:hover
+	{
+		font-weight: bolder;
+		border-bottom: 3px solid #fff;
+		color: #fff;
+	}
+
+.navbar-brand
+{
+	color: white;
+	font-size: 18px;
+	background-color: transparent;
+	border-bottom: 3px solid transparent;
+	transition: border-bottom ease-in-out .15s;
+	padding-bottom: 10px;
+}
+
+	.navbar-brand:focus,
+	.navbar-brand:hover
+	{
+		font-weight: bolder;
+		border-bottom: 3px solid #fff;
+		color: #fff;
+	}

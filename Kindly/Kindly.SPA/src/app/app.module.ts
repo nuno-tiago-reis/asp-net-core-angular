@@ -1,15 +1,26 @@
-// modules
+// angular modules
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TabsModule } from 'ngx-bootstrap';
-import { BsDropdownModule } from 'ngx-bootstrap';
+
+// ngx modules
+import { TabsModule, BsDatepickerConfig } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+
+// ng2 modules
 import { FileUploadModule } from 'ng2-file-upload';
+
+// auth0 modules
 import { JwtModule } from '@auth0/angular-jwt';
 
 // services
@@ -44,16 +55,27 @@ import { ProfileEditorComponent } from './members/profile-editor/profile-editor.
 // routes
 import { AppRoutes } from './routes';
 
-// tokens
-export function tokenGetter()
+// jwt token
+export function getJwtToken()
 {
 	return localStorage.getItem('token');
+}
+
+// datepicker config
+export function getDatepickerConfig(): BsDatepickerConfig
+{
+	return Object.assign(new BsDatepickerConfig(),
+	{
+		containerClass: 'theme-orange',
+		dateInputFormat: 'DD-MM-YYYY'
+	});
 }
 
 @NgModule
 ({
 	imports:
 	[
+		// auth0
 		JwtModule.forRoot
 		({
 			config:
@@ -66,31 +88,56 @@ export function tokenGetter()
 				[
 					'localhost:44351/api/auth'
 				],
-				tokenGetter: tokenGetter
+				tokenGetter: getJwtToken
 			}
 		}),
-		FormsModule,
+
+		// angular
 		RouterModule.forRoot(AppRoutes),
 		BrowserModule,
 		HttpClientModule,
+
+		// forms
+		FormsModule,
+		ReactiveFormsModule,
+
+		// angular material
 		MatTooltipModule,
 		BrowserAnimationsModule,
-		BsDropdownModule.forRoot(),
-		FileUploadModule,
+
+		// ngx
+		TabsModule.forRoot(),
 		NgxGalleryModule,
-		TabsModule.forRoot()
+		BsDropdownModule.forRoot(),
+		BsDatepickerModule.forRoot(),
+
+		// ng2
+		FileUploadModule
 	],
 	providers:
 	[
+		// guards
 		AuthGuard,
 		PreventUnsavedChangesGuard,
+
+		// services
 		AuthService,
 		UsersService,
 		AlertifyService,
+
+		// resolvers
 		ProfileEditorResolver,
 		MemberListResolver,
 		MemberDetailResolver,
-		ServiceInterceptorProvider
+
+		// interceptors
+		ServiceInterceptorProvider,
+
+		// material
+		{ provide: MATERIAL_SANITY_CHECKS, useValue: false },
+
+		// datepicker
+		{ provide: BsDatepickerConfig, useFactory: getDatepickerConfig }
 	],
 	bootstrap:
 	[

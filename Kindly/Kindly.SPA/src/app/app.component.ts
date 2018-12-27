@@ -10,16 +10,6 @@ import { Component } from '@angular/core';
 export class AppComponent
 {
 	/**
-	 * The title.
-	 */
-	public title = 'Kindly';
-
-	/**
-	 * The current date.
-	 */
-	public date = new Date();
-
-	/**
 	 * Creates an instance of the app component.
 	 */
 	public constructor ()

@@ -1,45 +1,133 @@
-<form (submit)="submit()">
+<form [formGroup]="this.registerForm" (submit)="submit()">
 	<h2 class="text-center text-primary">Sign Up</h2>
 	<hr>
 
 	<div class="form-group">
-		<input type="text" class="form-control" name="username" placeholder="Username" [(ngModel)]="model.userName" required>
+		<label class="control-label" style="margin-right:10px">I am: </label>
+		<label class="radio-inline">
+			<input class="mr-3" name="gender" type="radio" value="male" formControlName="gender">Male
+		</label>
+		<label class="radio-inline ml-3">
+			<input class="mr-3" name="gender" type="radio" value="female" formControlName="gender">Female
+		</label>
 	</div>
 
 	<div class="form-group">
-		<input type="text" class="form-control" name="phoneNumber" placeholder="Phone Number" [(ngModel)]="model.phoneNumber" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('knownAs').errors && this.registerForm.get('knownAs').touched }"
+			type="text"
+			class="form-control is-invalid"
+			name="knownAs"
+			placeholder="Known As"
+			formControlName="knownAs">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('knownAs').hasError('required')">The known as field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('knownAs').hasError('maxlength')">The known as field cannot have more than 25 characters</div>
 	</div>
 
 	<div class="form-group">
-		<input type="email" class="form-control" name="emailAddress" placeholder="Email Address" [(ngModel)]="model.emailAddress" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('userName').errors && this.registerForm.get('userName').touched }"
+			type="text"
+			class="form-control is-invalid"
+			name="userName"
+			placeholder="User Name"
+			formControlName="userName">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('userName').hasError('required')">The user name field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('userName').hasError('minlength')">The user name field must have at least 10 characters</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('userName').hasError('maxlength')">The user name field cannot have more than 25 characters</div>
 	</div>
 
 	<div class="form-group">
-		<input type="text" class="form-control" name="knownAs" placeholder="Known As" [(ngModel)]="model.knownAs" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('phoneNumber').errors && this.registerForm.get('phoneNumber').touched }"
+			type="tel"
+			class="form-control is-invalid"
+			pattern="\+?[0-9]{9,15}"
+			name="phoneNumber"
+			placeholder="Phone Number"
+			formControlName="phoneNumber">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('phoneNumber').hasError('pattern')">Not a valid phone number</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('phoneNumber').hasError('required')">The phone number field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('phoneNumber').hasError('maxlength')">The phone number field cannot have more than 15 characters</div>
 	</div>
 
 	<div class="form-group">
-		<input type="text" class="form-control" name="gender" placeholder="Gender" [(ngModel)]="model.gender" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('emailAddress').errors && this.registerForm.get('emailAddress').touched }"
+			type="email"
+			class="form-control is-invalid"
+			name="emailAddress"
+			placeholder="Email Address"
+			formControlName="emailAddress">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('emailAddress').hasError('email')">Not a valid email address</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('emailAddress').hasError('required')">The email address field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('emailAddress').hasError('maxlength')">The email address field cannot have more than 254 characters</div>
 	</div>
 
 	<div class="form-group">
-		<input type="date" class="form-control" name="date" placeholder="1990-01-01" [(ngModel)]="model.birthDate" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('birthDate').errors && this.registerForm.get('birthDate').touched }"
+			type="text"
+			class="form-control is-invalid"
+			name="birthDate"
+			placeholder="31-12-1970"
+			formControlName="birthDate"
+			bsDatepicker>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('birthDate').hasError('required')">The birth date field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('birthDate').hasError('age-requirement')">You must be over 18 years old to join</div>
 	</div>
 
 	<div class="form-group">
-		<input type="text" class="form-control" name="city" placeholder="City" [(ngModel)]="model.city" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('city').errors && this.registerForm.get('city').touched }"
+			type="text"
+			class="form-control is-invalid"
+			name="city"
+			placeholder="City"
+			formControlName="city">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('city').hasError('required')">The city field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('city').hasError('maxlength')">The city field cannot have more than 50 characters</div>
 	</div>
 
 	<div class="form-group">
-		<input type="text" class="form-control" name="country" placeholder="Country" [(ngModel)]="model.country" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('country').errors && this.registerForm.get('country').touched }"
+			type="text"
+			class="form-control is-invalid"
+			name="country"
+			placeholder="Country"
+			formControlName="country">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('country').hasError('required')">The country field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('country').hasError('maxlength')">The country field cannot have more than 50 characters</div>
 	</div>
 
 	<div class="form-group">
-		<input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="model.password" required>
+		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('password').errors && this.registerForm.get('password').touched }"
+			type="password"
+			class="form-control is-invalid"
+			name="password"
+			placeholder="Password"
+			formControlName="password">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('password').hasError('required')">The password field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('password').hasError('minlength')">The password field must have at least 10 characters</div>
+	</div>
+
+	<div class="form-group">
+		<input
+			[ngClass]="{ 'is-invalid' : (this.registerForm.get('confirmPassword').errors || this.registerForm.hasError('mismatch')) && this.registerForm.get('confirmPassword').touched }"
+			type="password"
+			class="form-control is-invalid"
+			name="confirmPassword"
+			placeholder="Confirm Password"
+			formControlName="confirmPassword">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('confirmPassword').hasError('required')">The confirmed password field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('confirmPassword').hasError('minlength')">The confirmed password field must have at least 10 characters</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.hasError('mismatch')">The password fields must match</div>
 	</div>
 
 	<div class="form-group text-center">
-		<button class="btn btn-success mr-1" type="submit">Register</button>
-		<button class="btn btn-default ml-1" type="button" (click)="cancel()">Cancel</button>
+		<button class="btn btn-success mr-1" type="submit" [disabled]="!this.registerForm.valid">Register</button>
+		<button class="btn btn-default ml-1" type="button" (click)="this.cancel()">Cancel</button>
 	</div>
 </form>

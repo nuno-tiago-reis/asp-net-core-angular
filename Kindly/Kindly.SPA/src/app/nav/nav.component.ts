@@ -23,28 +23,18 @@ export class NavComponent implements OnInit
 	/**
 	 * The login request.
 	 */
-	public model: LoginWithUserNameRequest =
+	public loginRequest: LoginWithUserNameRequest =
 	{
 		userName: '',
 		password: ''
 	};
 
 	/**
-	 * The user.
-	 */
-	public user: User = null;
-
-	/**
-	 * The decoded token.
-	 */
-	public decodedToken: DecodedToken = null;
-
-	/**
 	 * Creates an instance of the nav component.
 	 *
 	 * @param authApi The auth service.
 	 */
-	public constructor (private authApi: AuthService, private alertify: AlertifyService, private router: Router)
+	public constructor (public authApi: AuthService, private alertify: AlertifyService, private router: Router)
 	{
 		// Nothing to do here.
 	}
@@ -54,11 +44,7 @@ export class NavComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		if (this.isLoggedIn() === true)
-		{
-			this.user = this.authApi.user;
-			this.decodedToken = this.authApi.decodedToken;
-		}
+		// Nothing to do here.
 	}
 
 	/**
@@ -66,17 +52,12 @@ export class NavComponent implements OnInit
 	 */
 	public logIn (): void
 	{
-		this.authApi.logInWithUserName(this.model).subscribe
+		this.authApi.logInWithUserName(this.loginRequest).subscribe
 		(
 			(next: any) =>
 			{
-				this.user = this.authApi.user;
-				this.decodedToken = this.authApi.decodedToken;
 				this.alertify.success('Logged in successfully.');
 				this.router.navigate(['/members']);
-
-				this.authApi.knownAs.subscribe(knownAs => this.user.knownAs = knownAs);
-				this.authApi.profilePictureUrlObservable.subscribe(profilePictureUrl => this.user.profilePictureUrl = profilePictureUrl);
 			},
 			(error: any) =>
 			{
@@ -92,8 +73,6 @@ export class NavComponent implements OnInit
 	{
 		this.authApi.logOut();
 
-		this.user = null;
-		this.decodedToken = null;
 		this.alertify.success('Logged out successfully.');
 		this.router.navigate(['/home']);
 	}

@@ -95,14 +95,14 @@ export class PictureEditorComponent implements OnInit
 
 				this.pictures.push(picture);
 
-				console.log(`Uploaded ${item.file.name} successfully.`);
+				// console.log(`Uploaded ${item.file.name} successfully.`);
 				this.alertify.success(`Uploaded ${item.file.name} successfully.`);
 			}
 		};
 
 		this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) =>
 		{
-			console.error(`An error occured uploading ${item.file.name}: ${response}`);
+			// console.error(`An error occured uploading ${item.file.name}: ${response}`);
 			this.alertify.error(`An error occured uploading ${item.file.name}.`);
 		};
 	}
