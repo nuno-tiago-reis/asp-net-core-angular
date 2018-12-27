@@ -82,37 +82,41 @@ export class ProfileEditorComponent implements OnInit
 	 */
 	public updateUser(): void
 	{
-		const updateRequest =
+		if (this.profileForm.dirty && this.profileForm.touched || this.contactsForm.valid && this.contactsForm.dirty)
 		{
-			userName: this.user.userName,
-			phoneNumber: this.user.phoneNumber,
-			emailAddress: this.user.emailAddress,
-			knownAs: this.user.knownAs,
-			gender: this.user.gender,
-			age: this.user.age,
-			city: this.user.city,
-			country: this.user.country,
-			introduction: this.user.introduction,
-			lookingFor: this.user.lookingFor,
-			interests: this.user.interests
-		};
-
-		this.usersApi.update(this.user.id, updateRequest).subscribe
-		(
-			(next) =>
+			const updateRequest =
 			{
-				// emit the known as change
-				this.authApi.setKnownAs(this.user.knownAs);
+				userName: this.user.userName,
+				phoneNumber: this.user.phoneNumber,
+				emailAddress: this.user.emailAddress,
+				knownAs: this.user.knownAs,
+				gender: this.user.gender,
+				age: this.user.age,
+				city: this.user.city,
+				country: this.user.country,
+				introduction: this.user.introduction,
+				lookingFor: this.user.lookingFor,
+				interests: this.user.interests
+			};
 
-				this.profileForm.reset(this.user);
-				this.contactsForm.reset(this.user);
-				this.alertify.success('Profile updated succesfully');
-			},
-			(error) =>
-			{
-				this.alertify.error('There was an error updating the profile.');
-			},
-		);
+			this.usersApi.update(this.user.id, updateRequest).subscribe
+			(
+				(next) =>
+				{
+					// emit the known as change
+					this.authApi.setKnownAs(this.user.knownAs);
+
+					this.profileForm.reset(this.user);
+					this.contactsForm.reset(this.user);
+
+					this.alertify.success('Profile updated succesfully');
+				},
+				(error) =>
+				{
+					this.alertify.error('There was an error updating the profile.');
+				},
+			);
+		}
 	}
 
 	/**
