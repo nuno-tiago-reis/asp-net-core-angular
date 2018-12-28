@@ -3,13 +3,14 @@ import { DEFAULT_PICTURE } from '../../app.constants';
 
 // components
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // models
-import { User } from '../../-models/user';
 import { CreateRequest, UpdateRequest } from './users.models';
+import { User } from '../../-models/user';
+import { PaginatedResult } from '../../-models/paginated-result';
 
 // environment
 import { environment } from '../../../environments/environment';
@@ -99,14 +100,21 @@ export class UsersService
 	/**
 	 * Gets all users.
 	 */
-	public getAll (): Observable<User[]>
+	public getAll (pageNumber?: number, pageSize?: number): Observable<PaginatedResult<User>>
 	{
-		const observable = this.http.get<User[]>(this.baseURL).pipe(map
-		(
-			(body: User[]) =>
-			{
-				body.forEach(
+		let parameters = new HttpParams();
+		if (pageNumber !== null && pageSize !== null)
+		{
+			parameters = parameters.append('pageNumber', pageNumber.toString());
+			parameters = parameters.append('pageSize', pageSize.toString());
+		}
 
+		const observable = this.http.get<User[]>(this.baseURL, { observe: 'response', params: parameters }).pipe(map
+		(
+			(response) =>
+			{
+				response.body.forEach
+				(
 					(user) =>
 					{
 						if (user.profilePictureUrl === '' || user.profilePictureUrl === null)
@@ -116,7 +124,16 @@ export class UsersService
 					}
 				);
 
-				return body;
+				const paginatedResult: PaginatedResult<User> = new PaginatedResult<User>();
+				paginatedResult.results = response.body;
+
+				const pagination = response.headers.get('Pagination');
+				if (pagination !== null)
+				{
+					paginatedResult.pagination = JSON.parse(pagination);
+				}
+
+				return paginatedResult;
 			}
 		));
 
