@@ -7,6 +7,7 @@ using System.Text;
 
 using Microsoft.EntityFrameworkCore;
 
+using Kindly.API.Contracts;
 using Kindly.API.Models.Domain;
 using Kindly.API.Utility;
 
@@ -124,9 +125,6 @@ namespace Kindly.API.Models.Repositories
 			databaseUser.LastActiveAt =
 				user.LastActiveAt != default(DateTime) ? user.LastActiveAt : databaseUser.LastActiveAt;
 
-			databaseUser.Pictures =
-				user.Pictures ?? databaseUser.Pictures;
-
 			// Update
 			await this.Context.SaveChangesAsync();
 
@@ -156,9 +154,15 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<IEnumerable<User>> GetAll()
 		{
-			return await this.Context.Users
-				.Include(user => user.Pictures)
-				.ToListAsync();
+			return await this.Context.Users.Include(user => user.Pictures).ToListAsync();
+		}
+
+		/// <inheritdoc />
+		public async Task<PagedList<User>> GetAll(PaginationParameters parameters)
+		{
+			var users = this.Context.Users.Include(user => user.Pictures);
+
+			return await PagedList<User>.CreateAsync(users, parameters.PageNumber, parameters.PageSize);
 		}
 		#endregion
 
@@ -268,7 +272,6 @@ namespace Kindly.API.Models.Repositories
 		{
 			return await this.Context.Users.SingleOrDefaultAsync(user => user.EmailAddress == emailAddress);
 		}
-
 		#endregion
 
 		#region [Methods] Utility

@@ -3,12 +3,28 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+using Kindly.API.Contracts;
+
 using Microsoft.AspNetCore.Http;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Kindly.API.Utility
 {
 	public static class KindlyExtensions
 	{
+		#region [Properties]
+		/// <summary>
+		/// The json formatter.
+		/// </summary>
+		private static readonly JsonSerializerSettings JsonFormatter = new JsonSerializerSettings
+		{
+			ContractResolver = new CamelCasePropertyNamesContractResolver()
+		};
+		#endregion
+
+		#region [DateTime]
 		/// <summary>
 		/// Calculates the age.
 		/// </summary>
@@ -23,7 +39,9 @@ namespace Kindly.API.Utility
 
 			return age;
 		}
+		#endregion
 
+		#region [String]
 		/// <summary>
 		/// Spaces a string according to its camel case.
 		/// </summary>
@@ -69,6 +87,9 @@ namespace Kindly.API.Utility
 			return (camelCase + value.Substring(camelCase.Length)).Trim();
 		}
 
+		#endregion
+
+		#region [Generic]
 		/// <summary>
 		/// Converts the string to a message field representation by applying spaces from camel and lower case.
 		/// </summary>
@@ -94,21 +115,34 @@ namespace Kindly.API.Utility
 
 			return string.Format(KindlyConstants.ExistingFieldMessage, name.SpacesFromCamel().ToLower());
 		}
+		#endregion
+
+		#region [HttpResponse]
+		/// <summary>
+		/// Adds a pagination header.
+		/// </summary>
+		/// 
+		/// <param name="response">The response.</param>
+		/// <param name="header">The header.</param>
+		public static void AddPaginationHeader(this HttpResponse response, PaginationHeader header)
+		{
+			response.Headers.Add("Pagination", JsonConvert.SerializeObject(header, JsonFormatter));
+			response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+		}
 
 		/// <summary>
-		/// Adds an application error to the http response.
+		/// Adds an application error header to the http response.
 		/// </summary>
 		/// 
 		/// <param name="response">The response.</param>
 		/// <param name="message">The message.</param>
-		public static async Task AddApplicationError(this HttpResponse response, string message)
+		public static async Task AddApplicationErrorHeader(this HttpResponse response, string message)
 		{
 			response.Headers.Add("Application-Error", message);
-			response.Headers.Add("Access-Control-Allow-Origin", "*");
 			response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
 
 			await response.WriteAsync(message);
 		}
-
+		#endregion
 	}
 }

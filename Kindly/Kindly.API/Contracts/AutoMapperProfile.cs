@@ -59,6 +59,9 @@ namespace Kindly.API.Contracts
 			this.CreateMap<PictureDto, Picture>();
 			this.CreateMap<Picture, PictureDto>();
 
+			this.CreateMap<PictureDetailedDto, Picture>();
+			this.CreateMap<Picture, PictureDetailedDto>();
+
 			this.CreateMap<CreatePictureDto, Picture>();
 			this.CreateMap<UpdatePictureDto, Picture>();
 		}

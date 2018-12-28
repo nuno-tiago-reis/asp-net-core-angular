@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 using Kindly.API.Models.Domain;
 
+using Newtonsoft.Json;
+
 namespace Kindly.API.Contracts.Users
 {
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -14,6 +16,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Text)]
+		[JsonProperty(Order = 1)]
 		public Guid ID { get; set; }
 
 		/// <summary>
@@ -21,6 +24,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Text)]
+		[JsonProperty(Order = 2)]
 		public string UserName { get; set; }
 
 		/// <summary>
@@ -28,6 +32,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.PhoneNumber)]
+		[JsonProperty(Order = 3)]
 		public string PhoneNumber { get; set; }
 
 		/// <summary>
@@ -35,6 +40,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.EmailAddress)]
+		[JsonProperty(Order = 4)]
 		public string EmailAddress { get; set; }
 
 		/// <summary>
@@ -42,6 +48,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Text)]
+		[JsonProperty(Order = 5)]
 		public string KnownAs { get; set; }
 
 		/// <summary>
@@ -49,6 +56,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Text)]
+		[JsonProperty(Order = 6)]
 		public Gender Gender { get; set; }
 
 		/// <summary>
@@ -56,6 +64,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Text)]
+		[JsonProperty(Order = 7)]
 		public int Age { get; set; }
 
 		/// <summary>
@@ -63,6 +72,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Text)]
+		[JsonProperty(Order = 8)]
 		public string City { get; set; }
 
 		/// <summary>
@@ -70,6 +80,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Text)]
+		[JsonProperty(Order = 9)]
 		public string Country { get; set; }
 
 		/// <summary>
@@ -77,6 +88,7 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Date)]
+		[JsonProperty(Order = 10)]
 		public DateTime CreatedAt { get; set; }
 
 		/// <summary>
@@ -84,13 +96,14 @@ namespace Kindly.API.Contracts.Users
 		/// </summary>
 		[Required]
 		[DataType(DataType.Date)]
+		[JsonProperty(Order = 11)]
 		public DateTime LastActiveAt { get; set; }
 
 		/// <summary>
 		/// Gets or sets the picture url.
 		/// </summary>
-		[Required]
 		[DataType(DataType.ImageUrl)]
+		[JsonProperty(Order = 12)]
 		public string ProfilePictureUrl { get; set; }
 	}
 }

@@ -23,7 +23,7 @@ namespace Kindly.API.Controllers
 	[Authorize]
 	[ApiController]
 	[Route("api/users/{userID}/[controller]")]
-	[ServiceFilter(typeof(LogUserActivityFilter))]
+	[ServiceFilter(typeof(KindlyActivityFilter))]
 	public sealed class PicturesController : KindlyController
 	{
 		#region [Properties]
@@ -80,7 +80,7 @@ namespace Kindly.API.Controllers
 			if (createPictureInfo.File == null || createPictureInfo.File.Length <= 0)
 				return this.BadRequest("The picture is empty.");
 
-			// Open the file
+			// Create the file in cloudinary
 			var file = createPictureInfo.File;
 
 			using (var stream = file.OpenReadStream())
@@ -151,9 +151,9 @@ namespace Kindly.API.Controllers
 
 			var picture = await this.Repository.Get(pictureID);
 
+			// Delete the file in cloudinary
 			if (string.IsNullOrWhiteSpace(picture.PublicID) == false)
 			{
-				// Delete the file in cloudinary
 				var deleteResult = this.Cloudinary.Destroy(new DeletionParams(picture.PublicID));
 				if (deleteResult.Error != null)
 					return this.BadRequest("There was an error deleting the picture: " + deleteResult.Error.Message);
@@ -180,7 +180,7 @@ namespace Kindly.API.Controllers
 				return this.NotFound();
 
 			var picture = await this.Repository.Get(pictureID);
-			var pictureDto = this.Mapper.Map<PictureDto>(picture);
+			var pictureDto = this.Mapper.Map<PictureDetailedDto>(picture);
 
 			return this.Ok(pictureDto);
 		}

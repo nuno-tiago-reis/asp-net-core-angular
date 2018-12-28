@@ -30,7 +30,7 @@ namespace Kindly.API.Utility
 				context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 			}
 
-			await context.Response.AddApplicationError(error.Error.Message);
+			await context.Response.AddApplicationErrorHeader(error.Error.Message);
 		}
 	}
 }

@@ -13,6 +13,10 @@ namespace Kindly.API.Models.Configurations
 			// Keys
 			builder.HasKey(user => user.ID);
 
+			// Indices
+			builder.HasIndex(user => user.Url).IsUnique();
+			builder.HasIndex(user => user.PublicID).IsUnique();
+
 			// Properties
 			builder.Property(user => user.Url)
 				.IsRequired()

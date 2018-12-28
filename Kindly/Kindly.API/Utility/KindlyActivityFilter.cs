@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Kindly.API.Utility
 {
-	public sealed class LogUserActivityFilter : IAsyncActionFilter
+	public sealed class KindlyActivityFilter : IAsyncActionFilter
 	{
 		/// <summary>
 		/// The user identifier claim.

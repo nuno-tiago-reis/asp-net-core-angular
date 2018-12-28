@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Kindly.API.Contracts;
 using Kindly.API.Contracts.Users;
 using Kindly.API.Models.Domain;
 using Kindly.API.Models.Repositories;
@@ -18,7 +19,7 @@ namespace Kindly.API.Controllers
 	[Authorize]
 	[ApiController]
 	[Route("api/[controller]")]
-	[ServiceFilter(typeof(LogUserActivityFilter))]
+	[ServiceFilter(typeof(KindlyActivityFilter))]
 	public sealed class UsersController : KindlyController
 	{
 		#region [Properties]
@@ -115,10 +116,18 @@ namespace Kindly.API.Controllers
 		/// Gets the users.
 		/// </summary>
 		[HttpGet]
-		public async Task<IActionResult> GetAll()
+		public async Task<IActionResult> GetAll([FromQuery] PaginationParameters parameters)
 		{
-			var users = await this.Repository.GetAll();
+			var users = await this.Repository.GetAll(parameters);
 			var userDtos = users.Select(user => this.Mapper.Map<UserDto>(user));
+
+			this.Response.AddPaginationHeader(new PaginationHeader
+			(
+				users.PageNumber,
+				users.PageSize,
+				users.TotalPages,
+				users.TotalCount
+			));
 
 			return this.Ok(userDtos);
 		}

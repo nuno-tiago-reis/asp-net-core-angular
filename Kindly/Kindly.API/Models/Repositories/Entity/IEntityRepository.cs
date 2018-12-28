@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Kindly.API.Contracts;
+
 namespace Kindly.API.Models.Repositories
 {
 	public interface IEntityRepository<T> where T : class
@@ -35,8 +37,15 @@ namespace Kindly.API.Models.Repositories
 		Task<T> Get(Guid entityID);
 
 		/// <summary>
-		/// Gets the entities.
+		/// Gets all the entities.
 		/// </summary>
 		Task<IEnumerable<T>> GetAll();
+
+		/// <summary>
+		/// Gets all the entities using pagination.
+		/// </summary>
+		/// 
+		/// <param name="parameters">The parameters.</param>
+		Task<PagedList<T>> GetAll(PaginationParameters parameters);
 	}
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Kindly.API.Contracts;
 using Kindly.API.Models.Domain;
 using Kindly.API.Utility;
 
@@ -108,7 +109,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			var databasePicture = await this.Context.Pictures.FindAsync(pictureID);
 			if (databasePicture == null)
-				throw new KindlyException(Picture.DoesNotExist, true);
+				throw new KindlyException(Picture.DoesNotExist, true); 
 			if (databasePicture.IsProfilePicture)
 				throw new KindlyException(Picture.CannotDeleteTheProfilePicture);
 
@@ -127,6 +128,14 @@ namespace Kindly.API.Models.Repositories
 		public async Task<IEnumerable<Picture>> GetAll()
 		{
 			return await this.Context.Pictures.ToListAsync();
+		}
+
+		/// <inheritdoc />
+		public async Task<PagedList<Picture>> GetAll(PaginationParameters parameters)
+		{
+			var pictures = this.Context.Pictures;
+
+			return await PagedList<Picture>.CreateAsync(pictures, parameters.PageNumber, parameters.PageSize);
 		}
 		#endregion
 
