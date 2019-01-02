@@ -27,3 +27,10 @@ export interface UpdateRequest
 	lookingFor: string;
 	interests: string;
 }
+
+export interface UserParameters
+{
+	gender: string;
+	minimumAge: number;
+	maximumAge: number;
+}

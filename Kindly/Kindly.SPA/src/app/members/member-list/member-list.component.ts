@@ -3,13 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // services
+import { AuthService } from '../../-services/auth/auth.service';
 import { UsersService } from '../../-services/users/users.service';
 import { AlertifyService } from '../../-services/alertify/alertify.service';
 
 // models
-import { User } from '../../-models/user';
-import { Pagination } from 'src/app/-models/pagination';
-import { PaginatedResult } from 'src/app/-models/paginated-result';
+import { User, Gender } from '../../-models/user';
+import { Pagination } from '../../-models/pagination';
+import { PaginatedResult } from '../../-models/paginated-result';
+import { UserParameters } from '../../-services/users/users.models';
 
 @Component
 ({
@@ -21,6 +23,11 @@ import { PaginatedResult } from 'src/app/-models/paginated-result';
 export class MemberListComponent implements OnInit
 {
 	/**
+	 * The logged user.
+	 */
+	public user: User;
+
+	/**
 	 * The array of users.
 	 */
 	public users: User[];
@@ -31,13 +38,29 @@ export class MemberListComponent implements OnInit
 	public pagination: Pagination;
 
 	/**
+	 * The filter parameters.
+	 */
+	public filterParameters: UserParameters;
+
+	/**
+	 * The gender labels.
+	 */
+	public readonly genderLabels =
+	[
+		{ value: Gender.male, display: 'Males' },
+		{ value: Gender.female, display: 'Females' },
+		{ value: Gender.undefined, display: 'Everything' }
+	];
+
+	/**
 	 * Creates an instance of the member list component.
 	 *
 	 * @param route The activated route.
+	 * @param authApi The auth service.
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private route: ActivatedRoute, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor (private route: ActivatedRoute, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -47,19 +70,52 @@ export class MemberListComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
+		this.user = this.authApi.user;
+
 		this.route.data.subscribe(data =>
 		{
 			this.users = data['users'].results;
 			this.pagination = data['users'].pagination;
 		});
+
+		this.resetFilter(false);
+	}
+
+	/**
+	 * Invoked when the filtering parameters are reset.
+	 *
+	 * @param resetUsers Whether the users should be reset aswell.
+	 */
+	public resetFilter(resetUsers: boolean)
+	{
+		this.filterParameters =
+		{
+			gender: 'undefined',
+			minimumAge: 18,
+			maximumAge: 100,
+		};
+
+		switch (this.user.gender)
+		{
+			case 'male':
+				this.filterParameters.gender = 'female';
+				break;
+			case 'female':
+				this.filterParameters.gender = 'male';
+				break;
+		}
+
+		if(resetUsers)
+			this.getUsers();
 	}
 
 	/**
 	 * Invoked when the page is changed.
 	 */
-	public pageChanged(event: any): void
+	public changePage(event: any): void
 	{
 		this.pagination.pageNumber = event.page;
+
 		this.getUsers();
 	}
 
@@ -68,7 +124,7 @@ export class MemberListComponent implements OnInit
 	 */
 	public getUsers(): void
 	{
-		this.usersApi.getAll(this.pagination.pageNumber, this.pagination.pageSize).subscribe
+		this.usersApi.getAll(this.pagination.pageNumber, this.pagination.pageSize, this.filterParameters).subscribe
 		(
 			(body: PaginatedResult<User>) =>
 			{

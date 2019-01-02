@@ -7,7 +7,7 @@ export interface User
 	phoneNumber: string;
 	emailAddress: string;
 	knownAs: string;
-	gender: string;
+	gender: Gender;
 	age: number;
 	city: string;
 	country: string;
@@ -18,4 +18,11 @@ export interface User
 	pictures?: Picture[];
 	createdAt: Date;
 	lastActiveAt: Date;
+}
+
+export enum Gender
+{
+	male = 'male',
+	female = 'female',
+	undefined = 'undefined'
 }

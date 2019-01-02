@@ -10,3 +10,8 @@ export interface UpdateRequest
 	description: string;
 	isProfilePicture: boolean;
 }
+
+export interface PictureParameters
+{
+	includeProfilePicture: boolean;
+}

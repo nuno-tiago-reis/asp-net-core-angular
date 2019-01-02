@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // models
-import { CreateRequest, UpdateRequest } from './users.models';
 import { User } from '../../-models/user';
 import { PaginatedResult } from '../../-models/paginated-result';
+import { CreateRequest, UpdateRequest, UserParameters } from './users.models';
 
 // environment
 import { environment } from '../../../environments/environment';
@@ -99,14 +99,26 @@ export class UsersService
 
 	/**
 	 * Gets all users.
+	 *
+	 * @param pageNumber The page number.
+	 * @param pageSize The page size.
+	 * @param filterParameters The filter parameters.
 	 */
-	public getAll (pageNumber?: number, pageSize?: number): Observable<PaginatedResult<User>>
+	public getAll (pageNumber?: number, pageSize?: number, filterParameters?: UserParameters): Observable<PaginatedResult<User>>
 	{
 		let parameters = new HttpParams();
+
 		if (pageNumber !== null && pageSize !== null)
 		{
 			parameters = parameters.append('pageNumber', pageNumber.toString());
 			parameters = parameters.append('pageSize', pageSize.toString());
+		}
+
+		if (filterParameters != null)
+		{
+			parameters = parameters.append('gender', filterParameters.gender);
+			parameters = parameters.append('minimumAge', filterParameters.minimumAge.toString());
+			parameters = parameters.append('maximumAge', filterParameters.maximumAge.toString());
 		}
 
 		const observable = this.http.get<User[]>(this.baseURL, { observe: 'response', params: parameters }).pipe(map
