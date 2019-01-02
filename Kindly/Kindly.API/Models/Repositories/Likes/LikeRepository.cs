@@ -63,6 +63,13 @@ namespace Kindly.API.Models.Repositories.Likes
 			if (databaseLike == null)
 				throw new KindlyException(Like.DoesNotExist, true);
 
+			// Keys
+			var target = await this.Context.Users.FindAsync(like.TargetID);
+			if (target == null)
+				throw new KindlyException(Like.DoesNotExist);
+
+			databaseLike.TargetID = target.ID;
+
 			// Update
 			await this.Context.SaveChangesAsync();
 

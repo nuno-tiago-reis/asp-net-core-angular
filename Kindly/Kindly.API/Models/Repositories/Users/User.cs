@@ -79,21 +79,6 @@ namespace Kindly.API.Models.Repositories.Users
 		public DateTime BirthDate { get; set; }
 
 		/// <summary>
-		/// Gets or sets the introduction.
-		/// </summary>
-		public string Introduction { get; set; }
-
-		/// <summary>
-		/// Gets or sets the interests.
-		/// </summary>
-		public string Interests { get; set; }
-
-		/// <summary>
-		/// Gets or sets what the user is looking for.
-		/// </summary>
-		public string LookingFor { get; set; }
-
-		/// <summary>
 		/// Gets or sets the city.
 		/// </summary>
 		public string City { get; set; }
@@ -102,6 +87,21 @@ namespace Kindly.API.Models.Repositories.Users
 		/// Gets or sets the country.
 		/// </summary>
 		public string Country { get; set; }
+
+		/// <summary>
+		/// Gets or sets the introduction.
+		/// </summary>
+		public string Introduction { get; set; }
+
+		/// <summary>
+		/// Gets or sets what the user is looking for.
+		/// </summary>
+		public string LookingFor { get; set; }
+
+		/// <summary>
+		/// Gets or sets the interests.
+		/// </summary>
+		public string Interests { get; set; }
 
 		/// <summary>
 		/// Gets or sets the pictures.

@@ -40,14 +40,14 @@ namespace Kindly.API.Models.Repositories.Pictures
 		public string Description { get; set; }
 
 		/// <summary>
-		/// Gets or sets the date at which the picture was created.
-		/// </summary>
-		public DateTime CreatedAt { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether this instance is the profile picture.
 		/// </summary>
 		public bool IsProfilePicture { get; set; }
+
+		/// <summary>
+		/// Gets or sets the date at which the picture was created.
+		/// </summary>
+		public DateTime CreatedAt { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user identifier.
