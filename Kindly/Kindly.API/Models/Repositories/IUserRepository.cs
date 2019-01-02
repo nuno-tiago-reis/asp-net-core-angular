@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Kindly.API.Contracts.Users;
 using Kindly.API.Models.Domain;
 
 namespace Kindly.API.Models.Repositories
 {
-	public interface IUserRepository : IEntityRepository<User>
+	public interface IUserRepository : IEntityRepository<User, UserParameters>
 	{
 		/// <summary>
 		/// Logs in the user using its user ID.

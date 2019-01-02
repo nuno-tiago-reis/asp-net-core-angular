@@ -116,8 +116,10 @@ namespace Kindly.API.Controllers
 		/// Gets the users.
 		/// </summary>
 		[HttpGet]
-		public async Task<IActionResult> GetAll([FromQuery] PaginationParameters parameters)
+		public async Task<IActionResult> GetAll([FromQuery] UserParameters parameters)
 		{
+			parameters.UserID = this.GetInvocationUserID();
+
 			var users = await this.Repository.GetAll(parameters);
 			var userDtos = users.Select(user => this.Mapper.Map<UserDto>(user));
 

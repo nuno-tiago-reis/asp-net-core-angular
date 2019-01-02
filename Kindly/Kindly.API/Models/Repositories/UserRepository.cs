@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 
 using Kindly.API.Contracts;
+using Kindly.API.Contracts.Users;
 using Kindly.API.Models.Domain;
 using Kindly.API.Utility;
 
@@ -158,11 +159,47 @@ namespace Kindly.API.Models.Repositories
 		}
 
 		/// <inheritdoc />
-		public async Task<PagedList<User>> GetAll(PaginationParameters parameters)
+		public async Task<PagedList<User>> GetAll(UserParameters parameters)
 		{
-			var users = this.Context.Users.Include(user => user.Pictures);
+			var users = this.Context.Users.Include(u => u.Pictures).AsQueryable();
 
-			return await PagedList<User>.CreateAsync(users, parameters.PageNumber, parameters.PageSize);
+			if (parameters.Gender.HasValue == false)
+			{
+				var user = await this.Context.Users.FindAsync(parameters.UserID);
+
+				switch (user.Gender)
+				{
+					case Gender.Female:
+						parameters.Gender = Gender.Male;
+						break;
+
+					case Gender.Male:
+						parameters.Gender = Gender.Female;
+						break;
+
+					default:
+						throw new ArgumentOutOfRangeException(nameof(user.Gender));
+				}
+			}
+
+			if (parameters.MinimumAge.HasValue)
+			{
+				var maximumBirthDate = DateTime.Today.AddYears(-parameters.MinimumAge.Value);
+
+				users = users.Where(u => u.BirthDate <= maximumBirthDate);
+			}
+
+			if (parameters.MaximumAge.HasValue)
+			{
+				var minimumBirthDate = DateTime.Today.AddYears(-parameters.MaximumAge.Value-1);
+
+				users = users.Where(u => u.BirthDate >= minimumBirthDate);
+			}
+
+			users = users.Where(u => u.ID != parameters.UserID);
+			users = users.Where(u => u.Gender == parameters.Gender);
+
+			return await PagedList<User>.CreateAsync(users.OrderBy(u => u.CreatedAt), parameters.PageNumber, parameters.PageSize);
 		}
 		#endregion
 

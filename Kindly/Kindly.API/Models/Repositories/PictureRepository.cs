@@ -2,11 +2,13 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using Kindly.API.Contracts;
-using Kindly.API.Models.Domain;
-using Kindly.API.Utility;
 
 using Microsoft.EntityFrameworkCore;
+
+using Kindly.API.Contracts;
+using Kindly.API.Contracts.Pictures;
+using Kindly.API.Models.Domain;
+using Kindly.API.Utility;
 
 namespace Kindly.API.Models.Repositories
 {
@@ -131,11 +133,11 @@ namespace Kindly.API.Models.Repositories
 		}
 
 		/// <inheritdoc />
-		public async Task<PagedList<Picture>> GetAll(PaginationParameters parameters)
+		public async Task<PagedList<Picture>> GetAll(PictureParameters parameters)
 		{
 			var pictures = this.Context.Pictures;
 
-			return await PagedList<Picture>.CreateAsync(pictures, parameters.PageNumber, parameters.PageSize);
+			return await PagedList<Picture>.CreateAsync(pictures.OrderBy(p => p.AddedAt), parameters.PageNumber, parameters.PageSize);
 		}
 		#endregion
 

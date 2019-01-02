@@ -2,18 +2,21 @@
 
 namespace Kindly.API.Contracts
 {
-	public sealed class PaginationParameters
+	public abstract class PaginationParameters
 	{
+		#region [Constants]
 		/// <summary>
 		/// The maximum page size.
 		/// </summary>
-		private const int MaximumPageSize = 50;
+		protected const int MaximumPageSize = 50;
 
 		/// <summary>
 		/// The minimum page size.
 		/// </summary>
-		private const int MinimumPageSize = 10;
+		protected const int MinimumPageSize = 10;
+		#endregion
 
+		#region [Properties]
 		/// <summary>
 		/// The page number.
 		/// </summary>
@@ -43,23 +46,12 @@ namespace Kindly.API.Contracts
 			set { this.pageSize = Math.Clamp(value, MinimumPageSize, MaximumPageSize); }
 
 		}
+		#endregion
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PaginationParameters"/> class.
 		/// </summary>
-		/// 
-		/// <param name="pageNumber">The page number.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		public PaginationParameters(int pageNumber, int pageSize)
-		{
-			this.PageNumber = pageNumber;
-			this.PageSize = pageSize;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PaginationParameters"/> class.
-		/// </summary>
-		public PaginationParameters()
+		protected PaginationParameters()
 		{
 			this.PageNumber = 1;
 			this.PageSize = 10;

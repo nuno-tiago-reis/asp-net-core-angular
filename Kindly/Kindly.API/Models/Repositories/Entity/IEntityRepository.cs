@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Kindly.API.Contracts;
 
 namespace Kindly.API.Models.Repositories
 {
-	public interface IEntityRepository<T> where T : class
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	public interface IEntityRepository<T, in P> where T : class where P : PaginationParameters
 	{
 		/// <summary>
 		/// Creates the specified entity.
@@ -46,6 +48,6 @@ namespace Kindly.API.Models.Repositories
 		/// </summary>
 		/// 
 		/// <param name="parameters">The parameters.</param>
-		Task<PagedList<T>> GetAll(PaginationParameters parameters);
+		Task<PagedList<T>> GetAll(P parameters);
 	}
 }

@@ -55,7 +55,7 @@ namespace Kindly.API
 			services.AddMvc().AddJsonOptions(options =>
 				{
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-					options.SerializerSettings.Converters.Add(new StringEnumConverter());
+					options.SerializerSettings.Converters.Add(new StringEnumConverter(true));
 				})
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

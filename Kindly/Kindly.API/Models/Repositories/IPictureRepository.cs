@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Kindly.API.Contracts.Pictures;
 using Kindly.API.Models.Domain;
 
 namespace Kindly.API.Models.Repositories
 {
-	public interface IPictureRepository : IEntityRepository<Picture>
+	public interface IPictureRepository : IEntityRepository<Picture, PictureParameters>
 	{
 		/// <summary>
 		/// Checks if a pictures belongs to a user.
