@@ -12,7 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ngx modules
-import { TabsModule, BsDatepickerConfig } from 'ngx-bootstrap';
+import { ButtonsModule, TabsModule, BsDatepickerConfig } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { PaginationModule } from 'ngx-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap';
@@ -111,10 +111,11 @@ export function getDatepickerConfig(): BsDatepickerConfig
 
 		// ngx
 		TabsModule.forRoot(),
-		NgxGalleryModule,
+		ButtonsModule.forRoot(),
 		PaginationModule.forRoot(),
 		BsDropdownModule.forRoot(),
 		BsDatepickerModule.forRoot(),
+		NgxGalleryModule,
 
 		// ng2
 		FileUploadModule

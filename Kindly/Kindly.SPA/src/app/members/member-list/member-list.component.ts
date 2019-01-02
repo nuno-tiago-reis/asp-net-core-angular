@@ -93,6 +93,7 @@ export class MemberListComponent implements OnInit
 			gender: 'undefined',
 			minimumAge: 18,
 			maximumAge: 100,
+			orderBy: 'lastActiveAt'
 		};
 
 		switch (this.user.gender)

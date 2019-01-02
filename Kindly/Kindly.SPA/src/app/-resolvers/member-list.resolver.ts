@@ -36,6 +36,7 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 		gender: 'undefined',
 		minimumAge: 18,
 		maximumAge: 100,
+		orderBy: 'lastActiveAt'
 	};
 
 	/**

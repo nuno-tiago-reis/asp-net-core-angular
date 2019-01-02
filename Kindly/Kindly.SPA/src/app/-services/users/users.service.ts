@@ -119,6 +119,7 @@ export class UsersService
 			parameters = parameters.append('gender', filterParameters.gender);
 			parameters = parameters.append('minimumAge', filterParameters.minimumAge.toString());
 			parameters = parameters.append('maximumAge', filterParameters.maximumAge.toString());
+			parameters = parameters.append('orderBy', filterParameters.orderBy);
 		}
 
 		const observable = this.http.get<User[]>(this.baseURL, { observe: 'response', params: parameters }).pipe(map

@@ -7,23 +7,29 @@
 	<div class="text-center mt-3">
 		<form class="form-inline text-center" #form="ngForm" (ngSubmit)="this.getUsers()" novalidate>
 			<div class="form-group">
-				<label for="minAge">Minimum Age:</label>
+				<label for="minAge">Minimum Age </label>
 				<input type="number" class="form-control ml-1" style="width: 70px" id="minimumAge" name="minimumAge" [(ngModel)]="this.filterParameters.minimumAge">
 			</div>
 			<div class="form-group px-2">
-				<label for="maxAge">Maximum Age:</label>
+				<label for="maxAge">Maximum Age </label>
 				<input type="number" class="form-control ml-1" style="width: 70px" id="maximumAge" name="maximumAge" [(ngModel)]="this.filterParameters.maximumAge">
 			</div>
 			<div class="form-group px-2">
-				<label for="gender">Looking For: </label>
+				<label for="gender">Looking For </label>
 				<select class="form-control ml-1" style="width: 130px" id="gender" name="gender" [(ngModel)]="this.filterParameters.gender">
 					<option *ngFor="let genderLabel of this.genderLabels" [value]="genderLabel.value">
 						{{genderLabel.display}}
 					</option>
 				</select>
 			</div>
-			<button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
-			<button type="button" class="btn btn-info" style="margin-left:10px" (click)="this.resetFilter()">Reset Filter</button>
+			<button type="submit" class="btn btn-primary" style="margin-left:10px">Find</button>
+			<button type="button" class="btn btn-info" style="margin-left:10px" (click)="this.resetFilter()">Reset</button>
+			<div class="col">
+				<div class="btn-group float-right">
+					<button type="button" name="orderBy" class="btn btn-primary" btnRadio="lastActiveAt" [(ngModel)]="this.filterParameters.orderBy" (click)="this.getUsers()">Last Active</button>
+					<button type="button" name="orderBy" class="btn btn-primary" btnRadio="createdAt" [(ngModel)]="this.filterParameters.orderBy"  (click)="this.getUsers()">Newest</button>
+				</div>
+			</div>
 		</form>
 	</div>
 

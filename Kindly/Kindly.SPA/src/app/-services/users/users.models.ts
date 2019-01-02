@@ -33,4 +33,5 @@ export interface UserParameters
 	gender: string;
 	minimumAge: number;
 	maximumAge: number;
+	orderBy: string;
 }
