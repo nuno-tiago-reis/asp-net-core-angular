@@ -161,7 +161,10 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<PagedList<User>> GetAll(UserParameters parameters)
 		{
-			var users = this.Context.Users.Include(u => u.Pictures).AsQueryable();
+			var users = this.Context.Users
+				.Include(u => u.Pictures)
+				.OrderByDescending(u => u.LastActiveAt)
+				.AsQueryable();
 
 			if (parameters.Gender.HasValue == false)
 			{
@@ -196,10 +199,26 @@ namespace Kindly.API.Models.Repositories
 				users = users.Where(u => u.BirthDate >= minimumBirthDate);
 			}
 
+			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
+			{
+				if (parameters.OrderBy == nameof(User.CreatedAt).ToLowerCamelCase())
+				{
+					users = users.OrderByDescending(u => u.CreatedAt);
+				}
+				else if (parameters.OrderBy == nameof(User.LastActiveAt).ToLowerCamelCase())
+				{
+					users = users.OrderByDescending(u => u.LastActiveAt);
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+				}
+			}
+
 			users = users.Where(u => u.ID != parameters.UserID);
 			users = users.Where(u => u.Gender == parameters.Gender);
 
-			return await PagedList<User>.CreateAsync(users.OrderBy(u => u.CreatedAt), parameters.PageNumber, parameters.PageSize);
+			return await PagedList<User>.CreateAsync(users, parameters.PageNumber, parameters.PageSize);
 		}
 		#endregion
 

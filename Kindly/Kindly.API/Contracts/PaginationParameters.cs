@@ -46,6 +46,11 @@ namespace Kindly.API.Contracts
 			set { this.pageSize = Math.Clamp(value, MinimumPageSize, MaximumPageSize); }
 
 		}
+
+		/// <summary>
+		/// Gets or sets the order by field name.
+		/// </summary>
+		public string OrderBy { get; set; }
 		#endregion
 
 		/// <summary>

@@ -135,9 +135,21 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<PagedList<Picture>> GetAll(PictureParameters parameters)
 		{
-			var pictures = this.Context.Pictures;
+			var pictures = this.Context.Pictures.OrderByDescending(u => u.AddedAt);
 
-			return await PagedList<Picture>.CreateAsync(pictures.OrderBy(p => p.AddedAt), parameters.PageNumber, parameters.PageSize);
+			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
+			{
+				if (parameters.OrderBy == nameof(Picture.AddedAt).ToLowerCamelCase())
+				{
+					pictures = pictures.OrderByDescending(p => p.AddedAt);
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+				}
+			}
+
+			return await PagedList<Picture>.CreateAsync(pictures, parameters.PageNumber, parameters.PageSize);
 		}
 		#endregion
 
@@ -159,7 +171,10 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<IEnumerable<Picture>> GetByUser(Guid userID)
 		{
-			return await this.Context.Pictures.Where(picture => picture.UserID == userID).ToListAsync();
+			return await this.Context.Pictures
+				.Where(picture => picture.UserID == userID)
+				.OrderByDescending(picture => picture.AddedAt)
+				.ToListAsync();
 		}
 		#endregion
 	}
