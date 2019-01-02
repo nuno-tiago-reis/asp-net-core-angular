@@ -13,7 +13,7 @@ namespace Kindly.API.Migrations
 				table: "Pictures",
 				maxLength: 200,
 				nullable: false,
-				defaultValue: ""
+				defaultValue: null
 			);
 		}
 

@@ -35,7 +35,7 @@ namespace Kindly.API.Contracts.Likes
 		/// </summary>
 		[Required]
 		[DataType(DataType.Date)]
-		[JsonProperty(Order = 6)]
-		public DateTime CreateAt { get; set; }
+		[JsonProperty(Order = 3)]
+		public DateTime CreatedAt { get; set; }
 	}
 }

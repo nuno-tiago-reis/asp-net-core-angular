@@ -9,71 +9,7 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Register-Guest",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"userName\" : \"guest\",\n\t\"phoneNumber\" : \"+351939999999\",\n\t\"emailAddress\" : \"nuno.reis@aitec.pt\",\n\t\"password\" : \"kindly#2018\"\n}"
-						},
-						"url": {
-							"raw": "https://localhost:44351/api/auth/register",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44351",
-							"path": [
-								"api",
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Register-Premium",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"userName\" : \"premium\",\n\t\"phoneNumber\" : \"+351919999999\",\n\t\"emailAddress\" : \"nuno.reis@link.pt\",\n\t\"password\" : \"kindly#2018\"\n}"
-						},
-						"url": {
-							"raw": "https://localhost:44351/api/auth/register",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44351",
-							"path": [
-								"api",
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Register-Moderator",
+					"name": "Register",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -86,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"userName\" : \"moderator\",\n\t\"phoneNumber\" : \"+351969999999\",\n\t\"emailAddress\" : \"nuno.reis@linkconsulting.com\",\n\t\"password\" : \"kindly#2018\"\n}"
+							"raw": "{\n    \"knownAs\": \"Tony Stark\",\n    \"userName\": \"tony-stark\",\n    \"phoneNumber\": \"+3519343232932\",\n    \"emailAddress\": \"nuno-tiago-reis2@outlook.pt\",\n    \"gender\": \"male\",\n    \"birthDate\": \"1970-05-29\",\n    \"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark:”Genius, billionaire, playboy, philanthropist.”\",\n    \"lookingFor\": \"The end game.\",\n    \"interests\": \"Pepper Potts.\",\n    \"city\": \"New York\",\n    \"country\": \"United States of America\",\n    \"password\": \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/register",
@@ -192,7 +128,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\" : \"08e94d9c-0f57-4e90-a143-08d66668316d\",\n\t\"password\" : \"kindly#2018\"\n}"
+							"raw": "{\n\t\"id\" : \"cd111c62-2e3c-488f-2dca-08d6673d2dd9\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/login/id",
@@ -225,7 +161,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"userName\" : \"tiago-reis\",\n\t\"password\" : \"kindly#2018\"\n}"
+							"raw": "{\n\t\"userName\" : \"tony-stark\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/login/user-name",
@@ -370,10 +306,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"knownAs\": \"Tiago Reis\",\n\t\"username\": \"tiago-reis\",\n\t\"emailAddress\" : \"nuno-tiago-reis@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1991-12-08\",\n\t\"introduction\": \"Quis nisi mollit enim ad est exercitation eiusmod aute elit esse consectetur consequat officia. Nostrud et aute aliquip cillum dolore duis elit id mollit. In esse laborum id enim cupidatat qui pariatur fugiat tempor culpa. Aute commodo commodo dolore commodo. Duis cupidatat minim consectetur consequat qui ad ut fugiat voluptate ipsum excepteur tempor consectetur excepteur.\",\n\t\"lookingFor\": \"Tempor nisi esse nulla nostrud sunt Lorem anim laboris incididunt cillum do minim.\",\n\t\"interests\": \"Proident veniam voluptate est laboris ex.\",\n\t\"city\": \"Lisboa\",\n\t\"country\": \"Portugal\"\n}"
+							"raw": "{\n\t\"knownAs\": \"Tony Stark\",\n\t\"username\": \"tony-stark\",\n\t\"emailAddress\" : \"nuno-tiago-reis@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1970-05-29\",\n\t\"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark: ”Genius, billionaire, playboy, philanthropist.”\",\n\t\"lookingFor\": \"The end game.\",\n\t\"interests\": \"Pepper Potts.\",\n\t\"city\": \"New York\",\n\t\"country\": \"United States of America\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/08e94d9c-0f57-4e90-a143-08d66668316d",
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -382,7 +318,7 @@
 							"path": [
 								"api",
 								"users",
-								"08e94d9c-0f57-4e90-a143-08d66668316d"
+								"725416c8-7762-42c6-6938-08d670d3b5b3"
 							]
 						}
 					},
@@ -404,7 +340,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/999b4045-19e9-419b-6356-08d66663f760",
+							"raw": "https://localhost:44351/api/users/a2fd22ba-a39e-46c6-6939-08d670d3b5b3",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -413,7 +349,7 @@
 							"path": [
 								"api",
 								"users",
-								"999b4045-19e9-419b-6356-08d66663f760"
+								"a2fd22ba-a39e-46c6-6939-08d670d3b5b3"
 							]
 						}
 					},
@@ -435,7 +371,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/999b4045-19e9-419b-6356-08d66663f760",
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -444,7 +380,7 @@
 							"path": [
 								"api",
 								"users",
-								"999b4045-19e9-419b-6356-08d66663f760"
+								"725416c8-7762-42c6-6938-08d670d3b5b3"
 							]
 						}
 					},
@@ -466,7 +402,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users",
+							"raw": "https://localhost:44351/api/users?pageNumber=1&pageSize=10",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -478,9 +414,12 @@
 							],
 							"query": [
 								{
-									"key": "Authorization",
-									"value": "",
-									"disabled": true
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
 								}
 							]
 						}
@@ -510,11 +449,22 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"url\": \"https://randomuser.me/api/portraits/men/57.jpg\",\n    \"description\": \"Culpa et esse enim officia ut dolore qui ullamco minim pariatur anim enim in.\",\n    \"isProfilePicture\": false,\n    \"userID\": \"08e94d9c-0f57-4e90-a143-08d66668316d\"\n}"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "File",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "Description",
+									"value": "My fifth picture.",
+									"type": "text"
+								}
+							]
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/pictures",
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -522,6 +472,8 @@
 							"port": "44351",
 							"path": [
 								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
 								"pictures"
 							]
 						}
@@ -547,10 +499,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"url\": \"https://randomuser.me/api/portraits/men/57.jpg2\",\n    \"description\": \"Culpa et esse enim officia ut dolore qui ullamco minim pariatur anim enim in.2\",\n    \"isProfilePicture\": true,\n    \"userID\": \"08e94d9c-0f57-4e90-a143-08d66668316d\"\n}"
+							"raw": "{\n    \"isProfilePicture\": true\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/pictures/",
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures/9b979870-9d90-4adf-5ed8-08d670d4f869",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -558,8 +510,10 @@
 							"port": "44351",
 							"path": [
 								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
 								"pictures",
-								""
+								"9b979870-9d90-4adf-5ed8-08d670d4f869"
 							]
 						}
 					},
@@ -581,7 +535,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/pictures/bc4fa689-666e-442c-217c-08d666684bde",
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures/6b18920e-5d79-4d4a-5ed5-08d670d4f869",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -589,8 +543,10 @@
 							"port": "44351",
 							"path": [
 								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
 								"pictures",
-								"bc4fa689-666e-442c-217c-08d666684bde"
+								"6b18920e-5d79-4d4a-5ed5-08d670d4f869"
 							]
 						}
 					},
@@ -612,7 +568,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/pictures/bc4fa689-666e-442c-217c-08d666684bde",
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures/9b979870-9d90-4adf-5ed8-08d670d4f869",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -620,8 +576,10 @@
 							"port": "44351",
 							"path": [
 								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
 								"pictures",
-								"bc4fa689-666e-442c-217c-08d666684bde"
+								"9b979870-9d90-4adf-5ed8-08d670d4f869"
 							]
 						}
 					},
@@ -643,7 +601,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/pictures",
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -651,7 +609,196 @@
 							"port": "44351",
 							"path": [
 								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
 								"pictures"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Likes",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"targetID\": \"358e16a0-3255-4f42-48f9-08d670d3354b\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"isProfilePicture\": true\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes/2f8ce511-fd59-4b1d-cbac-08d670d5d00a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"likes",
+								"2f8ce511-fd59-4b1d-cbac-08d670d5d00a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes/51745861-0009-4eac-cbaa-08d670d5d00a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"likes",
+								"51745861-0009-4eac-cbaa-08d670d5d00a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes/51745861-0009-4eac-cbaa-08d670d5d00a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"likes",
+								"51745861-0009-4eac-cbaa-08d670d5d00a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"likes"
 							],
 							"query": [
 								{

@@ -22,18 +22,20 @@ namespace Kindly.API.Utility
 
 			if (resultContext.HttpContext.User.HasClaim(claim => claim.Type == UserIdClaim))
 			{
-				// Fetch the repository
+				// Fetch the user
 				var repository = resultContext.HttpContext.RequestServices.GetService<IUserRepository>();
-
-				// Fetch the user 
 				var userID = Guid.Parse(resultContext.HttpContext.User.FindFirst(UserIdClaim).Value);
-
-				// Update the last active field
 				var user = await repository.Get(userID);
-				user.LastActiveAt = DateTime.Now;
 
-				// Update the user
-				await repository.Update(user);
+				if (user != null)
+				{
+					// Update the last active field
+					user.LastActiveAt = DateTime.Now;
+
+					// Update the user
+					await repository.Update(user);
+				}
+
 			}
 		}
 	}
