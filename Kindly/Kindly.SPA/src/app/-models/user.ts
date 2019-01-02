@@ -1,3 +1,4 @@
+import { Like } from './like';
 import { Picture } from './picture';
 
 export interface User
@@ -16,6 +17,8 @@ export interface User
 	interests?: string;
 	profilePictureUrl?: string;
 	pictures?: Picture[];
+	likeTargets: Like[];
+	likeSources: Like[];
 	createdAt: Date;
 	lastActiveAt: Date;
 }

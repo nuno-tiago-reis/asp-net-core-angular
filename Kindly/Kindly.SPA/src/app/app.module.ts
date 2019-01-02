@@ -12,11 +12,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ngx modules
-import { ButtonsModule, TabsModule, BsDatepickerConfig } from 'ngx-bootstrap';
-import { NgxGalleryModule } from 'ngx-gallery';
+import { TabsModule } from 'ngx-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 // ng2 modules
 import { FileUploadModule } from 'ng2-file-upload';
@@ -30,6 +32,8 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 // services
 import { AuthService } from './-services/auth/auth.service';
 import { UsersService } from './-services/users/users.service';
+import { LikesService } from './-services/likes/likes.service';
+import { PicturesService } from './-services/pictures/pictures.service';
 import { AlertifyService } from './-services/alertify/alertify.service';
 import { ServiceInterceptorProvider } from './-services/http.interceptor';
 
@@ -129,6 +133,8 @@ export function getDatepickerConfig(): BsDatepickerConfig
 		// services
 		AuthService,
 		UsersService,
+		LikesService,
+		PicturesService,
 		AlertifyService,
 
 		// resolvers

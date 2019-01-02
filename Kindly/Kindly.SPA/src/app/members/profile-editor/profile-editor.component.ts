@@ -113,7 +113,7 @@ export class ProfileEditorComponent implements OnInit
 				},
 				(error) =>
 				{
-					this.alertify.error('There was an error updating the profile.');
+					this.alertify.error(error);
 				},
 			);
 		}

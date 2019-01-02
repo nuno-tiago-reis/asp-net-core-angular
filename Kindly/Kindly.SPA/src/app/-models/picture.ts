@@ -2,8 +2,9 @@ export interface Picture
 {
 	id: string;
 	url: string;
+	publicID: string;
 	description: string;
 	isProfilePicture: boolean;
-	addedAt: Date;
+	createdAt: Date;
 	userID: string;
 }

@@ -82,7 +82,8 @@ export class PictureEditorComponent implements OnInit
 				{
 					id: result.id,
 					url: result.url,
-					addedAt: result.addedAt,
+					publicID: result.publicID,
+					createdAt: result.createdAt,
 					description: result.description,
 					isProfilePicture: result.isProfilePicture,
 					userID: result.userID
@@ -103,7 +104,7 @@ export class PictureEditorComponent implements OnInit
 		this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) =>
 		{
 			// console.error(`An error occured uploading ${item.file.name}: ${response}`);
-			this.alertify.error(`An error occured uploading ${item.file.name}.`);
+			this.alertify.error(response);
 		};
 	}
 
@@ -143,7 +144,7 @@ export class PictureEditorComponent implements OnInit
 			},
 			(error) =>
 			{
-				this.alertify.error('There was an error setting the profile picture.');
+				this.alertify.error(error);
 			}
 		);
 	}
@@ -165,7 +166,7 @@ export class PictureEditorComponent implements OnInit
 				},
 				(error) =>
 				{
-					this.alertify.error('There was an error deleting the picture.');
+					this.alertify.error(error);
 				}
 			);
 		},

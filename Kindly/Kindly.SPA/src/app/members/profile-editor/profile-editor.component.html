@@ -1,145 +1,145 @@
 <div class="container mt-5">
-	<div class="row">
-		<div class="col-sm-4 text-center">
-			<h1>Your Profile</h1>
-		</div>
-		<div class="col-sm-8">
-			<div *ngIf="this.contactsForm.dirty || this.profileForm.dirty" class="alert alert-info">
-				<strong>Information:</strong><br>You have unsaved changes. Any unsaved changes will be lost if you navigate to another page.
+		<div class="row">
+			<div class="col-sm-4 text-center">
+				<h1>Your Profile</h1>
 			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-4">
-			<div class="card">
-				<img class="card-img-top img-thumbnail" src="{{this.profilePictureUrl}}" alt="{{this.user.knownAs}}" />
-				<div class="card-body">
-					<div>
-						<strong>Location:</strong>
-						<p>{{this.user.city}}, {{this.user.country}}</p>
-					</div>
-					<div>
-						<strong>Age:</strong>
-						<p>{{this.user.age}}</p>
-					</div>
-					<div>
-						<strong>Last Active:</strong>
-						<p>{{this.user.lastActiveAt | timeAgo}}</p>
-					</div>
-					<div>
-						<strong>Member Since:</strong>
-						<p>{{this.user.createdAt | date: 'dd MMMM yyyy'}}</p>
-					</div>
-				</div>
-				<div class="card-footer">
-					<button
-						class="btn btn-success btn-block w-200" (click)="this.updateUser()"
-						[disabled]="(this.contactsForm.pristine || !this.contactsForm.valid) && (this.profileForm.pristine || !this.profileForm.valid)">
-						Save Changes
-					</button>
+			<div class="col-sm-8">
+				<div *ngIf="this.contactsForm.dirty || this.profileForm.dirty" class="alert alert-info">
+					<strong>Information:</strong><br>You have unsaved changes. Any unsaved changes will be lost if you navigate to another page.
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-8">
-			<div class="tab-panel">
-				<tabset class="member-tabset">
-					<tab heading="Edit Contacts">
-							<form id="contactsForm" #contactsForm="ngForm">
-								<h4 class="mt-2">Phone Number:</h4>
-								<input
-									class="form-control ml-2"
-									type="text" name="phoneNumber"
-									#phoneNumber="ngModel" ngControl="phoneNumber"
-									[(ngModel)]="this.user.phoneNumber" [ngClass]="{ 'is-invalid': phoneNumber.touched && phoneNumber.errors }"
-									pattern="\+?[0-9]{9,15}" required [maxLength]=15>
-								<div class="invalid-feedback" *ngIf="contactsForm.touched && phoneNumber.errors?.pattern">Not a valid phone number</div>
-								<div class="invalid-feedback" *ngIf="contactsForm.touched && phoneNumber.errors?.required">The phone number field is required</div>
-								<div class="invalid-feedback" *ngIf="contactsForm.touched && phoneNumber.errors?.maxlength">The phone number field cannot have more than 15 characters</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="card">
+					<img class="card-img-top img-thumbnail" src="{{this.profilePictureUrl}}" alt="{{this.user.knownAs}}" />
+					<div class="card-body">
+						<div>
+							<strong>Location:</strong>
+							<p>{{this.user.city}}, {{this.user.country}}</p>
+						</div>
+						<div>
+							<strong>Age:</strong>
+							<p>{{this.user.age}}</p>
+						</div>
+						<div>
+							<strong>Last Active:</strong>
+							<p>{{this.user.lastActiveAt | timeAgo}}</p>
+						</div>
+						<div>
+							<strong>Member Since:</strong>
+							<p>{{this.user.createdAt | date: 'dd MMMM yyyy'}}</p>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button
+							class="btn btn-success btn-block w-200" (click)="this.updateUser()"
+							[disabled]="(this.contactsForm.pristine || !this.contactsForm.valid) && (this.profileForm.pristine || !this.profileForm.valid)">
+							Save Changes
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class="tab-panel">
+					<tabset class="member-tabset">
+						<tab heading="Edit Contacts">
+								<form id="contactsForm" #contactsForm="ngForm">
+									<h4 class="mt-2">Phone Number:</h4>
+									<input
+										class="form-control ml-2"
+										type="text" name="phoneNumber"
+										#phoneNumber="ngModel" ngControl="phoneNumber"
+										[(ngModel)]="this.user.phoneNumber" [ngClass]="{ 'is-invalid': phoneNumber.touched && phoneNumber.errors }"
+										pattern="\+?[0-9]{9,15}" required [maxLength]=15>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && phoneNumber.errors?.pattern">Not a valid phone number</div>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && phoneNumber.errors?.required">The phone number field is required</div>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && phoneNumber.errors?.maxlength">The phone number field cannot have more than 15 characters</div>
 
-								<h4 class="mt-2">Email Address:</h4>
+									<h4 class="mt-2">Email Address:</h4>
+									<input
+										class="form-control ml-2"
+										type="text"
+										name="emailAddress"
+										#emailAddress="ngModel" ngControl="emailAddress"
+										[(ngModel)]="this.user.emailAddress" [ngClass]="{ 'is-invalid': emailAddress.touched && emailAddress.errors }"
+										email required [maxLength]=254>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.email">Not a valid email address</div>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.required">The email address field is required</div>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.maxlength">The email address field cannot have more than 254 characters</div>
+									</form>
+						</tab>
+						<tab heading="Edit Profile">
+							<form id="profileForm" #profileForm="ngForm">
+								<h4 class="mt-2">Known As:</h4>
 								<input
 									class="form-control ml-2"
-									type="text"
-									name="emailAddress"
-									#emailAddress="ngModel" ngControl="emailAddress"
-									[(ngModel)]="this.user.emailAddress" [ngClass]="{ 'is-invalid': emailAddress.touched && emailAddress.errors }"
-									email required [maxLength]=254>
-								<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.email">Not a valid email address</div>
-								<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.required">The email address field is required</div>
-								<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.maxlength">The email address field cannot have more than 254 characters</div>
+									type="text" name="knownAs"
+									ngControl="knownAs" #knownAs="ngModel"
+									[(ngModel)]="this.user.knownAs" [ngClass]="{ 'is-invalid': knownAs.touched && knownAs.errors }"
+									[maxLength]=25>
+								<div class="invalid-feedback" *ngIf="profileForm.touched && knownAs.errors?.required">The known as field is required</div>
+								<div class="invalid-feedback" *ngIf="profileForm.touched && knownAs.errors?.maxlength">The known as field cannot have more than 25 characters</div>
+
+								<h4 class="mt-2">Description:</h4>
+								<textarea
+									name="introduction" rows="6"
+									class="form-control"
+									ngControl="introduction" #introduction="ngModel"
+									[(ngModel)]="this.user.introduction" [ngClass]="{ 'is-invalid': introduction.touched && introduction.errors }"
+									[maxLength]=500>{{this.user.introduction}}
+								</textarea>
+								<div class="invalid-feedback" *ngIf="profileForm.touched && introduction.errors?.maxlength">The introduction field cannot have more than 500 characters</div>
+
+								<h4 class="mt-2">Looking For:</h4>
+								<textarea
+									name="lookingFor" rows="6"
+									class="form-control"
+									ngControl="lookingFor" #lookingFor="ngModel"
+									[(ngModel)]="this.user.lookingFor" [ngClass]="{ 'is-invalid': lookingFor.touched && lookingFor.errors }"
+									[maxLength]=250>{{this.user.lookingFor}}
+								</textarea>
+								<div class="invalid-feedback" *ngIf="profileForm.touched && lookingFor.errors?.maxlength">The lookin for field cannot have more than 250 characters</div>
+
+								<h4 class="mt-2">Interests:</h4>
+								<textarea
+									name="interests" rows="6"
+									class="form-control"
+									ngControl="interests" #interests="ngModel"
+									[(ngModel)]="this.user.interests" [ngClass]="{ 'is-invalid': interests.touched && interests.errors }"
+									[maxLength]=250>{{this.user.interests}}
+								</textarea>
+								<div class="invalid-feedback" *ngIf="profileForm.touched && interests.errors?.maxlength">The interests field cannot have more than 250 characters</div>
+
+								<h4 class="mt-2">Location:</h4>
+								<div class="form-inline">
+									<label class="ml-2" for="city">City</label>
+									<input
+										class="form-control ml-2"
+										type="text" name="city"
+										ngControl="city" #city="ngModel"
+										[(ngModel)]="this.user.city" [ngClass]="{ 'is-invalid': city.touched && city.errors }"
+										required [maxLength]=50>
+									<div class="invalid-feedback" *ngIf="profileForm.touched && city.errors?.required">The country field is required</div>
+									<div class="invalid-feedback" *ngIf="profileForm.touched && city.errors?.maxlength">The country field cannot have more than 50 characters</div>
+
+									<label class="ml-2" for="country">Country</label>
+									<input
+										class="form-control ml-2"
+										type="text" name="country"
+										ngControl="country" #country="ngModel"
+										[(ngModel)]="this.user.country" [ngClass]="{ 'is-invalid': country.touched && country.errors }"
+										required [maxLength]=50>
+									<div class="invalid-feedback" *ngIf="profileForm.touched && country.errors?.required">The country field is required</div>
+									<div class="invalid-feedback" *ngIf="profileForm.touched && country.errors?.maxlength">The country field cannot have more than 50 characters</div>
+								</div>
 							</form>
-					</tab>
-					<tab heading="Edit Profile">
-						<form id="profileForm" #profileForm="ngForm">
-							<h4 class="mt-2">Known As:</h4>
-							<input
-								class="form-control ml-2"
-								type="text" name="knownAs"
-								ngControl="knownAs" #knownAs="ngModel"
-								[(ngModel)]="this.user.knownAs" [ngClass]="{ 'is-invalid': knownAs.touched && knownAs.errors }"
-								[maxLength]=25>
-							<div class="invalid-feedback" *ngIf="profileForm.touched && knownAs.errors?.required">The known as field is required</div>
-							<div class="invalid-feedback" *ngIf="profileForm.touched && knownAs.errors?.maxlength">The known as field cannot have more than 25 characters</div>
-
-							<h4 class="mt-2">Description:</h4>
-							<textarea
-								name="introduction" rows="6"
-								class="form-control"
-								ngControl="introduction" #introduction="ngModel"
-								[(ngModel)]="this.user.introduction" [ngClass]="{ 'is-invalid': introduction.touched && introduction.errors }"
-								[maxLength]=500>{{this.user.introduction}}
-							</textarea>
-							<div class="invalid-feedback" *ngIf="profileForm.touched && introduction.errors?.maxlength">The introduction field cannot have more than 500 characters</div>
-
-							<h4 class="mt-2">Looking For:</h4>
-							<textarea
-								name="lookingFor" rows="6"
-								class="form-control"
-								ngControl="lookingFor" #lookingFor="ngModel"
-								[(ngModel)]="this.user.lookingFor" [ngClass]="{ 'is-invalid': lookingFor.touched && lookingFor.errors }"
-								[maxLength]=250>{{this.user.lookingFor}}
-							</textarea>
-							<div class="invalid-feedback" *ngIf="profileForm.touched && lookingFor.errors?.maxlength">The lookin for field cannot have more than 250 characters</div>
-
-							<h4 class="mt-2">Interests:</h4>
-							<textarea
-								name="interests" rows="6"
-								class="form-control"
-								ngControl="interests" #interests="ngModel"
-								[(ngModel)]="this.user.interests" [ngClass]="{ 'is-invalid': interests.touched && interests.errors }"
-								[maxLength]=250>{{this.user.interests}}
-							</textarea>
-							<div class="invalid-feedback" *ngIf="profileForm.touched && interests.errors?.maxlength">The interests field cannot have more than 250 characters</div>
-
-							<h4 class="mt-2">Location:</h4>
-							<div class="form-inline">
-								<label class="ml-2" for="city">City</label>
-								<input
-									class="form-control ml-2"
-									type="text" name="city"
-									ngControl="city" #city="ngModel"
-									[(ngModel)]="this.user.city" [ngClass]="{ 'is-invalid': city.touched && city.errors }"
-									required [maxLength]=50>
-								<div class="invalid-feedback" *ngIf="profileForm.touched && city.errors?.required">The country field is required</div>
-								<div class="invalid-feedback" *ngIf="profileForm.touched && city.errors?.maxlength">The country field cannot have more than 50 characters</div>
-
-								<label class="ml-2" for="country">Country</label>
-								<input
-									class="form-control ml-2"
-									type="text" name="country"
-									ngControl="country" #country="ngModel"
-									[(ngModel)]="this.user.country" [ngClass]="{ 'is-invalid': country.touched && country.errors }"
-									required [maxLength]=50>
-								<div class="invalid-feedback" *ngIf="profileForm.touched && country.errors?.required">The country field is required</div>
-								<div class="invalid-feedback" *ngIf="profileForm.touched && country.errors?.maxlength">The country field cannot have more than 50 characters</div>
-							</div>
-						</form>
-					</tab>
-					<tab heading="Edit Pictures">
-						<app-picture-editor [pictures]="this.user.pictures"></app-picture-editor>
-					</tab>
-				</tabset>
+						</tab>
+						<tab heading="Edit Pictures">
+							<app-picture-editor [pictures]="this.user.pictures"></app-picture-editor>
+						</tab>
+					</tabset>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
