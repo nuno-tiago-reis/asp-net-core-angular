@@ -38,9 +38,9 @@ namespace Kindly.API.Models.Domain
 		public string Description { get; set; }
 
 		/// <summary>
-		/// Gets or sets the added at.
+		/// Gets or sets the date at which the picture was created.
 		/// </summary>
-		public DateTime AddedAt { get; set; }
+		public DateTime CreatedAt { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is the profile picture.

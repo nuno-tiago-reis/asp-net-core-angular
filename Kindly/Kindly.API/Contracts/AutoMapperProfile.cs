@@ -3,6 +3,7 @@
 using AutoMapper;
 
 using Kindly.API.Contracts.Auth;
+using Kindly.API.Contracts.Likes;
 using Kindly.API.Contracts.Pictures;
 using Kindly.API.Contracts.Users;
 using Kindly.API.Models.Domain;
@@ -20,6 +21,7 @@ namespace Kindly.API.Contracts
 		/// </summary>
 		public AutoMapperProfile()
 		{
+			// Users
 			this.CreateMap<UserDto, User>();
 			this.CreateMap<User, UserDto>()
 				.ForMember
@@ -56,14 +58,19 @@ namespace Kindly.API.Contracts
 			this.CreateMap<CreateUserDto, User>();
 			this.CreateMap<UpdateUserDto, User>();
 
+			// Pictures
 			this.CreateMap<PictureDto, Picture>();
 			this.CreateMap<Picture, PictureDto>();
 
-			this.CreateMap<PictureDetailedDto, Picture>();
-			this.CreateMap<Picture, PictureDetailedDto>();
-
 			this.CreateMap<CreatePictureDto, Picture>();
 			this.CreateMap<UpdatePictureDto, Picture>();
+
+			// Likes
+			this.CreateMap<LikeDto, Like>();
+			this.CreateMap<Like, LikeDto>();
+
+			this.CreateMap<CreateLikeDto, Like>();
+			this.CreateMap<UpdateLikeDto, Like>();
 		}
 	}
 }

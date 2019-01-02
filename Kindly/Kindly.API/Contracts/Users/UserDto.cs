@@ -15,7 +15,6 @@ namespace Kindly.API.Contracts.Users
 		/// Gets or sets the user identifier.
 		/// </summary>
 		[Required]
-		[DataType(DataType.Text)]
 		[JsonProperty(Order = 1)]
 		public Guid ID { get; set; }
 

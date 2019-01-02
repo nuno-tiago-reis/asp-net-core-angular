@@ -10,7 +10,7 @@ namespace Kindly.API.Models.Repositories
 	public interface IPictureRepository : IEntityRepository<Picture, PictureParameters>
 	{
 		/// <summary>
-		/// Checks if a pictures belongs to a user.
+		/// Checks if a picture belongs to a user.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -18,7 +18,7 @@ namespace Kindly.API.Models.Repositories
 		Task<bool> PictureBelongsToUser(Guid userID, Guid pictureID);
 
 		/// <summary>
-		/// Gets a picture by user id.
+		/// Gets pictures by user id.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>

@@ -73,6 +73,7 @@ namespace Kindly.API.Models.Repositories
 
 			// Create
 			this.Context.Add(user);
+
 			await this.Context.SaveChangesAsync();
 
 			return user;
@@ -135,12 +136,13 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task Delete(Guid userID)
 		{
-			var databaseUser = await this.Context.Users.FindAsync(userID);
-			if (databaseUser == null)
+			var user = await this.Context.Users.FindAsync(userID);
+			if (user == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
 			// Delete
-			this.Context.Users.Remove(databaseUser);
+			this.Context.Users.Remove(user);
+
 			await this.Context.SaveChangesAsync();
 		}
 
@@ -149,13 +151,19 @@ namespace Kindly.API.Models.Repositories
 		{
 			return await this.Context.Users
 				.Include(user => user.Pictures)
+				.Include(user => user.LikeTargets)
+				.Include(user => user.LikeSources)
 				.SingleOrDefaultAsync(user => user.ID == userID);
 		}
 
 		/// <inheritdoc />
 		public async Task<IEnumerable<User>> GetAll()
 		{
-			return await this.Context.Users.Include(user => user.Pictures).ToListAsync();
+			return await this.Context.Users
+				.Include(user => user.Pictures)
+				.Include(user => user.LikeTargets)
+				.Include(user => user.LikeSources)
+				.ToListAsync();
 		}
 
 		/// <inheritdoc />
@@ -226,41 +234,41 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<User> LoginWithID(Guid userID, string password)
 		{
-			var databaseUser = await this.Get(userID);
+			var user = await this.Get(userID);
 
-			await this.Login(databaseUser, password);
+			await this.Login(user, password);
 
-			return databaseUser;
+			return user;
 		}
 
 		/// <inheritdoc />
 		public async Task<User> LoginWithUserName(string userName, string password)
 		{
-			var databaseUser = await this.GetByUserName(userName);
+			var user = await this.GetByUserName(userName);
 
-			await this.Login(databaseUser, password);
+			await this.Login(user, password);
 
-			return databaseUser;
+			return user;
 		}
 
 		/// <inheritdoc />
 		public async Task<User> LoginWithPhoneNumber(string phoneNumber, string password)
 		{
-			var databaseUser = await this.GetByPhoneNumber(phoneNumber);
+			var user = await this.GetByPhoneNumber(phoneNumber);
 
-			await this.Login(databaseUser, password);
+			await this.Login(user, password);
 
-			return databaseUser;
+			return user;
 		}
 
 		/// <inheritdoc />
 		public async Task<User> LoginWithEmailAddress(string emailAddress, string password)
 		{
-			var databaseUser = await this.GetByEmailAddress(emailAddress);
+			var user = await this.GetByEmailAddress(emailAddress);
 
-			await this.Login(databaseUser, password);
+			await this.Login(user, password);
 
-			return databaseUser;
+			return user;
 		}
 
 		/// <inheritdoc />
@@ -296,37 +304,37 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<bool> UserNameExists(string userName)
 		{
-			return await this.Context.Users.AnyAsync(user => user.UserName == userName);
+			return await this.Context.Users.AnyAsync(u => u.UserName == userName);
 		}
 
 		/// <inheritdoc />
 		public async Task<bool> PhoneNumberExists(string phoneNumber)
 		{
-			return await this.Context.Users.AnyAsync(user => user.PhoneNumber == phoneNumber);
+			return await this.Context.Users.AnyAsync(u => u.PhoneNumber == phoneNumber);
 		}
 
 		/// <inheritdoc />
 		public async Task<bool> EmailAddressExists(string emailAddress)
 		{
-			return await this.Context.Users.AnyAsync(user => user.EmailAddress == emailAddress);
+			return await this.Context.Users.AnyAsync(u => u.EmailAddress == emailAddress);
 		}
 
 		/// <inheritdoc />
 		public async Task<User> GetByUserName(string userName)
 		{
-			return await this.Context.Users.SingleOrDefaultAsync(user => user.UserName == userName);
+			return await this.Context.Users.SingleOrDefaultAsync(u => u.UserName == userName);
 		}
 
 		/// <inheritdoc />
 		public async Task<User> GetByPhoneNumber(string phoneNumber)
 		{
-			return await this.Context.Users.SingleOrDefaultAsync(user => user.PhoneNumber == phoneNumber);
+			return await this.Context.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
 		}
 
 		/// <inheritdoc />
 		public async Task<User> GetByEmailAddress(string emailAddress)
 		{
-			return await this.Context.Users.SingleOrDefaultAsync(user => user.EmailAddress == emailAddress);
+			return await this.Context.Users.SingleOrDefaultAsync(u => u.EmailAddress == emailAddress);
 		}
 		#endregion
 

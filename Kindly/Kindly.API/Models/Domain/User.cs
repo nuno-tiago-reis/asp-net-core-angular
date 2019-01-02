@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using JetBrains.Annotations;
 
 namespace Kindly.API.Models.Domain
 {
-	public enum Gender
-	{
-		[UsedImplicitly] Undefined = 0,
-		[UsedImplicitly] Female = 1,
-		[UsedImplicitly] Male = 2
-	}
-
 	public class User
 	{
 		#region [Constants]
@@ -120,6 +114,23 @@ namespace Kindly.API.Models.Domain
 		/// Gets or sets the last active at date.
 		/// </summary>
 		public DateTime LastActiveAt { get; set; }
+
+		/// <summary>
+		/// Gets or sets the like targets.
+		/// </summary>
+		public ICollection<Like> LikeTargets { get; set; }
+
+		/// <summary>
+		/// Gets or sets the likes sources.
+		/// </summary>
+		public ICollection<Like> LikeSources { get; set; }
 		#endregion
+	}
+
+	public enum Gender
+	{
+		[UsedImplicitly] Undefined = 0,
+		[UsedImplicitly] Female = 1,
+		[UsedImplicitly] Male = 2
 	}
 }

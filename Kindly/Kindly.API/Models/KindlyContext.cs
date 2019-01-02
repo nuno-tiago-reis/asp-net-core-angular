@@ -13,6 +13,11 @@ namespace Kindly.API.Models
 		public DbSet<User> Users { get; set; }
 
 		/// <summary>
+		/// The likes.
+		/// </summary>
+		public DbSet<Like> Likes { get; set; }
+
+		/// <summary>
 		/// The pictures.
 		/// </summary>
 		public DbSet<Picture> Pictures { get; set; }
@@ -31,6 +36,7 @@ namespace Kindly.API.Models
 			base.OnModelCreating(builder);
 
 			builder.ApplyConfiguration(new UserConfiguration());
+			builder.ApplyConfiguration(new LikesConfiguration());
 			builder.ApplyConfiguration(new PictureConfiguration());
 		}
 	}

@@ -42,7 +42,6 @@ namespace Kindly.API.Contracts.Users
 		/// Gets or sets the gender.
 		/// </summary>
 		[Required]
-		
 		[DataType(DataType.Text)]
 		public Gender Gender { get; set; }
 

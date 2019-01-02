@@ -66,16 +66,16 @@ namespace Kindly.API.Controllers
 		/// Updates the specified user.
 		/// </summary>
 		/// 
-		/// <param name="id">The user identifier.</param>
+		/// <param name="userID">The user identifier.</param>
 		/// <param name="updateUserInfo">The update information.</param>
-		[HttpPut("{id:Guid}")]
-		public async Task<IActionResult> Update(Guid id, UpdateUserDto updateUserInfo)
+		[HttpPut("{userID:Guid}")]
+		public async Task<IActionResult> Update(Guid userID, UpdateUserDto updateUserInfo)
 		{
-			if (id != this.GetInvocationUserID())
+			if (userID != this.GetInvocationUserID())
 				return this.Unauthorized();
 
 			var user = Mapper.Map<User>(updateUserInfo);
-			user.ID = id;
+			user.ID = userID;
 
 			await this.Repository.Update(user);
 
@@ -86,14 +86,14 @@ namespace Kindly.API.Controllers
 		/// Deletes a user.
 		/// </summary>
 		/// 
-		/// <param name="id">The user identifier.</param>
-		[HttpDelete("{id:Guid}")]
-		public async Task<IActionResult> Delete(Guid id)
+		/// <param name="userID">The user identifier.</param>
+		[HttpDelete("{userID:Guid}")]
+		public async Task<IActionResult> Delete(Guid userID)
 		{
-			if (id != this.GetInvocationUserID())
+			if (userID != this.GetInvocationUserID())
 				return this.Unauthorized();
 
-			await this.Repository.Delete(id);
+			await this.Repository.Delete(userID);
 
 			return this.Ok();
 		}
@@ -102,11 +102,11 @@ namespace Kindly.API.Controllers
 		/// Gets a user.
 		/// </summary>
 		/// 
-		/// <param name="id">The user identifier.</param>
-		[HttpGet("{id:Guid}")]
-		public async Task<IActionResult> Get(Guid id)
+		/// <param name="userID">The user identifier.</param>
+		[HttpGet("{userID:Guid}")]
+		public async Task<IActionResult> Get(Guid userID)
 		{
-			var user = await this.Repository.Get(id);
+			var user = await this.Repository.Get(userID);
 			var userDto = this.Mapper.Map<UserDetailedDto>(user);
 
 			return this.Ok(userDto);

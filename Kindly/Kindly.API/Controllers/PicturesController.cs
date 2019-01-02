@@ -14,6 +14,7 @@ using Kindly.API.Utility;
 using Kindly.API.Utility.Configurations;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -77,35 +78,22 @@ namespace Kindly.API.Controllers
 			if (userID != this.GetInvocationUserID())
 				return this.Unauthorized();
 
-			if (createPictureInfo.File == null || createPictureInfo.File.Length <= 0)
-				return this.BadRequest("The picture is empty.");
-
-			// Create the file in cloudinary
-			var file = createPictureInfo.File;
-
-			using (var stream = file.OpenReadStream())
+			try
 			{
-				// Parametrize the cloudinary upload
-				var uploadParameters = new ImageUploadParams
-				{
-					File = new FileDescription(file.Name, stream),
-					Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
-				};
-
-				// Upload the file to cloudinary
-				var uploadResult = this.Cloudinary.Upload(uploadParameters);
-				if (uploadResult.Error != null)
-					return this.BadRequest("There was an error uploading the picture: " + uploadResult.Error.Message);
+				var uploadResult = this.UploadToCloudinary(createPictureInfo.File);
 
 				var picture = this.Mapper.Map<Picture>(createPictureInfo);
 				picture.UserID = userID;
 				picture.Url = uploadResult.Uri.ToString();
 				picture.PublicID = uploadResult.PublicId;
-				picture.Description = string.Empty;
 
 				await this.Repository.Create(picture);
 
 				return this.Created(new Uri($"{this.Request.GetDisplayUrl()}/{picture.ID}"), this.Mapper.Map<PictureDto>(picture));
+			}
+			catch (ArgumentException exception)
+			{
+				return this.BadRequest(exception.Message);
 			}
 		}
 
@@ -120,7 +108,7 @@ namespace Kindly.API.Controllers
 		public async Task<IActionResult> Update(Guid userID, Guid pictureID, UpdatePictureDto updatePictureInfo)
 		{
 			if (userID != this.GetInvocationUserID())
-					return this.Unauthorized();
+				return this.Unauthorized();
 
 			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
 				return this.NotFound();
@@ -149,19 +137,20 @@ namespace Kindly.API.Controllers
 			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
 				return this.NotFound();
 
-			var picture = await this.Repository.Get(pictureID);
-
-			// Delete the file in cloudinary
-			if (string.IsNullOrWhiteSpace(picture.PublicID) == false)
+			try
 			{
-				var deleteResult = this.Cloudinary.Destroy(new DeletionParams(picture.PublicID));
-				if (deleteResult.Error != null)
-					return this.BadRequest("There was an error deleting the picture: " + deleteResult.Error.Message);
+				var picture = await this.Repository.Get(pictureID);
+
+				this.DeleteInCloudinary(picture.PublicID);
+
+				await this.Repository.Delete(pictureID);
+
+				return this.Ok();
 			}
-
-			await this.Repository.Delete(pictureID);
-
-			return this.Ok();
+			catch (ArgumentException exception)
+			{
+				return this.BadRequest(exception.Message);
+			}
 		}
 
 		/// <summary>
@@ -180,7 +169,7 @@ namespace Kindly.API.Controllers
 				return this.NotFound();
 
 			var picture = await this.Repository.Get(pictureID);
-			var pictureDto = this.Mapper.Map<PictureDetailedDto>(picture);
+			var pictureDto = this.Mapper.Map<PictureDto>(picture);
 
 			return this.Ok(pictureDto);
 		}
@@ -197,6 +186,49 @@ namespace Kindly.API.Controllers
 			var pictureDtos = pictures.Select(picture => this.Mapper.Map<PictureDto>(picture));
 
 			return this.Ok(pictureDtos);
+		}
+		#endregion
+
+		#region [Utility Methods]
+		/// <summary>
+		/// Uploads the picture file to cloudinary.
+		/// </summary>
+		/// 
+		/// <param name="file">The file.</param>
+		private ImageUploadResult UploadToCloudinary(IFormFile file)
+		{
+			if (file == null || file.Length <= 0)
+				throw new ArgumentException("The picture is empty.");
+
+			using (var stream = file.OpenReadStream())
+			{
+				var uploadParameters = new ImageUploadParams
+				{
+					File = new FileDescription(file.Name, stream),
+					Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
+				};
+
+				var uploadResult = this.Cloudinary.Upload(uploadParameters);
+				if (uploadResult.Error != null)
+					throw new ArgumentException("There was an error uploading the picture: " + uploadResult.Error.Message);
+
+				return uploadResult;
+			}
+		}
+
+		/// <summary>
+		/// Deletes the picture in cloudinary.
+		/// </summary>
+		/// 
+		/// <param name="publicID">The public id.</param>
+		private void DeleteInCloudinary(string publicID)
+		{
+			if (string.IsNullOrWhiteSpace(publicID))
+				return;
+
+			var deleteResult = this.Cloudinary.Destroy(new DeletionParams(publicID));
+			if (deleteResult.Error != null)
+				throw new ArgumentException("There was an error deleting the picture: " + deleteResult.Error.Message);
 		}
 		#endregion
 	}

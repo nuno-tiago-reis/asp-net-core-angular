@@ -67,6 +67,7 @@ namespace Kindly.API.Models.Repositories
 
 			// Create
 			this.Context.Add(picture);
+
 			await this.Context.SaveChangesAsync();
 
 			return picture;
@@ -109,14 +110,15 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task Delete(Guid pictureID)
 		{
-			var databasePicture = await this.Context.Pictures.FindAsync(pictureID);
-			if (databasePicture == null)
+			var picture = await this.Context.Pictures.FindAsync(pictureID);
+			if (picture == null)
 				throw new KindlyException(Picture.DoesNotExist, true); 
-			if (databasePicture.IsProfilePicture)
+			if (picture.IsProfilePicture)
 				throw new KindlyException(Picture.CannotDeleteTheProfilePicture);
 
 			// Delete
-			this.Context.Pictures.Remove(databasePicture);
+			this.Context.Pictures.Remove(picture);
+
 			await this.Context.SaveChangesAsync();
 		}
 
@@ -135,13 +137,13 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<PagedList<Picture>> GetAll(PictureParameters parameters)
 		{
-			var pictures = this.Context.Pictures.OrderByDescending(u => u.AddedAt);
+			var pictures = this.Context.Pictures.OrderByDescending(u => u.CreatedAt);
 
 			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
 			{
-				if (parameters.OrderBy == nameof(Picture.AddedAt).ToLowerCamelCase())
+				if (parameters.OrderBy == nameof(Picture.CreatedAt).ToLowerCamelCase())
 				{
-					pictures = pictures.OrderByDescending(p => p.AddedAt);
+					pictures = pictures.OrderByDescending(p => p.CreatedAt);
 				}
 				else
 				{
@@ -157,12 +159,12 @@ namespace Kindly.API.Models.Repositories
 		/// <inheritdoc />
 		public async Task<bool> PictureBelongsToUser(Guid userID, Guid pictureID)
 		{
-			var databaseUser = await this.Context.Users.FindAsync(userID);
-			if (databaseUser == null)
+			var user = await this.Context.Users.FindAsync(userID);
+			if (user == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			var databasePicture = await this.Context.Pictures.SingleOrDefaultAsync(picture => picture.ID == pictureID && picture.UserID == userID);
-			if (databasePicture == null)
+			var picture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.ID == pictureID && p.UserID == userID);
+			if (picture == null)
 				throw new KindlyException(Picture.DoesNotExist, true);
 
 			return true;
@@ -173,7 +175,7 @@ namespace Kindly.API.Models.Repositories
 		{
 			return await this.Context.Pictures
 				.Where(picture => picture.UserID == userID)
-				.OrderByDescending(picture => picture.AddedAt)
+				.OrderByDescending(picture => picture.CreatedAt)
 				.ToListAsync();
 		}
 		#endregion

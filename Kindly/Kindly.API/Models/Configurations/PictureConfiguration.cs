@@ -34,7 +34,7 @@ namespace Kindly.API.Models.Configurations
 				.IsRequired()
 				.HasDefaultValue(false);
 
-			builder.Property(user => user.AddedAt)
+			builder.Property(user => user.CreatedAt)
 				.IsRequired()
 				.ValueGeneratedOnAdd()
 				.HasDefaultValueSql("GetUtcDate()");
