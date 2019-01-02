@@ -2,8 +2,7 @@
 
 using Kindly.API.Contracts.Auth;
 using Kindly.API.Contracts.Users;
-using Kindly.API.Models.Domain;
-using Kindly.API.Models.Repositories;
+using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;

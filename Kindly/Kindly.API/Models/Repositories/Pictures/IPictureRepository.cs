@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Kindly.API.Contracts.Pictures;
-using Kindly.API.Models.Domain;
-
-namespace Kindly.API.Models.Repositories
+namespace Kindly.API.Models.Repositories.Pictures
 {
 	public interface IPictureRepository : IEntityRepository<Picture, PictureParameters>
 	{

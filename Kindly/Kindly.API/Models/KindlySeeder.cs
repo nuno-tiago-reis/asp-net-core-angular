@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using Kindly.API.Models.Repositories.Users;
 
 using Newtonsoft.Json;
 
-using Kindly.API.Models.Domain;
-using Kindly.API.Models.Repositories;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Kindly.API.Models
 {

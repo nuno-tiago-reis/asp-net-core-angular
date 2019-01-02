@@ -1,4 +1,4 @@
-﻿namespace Kindly.API.Utility.Configurations
+﻿namespace Kindly.API.Utility.Settings
 {
 	public sealed class CloudinarySettings
 	{

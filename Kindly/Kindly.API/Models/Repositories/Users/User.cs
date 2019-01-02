@@ -1,9 +1,12 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+
+using Kindly.API.Models.Repositories.Likes;
+using Kindly.API.Models.Repositories.Pictures;
+
+using System;
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
-
-namespace Kindly.API.Models.Domain
+namespace Kindly.API.Models.Repositories.Users
 {
 	public class User
 	{

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using Kindly.API.Contracts;
+using Kindly.API.Utility.Collections;
 
 namespace Kindly.API.Models.Repositories
 {

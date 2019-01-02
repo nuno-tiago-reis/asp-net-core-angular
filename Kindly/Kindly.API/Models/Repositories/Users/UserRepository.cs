@@ -7,12 +7,10 @@ using System.Text;
 
 using Microsoft.EntityFrameworkCore;
 
-using Kindly.API.Contracts;
-using Kindly.API.Contracts.Users;
-using Kindly.API.Models.Domain;
 using Kindly.API.Utility;
+using Kindly.API.Utility.Collections;
 
-namespace Kindly.API.Models.Repositories
+namespace Kindly.API.Models.Repositories.Users
 {
 	public sealed class UserRepository : IUserRepository
 	{

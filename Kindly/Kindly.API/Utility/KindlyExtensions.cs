@@ -86,7 +86,6 @@ namespace Kindly.API.Utility
 
 			return (camelCase + value.Substring(camelCase.Length)).Trim();
 		}
-
 		#endregion
 
 		#region [Generic]

@@ -1,4 +1,4 @@
-﻿namespace Kindly.API.Contracts.Likes
+﻿namespace Kindly.API.Models.Repositories.Likes
 {
 	public sealed class LikeParameters : PaginationParameters
 	{

@@ -1,23 +1,22 @@
 ﻿using AutoMapper;
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
 using Kindly.API.Contracts.Pictures;
-using Kindly.API.Models.Domain;
-using Kindly.API.Models.Repositories;
+using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Utility.Settings;
 using Kindly.API.Utility;
-using Kindly.API.Utility.Configurations;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers
 {

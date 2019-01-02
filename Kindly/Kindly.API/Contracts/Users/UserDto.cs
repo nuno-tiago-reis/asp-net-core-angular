@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
-using Kindly.API.Models.Domain;
+﻿using Kindly.API.Models.Repositories.Users;
 
 using Newtonsoft.Json;
+
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Users
 {

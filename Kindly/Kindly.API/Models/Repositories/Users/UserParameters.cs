@@ -1,8 +1,6 @@
 ﻿using System;
 
-using Kindly.API.Models.Domain;
-
-namespace Kindly.API.Contracts.Users
+namespace Kindly.API.Models.Repositories.Users
 {
 	public sealed class UserParameters : PaginationParameters
 	{

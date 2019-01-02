@@ -1,11 +1,9 @@
-﻿using Kindly.API.Models.Domain;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Kindly.API.Models.Configurations
+namespace Kindly.API.Models.Repositories.Likes
 {
-	public sealed class LikesConfiguration : IEntityTypeConfiguration<Like>
+	public sealed class LikeConfiguration : IEntityTypeConfiguration<Like>
 	{
 		/// <inheritdoc />
 		public void Configure(EntityTypeBuilder<Like> builder)
@@ -38,7 +36,7 @@ namespace Kindly.API.Models.Configurations
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder
-				.HasOne(like => like.Target) 
+				.HasOne(like => like.Target)
 				.WithMany(user => user.LikeSources)
 				.HasForeignKey(like => like.TargetID)
 				.OnDelete(DeleteBehavior.Restrict);

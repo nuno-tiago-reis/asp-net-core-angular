@@ -18,8 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Repositories\Likes\" />
-    <Folder Include="Models\Repositories\Pictures\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
-﻿using Kindly.API.Models.Configurations;
-using Kindly.API.Models.Domain;
+﻿using Kindly.API.Models.Repositories.Likes;
+using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Models.Repositories.Users;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +37,7 @@ namespace Kindly.API.Models
 			base.OnModelCreating(builder);
 
 			builder.ApplyConfiguration(new UserConfiguration());
-			builder.ApplyConfiguration(new LikesConfiguration());
+			builder.ApplyConfiguration(new LikeConfiguration());
 			builder.ApplyConfiguration(new PictureConfiguration());
 		}
 	}

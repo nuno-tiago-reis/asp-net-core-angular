@@ -1,15 +1,17 @@
-﻿using System.Linq;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using Kindly.API.Contracts.Auth;
 using Kindly.API.Contracts.Likes;
 using Kindly.API.Contracts.Pictures;
 using Kindly.API.Contracts.Users;
-using Kindly.API.Models.Domain;
+using Kindly.API.Models.Repositories.Likes;
+using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
 
-namespace Kindly.API.Contracts
+using System.Linq;
+
+namespace Kindly.API.Contracts.Settings
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AutoMapperProfile"/> class.

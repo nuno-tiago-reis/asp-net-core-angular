@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+
+using System.Threading.Tasks;
 
 namespace Kindly.API.Utility
 {

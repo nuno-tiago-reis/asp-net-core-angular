@@ -1,8 +1,8 @@
-﻿using System;
-
-using Kindly.API.Utility;
+﻿using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Mvc;
+
+using System;
 
 namespace Kindly.API.Controllers
 {

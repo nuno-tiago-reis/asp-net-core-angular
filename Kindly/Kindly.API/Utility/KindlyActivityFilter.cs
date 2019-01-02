@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Kindly.API.Models.Repositories;
+﻿using Kindly.API.Models.Repositories.Users;
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+
+using System;
+using System.Threading.Tasks;
 
 namespace Kindly.API.Utility
 {

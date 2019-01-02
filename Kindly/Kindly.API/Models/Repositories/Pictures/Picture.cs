@@ -1,6 +1,8 @@
 ﻿using System;
 
-namespace Kindly.API.Models.Domain
+using Kindly.API.Models.Repositories.Users;
+
+namespace Kindly.API.Models.Repositories.Pictures
 {
 	public class Picture
 	{

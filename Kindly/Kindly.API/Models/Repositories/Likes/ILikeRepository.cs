@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Kindly.API.Contracts.Likes;
-using Kindly.API.Models.Domain;
-
-namespace Kindly.API.Models.Repositories
+namespace Kindly.API.Models.Repositories.Likes
 {
 	public interface ILikeRepository : IEntityRepository<Like, LikeParameters>
 	{

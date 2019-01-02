@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Kindly.API.Contracts.Likes;
-using Kindly.API.Models.Domain;
-using Kindly.API.Models.Repositories;
+using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers
 {

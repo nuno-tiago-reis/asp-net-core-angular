@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 
-using System.Text;
-
 using Kindly.API.Models;
-using Kindly.API.Models.Repositories;
+using Kindly.API.Models.Repositories.Likes;
+using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
-using Kindly.API.Utility.Configurations;
+using Kindly.API.Utility.Settings;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +18,8 @@ using Microsoft.IdentityModel.Tokens;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
+using System.Text;
 
 namespace Kindly.API
 {
@@ -83,6 +85,7 @@ namespace Kindly.API
 
 			// Database Repositories
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<ILikeRepository, LikeRepository>();
 			services.AddScoped<IPictureRepository, PictureRepository>();
 
 			// Configurations

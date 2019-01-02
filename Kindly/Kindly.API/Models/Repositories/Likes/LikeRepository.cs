@@ -5,12 +5,11 @@ using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
 
-using Kindly.API.Contracts;
-using Kindly.API.Contracts.Likes;
-using Kindly.API.Models.Domain;
+using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
+using Kindly.API.Utility.Collections;
 
-namespace Kindly.API.Models.Repositories
+namespace Kindly.API.Models.Repositories.Likes
 {
 	public sealed class LikeRepository : ILikeRepository
 	{

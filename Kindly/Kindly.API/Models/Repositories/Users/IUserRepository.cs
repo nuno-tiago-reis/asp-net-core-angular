@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Kindly.API.Contracts.Users;
-using Kindly.API.Models.Domain;
-
-namespace Kindly.API.Models.Repositories
+namespace Kindly.API.Models.Repositories.Users
 {
 	public interface IUserRepository : IEntityRepository<User, UserParameters>
 	{

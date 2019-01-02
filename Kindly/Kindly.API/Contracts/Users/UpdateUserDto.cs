@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Kindly.API.Models.Repositories.Users;
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-
-using Kindly.API.Models.Domain;
 
 namespace Kindly.API.Contracts.Users
 {

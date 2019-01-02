@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kindly.API.Contracts
+namespace Kindly.API.Models.Repositories
 {
 	public abstract class PaginationParameters
 	{

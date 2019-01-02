@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Kindly.API.Contracts
+namespace Kindly.API.Utility.Collections
 {
 	public sealed class PagedList<T> : List<T> where T : class
 	{

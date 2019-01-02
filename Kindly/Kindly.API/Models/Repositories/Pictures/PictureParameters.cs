@@ -1,4 +1,4 @@
-﻿namespace Kindly.API.Contracts.Pictures
+﻿namespace Kindly.API.Models.Repositories.Pictures
 {
 	public sealed class PictureParameters : PaginationParameters
 	{

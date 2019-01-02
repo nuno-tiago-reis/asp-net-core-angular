@@ -1,9 +1,7 @@
-﻿using Kindly.API.Models.Domain;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Kindly.API.Models.Configurations
+namespace Kindly.API.Models.Repositories.Pictures
 {
 	public sealed class PictureConfiguration : IEntityTypeConfiguration<Picture>
 	{
