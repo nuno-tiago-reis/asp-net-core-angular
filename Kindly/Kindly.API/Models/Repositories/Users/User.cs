@@ -2,6 +2,7 @@
 
 using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Models.Repositories.Messages;
 
 using System;
 using System.Collections.Generic;
@@ -127,6 +128,16 @@ namespace Kindly.API.Models.Repositories.Users
 		/// Gets or sets the likes sources.
 		/// </summary>
 		public ICollection<Like> LikeSources { get; set; }
+
+		/// <summary>
+		/// Gets or sets the messages sent.
+		/// </summary>
+		public ICollection<Message> MessagesSent { get; set; }
+
+		/// <summary>
+		/// Gets or sets the messages received.
+		/// </summary>
+		public ICollection<Message> MessagesReceived { get; set; }
 		#endregion
 	}
 

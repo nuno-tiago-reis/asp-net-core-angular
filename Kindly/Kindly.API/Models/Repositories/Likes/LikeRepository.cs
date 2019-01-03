@@ -37,12 +37,16 @@ namespace Kindly.API.Models.Repositories.Likes
 		public async Task<Like> Create(Like like)
 		{
 			// Foreign Keys
-			var sourceUser = await this.Context.Users.FindAsync(like.SourceID);
-			if (sourceUser == null)
+			var source = await this.Context.Users
+				.Include(u => u.Pictures)
+				.SingleOrDefaultAsync(u => u.ID == like.SourceID);
+			if (source == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			var targetUser = await this.Context.Users.FindAsync(like.TargetID);
-			if (targetUser == null)
+			var target = await this.Context.Users
+				.Include(u => u.Pictures)
+				.SingleOrDefaultAsync(u => u.ID == like.TargetID);
+			if (target == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
 			if (await this.Context.Likes.AnyAsync(l => l.SourceID == like.SourceID && l.TargetID == like.TargetID))
@@ -63,12 +67,7 @@ namespace Kindly.API.Models.Repositories.Likes
 			if (databaseLike == null)
 				throw new KindlyException(Like.DoesNotExist, true);
 
-			// Keys
-			var target = await this.Context.Users.FindAsync(like.TargetID);
-			if (target == null)
-				throw new KindlyException(Like.DoesNotExist);
-
-			databaseLike.TargetID = target.ID;
+			// Properties
 
 			// Update
 			await this.Context.SaveChangesAsync();
@@ -92,27 +91,19 @@ namespace Kindly.API.Models.Repositories.Likes
 		/// <inheritdoc />
 		public async Task<Like> Get(Guid likeID)
 		{
-			return await this.Context.Likes.FindAsync(likeID);
+			return await this.GetQueryable().SingleOrDefaultAsync(p => p.ID == likeID);
 		}
 
 		/// <inheritdoc />
 		public async Task<IEnumerable<Like>> GetAll()
 		{
-			return await this.Context.Likes
-				.Include(l => l.Source.Pictures)
-				.Include(l => l.Target.Pictures)
-				.OrderByDescending(l => l.CreatedAt)
-				.ToListAsync();
+			return await this.GetQueryable().ToListAsync();
 		}
 
 		/// <inheritdoc />
 		public async Task<PagedList<Like>> GetAll(LikeParameters parameters)
 		{
-			var likes = this.Context.Likes
-				.Include(l => l.Source.Pictures)
-				.Include(l => l.Target.Pictures)
-				.OrderByDescending(l => l.CreatedAt)
-				.AsQueryable();
+			var likes = this.GetQueryable();
 
 			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
 		}
@@ -164,17 +155,24 @@ namespace Kindly.API.Models.Repositories.Likes
 
 		#region [Methods] Utility
 		/// <summary>
+		/// Gets the queryable.
+		/// </summary>
+		private IQueryable<Like> GetQueryable()
+		{
+			return this.Context.Likes
+				.Include(l => l.Source.Pictures)
+				.Include(l => l.Target.Pictures)
+				.OrderByDescending(l => l.CreatedAt);
+		}
+		
+		/// <summary>
 		/// Gets the queryable by source user.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
 		private IQueryable<Like> GetQueryableBySourceUser(Guid userID)
 		{
-			return this.Context.Likes
-				.Include(l => l.Source.Pictures)
-				.Include(l => l.Target.Pictures)
-				.Where(l => l.SourceID == userID)
-				.OrderByDescending(l => l.CreatedAt);
+			return this.GetQueryable().Where(l => l.SourceID == userID);
 		}
 
 		/// <summary>
@@ -183,11 +181,7 @@ namespace Kindly.API.Models.Repositories.Likes
 		/// <param name="userID">The user identifier.</param>
 		private IQueryable<Like> GetQueryableByTargetUser(Guid userID)
 		{
-			return this.Context.Likes
-				.Include(l => l.Source.Pictures)
-				.Include(l => l.Target.Pictures)
-				.Where(l => l.TargetID == userID)
-				.OrderByDescending(l => l.CreatedAt);
+			return this.GetQueryable().Where(l => l.TargetID == userID);
 		}
 		#endregion
 	}

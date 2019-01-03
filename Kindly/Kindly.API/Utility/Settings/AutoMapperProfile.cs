@@ -3,9 +3,11 @@
 using Kindly.API.Contracts.Auth;
 using Kindly.API.Contracts.Likes;
 using Kindly.API.Contracts.Pictures;
+using Kindly.API.Contracts.Messages;
 using Kindly.API.Contracts.Users;
 using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Models.Repositories.Messages;
 using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
 
@@ -73,6 +75,13 @@ namespace Kindly.API.Contracts.Settings
 
 			this.CreateMap<CreateLikeDto, Like>();
 			this.CreateMap<UpdateLikeDto, Like>();
+
+			// Messages
+			this.CreateMap<MessageDto, Message>();
+			this.CreateMap<Message, MessageDto>();
+
+			this.CreateMap<CreateMessageDto, Message>();
+			this.CreateMap<UpdateMessageDto, Message>();
 		}
 	}
 }

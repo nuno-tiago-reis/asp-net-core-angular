@@ -147,33 +147,19 @@ namespace Kindly.API.Models.Repositories.Users
 		/// <inheritdoc />
 		public async Task<User> Get(Guid userID)
 		{
-			return await this.Context.Users
-				.Include(user => user.Pictures)
-				.Include(user => user.LikeTargets)
-				.Include(user => user.LikeSources)
-				.SingleOrDefaultAsync(user => user.ID == userID);
+			return await this.GetQueryable().SingleOrDefaultAsync(user => user.ID == userID);
 		}
 
 		/// <inheritdoc />
 		public async Task<IEnumerable<User>> GetAll()
 		{
-			return await this.Context.Users
-				.Include(u => u.Pictures)
-				.Include(u => u.LikeTargets)
-				.Include(u => u.LikeSources)
-				.OrderByDescending(u => u.LastActiveAt)
-				.ToListAsync();
+			return await this.GetQueryable().ToListAsync();
 		}
 
 		/// <inheritdoc />
 		public async Task<PagedList<User>> GetAll(UserParameters parameters)
 		{
-			var users = this.Context.Users
-				.Include(u => u.Pictures)
-				.Include(u => u.LikeTargets)
-				.Include(u => u.LikeSources)
-				.OrderByDescending(u => u.LastActiveAt)
-				.AsQueryable();
+			var users = this.GetQueryable();
 
 			if (parameters.Gender.HasValue == false)
 			{
@@ -340,6 +326,18 @@ namespace Kindly.API.Models.Repositories.Users
 		#endregion
 
 		#region [Methods] Utility
+		/// <summary>
+		/// Gets the users queryable.
+		/// </summary>
+		private IQueryable<User> GetQueryable()
+		{
+			return this.Context.Users
+				.Include(u => u.Pictures)
+				.Include(u => u.LikeTargets)
+				.Include(u => u.LikeSources)
+				.OrderByDescending(u => u.LastActiveAt);
+		}
+
 		/// <summary>
 		/// Logs in the specified user.
 		/// </summary>

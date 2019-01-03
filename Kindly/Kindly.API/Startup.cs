@@ -3,6 +3,7 @@
 using Kindly.API.Models;
 using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Models.Repositories.Messages;
 using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
 using Kindly.API.Utility.Settings;
@@ -84,9 +85,10 @@ namespace Kindly.API
 			});
 
 			// Database Repositories
-			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<ILikeRepository, LikeRepository>();
+			services.AddScoped<IMessageRepository, MessageRepository>();
 			services.AddScoped<IPictureRepository, PictureRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
 
 			// Configurations
 			services.Configure<CloudinarySettings>(Configuration.GetSection(KindlyConstants.AppSettingsCloudinary));

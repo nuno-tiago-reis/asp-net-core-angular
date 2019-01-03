@@ -44,8 +44,8 @@ namespace Kindly.API.Models.Repositories.Pictures
 				throw new KindlyException(picture.InvalidFieldMessage(p => p.PublicID));
 
 			// Foreign Keys
-			var databaseUser = await this.Context.Users.FindAsync(picture.UserID);
-			if (databaseUser == null)
+			var user = await this.Context.Users.FindAsync(picture.UserID);
+			if (user == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
 			if (picture.IsProfilePicture.HasValue && picture.IsProfilePicture.Value)
@@ -80,12 +80,6 @@ namespace Kindly.API.Models.Repositories.Pictures
 				throw new KindlyException(Picture.DoesNotExist, true);
 
 			// Properties
-			databasePicture.Url =
-				!string.IsNullOrWhiteSpace(picture.Url) ? picture.Url : databasePicture.Url;
-
-			databasePicture.PublicID =
-				!string.IsNullOrWhiteSpace(picture.PublicID) ? picture.PublicID : databasePicture.PublicID;
-
 			databasePicture.Description =
 				!string.IsNullOrWhiteSpace(picture.Description) ? picture.Description : databasePicture.Description;
 
@@ -124,23 +118,19 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// <inheritdoc />
 		public async Task<Picture> Get(Guid pictureID)
 		{
-			return await this.Context.Pictures.FindAsync(pictureID);
+			return await this.GetQueryable().SingleOrDefaultAsync(p => p.ID == pictureID);
 		}
 
 		/// <inheritdoc />
 		public async Task<IEnumerable<Picture>> GetAll()
 		{
-			return await this.Context.Pictures
-				.OrderByDescending(p => p.CreatedAt)
-				.ToListAsync();
+			return await this.GetQueryable().ToListAsync();
 		}
 
 		/// <inheritdoc />
 		public async Task<PagedList<Picture>> GetAll(PictureParameters parameters)
 		{
-			var pictures = this.Context.Pictures
-				.OrderByDescending(p => p.CreatedAt)
-				.AsQueryable();
+			var pictures = this.GetQueryable();
 
 			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
 			{
@@ -189,6 +179,16 @@ namespace Kindly.API.Models.Repositories.Pictures
 		#endregion
 
 		#region [Methods] Utility
+		/// <summary>
+		/// Gets the queryable.
+		/// </summary>
+		private IQueryable<Picture> GetQueryable()
+		{
+			return this.Context.Pictures
+				.Include(p => p.User)
+				.OrderByDescending(p => p.CreatedAt);
+		}
+
 		/// <summary>
 		/// Gets the queryable by user.
 		/// </summary>

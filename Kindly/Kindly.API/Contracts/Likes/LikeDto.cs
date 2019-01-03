@@ -45,5 +45,23 @@ namespace Kindly.API.Contracts.Likes
 		[Required]
 		[DataType(DataType.Date)]
 		public DateTime CreatedAt { get; set; }
+
+		/// <summary>
+		/// Cleans the source.
+		/// </summary>
+		public void CleanSource()
+		{
+			this.SourceID = null;
+			this.Source = null;
+		}
+
+		/// <summary>
+		/// Cleans the target.
+		/// </summary>
+		public void CleanTarget()
+		{
+			this.TargetID = null;
+			this.Target = null;
+		}
 	}
 }

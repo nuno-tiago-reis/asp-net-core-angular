@@ -1,4 +1,5 @@
 ﻿using Kindly.API.Models.Repositories.Likes;
+using Kindly.API.Models.Repositories.Messages;
 using Kindly.API.Models.Repositories.Pictures;
 using Kindly.API.Models.Repositories.Users;
 
@@ -24,6 +25,11 @@ namespace Kindly.API.Models
 		public DbSet<Picture> Pictures { get; set; }
 
 		/// <summary>
+		/// The messages.
+		/// </summary>
+		public DbSet<Message> Messages { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="KindlyContext" /> class.
 		/// </summary>
 		public KindlyContext(DbContextOptions options) : base(options)
@@ -39,6 +45,7 @@ namespace Kindly.API.Models
 			builder.ApplyConfiguration(new UserConfiguration());
 			builder.ApplyConfiguration(new LikeConfiguration());
 			builder.ApplyConfiguration(new PictureConfiguration());
+			builder.ApplyConfiguration(new MessageConfiguration());
 		}
 	}
 }

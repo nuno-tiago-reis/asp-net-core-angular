@@ -158,10 +158,7 @@ namespace Kindly.API.Controllers
 						break;
 
 					foreach (var likeDto in likeDtos)
-					{
-						likeDto.SourceID = null;
-						likeDto.Source = null;
-					}
+						likeDto.CleanSource();
 					break;
 
 				case LikeMode.Sources:
@@ -172,10 +169,7 @@ namespace Kindly.API.Controllers
 						break;
 
 					foreach (var likeDto in likeDtos)
-					{
-						likeDto.TargetID = null;
-						likeDto.Target = null;
-					}
+						likeDto.CleanTarget();
 					break;
 
 				default:
