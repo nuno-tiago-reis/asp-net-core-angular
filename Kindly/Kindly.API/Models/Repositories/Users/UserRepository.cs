@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Kindly.API.Utility;
+using Kindly.API.Utility.Collections;
+
+using Microsoft.EntityFrameworkCore;
+
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-
-using Microsoft.EntityFrameworkCore;
-
-using Kindly.API.Utility;
-using Kindly.API.Utility.Collections;
 
 namespace Kindly.API.Models.Repositories.Users
 {
@@ -158,9 +158,10 @@ namespace Kindly.API.Models.Repositories.Users
 		public async Task<IEnumerable<User>> GetAll()
 		{
 			return await this.Context.Users
-				.Include(user => user.Pictures)
-				.Include(user => user.LikeTargets)
-				.Include(user => user.LikeSources)
+				.Include(u => u.Pictures)
+				.Include(u => u.LikeTargets)
+				.Include(u => u.LikeSources)
+				.OrderByDescending(u => u.LastActiveAt)
 				.ToListAsync();
 		}
 
@@ -169,6 +170,8 @@ namespace Kindly.API.Models.Repositories.Users
 		{
 			var users = this.Context.Users
 				.Include(u => u.Pictures)
+				.Include(u => u.LikeTargets)
+				.Include(u => u.LikeSources)
 				.OrderByDescending(u => u.LastActiveAt)
 				.AsQueryable();
 

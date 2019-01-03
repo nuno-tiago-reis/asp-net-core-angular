@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Kindly.API.Models.Repositories.Users;
+using Kindly.API.Utility;
+using Kindly.API.Utility.Collections;
 
 using Microsoft.EntityFrameworkCore;
 
-using Kindly.API.Models.Repositories.Users;
-using Kindly.API.Utility;
-using Kindly.API.Utility.Collections;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Likes
 {
@@ -98,13 +98,21 @@ namespace Kindly.API.Models.Repositories.Likes
 		/// <inheritdoc />
 		public async Task<IEnumerable<Like>> GetAll()
 		{
-			return await this.Context.Likes.ToListAsync();
+			return await this.Context.Likes
+				.Include(l => l.Source.Pictures)
+				.Include(l => l.Target.Pictures)
+				.OrderByDescending(l => l.CreatedAt)
+				.ToListAsync();
 		}
 
 		/// <inheritdoc />
 		public async Task<PagedList<Like>> GetAll(LikeParameters parameters)
 		{
-			var likes = this.Context.Likes.OrderByDescending(u => u.CreatedAt);
+			var likes = this.Context.Likes
+				.Include(l => l.Source.Pictures)
+				.Include(l => l.Target.Pictures)
+				.OrderByDescending(l => l.CreatedAt)
+				.AsQueryable();
 
 			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
 		}
@@ -128,17 +136,58 @@ namespace Kindly.API.Models.Repositories.Likes
 		/// <inheritdoc />
 		public async Task<IEnumerable<Like>> GetBySourceUser(Guid userID)
 		{
-			return await this.Context.Likes
-				.Where(picture => picture.SourceID == userID)
-				.ToListAsync();
+			return await this.GetQueryableBySourceUser(userID).ToListAsync();
+		}
+
+		/// <inheritdoc />
+		public async Task<PagedList<Like>> GetBySourceUser(Guid userID, LikeParameters parameters)
+		{
+			var likes = this.GetQueryableBySourceUser(userID);
+
+			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
 		}
 
 		/// <inheritdoc />
 		public async Task<IEnumerable<Like>> GetByTargetUser(Guid userID)
 		{
-			return await this.Context.Likes
-				.Where(picture => picture.SourceID == userID)
-				.ToListAsync();
+			return await this.GetQueryableByTargetUser(userID).ToListAsync();
+		}
+
+		/// <inheritdoc />
+		public async Task<PagedList<Like>> GetByTargetUser(Guid userID, LikeParameters parameters)
+		{
+			var likes = this.GetQueryableByTargetUser(userID);
+
+			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
+		}
+		#endregion
+
+		#region [Methods] Utility
+		/// <summary>
+		/// Gets the queryable by source user.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		private IQueryable<Like> GetQueryableBySourceUser(Guid userID)
+		{
+			return this.Context.Likes
+				.Include(l => l.Source.Pictures)
+				.Include(l => l.Target.Pictures)
+				.Where(l => l.SourceID == userID)
+				.OrderByDescending(l => l.CreatedAt);
+		}
+
+		/// <summary>
+		/// Gets the queryable by target user.
+		/// </summary>
+		/// <param name="userID">The user identifier.</param>
+		private IQueryable<Like> GetQueryableByTargetUser(Guid userID)
+		{
+			return this.Context.Likes
+				.Include(l => l.Source.Pictures)
+				.Include(l => l.Target.Pictures)
+				.Where(l => l.TargetID == userID)
+				.OrderByDescending(l => l.CreatedAt);
 		}
 		#endregion
 	}

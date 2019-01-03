@@ -107,6 +107,7 @@ namespace Kindly.API.Controllers
 		{
 			var user = await this.Repository.Get(userID);
 			var userDto = this.Mapper.Map<UserDetailedDto>(user);
+			userDto.CleanLikeSourcesAndTargets();
 
 			return this.Ok(userDto);
 		}
@@ -120,7 +121,7 @@ namespace Kindly.API.Controllers
 			parameters.UserID = this.GetInvocationUserID();
 
 			var users = await this.Repository.GetAll(parameters);
-			var userDtos = users.Select(user => this.Mapper.Map<UserDto>(user));
+			var userDtos = users.Select(u => this.Mapper.Map<UserDto>(u));
 
 			this.Response.AddPaginationHeader(new PaginationHeader
 			(

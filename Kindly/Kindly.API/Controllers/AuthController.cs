@@ -92,7 +92,8 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithID(loginInfo.ID, loginInfo.Password);
-				var userDto = Mapper.Map<UserDto>(user);
+				var userDto = Mapper.Map<UserDetailedDto>(user);
+				userDto.CleanLikeSourcesAndTargets();
 
 				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}
@@ -115,7 +116,8 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithUserName(loginInfo.UserName, loginInfo.Password);
-				var userDto = Mapper.Map<UserDto>(user);
+				var userDto = Mapper.Map<UserDetailedDto>(user);
+				userDto.CleanLikeSourcesAndTargets();
 
 				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}
@@ -138,7 +140,8 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithPhoneNumber(loginInfo.PhoneNumber, loginInfo.Password);
-				var userDto = Mapper.Map<UserDto>(user);
+				var userDto = Mapper.Map<UserDetailedDto>(user);
+				userDto.CleanLikeSourcesAndTargets();
 
 				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}
@@ -161,7 +164,8 @@ namespace Kindly.API.Controllers
 			try
 			{
 				var user = await this.Repository.LoginWithEmailAddress(loginInfo.EmailAddress, loginInfo.Password);
-				var userDto = Mapper.Map<UserDto>(user);
+				var userDto = Mapper.Map<UserDetailedDto>(user);
+				userDto.CleanLikeSourcesAndTargets();
 
 				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
 			}

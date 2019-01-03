@@ -42,7 +42,7 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is the profile picture.
 		/// </summary>
-		public bool IsProfilePicture { get; set; }
+		public bool? IsProfilePicture { get; set; }
 
 		/// <summary>
 		/// Gets or sets the date at which the picture was created.

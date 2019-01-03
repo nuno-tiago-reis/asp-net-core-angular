@@ -1,41 +1,49 @@
-﻿using System;
+﻿using Kindly.API.Contracts.Users;
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-
-using Newtonsoft.Json;
 
 namespace Kindly.API.Contracts.Likes
 {
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
-	public class LikeDto
+	public sealed class LikeDto
 	{
 		/// <summary>
 		/// Gets or sets the like identifier.
 		/// </summary>
 		[Required]
-		[JsonProperty(Order = 1)]
 		public Guid ID { get; set; }
 
 		/// <summary>
 		/// Gets or sets the target identifier.
 		/// </summary>
 		[Required]
-		[JsonProperty(Order = 1)]
-		public Guid TargetID { get; set; }
+		public Guid? TargetID { get; set; }
+
+		/// <summary>
+		/// Gets or sets the target.
+		/// </summary>
+		[Required]
+		public UserDto Target { get; set; }
 
 		/// <summary>
 		/// Gets or sets the source identifier.
 		/// </summary>
 		[Required]
-		[JsonProperty(Order = 2)]
-		public Guid SourceID { get; set; }
+		public Guid? SourceID { get; set; }
+
+		/// <summary>
+		/// Gets or sets the source.
+		/// </summary>
+		[Required]
+		public UserDto Source { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created at date.
 		/// </summary>
 		[Required]
 		[DataType(DataType.Date)]
-		[JsonProperty(Order = 3)]
 		public DateTime CreatedAt { get; set; }
 	}
 }

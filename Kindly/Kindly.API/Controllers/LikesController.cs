@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 
+using Kindly.API.Contracts;
 using Kindly.API.Contracts.Likes;
 using Kindly.API.Models.Repositories.Likes;
+using Kindly.API.Utility.Collections;
 using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -138,11 +141,54 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
+		/// <param name="parameters">The parameters.</param>
 		[HttpGet]
-		public async Task<IActionResult> GetAll(Guid userID)
+		public async Task<IActionResult> GetAll(Guid userID, [FromQuery] LikeParameters parameters)
 		{
-			var likes = await this.Repository.GetBySourceUser(userID);
-			var likeDtos = likes.Select(like => this.Mapper.Map<LikeDto>(like));
+			PagedList<Like> likes;
+			IEnumerable<LikeDto> likeDtos;
+
+			switch (parameters.Mode)
+			{
+				case LikeMode.Targets:
+					likes = await this.Repository.GetBySourceUser(userID, parameters);
+					likeDtos = likes.Select(l => this.Mapper.Map<LikeDto>(l)).ToList();
+
+					if (parameters.IncludeRequestUser)
+						break;
+
+					foreach (var likeDto in likeDtos)
+					{
+						likeDto.SourceID = null;
+						likeDto.Source = null;
+					}
+					break;
+
+				case LikeMode.Sources:
+					likes = await this.Repository.GetByTargetUser(userID, parameters);
+					likeDtos = likes.Select(l => this.Mapper.Map<LikeDto>(l)).ToList();
+
+					if (parameters.IncludeRequestUser)
+						break;
+
+					foreach (var likeDto in likeDtos)
+					{
+						likeDto.TargetID = null;
+						likeDto.Target = null;
+					}
+					break;
+
+				default:
+					throw new ArgumentOutOfRangeException(nameof(parameters.Mode), parameters.Mode, null);
+			}
+
+			this.Response.AddPaginationHeader(new PaginationHeader
+			(
+				likes.PageNumber,
+				likes.PageSize,
+				likes.TotalPages,
+				likes.TotalCount
+			));
 
 			return this.Ok(likeDtos);
 		}

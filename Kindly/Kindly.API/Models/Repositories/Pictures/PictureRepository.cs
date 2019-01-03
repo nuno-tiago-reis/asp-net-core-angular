@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Kindly.API.Models.Repositories.Users;
+using Kindly.API.Utility;
+using Kindly.API.Utility.Collections;
 
 using Microsoft.EntityFrameworkCore;
 
-using Kindly.API.Models.Repositories.Users;
-using Kindly.API.Utility;
-using Kindly.API.Utility.Collections;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Pictures
 {
@@ -48,11 +48,11 @@ namespace Kindly.API.Models.Repositories.Pictures
 			if (databaseUser == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			if (picture.IsProfilePicture)
+			if (picture.IsProfilePicture.HasValue && picture.IsProfilePicture.Value)
 			{
 				// Don't allow the indicator to be 'removed'
 				// The only way to 'remove' a profile picture is to add a new one
-				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture);
+				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture.Value);
 				if (profilePicture != null)
 					profilePicture.IsProfilePicture = false;
 
@@ -89,11 +89,11 @@ namespace Kindly.API.Models.Repositories.Pictures
 			databasePicture.Description =
 				!string.IsNullOrWhiteSpace(picture.Description) ? picture.Description : databasePicture.Description;
 
-			if (picture.IsProfilePicture)
+			if (picture.IsProfilePicture.HasValue && picture.IsProfilePicture == true)
 			{
 				// Don't allow the indicator to be 'removed'
 				// The only way to 'remove' a profile picture is to add a new one
-				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture);
+				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture.Value);
 				if (profilePicture != null)
 					profilePicture.IsProfilePicture = false;
 
@@ -112,7 +112,7 @@ namespace Kindly.API.Models.Repositories.Pictures
 			var picture = await this.Context.Pictures.FindAsync(pictureID);
 			if (picture == null)
 				throw new KindlyException(Picture.DoesNotExist, true); 
-			if (picture.IsProfilePicture)
+			if (picture.IsProfilePicture.HasValue && picture.IsProfilePicture.Value)
 				throw new KindlyException(Picture.CannotDeleteTheProfilePicture);
 
 			// Delete
@@ -130,13 +130,17 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// <inheritdoc />
 		public async Task<IEnumerable<Picture>> GetAll()
 		{
-			return await this.Context.Pictures.ToListAsync();
+			return await this.Context.Pictures
+				.OrderByDescending(p => p.CreatedAt)
+				.ToListAsync();
 		}
 
 		/// <inheritdoc />
 		public async Task<PagedList<Picture>> GetAll(PictureParameters parameters)
 		{
-			var pictures = this.Context.Pictures.OrderByDescending(u => u.CreatedAt);
+			var pictures = this.Context.Pictures
+				.OrderByDescending(p => p.CreatedAt)
+				.AsQueryable();
 
 			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
 			{
@@ -172,10 +176,30 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// <inheritdoc />
 		public async Task<IEnumerable<Picture>> GetByUser(Guid userID)
 		{
-			return await this.Context.Pictures
-				.Where(picture => picture.UserID == userID)
-				.OrderByDescending(picture => picture.CreatedAt)
-				.ToListAsync();
+			return await this.GetQueryableByUser(userID).ToListAsync();
+		}
+
+		/// <inheritdoc />
+		public async Task<PagedList<Picture>> GetByUser(Guid userID, PictureParameters parameters)
+		{
+			var pictures = this.GetQueryableByUser(userID);
+
+			return await PagedList<Picture>.CreateAsync(pictures, parameters.PageNumber, parameters.PageSize);
+		}
+		#endregion
+
+		#region [Methods] Utility
+		/// <summary>
+		/// Gets the queryable by user.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		private IQueryable<Picture> GetQueryableByUser(Guid userID)
+		{
+			return this.Context.Pictures
+				.Include(p => p.User)
+				.Where(p => p.UserID == userID)
+				.OrderByDescending(p => p.CreatedAt);
 		}
 		#endregion
 	}

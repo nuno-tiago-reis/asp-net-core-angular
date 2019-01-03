@@ -3,6 +3,7 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
+using Kindly.API.Contracts;
 using Kindly.API.Contracts.Pictures;
 using Kindly.API.Models.Repositories.Pictures;
 using Kindly.API.Utility.Settings;
@@ -178,11 +179,20 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
+		/// <param name="parameters">The parameters.</param>
 		[HttpGet]
-		public async Task<IActionResult> GetAll(Guid userID)
+		public async Task<IActionResult> GetAll(Guid userID, [FromQuery] PictureParameters parameters)
 		{
-			var pictures = await this.Repository.GetByUser(userID);
-			var pictureDtos = pictures.Select(picture => this.Mapper.Map<PictureDto>(picture));
+			var pictures = await this.Repository.GetByUser(userID, parameters);
+			var pictureDtos = pictures.Select(p => this.Mapper.Map<PictureDto>(p));
+
+			this.Response.AddPaginationHeader(new PaginationHeader
+			(
+				pictures.PageNumber,
+				pictures.PageSize,
+				pictures.TotalPages,
+				pictures.TotalCount
+			));
 
 			return this.Ok(pictureDtos);
 		}
