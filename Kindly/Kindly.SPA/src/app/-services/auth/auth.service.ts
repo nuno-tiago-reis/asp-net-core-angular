@@ -295,4 +295,12 @@ export class AuthService
 
 		localStorage.setItem('user', JSON.stringify(this.user));
 	}
+
+	/**
+	 * Refreshes the user in storage.
+	 */
+	public refreshUserInStorage()
+	{
+		localStorage.setItem('user', JSON.stringify(this.user));
+	}
 }

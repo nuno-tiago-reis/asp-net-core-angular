@@ -23,11 +23,6 @@ import { UserParameters } from '../../-services/users/users.models';
 export class MemberListComponent implements OnInit
 {
 	/**
-	 * The logged user.
-	 */
-	public user: User;
-
-	/**
 	 * The array of users.
 	 */
 	public users: User[];
@@ -70,8 +65,6 @@ export class MemberListComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		this.user = this.authApi.user;
-
 		this.route.data.subscribe(data =>
 		{
 			this.users = data['users'].results;
@@ -96,7 +89,7 @@ export class MemberListComponent implements OnInit
 			orderBy: 'lastActiveAt'
 		};
 
-		switch (this.user.gender)
+		switch (this.authApi.user.gender)
 		{
 			case 'male':
 				this.filterParameters.gender = 'female';

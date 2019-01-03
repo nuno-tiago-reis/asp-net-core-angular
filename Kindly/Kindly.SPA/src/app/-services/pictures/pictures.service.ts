@@ -1,11 +1,13 @@
 // components
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 // models
 import { Picture } from '../../-models/picture';
-import { CreateRequest, UpdateRequest } from '../pictures/pictures.models';
+import { PaginatedResult } from '../../-models/paginated-result';
+import { CreateRequest, UpdateRequest, PictureParameters } from '../pictures/pictures.models';
 
 // environment
 import { environment } from '../../../environments/environment';
@@ -94,10 +96,41 @@ export class PicturesService
 	 * Gets all pictures (the user id is mandatory).
 	 *
 	 * @param userID The user id.
+	 * @param pageNumber The page number.
+	 * @param pageSize The page size.
+	 * @param filterParameters The filter parameters.
 	 */
-	public getAll (userID: string): Observable<Picture[]>
+	public getAll (userID: string, pageNumber?: number, pageSize?: number, filterParameters?: PictureParameters): Observable<PaginatedResult<Picture>>
 	{
-		const observable = this.http.get<Picture[]>(this.baseURL.replace(this.userID, userID));
+		let parameters = new HttpParams();
+
+		if (pageNumber !== null && pageSize !== null)
+		{
+			parameters = parameters.append('pageNumber', pageNumber.toString());
+			parameters = parameters.append('pageSize', pageSize.toString());
+		}
+
+		if (filterParameters != null)
+		{
+			// placeholder
+		}
+
+		const observable = this.http.get<Picture[]>(this.baseURL.replace(this.userID, userID), { observe: 'response', params: parameters }).pipe(map
+		(
+			(response) =>
+			{
+				const paginatedResult: PaginatedResult<Picture> = new PaginatedResult<Picture>();
+				paginatedResult.results = response.body;
+
+				const pagination = response.headers.get('Pagination');
+				if (pagination !== null)
+				{
+					paginatedResult.pagination = JSON.parse(pagination);
+				}
+
+				return paginatedResult;
+			}
+		));
 
 		return observable;
 	}

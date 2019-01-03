@@ -1,11 +1,13 @@
 // components
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 // models
 import { Like } from '../../-models/like';
-import { CreateRequest, UpdateRequest } from '../likes/likes.models';
+import { PaginatedResult } from '../../-models/paginated-result';
+import { CreateRequest, UpdateRequest, LikeParameters } from '../likes/likes.models';
 
 // environment
 import { environment } from '../../../environments/environment';
@@ -94,10 +96,42 @@ export class LikesService
 	 * Gets all likes (the user id is mandatory).
 	 *
 	 * @param userID The user id.
+	 * @param pageNumber The page number.
+	 * @param pageSize The page size.
+	 * @param filterParameters The filter parameters.
 	 */
-	public getAll (userID: string): Observable<Like[]>
+	public getAll (userID: string, pageNumber?: number, pageSize?: number, filterParameters?: LikeParameters): Observable<PaginatedResult<Like>>
 	{
-		const observable = this.http.get<Like[]>(this.baseURL.replace(this.userID, userID));
+		let parameters = new HttpParams();
+
+		if (pageNumber !== null && pageSize !== null)
+		{
+			parameters = parameters.append('pageNumber', pageNumber.toString());
+			parameters = parameters.append('pageSize', pageSize.toString());
+		}
+
+		if (filterParameters != null)
+		{
+			parameters = parameters.append('mode', filterParameters.mode);
+			parameters = parameters.append('includeRequestUser', filterParameters.includeRequestUser.toString());
+		}
+
+		const observable = this.http.get<Like[]>(this.baseURL.replace(this.userID, userID), { observe: 'response', params: parameters }).pipe(map
+		(
+			(response) =>
+			{
+				const paginatedResult: PaginatedResult<Like> = new PaginatedResult<Like>();
+				paginatedResult.results = response.body;
+
+				const pagination = response.headers.get('Pagination');
+				if (pagination !== null)
+				{
+					paginatedResult.pagination = JSON.parse(pagination);
+				}
+
+				return paginatedResult;
+			}
+		));
 
 		return observable;
 	}

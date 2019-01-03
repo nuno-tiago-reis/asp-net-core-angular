@@ -41,8 +41,12 @@
 </div>
 
 <div class="d-flex justify-content-center">
-	<pagination [boundaryLinks]="true" [(ngModel)]="this.pagination.pageNumber" [totalItems]="this.pagination.totalCount"
-	 [itemsPerPage]="this.pagination.pageSize" (pageChanged)="this.changePage($event)" previousText="&lsaquo;" nextText="&rsaquo;"
-	 firstText="&laquo;" lastText="&raquo;">
+	<pagination
+		[boundaryLinks]="true"
+		(pageChanged)="this.changePage($event)"
+		[(ngModel)]="this.pagination.pageNumber"
+		[totalItems]="this.pagination.totalCount"
+		[itemsPerPage]="this.pagination.pageSize"
+		previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
 	</pagination>
 </div>

@@ -12,7 +12,6 @@ import { User } from '../-models/user';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-
 export class MemberDetailResolver implements Resolve<User>
 {
 	/**

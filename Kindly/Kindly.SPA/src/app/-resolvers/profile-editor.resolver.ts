@@ -13,7 +13,6 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../-services/auth/auth.service';
 
 @Injectable()
-
 export class ProfileEditorResolver implements Resolve<User>
 {
 	/**

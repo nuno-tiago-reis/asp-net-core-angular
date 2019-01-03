@@ -15,7 +15,6 @@ import { PaginatedResult } from '../-models/paginated-result';
 import { UserParameters } from '../-services/users/users.models';
 
 @Injectable()
-
 export class MemberListResolver implements Resolve<PaginatedResult<User>>
 {
 	/**
@@ -40,7 +39,7 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 	};
 
 	/**
-	 * Creates an instance of the member detail resolver.
+	 * Creates an instance of the member list resolver.
 	 *
 	 * @param router The router.
 	 * @param authApi The auth service.

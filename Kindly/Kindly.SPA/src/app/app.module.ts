@@ -42,6 +42,7 @@ import { AuthGuard } from './-guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './-guards/prevent-unsaved-changes.guard';
 
 // resolvers
+import { ListsResolver } from './-resolvers/lists.resolver';
 import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
 import { ProfileEditorResolver } from './-resolvers/profile-editor.resolver';
@@ -138,9 +139,10 @@ export function getDatepickerConfig(): BsDatepickerConfig
 		AlertifyService,
 
 		// resolvers
-		ProfileEditorResolver,
+		ListsResolver,
 		MemberListResolver,
 		MemberDetailResolver,
+		ProfileEditorResolver,
 
 		// interceptors
 		ServiceInterceptorProvider,

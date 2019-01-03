@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 // models
 import { User } from '../../-models/user';
+import { Like } from '../../-models/like';
 import { AuthService } from '../../-services/auth/auth.service';
 import { LikesService } from '../../-services/likes/likes.service';
 import { AlertifyService } from '../../-services/alertify/alertify.service';
@@ -21,6 +22,11 @@ export class MemberCardComponent implements OnInit
 	 */
 	@Input()
 	public user: User;
+
+	/**
+	 * The like.
+	 */
+	public like: Like;
 
 	/**
 	 * Creates an instance of the member card component.
@@ -43,15 +49,58 @@ export class MemberCardComponent implements OnInit
 	}
 
 	/**
+	 * Checks whether the logged in user has liked this user.
+	 */
+	public hasLike(): boolean
+	{
+		for (const like of this.authApi.user.likeTargets)
+		{
+			if (like.targetID === this.user.id)
+			{
+				this.like = like;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Sends a like to the user.
 	 */
-	public sendLike()
+	public sendLike(): void
 	{
 		this.likesApi.create(this.authApi.user.id, { targetID: this.user.id }).subscribe
 		(
-			(data) =>
+			(like) =>
 			{
+				this.like = like;
+				this.authApi.user.likeTargets.push(like);
+				this.authApi.refreshUserInStorage();
+
 				this.alertify.success(`You have liked ${this.user.knownAs}.`);
+			},
+			(error) =>
+			{
+				this.alertify.error(error);
+			}
+		);
+	}
+
+	/**
+	 * Removes a like from the user.
+	 */
+	public removeLike(): void
+	{
+		this.likesApi.delete(this.like.id, this.authApi.user.id).subscribe
+		(
+			() =>
+			{
+				this.authApi.user.likeTargets.splice(this.authApi.user.likeTargets.findIndex(l => l.id === this.like.id), 1);
+				this.authApi.refreshUserInStorage();
+				this.like = null;
+
+				this.alertify.success(`You have unliked ${this.user.knownAs}.`);
 			},
 			(error) =>
 			{
