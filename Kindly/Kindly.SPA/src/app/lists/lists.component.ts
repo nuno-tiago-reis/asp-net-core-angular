@@ -49,7 +49,7 @@ export class ListsComponent implements OnInit
 	public readonly LikeModeTargets: LikeMode = LikeMode.Targets;
 
 	/**
-	 * Creates an instance of the member lists component.
+	 * Creates an instance of the lists component.
 	 *
 	 * @param route The activated route.
 	 * @param authApi The auth service.
@@ -114,7 +114,7 @@ export class ListsComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving members data.');
+				this.alertify.error('Problem retrieving lists data.');
 			}
 		);
 	}

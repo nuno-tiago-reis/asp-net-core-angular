@@ -42,8 +42,8 @@
 			</div>
 			<div class="col-sm-8">
 				<div class="tab-panel">
-					<tabset class="member-tabset">
-						<tab heading="Edit Contacts">
+					<tabset class="member-tabset" #profileTabs>
+						<tab id="contacts" heading="Edit Contacts" (select)="this.onSelectTab('contacts')">
 								<form id="contactsForm" #contactsForm="ngForm">
 									<h4 class="mt-2">Phone Number:</h4>
 									<input
@@ -69,7 +69,7 @@
 										<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.maxlength">The email address field cannot have more than 254 characters</div>
 									</form>
 						</tab>
-						<tab heading="Edit Profile">
+						<tab id="profile" heading="Edit Profile" (select)="this.onSelectTab('profile')">
 							<form id="profileForm" #profileForm="ngForm">
 								<h4 class="mt-2">Known As:</h4>
 								<input
@@ -135,7 +135,7 @@
 								</div>
 							</form>
 						</tab>
-						<tab heading="Edit Pictures">
+						<tab id="pictures" heading="Edit Pictures" (select)="this.onSelectTab('pictures')">
 							<app-picture-editor [pictures]="this.user.pictures"></app-picture-editor>
 						</tab>
 					</tabset>

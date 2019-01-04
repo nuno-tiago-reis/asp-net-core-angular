@@ -61,7 +61,7 @@ export class ListsResolver implements Resolve<PaginatedResult<Like>>
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving lists data.');
+				this.alertify.error('Problem retrieving the lists.');
 				this.router.navigate(['/home']);
 
 				return of(null);

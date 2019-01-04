@@ -1,15 +1,18 @@
 // components
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { TabsetComponent } from 'ngx-bootstrap';
 import { NgxGalleryImage, NgxGalleryOptions, NgxGalleryAnimation } from 'ngx-gallery';
 
 // services
-import { UsersService } from '../../-services/users/users.service';
+import { AuthService } from '../../-services/auth/auth.service';
+import { LikesService } from '../../-services/likes/likes.service';
 import { AlertifyService } from '../../-services/alertify/alertify.service';
 
 // models
 import { User } from '../../-models/user';
+import { Like } from '../../-models/like';
 
 @Component
 ({
@@ -31,6 +34,11 @@ export class MemberDetailComponent implements OnInit
 	public user: User;
 
 	/**
+	 * The like.
+	 */
+	public like: Like;
+
+	/**
 	 * The gallery images.
 	 */
 	public galleryImages: NgxGalleryImage[];
@@ -41,13 +49,25 @@ export class MemberDetailComponent implements OnInit
 	public galleryOptions: NgxGalleryOptions[];
 
 	/**
+	 * The member tabs component.
+	 */
+	@ViewChild('memberTabs')
+	public memberTabs: TabsetComponent;
+
+	/**
 	 * Creates an instance of the member detail component.
 	 *
-	 * @param route The activated route.
-	 * @param usersApi The users service.
+	 * @param router The router.
+	 * @param activatedRoute The activated route.
+	 * @param authApi The auth service.
+	 * @param likesApi The likes service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private route: ActivatedRoute, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor
+	(
+		private activatedRoute: ActivatedRoute, private router: Router,
+		private authApi: AuthService, private likesApi: LikesService, private alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}
@@ -57,7 +77,34 @@ export class MemberDetailComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		this.route.data.subscribe(data => { this.user = data['user']; });
+		this.activatedRoute.data.subscribe
+		(
+			data =>
+			{
+				this.user = data['user'];
+			}
+		);
+
+		this.activatedRoute.queryParams.subscribe
+		(
+			parameters =>
+			{
+				const tab = parameters['tab'];
+
+				switch (tab)
+				{
+					case 'about':
+						this.selectTab(0);
+						break;
+					case 'pictures':
+						this.selectTab(1);
+						break;
+					case 'messages':
+						this.selectTab(2);
+						break;
+				}
+			}
+		);
 
 		this.galleryImages = [];
 
@@ -85,5 +132,94 @@ export class MemberDetailComponent implements OnInit
 				preview: false
 			}
 		];
+	}
+
+	/**
+	 * Invoked when a tab is selected
+	 *
+	 * @param tabID The tab selected.
+	 */
+	public onSelectTab(tab: string)
+	{
+		this.router.navigate
+		(
+			[],
+			{
+				relativeTo: this.activatedRoute,
+				queryParams: { tab: tab },
+				queryParamsHandling: 'merge'
+			}
+		);
+	}
+
+	/**
+	 * Selects a tab using the given id.
+	 *
+	 * @param tabID The tab to select.
+	 */
+	public selectTab(tabID: number)
+	{
+		this.memberTabs.tabs[tabID].active = true;
+	}
+
+	/**
+	 * Checks whether the logged in user has liked this user.
+	 */
+	public hasLike(): boolean
+	{
+		for (const like of this.authApi.user.likeTargets)
+		{
+			if (like.targetID === this.user.id)
+			{
+				this.like = like;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Sends a like to the user.
+	 */
+	public sendLike(): void
+	{
+		this.likesApi.create(this.authApi.user.id, { targetID: this.user.id }).subscribe
+		(
+			(like) =>
+			{
+				this.like = like;
+				this.authApi.user.likeTargets.push(like);
+				this.authApi.refreshUserInStorage();
+
+				this.alertify.success(`You have liked ${this.user.knownAs}.`);
+			},
+			(error) =>
+			{
+				this.alertify.error(error);
+			}
+		);
+	}
+
+	/**
+	 * Removes a like from the user.
+	 */
+	public removeLike(): void
+	{
+		this.likesApi.delete(this.like.id, this.authApi.user.id).subscribe
+		(
+			() =>
+			{
+				this.authApi.user.likeTargets.splice(this.authApi.user.likeTargets.findIndex(l => l.id === this.like.id), 1);
+				this.authApi.refreshUserInStorage();
+				this.like = null;
+
+				this.alertify.success(`You have unliked ${this.user.knownAs}.`);
+			},
+			(error) =>
+			{
+				this.alertify.error(error);
+			}
+		);
 	}
 }

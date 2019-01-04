@@ -42,7 +42,7 @@ export class ProfileEditorResolver implements Resolve<User>
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving your data.');
+				this.alertify.error('Problem retrieving the profile.');
 				this.router.navigate(['/home']);
 
 				return of(null);

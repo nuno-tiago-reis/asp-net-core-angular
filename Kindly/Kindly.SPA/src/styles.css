@@ -77,3 +77,18 @@
 	border-top: 1px solid #eee;
 	padding: 15px 10px;
 }
+
+.tooltip.bottom .tooltip-arrow
+{
+	width: auto;
+	max-width: none;
+    background: white;
+}
+
+.tooltip-inner
+{
+	width: auto;
+	max-width: none;
+	white-space: nowrap;
+	font-weight: bold;
+}

@@ -6,16 +6,16 @@ import { catchError } from 'rxjs/operators';
 
 // services
 import { AuthService } from '../-services/auth/auth.service';
-import { UsersService } from '../-services/users/users.service';
+import { MessagesService } from '../-services/messages/messages.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
 
 // models
-import { User } from '../-models/user';
+import { Message } from '../-models/message';
 import { PaginatedResult } from '../-models/paginated-result';
-import { UserParameters } from '../-services/users/users.models';
+import { MessageParameters, ContainerMode } from '../-services/messages/messages.models';
 
 @Injectable()
-export class MemberListResolver implements Resolve<PaginatedResult<User>>
+export class MessagesResolver implements Resolve<PaginatedResult<Message>>
 {
 	/**
 	 * The page number.
@@ -30,12 +30,9 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 	/**
 	 * The filter parameters.
 	 */
-	public readonly filterParameters: UserParameters =
+	public readonly filterParameters: MessageParameters =
 	{
-		gender: 'undefined',
-		minimumAge: 18,
-		maximumAge: 100,
-		orderBy: 'lastActiveAt'
+		container: ContainerMode.Unread
 	};
 
 	/**
@@ -43,10 +40,10 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 	 *
 	 * @param router The router.
 	 * @param authApi The auth service.
-	 * @param usersApi The users service.
+	 * @param messagesApi The messages service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor(private router: Router, private authApi: AuthService, private messagesApi: MessagesService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -56,24 +53,14 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 	 *
 	 * @param route the route.
 	 */
-	public resolve(route: ActivatedRouteSnapshot): Observable<PaginatedResult<User>>
+	public resolve(route: ActivatedRouteSnapshot): Observable<PaginatedResult<Message>>
 	{
-		switch (this.authApi.user.gender)
-		{
-			case 'male':
-				this.filterParameters.gender = 'female';
-				break;
-			case 'female':
-				this.filterParameters.gender = 'male';
-				break;
-		}
-
-		return this.usersApi.getAll(this.pageNumber, this.pageSize, this.filterParameters).pipe
+		return this.messagesApi.getAll(this.authApi.user.id, this.pageNumber, this.pageSize, this.filterParameters).pipe
 		(
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving the member list.');
+				this.alertify.error('Problem retrieving the messages.');
 				this.router.navigate(['/home']);
 
 				return of(null);

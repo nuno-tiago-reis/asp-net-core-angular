@@ -30,16 +30,17 @@
 				</div>
 				<div class="card-footer">
 					<div class="btn-group d-flex">
-						<button class="btn btn-primary w-100 mr-1">Like</button>
-						<button class="btn btn-success w-100 ml-1">Message</button>
+						<button *ngIf="this.hasLike() === false" class="btn btn-primary w-100 mr-1" (click)="this.sendLike()">Like</button>
+						<button *ngIf="this.hasLike()" class="btn btn-warning w-100 mr-1" (click)="this.removeLike()">Unlike</button>
+						<button class="btn btn-success w-100 ml-1" (click)="this.selectTab(2)">Message</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-8">
 			<div class="tab-panel">
-				<tabset class="member-tabset">
-					<tab heading="About {{this.user.knownAs}}">
+				<tabset class="member-tabset" #memberTabs>
+					<tab id="about" heading="About {{this.user.knownAs}}" (select)="this.onSelectTab('about')">
 						<h4 class="mt-2">Description:</h4>
 						<p>{{this.user.introduction}}</p>
 						<h4 class="mt-2">Looking For:</h4>
@@ -47,11 +48,11 @@
 						<h4 class="mt-2">Interests:</h4>
 						<p>{{this.user.interests}}</p>
 					</tab>
-					<tab heading="Pictures">
+					<tab id="pictures" heading="Pictures" (select)="this.onSelectTab('pictures')">
 						<ngx-gallery [options]="this.galleryOptions" [images]="this.galleryImages"></ngx-gallery>
 					</tab>
-					<tab heading="Messages">
-						<p>Messages!</p>
+					<tab id="messages" heading="Messages" (select)="this.onSelectTab('messages')">
+						<app-member-messages [recipientID]="this.user.id"></app-member-messages>
 					</tab>
 				</tabset>
 			</div>

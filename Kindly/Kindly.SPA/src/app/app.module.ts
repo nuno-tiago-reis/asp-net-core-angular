@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,12 +11,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ngx modules
-import { TabsModule } from 'ngx-bootstrap';
-import { ButtonsModule } from 'ngx-bootstrap';
-import { PaginationModule } from 'ngx-bootstrap';
-import { BsDropdownModule } from 'ngx-bootstrap';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TooltipConfig } from 'ngx-bootstrap/tooltip';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxGalleryModule } from 'ngx-gallery';
 
 // ng2 modules
@@ -33,6 +34,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { AuthService } from './-services/auth/auth.service';
 import { UsersService } from './-services/users/users.service';
 import { LikesService } from './-services/likes/likes.service';
+import { MessagesService } from './-services/messages/messages.service';
 import { PicturesService } from './-services/pictures/pictures.service';
 import { AlertifyService } from './-services/alertify/alertify.service';
 import { ServiceInterceptorProvider } from './-services/http.interceptor';
@@ -43,6 +45,7 @@ import { PreventUnsavedChangesGuard } from './-guards/prevent-unsaved-changes.gu
 
 // resolvers
 import { ListsResolver } from './-resolvers/lists.resolver';
+import { MessagesResolver } from './-resolvers/messages.resolver';
 import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
 import { ProfileEditorResolver } from './-resolvers/profile-editor.resolver';
@@ -58,6 +61,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { PictureEditorComponent } from './members/picture-editor/picture-editor.component';
 import { ProfileEditorComponent } from './members/profile-editor/profile-editor.component';
 
@@ -77,6 +81,16 @@ export function getDatepickerConfig(): BsDatepickerConfig
 	{
 		containerClass: 'theme-orange',
 		dateInputFormat: 'DD-MM-YYYY'
+	});
+}
+
+// tooltip config
+export function getAlertConfig(): TooltipConfig
+{
+	return Object.assign(new TooltipConfig(),
+	{
+		placement: 'bottom',
+		container: 'body'
 	});
 }
 
@@ -111,11 +125,11 @@ export function getDatepickerConfig(): BsDatepickerConfig
 		ReactiveFormsModule,
 
 		// angular material
-		MatTooltipModule,
 		BrowserAnimationsModule,
 
 		// ngx
 		TabsModule.forRoot(),
+		TooltipModule.forRoot(),
 		ButtonsModule.forRoot(),
 		PaginationModule.forRoot(),
 		BsDropdownModule.forRoot(),
@@ -135,11 +149,13 @@ export function getDatepickerConfig(): BsDatepickerConfig
 		AuthService,
 		UsersService,
 		LikesService,
+		MessagesService,
 		PicturesService,
 		AlertifyService,
 
 		// resolvers
 		ListsResolver,
+		MessagesResolver,
 		MemberListResolver,
 		MemberDetailResolver,
 		ProfileEditorResolver,
@@ -174,6 +190,7 @@ export function getDatepickerConfig(): BsDatepickerConfig
 		MemberCardComponent,
 		MemberListComponent,
 		MemberDetailComponent,
+		MemberMessagesComponent,
 		PictureEditorComponent,
 		ProfileEditorComponent
 	]

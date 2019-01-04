@@ -1,0 +1,77 @@
+<div class="card">
+	<div class="card-body" #chatWindow [scrollTop]="this.chatWindow.scrollHeight">
+		<div *ngIf="this.messages?.length === 0">
+			<p>No messages yet... try saying hello!</p>
+		</div>
+
+		<ul class="chat">
+			<li *ngFor="let message of this.messages">
+				<!-- message tooltip template-->
+				<ng-template #readTemplate><div [innerHtml]="this.getReadTooltipHtml(message.createdAt | timeAgo, message.readAt | timeAgo)"></div></ng-template>
+				<ng-template #unreadTemplate><div [innerHtml]="this.getUnreadTooltipHtml(message.createdAt | timeAgo)"></div></ng-template>
+
+				<!-- member detail user -->
+				<div *ngIf="message.recipientID !== this.recipientID" class="row">
+					<div class="chat-img ml-3">
+						<img src="{{message.sender.profilePictureUrl}}" class="rounded-circle">
+					</div>
+					<div class="chat-body col-sm-9 ml-1">
+						<div class="row">
+							<div class="text-left">
+								<strong class="primary-font">{{message.sender.knownAs}}</strong>
+							</div>
+						</div>
+						<div class="row">
+							<div class="text-left">
+								<p>{{message.content}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="chat-status-button">
+						<button *ngIf="message.isRead" class="btn btn-sm btn-warning" [tooltip]="readTemplate" [delay]="250"><i class="fa fa-eye" ></i></button>
+						<button *ngIf="!message.isRead" class="btn btn-sm btn-warning" [tooltip]="unreadTemplate" [delay]="250"><i class="fa fa-eye" ></i></button>
+					</div>
+					<div class="chat-delete-button ml-1">
+						<button class="btn btn-sm btn-danger" tooltip="Delete this message?" (click)="this.deleteMessage(message)"><i class="fa fa-trash-o" ></i></button>
+					</div>
+				</div>
+
+				<!-- logged in user -->
+				<div *ngIf="message.recipientID === this.recipientID" class="row">
+					<div class="chat-delete-button ml-3 mr-1">
+						<button class="btn btn-sm btn-danger" tooltip="Delete this message?" (click)="this.deleteMessage(message)"><i class="fa fa-trash-o" ></i></button>
+					</div>
+					<div class="chat-status-button">
+						<button class="btn btn-sm btn-warning" tooltip="{{message.createdAt | timeAgo}}" [delay]="250"><i class="fa fa-clock-o" ></i></button>
+					</div>
+					<div class="chat-body col-sm-9 mr-1">
+						<div class="row justify-content-end">
+							<div class="text-right">
+								<strong class="primary-font">{{message.sender.knownAs}}</strong>
+							</div>
+						</div>
+						<div class="row justify-content-end">
+							<div class="text-right">
+								<p>{{message.content}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="chat-img">
+						<img src="{{message.sender.profilePictureUrl}}" class="rounded-circle">
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="card-footer">
+		<form #messageForm="ngForm" (ngSubmit)="messageForm.valid && this.sendMessage()">
+			<div class="input-group">
+				<input type="text" required [(ngModel)]="this.newMessage.content" name="content" class="form-control input-sm"
+				 placeholder="Send a private message">
+				<div class="input-group-append">
+					<button class="btn btn-primary" [disabled]="!messageForm.valid">Send</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

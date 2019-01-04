@@ -1,19 +1,21 @@
 <div class="row">
 		<div *ngFor="let picture of this.pictures" class="col-sm-2 mb-2">
 			<img class="img-thumbnail p-1 mb-1" src="{{picture.url}}" alt="{{picture.url}}">
-			<div class="text-center">
-				<div class="text-center">
-					<button type="button" class="btn btn-sm mr-1"  matTooltip="Set as profile picture?"
+			<div class="row justify-content-md-center">
+				<div class="editor-tooltip"  tooltip="{{this.getProfileTooltipMessage(picture)}}" [delay]="250">
+					<button type="button" class="btn btn-sm mr-1"
 							[ngClass]="picture.isProfilePicture ? 'btn-warning active' : 'btn-outline-secondary'"
 							(click)="this.setProfilePicture(picture)" [disabled]="picture.isProfilePicture">
 						<i class="fa fa-star"></i>
 					</button>
-					<button type="button" class="btn btn-sm btn-danger" matTooltip="Delete this picture?"
+				</div>
+				<div class="editor-tooltip" tooltip="{{this.getDeleteTooltipMessage(picture)}}" [delay]="250">
+					<button type="button" class="btn btn-sm btn-danger"
 							(click)="this.deletePicture(picture)" [disabled]="picture.isProfilePicture">
 						<i class="fa fa-trash-o"></i>
 					</button>
 				</div>
-		  </div>
+			</div>
 		</div>
 	</div>
 

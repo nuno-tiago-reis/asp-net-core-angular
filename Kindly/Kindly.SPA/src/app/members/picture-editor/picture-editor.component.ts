@@ -175,4 +175,30 @@ export class PictureEditorComponent implements OnInit
 			// Nothing to do here.
 		});
 	}
+
+	/**
+	 * Gets the profile tooltip message.
+	 *
+	 * @param picture The picture.
+	 */
+	public getProfileTooltipMessage(picture: Picture)
+	{
+		if (picture.isProfilePicture)
+			return 'This is the profile picture.';
+		else
+			return 'Set as profile picture?';
+	}
+
+	/**
+	 * Gets the deltee tooltip message.
+	 *
+	 * @param picture The picture.
+	 */
+	public getDeleteTooltipMessage(picture: Picture)
+	{
+		if (picture.isProfilePicture)
+			return 'Cannot delete the profile picture.';
+		else
+			return 'Delete this picture?';
+	}
 }

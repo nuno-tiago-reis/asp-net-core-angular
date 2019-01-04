@@ -1,8 +1,4 @@
-<div class="text-center mt-3">
-	<h2>{{this.filterParameters.mode === this.LikeModeSources ? 'Members who like me' : 'Members who I\'ve Liked'}} : {{this.pagination.totalCount}}</h2>
-</div>
-
-<div class="container mt-3">
+<div class="container mt-5">
 	<div class="row">
 		<div class="btn-group">
 			<button class="btn btn-primary" [(ngModel)]="this.filterParameters.mode" btnRadio="{{this.LikeModeSources}}" (click)="this.getUsers()">Members who like me</button>

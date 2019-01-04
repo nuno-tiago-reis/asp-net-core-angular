@@ -38,7 +38,7 @@ export class MemberDetailResolver implements Resolve<User>
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving user data.');
+				this.alertify.error('Problem retrieving the member detail.');
 				this.router.navigate(['/members']);
 
 				return of(null);

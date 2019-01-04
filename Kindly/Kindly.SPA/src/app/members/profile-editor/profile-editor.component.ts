@@ -1,8 +1,8 @@
 // components
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 // services
 import { AuthService } from '../../-services/auth/auth.service';
@@ -22,11 +22,6 @@ import { User } from '../../-models/user';
 export class ProfileEditorComponent implements OnInit
 {
 	/**
-	 * The date pipe.
-	 */
-	public datePipe = new DatePipe('en-US');
-
-	/**
 	 * The contacts form.
 	 */
 	@ViewChild('contactsForm')
@@ -37,6 +32,12 @@ export class ProfileEditorComponent implements OnInit
 	 */
 	@ViewChild('profileForm')
 	public profileForm: NgForm;
+
+	/**
+	 * The profile tabs component.
+	 */
+	@ViewChild('profileTabs')
+	public profileTabs: TabsetComponent;
 
 	/**
 	 * The user.
@@ -51,12 +52,17 @@ export class ProfileEditorComponent implements OnInit
 	/**
 	 * Creates an instance of the member edit component.
 	 *
-	 * @param route The activated route.
+	 * @param router The router.
+	 * @param activatedRoute The activated route.
 	 * @param authApi The auth service.
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private route: ActivatedRoute, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor
+	(
+		private activatedRoute: ActivatedRoute, private router: Router,
+		private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}
@@ -66,7 +72,7 @@ export class ProfileEditorComponent implements OnInit
 	 */
 	public ngOnInit ()
 	{
-		this.route.data.subscribe
+		this.activatedRoute.data.subscribe
 		(
 			(data) =>
 			{
@@ -74,7 +80,56 @@ export class ProfileEditorComponent implements OnInit
 			}
 		);
 
+		this.activatedRoute.queryParams.subscribe
+		(
+			parameters =>
+			{
+				const tab = parameters['tab'];
+
+				switch (tab)
+				{
+					case 'contacts':
+						this.selectTab(0);
+						break;
+					case 'profile':
+						this.selectTab(1);
+						break;
+					case 'pictures':
+						this.selectTab(2);
+						break;
+				}
+			}
+		);
+
 		this.authApi.profilePictureUrlObservable.subscribe(p => this.profilePictureUrl = p);
+	}
+
+	/**
+	 * Invoked when a tab is selected
+	 *
+	 * @param tabID The tab selected.
+	 */
+	public onSelectTab(tab: string)
+	{
+		this.router.navigate
+		(
+			[],
+			{
+				relativeTo: this.activatedRoute,
+				queryParams: { tab: tab },
+				queryParamsHandling: 'merge'
+			}
+		);
+	}
+
+	/**
+	 * Selects a tab using the given id.
+	 *
+	 * @param tabID The tab to select.
+	 */
+	public selectTab(tabID: number)
+	{
+		this.profileTabs.tabs[tabID].active = true;
 	}
 
 	/**
