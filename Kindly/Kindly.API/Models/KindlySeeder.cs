@@ -4,17 +4,20 @@ using CloudinaryDotNet.Actions;
 using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility.Settings;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
 using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
 namespace Kindly.API.Models
 {
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public sealed class KindlySeeder
 	{
 		#region [Constants]
@@ -28,12 +31,17 @@ namespace Kindly.API.Models
 		/// <summary>
 		/// The context.
 		/// </summary>
-		private readonly KindlyContext context;
+		private readonly KindlyContext Context;
 
 		/// <summary>
+		/// The user manager.
+		/// </summary>
+		private readonly UserManager<User> UserManager;
+
+		/// <summary>S
 		/// The cloudinary proxy.
 		/// </summary>
-		private readonly Cloudinary cloudinary;
+		private readonly Cloudinary Cloudinary;
 		#endregion
 
 		#region [Constructors]
@@ -42,11 +50,13 @@ namespace Kindly.API.Models
 		/// </summary>
 		/// 
 		/// <param name="context">The context.</param>
+		/// <param name="userManager">The user manager.</param>
 		/// <param name="cloudinarySettings">The cloudinary settings.</param>
-		public KindlySeeder(KindlyContext context, IOptions<CloudinarySettings> cloudinarySettings)
+		public KindlySeeder(KindlyContext context, UserManager<User> userManager, IOptions<CloudinarySettings> cloudinarySettings)
 		{
-			this.context = context;
-			this.cloudinary = new Cloudinary(new Account
+			this.Context = context;
+			this.UserManager = userManager;
+			this.Cloudinary = new Cloudinary(new Account
 			(
 				cloudinarySettings.Value.Cloud,
 				cloudinarySettings.Value.ApiKey,
@@ -61,7 +71,7 @@ namespace Kindly.API.Models
 		/// </summary>
 		public void SeedUsers()
 		{
-			if (this.context.Users.Any())
+			if (this.UserManager.Users.Any())
 				return;
 
 			// Read the seed file
@@ -72,9 +82,6 @@ namespace Kindly.API.Models
 
 			foreach (var user in users)
 			{
-				// Create the password
-				UserRepository.CreatePasswordHashAndSalt(user, UserPassword);
-
 				// Upload the pictures
 				foreach (var picture in user.Pictures)
 				{
@@ -84,7 +91,7 @@ namespace Kindly.API.Models
 						Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
 					};
 
-					var uploadResult = this.cloudinary.Upload(uploadParameters);
+					var uploadResult = this.Cloudinary.Upload(uploadParameters);
 					if (uploadResult.Error != null)
 						throw new ArgumentException("There was an error uploading the picture: " + uploadResult.Error.Message);
 
@@ -95,16 +102,14 @@ namespace Kindly.API.Models
 				}
 
 				// Save the pictures
-				this.context.AddRange(user.Pictures);
+				this.Context.AddRange(user.Pictures);
 
-				Console.WriteLine($"Uploaded pictures for {user.UserName}");
+				// Save the user
+				this.UserManager.CreateAsync(user, UserPassword).Wait();
 			}
 
-			// Save the users
-			this.context.AddRange(users);
-
 			// Save the changes
-			this.context.SaveChanges();
+			this.Context.SaveChanges();
 		}
 		#endregion
 	}

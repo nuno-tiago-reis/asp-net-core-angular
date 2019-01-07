@@ -3,13 +3,16 @@
 using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
 using Kindly.API.Models.Repositories.Messages;
+using Kindly.API.Models.Repositories.Users.Identity;
+
+using Microsoft.AspNetCore.Identity;
 
 using System;
 using System.Collections.Generic;
 
 namespace Kindly.API.Models.Repositories.Users
 {
-	public class User
+	public class User : IdentityUser<Guid>
 	{
 		#region [Constants]
 		/// <summary>
@@ -37,37 +40,11 @@ namespace Kindly.API.Models.Repositories.Users
 		/// <summary>
 		/// Gets or sets the identifier.
 		/// </summary>
-		public Guid ID { get; set; }
-
-		/// <summary>
-		/// Gets or sets the user name.
-		/// </summary>
-		public string UserName { get; set; }
-
-		/// <summary>
-		/// Gets or sets the phone number.
-		/// </summary>
-		public string PhoneNumber { get; set; }
-
-		/// <summary>
-		/// Gets or sets the email address.
-		/// </summary>
-		public string EmailAddress { get; set; }
-
-		/// <summary>
-		/// Gets or sets the password hash.
-		/// </summary>
-		public byte[] PasswordHash { get; set; }
-
-		/// <summary>
-		/// Gets or sets the password salt.
-		/// </summary>
-		public byte[] PasswordSalt { get; set; }
-
-		/// <summary>
-		/// Gets or sets the known as name.
-		/// </summary>
-		public string KnownAs { get; set; }
+		public Guid ID
+		{
+			get { return this.Id; }
+			set { this.Id = value; }
+		}
 
 		/// <summary>
 		/// Gets or sets the gender.
@@ -90,6 +67,11 @@ namespace Kindly.API.Models.Repositories.Users
 		public string Country { get; set; }
 
 		/// <summary>
+		/// Gets or sets the known as name.
+		/// </summary>
+		public string KnownAs { get; set; }
+
+		/// <summary>
 		/// Gets or sets the introduction.
 		/// </summary>
 		public string Introduction { get; set; }
@@ -103,11 +85,6 @@ namespace Kindly.API.Models.Repositories.Users
 		/// Gets or sets the interests.
 		/// </summary>
 		public string Interests { get; set; }
-
-		/// <summary>
-		/// Gets or sets the pictures.
-		/// </summary>
-		public ICollection<Picture> Pictures { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created at date.
@@ -138,6 +115,31 @@ namespace Kindly.API.Models.Repositories.Users
 		/// Gets or sets the messages received.
 		/// </summary>
 		public ICollection<Message> MessagesReceived { get; set; }
+
+		/// <summary>
+		/// Gets or sets the pictures.
+		/// </summary>
+		public ICollection<Picture> Pictures { get; set; }
+
+		/// <summary>
+		/// Gets or sets the roles.
+		/// </summary>
+		public ICollection<UserRole> UserRoles { get; set; }
+
+		/// <summary>
+		/// Gets or sets the claims.
+		/// </summary>
+		public ICollection<UserClaim> UserClaims { get; set; }
+
+		/// <summary>
+		/// Gets or sets the logins.
+		/// </summary>
+		public ICollection<UserLogin> UserLogins { get; set; }
+
+		/// <summary>
+		/// Gets or sets the tokens.
+		/// </summary>
+		public ICollection<UserToken> UserTokens { get; set; }
 		#endregion
 	}
 

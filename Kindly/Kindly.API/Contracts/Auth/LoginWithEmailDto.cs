@@ -1,11 +1,11 @@
 ﻿namespace Kindly.API.Contracts.Auth
 {
-	public sealed class LoginWithEmailAddressDto
+	public sealed class LoginWithEmailDto
 	{
 		/// <summary>
 		/// Gets or sets the email address.
 		/// </summary>
-		public string EmailAddress { get; set; }
+		public string Email { get; set; }
 
 		/// <summary>
 		/// Gets or sets the password.

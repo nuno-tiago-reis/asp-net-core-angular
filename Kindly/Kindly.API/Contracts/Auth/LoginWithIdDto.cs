@@ -2,7 +2,7 @@
 
 namespace Kindly.API.Contracts.Auth
 {
-	public sealed class LoginWithUserIdDto
+	public sealed class LoginWithIdDto
 	{
 		/// <summary>
 		/// Gets or sets the identifier.

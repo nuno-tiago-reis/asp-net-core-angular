@@ -7,8 +7,6 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Kindly.API.Models.Repositories.Users
 {
@@ -48,10 +46,10 @@ namespace Kindly.API.Models.Repositories.Users
 			if (await this.PhoneNumberExists(user.PhoneNumber))
 				throw new KindlyException(user.ExistingFieldMessage(u => u.PhoneNumber));
 
-			if (string.IsNullOrWhiteSpace(user.EmailAddress))
-				throw new KindlyException(user.InvalidFieldMessage(u => u.EmailAddress));
-			if (await this.EmailAddressExists(user.EmailAddress))
-				throw new KindlyException(user.ExistingFieldMessage(u => u.EmailAddress));
+			if (string.IsNullOrWhiteSpace(user.Email))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.Email));
+			if (await this.EmailAddressExists(user.Email))
+				throw new KindlyException(user.ExistingFieldMessage(u => u.Email));
 
 			// Properties
 			if (string.IsNullOrWhiteSpace(user.KnownAs))
@@ -88,14 +86,14 @@ namespace Kindly.API.Models.Repositories.Users
 			if (!string.IsNullOrWhiteSpace(user.PhoneNumber) && databaseUser.PhoneNumber != user.PhoneNumber && await this.PhoneNumberExists(user.PhoneNumber))
 				throw new KindlyException(user.ExistingFieldMessage(u => u.PhoneNumber));
 
-			if (!string.IsNullOrWhiteSpace(user.EmailAddress) && databaseUser.EmailAddress != user.EmailAddress && await this.EmailAddressExists(user.EmailAddress))
-				throw new KindlyException(user.ExistingFieldMessage(u => u.EmailAddress));
+			if (!string.IsNullOrWhiteSpace(user.Email) && databaseUser.Email != user.Email && await this.EmailAddressExists(user.Email))
+				throw new KindlyException(user.ExistingFieldMessage(u => u.Email));
 
 			databaseUser.PhoneNumber =
 				!string.IsNullOrWhiteSpace(user.PhoneNumber) ? user.PhoneNumber : databaseUser.PhoneNumber;
 
-			databaseUser.EmailAddress =
-				!string.IsNullOrWhiteSpace(user.EmailAddress) ? user.EmailAddress : databaseUser.EmailAddress;
+			databaseUser.Email =
+				!string.IsNullOrWhiteSpace(user.Email) ? user.Email : databaseUser.Email;
 
 			// Properties
 			databaseUser.KnownAs =
@@ -219,76 +217,6 @@ namespace Kindly.API.Models.Repositories.Users
 
 		#region [Methods] IUserRepository
 		/// <inheritdoc />
-		public async Task<User> LoginWithID(Guid userID, string password)
-		{
-			var user = await this.Get(userID);
-
-			await this.Login(user, password);
-
-			return user;
-		}
-
-		/// <inheritdoc />
-		public async Task<User> LoginWithUserName(string userName, string password)
-		{
-			var user = await this.GetByUserName(userName);
-
-			await this.Login(user, password);
-
-			return user;
-		}
-
-		/// <inheritdoc />
-		public async Task<User> LoginWithPhoneNumber(string phoneNumber, string password)
-		{
-			var user = await this.GetByPhoneNumber(phoneNumber);
-
-			await this.Login(user, password);
-
-			return user;
-		}
-
-		/// <inheritdoc />
-		public async Task<User> LoginWithEmailAddress(string emailAddress, string password)
-		{
-			var user = await this.GetByEmailAddress(emailAddress);
-
-			await this.Login(user, password);
-
-			return user;
-		}
-
-		/// <inheritdoc />
-		public async Task AddPassword(User user, string password)
-		{
-			var databaseUser = await this.Get(user.ID);
-			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist, true);
-
-			if(databaseUser.PasswordHash != null)
-				throw new KindlyException(User.PasswordAlreadyExists);
-
-			CreatePasswordHashAndSalt(databaseUser, password);
-
-			await this.Context.SaveChangesAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task ChangePassword(User user, string oldPassword, string newPassword)
-		{
-			var databaseUser = await this.Get(user.ID);
-			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist, true);
-
-			if (CheckIfPasswordMatches(databaseUser, oldPassword) == false)
-				throw new KindlyException(User.PasswordIsIncorrect);
-
-			CreatePasswordHashAndSalt(databaseUser, newPassword);
-
-			await this.Context.SaveChangesAsync();
-		}
-
-		/// <inheritdoc />
 		public async Task<bool> UserNameExists(string userName)
 		{
 			return await this.Context.Users.AnyAsync(u => u.UserName == userName);
@@ -303,7 +231,7 @@ namespace Kindly.API.Models.Repositories.Users
 		/// <inheritdoc />
 		public async Task<bool> EmailAddressExists(string emailAddress)
 		{
-			return await this.Context.Users.AnyAsync(u => u.EmailAddress == emailAddress);
+			return await this.Context.Users.AnyAsync(u => u.Email == emailAddress);
 		}
 
 		/// <inheritdoc />
@@ -321,7 +249,7 @@ namespace Kindly.API.Models.Repositories.Users
 		/// <inheritdoc />
 		public async Task<User> GetByEmailAddress(string emailAddress)
 		{
-			return await this.Context.Users.SingleOrDefaultAsync(u => u.EmailAddress == emailAddress);
+			return await this.Context.Users.SingleOrDefaultAsync(u => u.Email == emailAddress);
 		}
 		#endregion
 
@@ -336,65 +264,6 @@ namespace Kindly.API.Models.Repositories.Users
 				.Include(u => u.LikeTargets)
 				.Include(u => u.LikeSources)
 				.OrderByDescending(u => u.LastActiveAt);
-		}
-
-		/// <summary>
-		/// Logs in the specified user.
-		/// </summary>
-		/// 
-		/// <param name="user">The user.</param>
-		/// <param name="password">The password.</param>
-		///
-		/// <exception cref="Exception">
-		/// User does not exist.
-		/// or
-		/// The password is incorrect.
-		/// </exception>
-		private async Task<User> Login(User user, string password)
-		{
-			var databaseUser = user != null ? await this.Get(user.ID) : null;
-			if (databaseUser == null)
-				throw new KindlyException(User.UserOrPasswordAreIncorrect);
-
-			if (CheckIfPasswordMatches(databaseUser, password) == false)
-				throw new KindlyException(User.UserOrPasswordAreIncorrect);
-
-			return databaseUser;
-		}
-
-		/// <summary>
-		/// Creates the password hash and salt.
-		/// </summary>
-		/// 
-		/// <param name="user">The user.</param>
-		/// <param name="password">The password.</param>
-		public static void CreatePasswordHashAndSalt(User user, string password)
-		{
-			using (var hmac = new HMACSHA512())
-			{
-				hmac.Initialize();
-				hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-				user.PasswordHash = hmac.Hash;
-				user.PasswordSalt = hmac.Key;
-			}
-		}
-
-		/// <summary>
-		/// Update the password hash and salt.
-		/// </summary>
-		/// 
-		/// <param name="user">The user.</param>
-		/// <param name="password">The password.</param>
-		public static bool CheckIfPasswordMatches(User user, string password)
-		{
-			using (var hmac = new HMACSHA512(user.PasswordSalt))
-			{
-				hmac.Initialize();
-				hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-				return hmac.Hash.SequenceEqual(user.PasswordHash);
-			}
 		}
 		#endregion
 	}

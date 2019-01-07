@@ -4,14 +4,16 @@ using Kindly.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kindly.API.Migrations
 {
     [DbContext(typeof(KindlyContext))]
-    partial class KindlyContextModelSnapshot : ModelSnapshot
+    [Migration("20190107121329_AddedAspNetCodeIdentityTables")]
+    partial class AddedAspNetCodeIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,6 +99,7 @@ namespace Kindly.API.Migrations
                         .HasDefaultValueSql("GetUtcDate()");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<bool?>("IsProfilePicture")

@@ -2,7 +2,7 @@
     {
         "KnownAs": "Shaw Patton",
         "Username": "shaw-patton",
-        "EmailAddress": "shaw-patton@outlook.com",
+        "Email": "shaw-patton@outlook.com",
         "PhoneNumber": "+932 4423391",
         "Gender": "male",
         "BirthDate": "1984-07-14",
@@ -44,7 +44,7 @@
     {
         "KnownAs": "Freeman Snow",
         "Username": "freeman-snow",
-        "EmailAddress": "freeman-snow@outlook.com",
+        "Email": "freeman-snow@outlook.com",
         "PhoneNumber": "+822 4162645",
         "Gender": "male",
         "BirthDate": "1992-02-19",
@@ -86,7 +86,7 @@
     {
         "KnownAs": "Ross Wall",
         "Username": "ross-wall",
-        "EmailAddress": "ross-wall@outlook.com",
+        "Email": "ross-wall@outlook.com",
         "PhoneNumber": "+972 4712874",
         "Gender": "male",
         "BirthDate": "1989-04-10",
@@ -128,7 +128,7 @@
     {
         "KnownAs": "Bush Miles",
         "Username": "bush-miles",
-        "EmailAddress": "bush-miles@outlook.com",
+        "Email": "bush-miles@outlook.com",
         "PhoneNumber": "+934 5833935",
         "Gender": "male",
         "BirthDate": "1979-09-07",
@@ -170,7 +170,7 @@
     {
         "KnownAs": "Rasmussen Norris",
         "Username": "rasmussen-norris",
-        "EmailAddress": "rasmussen-norris@outlook.com",
+        "Email": "rasmussen-norris@outlook.com",
         "PhoneNumber": "+807 5813664",
         "Gender": "male",
         "BirthDate": "1987-09-30",
@@ -212,7 +212,7 @@
     {
         "KnownAs": "Barnett Duncan",
         "Username": "barnett-duncan",
-        "EmailAddress": "barnett-duncan@outlook.com",
+        "Email": "barnett-duncan@outlook.com",
         "PhoneNumber": "+958 4953409",
         "Gender": "male",
         "BirthDate": "1984-10-06",
@@ -254,7 +254,7 @@
     {
         "KnownAs": "Knight Fox",
         "Username": "knight-fox",
-        "EmailAddress": "knight-fox@outlook.com",
+        "Email": "knight-fox@outlook.com",
         "PhoneNumber": "+889 5482959",
         "Gender": "male",
         "BirthDate": "1990-11-01",
@@ -296,7 +296,7 @@
     {
         "KnownAs": "Foster Snyder",
         "Username": "foster-snyder",
-        "EmailAddress": "foster-snyder@outlook.com",
+        "Email": "foster-snyder@outlook.com",
         "PhoneNumber": "+884 4602524",
         "Gender": "male",
         "BirthDate": "1994-09-29",
@@ -338,7 +338,7 @@
     {
         "KnownAs": "Alston Serrano",
         "Username": "alston-serrano",
-        "EmailAddress": "alston-serrano@outlook.com",
+        "Email": "alston-serrano@outlook.com",
         "PhoneNumber": "+854 5712948",
         "Gender": "male",
         "BirthDate": "1988-10-30",
@@ -380,7 +380,7 @@
     {
         "KnownAs": "Ellis Parks",
         "Username": "ellis-parks",
-        "EmailAddress": "ellis-parks@outlook.com",
+        "Email": "ellis-parks@outlook.com",
         "PhoneNumber": "+989 5222739",
         "Gender": "male",
         "BirthDate": "1990-05-19",
@@ -422,7 +422,7 @@
     {
         "KnownAs": "Houston Mcclain",
         "Username": "houston-mcclain",
-        "EmailAddress": "houston-mcclain@outlook.com",
+        "Email": "houston-mcclain@outlook.com",
         "PhoneNumber": "+930 4023416",
         "Gender": "male",
         "BirthDate": "1988-06-07",
@@ -464,7 +464,7 @@
     {
         "KnownAs": "Davis Rowe",
         "Username": "davis-rowe",
-        "EmailAddress": "davis-rowe@outlook.com",
+        "Email": "davis-rowe@outlook.com",
         "PhoneNumber": "+977 5732654",
         "Gender": "male",
         "BirthDate": "1985-10-12",
@@ -506,7 +506,7 @@
     {
         "KnownAs": "Hodge Reilly",
         "Username": "hodge-reilly",
-        "EmailAddress": "hodge-reilly@outlook.com",
+        "Email": "hodge-reilly@outlook.com",
         "PhoneNumber": "+985 4492228",
         "Gender": "male",
         "BirthDate": "1982-06-09",
@@ -548,7 +548,7 @@
     {
         "KnownAs": "Mason Nichols",
         "Username": "mason-nichols",
-        "EmailAddress": "mason-nichols@outlook.com",
+        "Email": "mason-nichols@outlook.com",
         "PhoneNumber": "+814 5163377",
         "Gender": "male",
         "BirthDate": "1977-06-01",
@@ -590,7 +590,7 @@
     {
         "KnownAs": "Pearson Justice",
         "Username": "pearson-justice",
-        "EmailAddress": "pearson-justice@outlook.com",
+        "Email": "pearson-justice@outlook.com",
         "PhoneNumber": "+869 4053269",
         "Gender": "male",
         "BirthDate": "1994-06-29",
@@ -632,7 +632,7 @@
     {
         "KnownAs": "Joseph Mclaughlin",
         "Username": "joseph-mclaughlin",
-        "EmailAddress": "joseph-mclaughlin@outlook.com",
+        "Email": "joseph-mclaughlin@outlook.com",
         "PhoneNumber": "+806 5703472",
         "Gender": "male",
         "BirthDate": "1990-05-22",
@@ -674,7 +674,7 @@
     {
         "KnownAs": "Meyers Duran",
         "Username": "meyers-duran",
-        "EmailAddress": "meyers-duran@outlook.com",
+        "Email": "meyers-duran@outlook.com",
         "PhoneNumber": "+842 4172297",
         "Gender": "male",
         "BirthDate": "1994-05-13",
@@ -716,7 +716,7 @@
     {
         "KnownAs": "Harmon Bird",
         "Username": "harmon-bird",
-        "EmailAddress": "harmon-bird@outlook.com",
+        "Email": "harmon-bird@outlook.com",
         "PhoneNumber": "+903 4972343",
         "Gender": "male",
         "BirthDate": "1991-08-15",
@@ -758,7 +758,7 @@
     {
         "KnownAs": "Holloway Schroeder",
         "Username": "holloway-schroeder",
-        "EmailAddress": "holloway-schroeder@outlook.com",
+        "Email": "holloway-schroeder@outlook.com",
         "PhoneNumber": "+869 4353712",
         "Gender": "male",
         "BirthDate": "1995-10-12",
@@ -800,7 +800,7 @@
     {
         "KnownAs": "Horne Cash",
         "Username": "horne-cash",
-        "EmailAddress": "horne-cash@outlook.com",
+        "Email": "horne-cash@outlook.com",
         "PhoneNumber": "+802 4103311",
         "Gender": "male",
         "BirthDate": "1979-04-28",
@@ -842,7 +842,7 @@
     {
         "KnownAs": "Louise Thomas",
         "Username": "louise-thomas",
-        "EmailAddress": "louise-thomas@outlook.com",
+        "Email": "louise-thomas@outlook.com",
         "PhoneNumber": "+944 4912086",
         "Gender": "female",
         "BirthDate": "1979-12-04",
@@ -884,7 +884,7 @@
     {
         "KnownAs": "Callie Hutchinson",
         "Username": "callie-hutchinson",
-        "EmailAddress": "callie-hutchinson@outlook.com",
+        "Email": "callie-hutchinson@outlook.com",
         "PhoneNumber": "+902 4453946",
         "Gender": "female",
         "BirthDate": "1984-10-27",
@@ -926,7 +926,7 @@
     {
         "KnownAs": "Lena Wallace",
         "Username": "lena-wallace",
-        "EmailAddress": "lena-wallace@outlook.com",
+        "Email": "lena-wallace@outlook.com",
         "PhoneNumber": "+939 5392431",
         "Gender": "female",
         "BirthDate": "1998-11-11",
@@ -968,7 +968,7 @@
     {
         "KnownAs": "Lou Gilliam",
         "Username": "lou-gilliam",
-        "EmailAddress": "lou-gilliam@outlook.com",
+        "Email": "lou-gilliam@outlook.com",
         "PhoneNumber": "+924 5362179",
         "Gender": "female",
         "BirthDate": "1979-02-15",
@@ -1010,7 +1010,7 @@
     {
         "KnownAs": "Paige Rosa",
         "Username": "paige-rosa",
-        "EmailAddress": "paige-rosa@outlook.com",
+        "Email": "paige-rosa@outlook.com",
         "PhoneNumber": "+855 4012360",
         "Gender": "female",
         "BirthDate": "1980-09-13",
@@ -1052,7 +1052,7 @@
     {
         "KnownAs": "Kelli Morse",
         "Username": "kelli-morse",
-        "EmailAddress": "kelli-morse@outlook.com",
+        "Email": "kelli-morse@outlook.com",
         "PhoneNumber": "+829 5963028",
         "Gender": "female",
         "BirthDate": "1990-03-15",
@@ -1094,7 +1094,7 @@
     {
         "KnownAs": "Fannie Luna",
         "Username": "fannie-luna",
-        "EmailAddress": "fannie-luna@outlook.com",
+        "Email": "fannie-luna@outlook.com",
         "PhoneNumber": "+872 5663582",
         "Gender": "female",
         "BirthDate": "1993-08-22",
@@ -1136,7 +1136,7 @@
     {
         "KnownAs": "Sonia Santiago",
         "Username": "sonia-santiago",
-        "EmailAddress": "sonia-santiago@outlook.com",
+        "Email": "sonia-santiago@outlook.com",
         "PhoneNumber": "+812 5663084",
         "Gender": "female",
         "BirthDate": "1986-02-27",
@@ -1178,7 +1178,7 @@
     {
         "KnownAs": "Sherrie Ray",
         "Username": "sherrie-ray",
-        "EmailAddress": "sherrie-ray@outlook.com",
+        "Email": "sherrie-ray@outlook.com",
         "PhoneNumber": "+882 5372718",
         "Gender": "female",
         "BirthDate": "1997-10-21",
@@ -1220,7 +1220,7 @@
     {
         "KnownAs": "Brianna Coleman",
         "Username": "brianna-coleman",
-        "EmailAddress": "brianna-coleman@outlook.com",
+        "Email": "brianna-coleman@outlook.com",
         "PhoneNumber": "+860 5902999",
         "Gender": "female",
         "BirthDate": "1980-05-28",
@@ -1262,7 +1262,7 @@
     {
         "KnownAs": "Reva Travis",
         "Username": "reva-travis",
-        "EmailAddress": "reva-travis@outlook.com",
+        "Email": "reva-travis@outlook.com",
         "PhoneNumber": "+968 4712352",
         "Gender": "female",
         "BirthDate": "1979-03-24",
@@ -1304,7 +1304,7 @@
     {
         "KnownAs": "Esther Smith",
         "Username": "esther-smith",
-        "EmailAddress": "esther-smith@outlook.com",
+        "Email": "esther-smith@outlook.com",
         "PhoneNumber": "+829 4722376",
         "Gender": "female",
         "BirthDate": "1981-12-05",
@@ -1346,7 +1346,7 @@
     {
         "KnownAs": "Elise Nunez",
         "Username": "elise-nunez",
-        "EmailAddress": "elise-nunez@outlook.com",
+        "Email": "elise-nunez@outlook.com",
         "PhoneNumber": "+896 4372792",
         "Gender": "female",
         "BirthDate": "1993-10-07",
@@ -1388,7 +1388,7 @@
     {
         "KnownAs": "Helena Wagner",
         "Username": "helena-wagner",
-        "EmailAddress": "helena-wagner@outlook.com",
+        "Email": "helena-wagner@outlook.com",
         "PhoneNumber": "+974 4213140",
         "Gender": "female",
         "BirthDate": "1994-08-17",
@@ -1430,7 +1430,7 @@
     {
         "KnownAs": "Krystal Gallagher",
         "Username": "krystal-gallagher",
-        "EmailAddress": "krystal-gallagher@outlook.com",
+        "Email": "krystal-gallagher@outlook.com",
         "PhoneNumber": "+865 4863735",
         "Gender": "female",
         "BirthDate": "1999-03-17",
@@ -1472,7 +1472,7 @@
     {
         "KnownAs": "Anastasia Acevedo",
         "Username": "anastasia-acevedo",
-        "EmailAddress": "anastasia-acevedo@outlook.com",
+        "Email": "anastasia-acevedo@outlook.com",
         "PhoneNumber": "+986 5733348",
         "Gender": "female",
         "BirthDate": "1995-02-22",
@@ -1514,7 +1514,7 @@
     {
         "KnownAs": "Graciela Duran",
         "Username": "graciela-duran",
-        "EmailAddress": "graciela-duran@outlook.com",
+        "Email": "graciela-duran@outlook.com",
         "PhoneNumber": "+918 4713873",
         "Gender": "female",
         "BirthDate": "1995-02-25",
@@ -1556,7 +1556,7 @@
     {
         "KnownAs": "Lillian Wells",
         "Username": "lillian-wells",
-        "EmailAddress": "lillian-wells@outlook.com",
+        "Email": "lillian-wells@outlook.com",
         "PhoneNumber": "+929 5283455",
         "Gender": "female",
         "BirthDate": "1984-04-03",
@@ -1598,7 +1598,7 @@
     {
         "KnownAs": "Billie Dale",
         "Username": "billie-dale",
-        "EmailAddress": "billie-dale@outlook.com",
+        "Email": "billie-dale@outlook.com",
         "PhoneNumber": "+852 5713056",
         "Gender": "female",
         "BirthDate": "1980-10-14",
@@ -1640,7 +1640,7 @@
     {
         "KnownAs": "Kristine Garza",
         "Username": "kristine-garza",
-        "EmailAddress": "kristine-garza@outlook.com",
+        "Email": "kristine-garza@outlook.com",
         "PhoneNumber": "+900 5052341",
         "Gender": "female",
         "BirthDate": "1981-07-13",
@@ -1682,7 +1682,7 @@
     {
         "KnownAs": "Tiago Reis",
         "Username": "tiago-reis",
-        "EmailAddress": "nuno-tiago-reis@outlook.com",
+        "Email": "nuno-tiago-reis@outlook.com",
         "PhoneNumber": "+351 934323293",
         "Gender": "male",
         "BirthDate": "1991-12-08",

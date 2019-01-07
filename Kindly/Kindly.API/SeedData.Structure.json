@@ -6,7 +6,7 @@
     {
       return this.KnownAs.replace(' ', '-').toLowerCase();
     },
-    EmailAddress:function()
+    Email:function()
     {
       return (this.Username + '@outlook.com').toLowerCase();
     },
@@ -79,7 +79,7 @@
     {
       return this.KnownAs.replace(' ', '-').toLowerCase();
     },
-    EmailAddress:function()
+    Email:function()
     {
       return (this.Username + '@outlook.com').toLowerCase();
     },

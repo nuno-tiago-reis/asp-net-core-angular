@@ -1,59 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Users
 {
 	public interface IUserRepository : IEntityRepository<User, UserParameters>
 	{
-		/// <summary>
-		/// Logs in the user using its user ID.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user ID.</param>
-		/// <param name="password">The password.</param>
-		Task<User> LoginWithID(Guid userID, string password);
-
-		/// <summary>
-		/// Logs in the user using its user name.
-		/// </summary>
-		/// 
-		/// <param name="userName">The user name.</param>
-		/// <param name="password">The password.</param>
-		Task<User> LoginWithUserName(string userName, string password);
-
-		/// <summary>
-		/// Logs in the user using its phone number.
-		/// </summary>
-		/// 
-		/// <param name="phoneNumber">The phone number.</param>
-		/// <param name="password">The password.</param>
-		Task<User> LoginWithPhoneNumber(string phoneNumber, string password);
-
-		/// <summary>
-		/// Logs in the user using its email address.
-		/// </summary>
-		/// 
-		/// <param name="emailAddress">The email address.</param>
-		/// <param name="password">The password.</param>
-		Task<User> LoginWithEmailAddress(string emailAddress, string password);
-
-		/// <summary>
-		/// Adds the password.
-		/// </summary>
-		/// 
-		/// <param name="user">The user.</param>
-		/// <param name="password">The password.</param>
-		Task AddPassword(User user, string password);
-
-		/// <summary>
-		/// Updates the password.
-		/// </summary>
-		/// 
-		/// <param name="user">The user.</param>
-		/// <param name="oldPassword">The old password.</param>
-		/// <param name="newPassword">The new password.</param>
-		Task ChangePassword(User user, string oldPassword, string newPassword);
-
 		/// <summary>
 		/// Checks if a user exists with the given user name.
 		/// </summary>

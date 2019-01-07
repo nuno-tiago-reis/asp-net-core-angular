@@ -5,12 +5,14 @@ using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
 using Kindly.API.Models.Repositories.Messages;
 using Kindly.API.Models.Repositories.Users;
+using Kindly.API.Models.Repositories.Users.Identity;
 using Kindly.API.Utility;
 using Kindly.API.Utility.Settings;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Kindly.API
 {
@@ -55,27 +59,20 @@ namespace Kindly.API
 			services.AddAutoMapper();
 
 			// Compatibility
-			services.AddMvc().AddJsonOptions(options =>
+			services
+				.AddMvc(options =>
+				{
+					var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+					options.Filters.Add(new AuthorizeFilter(policy));
+
+				})
+				.AddJsonOptions(options =>
 				{
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 					options.SerializerSettings.Converters.Add(new StringEnumConverter(true));
 				})
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-			// Authentication
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-			{
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuer = false,
-					ValidateAudience = false,
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey
-					(
-						Encoding.UTF8.GetBytes(this.Configuration.GetSection(KindlyConstants.AppSettingsEncryptionKey).Value)
-					)
-				};
-			});
 
 			// Database Context
 			services.AddTransient<KindlySeeder>();
@@ -90,11 +87,47 @@ namespace Kindly.API
 			services.AddScoped<IPictureRepository, PictureRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 
-			// Configurations
+			// Cloudinary
 			services.Configure<CloudinarySettings>(Configuration.GetSection(KindlyConstants.AppSettingsCloudinary));
 
 			// Filters
 			services.AddScoped<KindlyActivityFilter>();
+
+			// Authentication - Identity
+			var builder = services.AddIdentityCore<User>(options =>
+			{
+				// User
+				options.User.RequireUniqueEmail = true;
+
+				// Password
+				options.Password.RequiredLength = 6;
+				options.Password.RequireDigit = true;
+				options.Password.RequireLowercase = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequiredUniqueChars = 1;
+				options.Password.RequireNonAlphanumeric = true;
+			});
+
+			builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+			builder.AddEntityFrameworkStores<KindlyContext>();
+			builder.AddSignInManager<SignInManager<User>>();
+			builder.AddRoleValidator<RoleValidator<Role>>();
+			builder.AddRoleManager<RoleManager<Role>>();
+
+			// Authentication - JWT Token Generator
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+			{
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey
+					(
+						Encoding.UTF8.GetBytes(this.Configuration.GetSection(KindlyConstants.AppSettingsEncryptionKey).Value)
+					)
+				};
+			});
 		}
 
 		/// <summary>

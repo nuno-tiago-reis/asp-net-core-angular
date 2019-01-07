@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Security.Claims;
 
 namespace Kindly.API.Controllers
 {
@@ -14,7 +15,7 @@ namespace Kindly.API.Controllers
 		/// <returns></returns>
 		protected Guid GetInvocationUserID()
 		{
-			return Guid.Parse(User.FindFirst(KindlyClaimTypes.ID.ToString().ToLowerCamelCase()).Value);
+			return Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 		}
 	}
 }

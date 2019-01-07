@@ -10,16 +10,16 @@ namespace Kindly.API.Contracts.Users
 	public sealed class UpdateUserDto
 	{
 		/// <summary>
+		/// Gets or sets the email address.
+		/// </summary>
+		[DataType(DataType.EmailAddress)]
+		public string Email { get; set; }
+
+		/// <summary>
 		/// Gets or sets the phone number.
 		/// </summary>
 		[DataType(DataType.PhoneNumber)]
 		public string PhoneNumber { get; set; }
-
-		/// <summary>
-		/// Gets or sets the email address.
-		/// </summary>
-		[DataType(DataType.EmailAddress)]
-		public string EmailAddress { get; set; }
 
 		/// <summary>
 		/// Gets or sets the known as name.

@@ -7,8 +7,10 @@ using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -21,6 +23,7 @@ using System.Threading.Tasks;
 namespace Kindly.API.Controllers
 {
 	[ApiController]
+	[AllowAnonymous]
 	[Route("api/[controller]")]
 	[ServiceFilter(typeof(KindlyActivityFilter))]
 	public sealed class AuthController : KindlyController
@@ -32,9 +35,14 @@ namespace Kindly.API.Controllers
 		private IMapper Mapper { get; set; }
 
 		/// <summary>
-		/// Gets or sets the repository.
+		/// Gets or sets the user manager.
 		/// </summary>
-		private IUserRepository Repository { get; set; }
+		private UserManager<User> UserManager { get; set; }
+
+		/// <summary>
+		/// Gets or sets the sign in manager.
+		/// </summary>
+		private SignInManager<User> SignInManager { get; set; }
 
 		/// <summary>
 		/// Gets or sets the security key.
@@ -53,14 +61,21 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="mapper">The mapper.</param>
-		/// <param name="repository">The repository.</param>
+		/// <param name="userManager">The user manager.</param>
+		/// <param name="signInManager">The sign in manager.</param>
 		/// <param name="configuration">The configuration.</param>
-		public AuthController(IMapper mapper, IUserRepository repository, IConfiguration configuration)
+		public AuthController
+		(
+			IMapper mapper,
+			UserManager<User> userManager,
+			SignInManager<User> signInManager,
+			IConfiguration configuration)
 		{
 			string secret = configuration.GetSection(KindlyConstants.AppSettingsEncryptionKey).Value;
 
 			this.Mapper = mapper;
-			this.Repository = repository;
+			this.UserManager = userManager;
+			this.SignInManager = signInManager;
 			this.SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
 			this.SigningCredentials = new SigningCredentials(this.SecurityKey, SecurityAlgorithms.HmacSha512Signature);
 		}
@@ -75,10 +90,23 @@ namespace Kindly.API.Controllers
 		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterDto registerInfo)
 		{
-			var user = await this.Repository.Create(Mapper.Map<User>(registerInfo));
-			await this.Repository.AddPassword(user, registerInfo.Password);
+			var user = Mapper.Map<User>(registerInfo);
 
-			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
+			if (await this.UserManager.FindByEmailAsync(user.Email) != null)
+				return this.BadRequest(user.ExistingFieldMessage(u => u.Email));
+
+			if (await this.UserManager.FindByNameAsync(user.UserName) != null)
+				return this.BadRequest(user.ExistingFieldMessage(u => u.UserName));
+
+			var result = await this.UserManager.CreateAsync(user, registerInfo.Password);
+			if (result.Succeeded)
+			{
+				return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
+			}
+			else
+			{
+				return this.BadRequest(result.Errors);
+			}
 		}
 
 		/// <summary>
@@ -87,15 +115,23 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="loginInfo">The login information.</param>
 		[HttpPost("login/id")]
-		public async Task<IActionResult> LoginWithID(LoginWithUserIdDto loginInfo)
+		public async Task<IActionResult> LoginWithID(LoginWithIdDto loginInfo)
 		{
 			try
 			{
-				var user = await this.Repository.LoginWithID(loginInfo.ID, loginInfo.Password);
-				var userDto = Mapper.Map<UserDetailedDto>(user);
-				userDto.CleanLikeSourcesAndTargets();
+				var user = await this.UserManager.FindByIdAsync(loginInfo.ID.ToString());
+				if (user == null)
+					return this.NotFound();
 
-				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
+				var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
+				if (result.Succeeded)
+				{
+					return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), this.GenerateLoginToken(user)));
+				}
+				else
+				{
+					return this.Unauthorized();
+				}
 			}
 			catch (KindlyException exception)
 			{
@@ -115,35 +151,19 @@ namespace Kindly.API.Controllers
 		{
 			try
 			{
-				var user = await this.Repository.LoginWithUserName(loginInfo.UserName, loginInfo.Password);
-				var userDto = Mapper.Map<UserDetailedDto>(user);
-				userDto.CleanLikeSourcesAndTargets();
+				var user = await this.UserManager.FindByNameAsync(loginInfo.UserName);
+				if (user == null)
+					return this.NotFound();
 
-				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
-			}
-			catch (KindlyException exception)
-			{
-				exception.StatusCode = StatusCodes.Status401Unauthorized;
-
-				throw;
-			}
-		}
-
-		/// <summary>
-		/// Logins the user using its phone number.
-		/// </summary>
-		/// 
-		/// <param name="loginInfo">The login information.</param>
-		[HttpPost("login/phone-number")]
-		public async Task<IActionResult> LoginWithPhoneNumber(LoginWithPhoneNumberDto loginInfo)
-		{
-			try
-			{
-				var user = await this.Repository.LoginWithPhoneNumber(loginInfo.PhoneNumber, loginInfo.Password);
-				var userDto = Mapper.Map<UserDetailedDto>(user);
-				userDto.CleanLikeSourcesAndTargets();
-
-				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
+				var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
+				if (result.Succeeded)
+				{
+					return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), this.GenerateLoginToken(user)));
+				}
+				else
+				{
+					return this.Unauthorized();
+				}
 			}
 			catch (KindlyException exception)
 			{
@@ -159,15 +179,26 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="loginInfo">The login information.</param>
 		[HttpPost("login/email-address")]
-		public async Task<IActionResult> LoginWithEmailAddress(LoginWithEmailAddressDto loginInfo)
+		public async Task<IActionResult> LoginWithEmail(LoginWithEmailDto loginInfo)
 		{
 			try
 			{
-				var user = await this.Repository.LoginWithEmailAddress(loginInfo.EmailAddress, loginInfo.Password);
-				var userDto = Mapper.Map<UserDetailedDto>(user);
-				userDto.CleanLikeSourcesAndTargets();
+				var user = await this.UserManager.FindByEmailAsync(loginInfo.Email);
+				if (user == null)
+					return this.NotFound();
 
-				return this.Ok(new LoginResponseDto(userDto, this.GenerateLoginToken(user)));
+				Console.WriteLine(user.ID);
+				Console.WriteLine(loginInfo.Email);
+
+				var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
+				if (result.Succeeded)
+				{
+					return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), this.GenerateLoginToken(user)));
+				}
+				else
+				{
+					return this.Unauthorized();
+				}
 			}
 			catch (KindlyException exception)
 			{
@@ -194,7 +225,7 @@ namespace Kindly.API.Controllers
 				ID = passwordInfo.ID
 			};
 
-			await this.Repository.AddPassword(user, passwordInfo.Password);
+			await this.UserManager.AddPasswordAsync(user, passwordInfo.Password);
 
 			return this.Ok();
 		}
@@ -216,13 +247,28 @@ namespace Kindly.API.Controllers
 				ID = passwordInfo.ID
 			};
 
-			await this.Repository.ChangePassword(user, passwordInfo.OldPassword, passwordInfo.NewPassword);
+			await this.UserManager.ChangePasswordAsync(user, passwordInfo.OldPassword, passwordInfo.NewPassword);
 
 			return this.Ok();
 		}
 		#endregion
 
 		#region [Utility Methods]
+		/// <summary>
+		/// Generates a user dto for the user.
+		/// </summary>
+		/// 
+		/// <param name="user">The user.</param>
+		private async Task<UserDetailedDto> GenerateUserDto(User user)
+		{
+			var databaseUser = await this.UserManager.Users
+				.Include(u => u.Pictures)
+				.FirstOrDefaultAsync(u => u.UserName == user.UserName);
+			var databaseUserDto = Mapper.Map<UserDetailedDto>(databaseUser);
+
+			return databaseUserDto;
+		}
+
 		/// <summary>
 		/// Generates a login token for the user.
 		/// </summary>
@@ -237,8 +283,7 @@ namespace Kindly.API.Controllers
 				(
 					new[]
 					{
-						new Claim(KindlyClaimTypes.ID.ToString().ToLowerCamelCase(), user.ID.ToString()),
-						new Claim(KindlyClaimTypes.ProfileName.ToString().ToLowerCamelCase(), user.KnownAs)
+						new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
 					}
 				),
 				Expires = DateTime.Now.AddDays(1),

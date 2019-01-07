@@ -9,14 +9,26 @@ namespace Kindly.API.Models.Repositories.Users
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
 			// Keys
-			builder.HasKey(user => user.ID);
+			//builder.HasKey(user => user.Id);
 
 			// Indices
-			builder.HasIndex(user => user.UserName).IsUnique();
-			builder.HasIndex(user => user.PhoneNumber).IsUnique();
-			builder.HasIndex(user => user.EmailAddress).IsUnique();
+			builder.HasIndex(user => user.Email);
+			builder.HasIndex(user => user.UserName);
+			builder.HasIndex(user => user.PhoneNumber);
 
 			// Properties
+			builder.Property(user => user.Id)
+				.IsRequired()
+				.HasColumnName(nameof(User.ID));
+
+			builder.Property(user => user.UserName)
+				.IsRequired()
+				.HasMaxLength(25);
+
+			builder.Property(user => user.Email)
+				.IsRequired()
+				.HasMaxLength(254);
+
 			builder.Property(user => user.UserName)
 				.IsRequired()
 				.HasMaxLength(25);
@@ -24,14 +36,6 @@ namespace Kindly.API.Models.Repositories.Users
 			builder.Property(user => user.PhoneNumber)
 				.IsRequired()
 				.HasMaxLength(15);
-
-			builder.Property(user => user.EmailAddress)
-				.IsRequired()
-				.HasMaxLength(254);
-
-			builder.Property(user => user.KnownAs)
-				.IsRequired()
-				.HasMaxLength(25);
 
 			builder.Property(user => user.Gender)
 				.IsRequired()
@@ -44,11 +48,15 @@ namespace Kindly.API.Models.Repositories.Users
 			builder.Property(user => user.Introduction)
 				.HasMaxLength(500);
 
+			builder.Property(user => user.LookingFor)
+				.HasMaxLength(250);
+
 			builder.Property(user => user.Interests)
 				.HasMaxLength(250);
 
-			builder.Property(user => user.LookingFor)
-				.HasMaxLength(250);
+			builder.Property(user => user.KnownAs)
+				.IsRequired()
+				.HasMaxLength(25);
 
 			builder.Property(user => user.City)
 				.IsRequired()
@@ -67,6 +75,34 @@ namespace Kindly.API.Models.Repositories.Users
 				.IsRequired()
 				.ValueGeneratedOnAdd()
 				.HasDefaultValueSql("GetUtcDate()");
+
+			// Properties - Ignored
+			builder.Ignore(user => user.ID);
+
+			// Relationships
+			builder
+				.HasMany(user => user.UserRoles)
+				.WithOne(userRole => userRole.User)
+				.HasForeignKey(userRole => userRole.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			builder
+				.HasMany(user => user.UserClaims)
+				.WithOne()
+				.HasForeignKey(userClaim => userClaim.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			builder
+				.HasMany(user => user.UserLogins)
+				.WithOne()
+				.HasForeignKey(userLogin => userLogin.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			builder
+				.HasMany(user => user.UserTokens)
+				.WithOne()
+				.HasForeignKey(userToken => userToken.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

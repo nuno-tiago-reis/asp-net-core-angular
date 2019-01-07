@@ -1,0 +1,18 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+using System;
+
+namespace Kindly.API.Models.Repositories.Users.Identity
+{
+	public class UserClaim : IdentityUserClaim<Guid>
+	{
+		/// <summary>
+		/// Gets or sets the user identifier.
+		/// </summary>
+		public Guid UserID
+		{
+			get { return this.UserId; }
+			set { this.UserId = value; }
+		}
+	}
+}

@@ -27,20 +27,20 @@ namespace Kindly.API.Contracts.Users
 		public string UserName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the phone number.
-		/// </summary>
-		[Required]
-		[DataType(DataType.PhoneNumber)]
-		[JsonProperty(Order = 3)]
-		public string PhoneNumber { get; set; }
-
-		/// <summary>
 		/// Gets or sets the email address.
 		/// </summary>
 		[Required]
 		[DataType(DataType.EmailAddress)]
+		[JsonProperty(Order = 3)]
+		public string Email { get; set; }
+
+		/// <summary>
+		/// Gets or sets the phone number.
+		/// </summary>
+		[Required]
+		[DataType(DataType.PhoneNumber)]
 		[JsonProperty(Order = 4)]
-		public string EmailAddress { get; set; }
+		public string PhoneNumber { get; set; }
 
 		/// <summary>
 		/// Gets or sets the known as name.

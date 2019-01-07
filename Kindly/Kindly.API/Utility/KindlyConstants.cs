@@ -27,10 +27,4 @@
 		/// </summary>
 		public const string DefaultConnection = "DefaultConnection";
 	}
-
-	public enum KindlyClaimTypes
-	{
-		ID,
-		ProfileName
-	}
 }
