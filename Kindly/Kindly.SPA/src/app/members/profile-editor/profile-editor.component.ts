@@ -142,8 +142,8 @@ export class ProfileEditorComponent implements OnInit
 			const updateRequest =
 			{
 				userName: this.user.userName,
+				email: this.user.email,
 				phoneNumber: this.user.phoneNumber,
-				emailAddress: this.user.emailAddress,
 				knownAs: this.user.knownAs,
 				gender: this.user.gender,
 				age: this.user.age,

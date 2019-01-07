@@ -5,8 +5,8 @@ export interface User
 {
 	id: string;
 	userName: string;
+	email: string;
 	phoneNumber: string;
-	emailAddress: string;
 	knownAs: string;
 	gender: Gender;
 	age: number;

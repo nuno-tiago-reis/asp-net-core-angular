@@ -1,8 +1,8 @@
 export interface CreateRequest
 {
 	userName: string;
+	email: string;
 	phoneNumber: string;
-	emailAddress: string;
 	knownAs: string;
 	gender: string;
 	age: number;
@@ -16,8 +16,8 @@ export interface CreateRequest
 export interface UpdateRequest
 {
 	userName: string;
+	email: string;
 	phoneNumber: string;
-	emailAddress: string;
 	knownAs: string;
 	gender: string;
 	age: number;

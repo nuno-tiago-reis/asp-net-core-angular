@@ -18,7 +18,7 @@ import
 	ChangePasswordRequest,
 	LoginWithUserNameRequest,
 	LoginWithPhoneNumberRequest,
-	LoginWithEmailAddressRequest
+	LoginWithEmailRequest
 }
 from './auth.models';
 
@@ -139,7 +139,7 @@ export class AuthService
 	 *
 	 * @param model The model.
 	 */
-	public logInWithEmailAddress (model: LoginWithEmailAddressRequest): Observable<LoginToken>
+	public logInWithEmailAddress (model: LoginWithEmailRequest): Observable<LoginToken>
 	{
 		return this.logIn(this.baseURL + 'login/email-address', model);
 	}

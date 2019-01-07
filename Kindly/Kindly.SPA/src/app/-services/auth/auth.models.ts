@@ -11,9 +11,9 @@ export interface LoginWithPhoneNumberRequest
 	password: string;
 }
 
-export interface LoginWithEmailAddressRequest
+export interface LoginWithEmailRequest
 {
-	emailAddress: string;
+	email: string;
 	password: string;
 }
 
@@ -21,7 +21,7 @@ export interface RegisterRequest
 {
 	userName: string;
 	phoneNumber: string;
-	emailAddress: string;
+	email: string;
 	knownAs: string;
 	gender: string;
 	birthDate: Date;

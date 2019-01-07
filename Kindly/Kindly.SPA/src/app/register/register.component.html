@@ -53,15 +53,15 @@
 
 	<div class="form-group">
 		<input
-			[ngClass]="{ 'is-invalid' : this.registerForm.get('emailAddress').errors && this.registerForm.get('emailAddress').touched }"
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('email').errors && this.registerForm.get('email').touched }"
 			type="email"
 			class="form-control is-invalid"
-			name="emailAddress"
-			placeholder="Email Address"
-			formControlName="emailAddress">
-		<div class="invalid-feedback" *ngIf="this.registerForm.get('emailAddress').hasError('email')">Not a valid email address</div>
-		<div class="invalid-feedback" *ngIf="this.registerForm.get('emailAddress').hasError('required')">The email address field is required</div>
-		<div class="invalid-feedback" *ngIf="this.registerForm.get('emailAddress').hasError('maxlength')">The email address field cannot have more than 254 characters</div>
+			name="email"
+			placeholder="Email"
+			formControlName="email">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('email').hasError('email')">Not a valid email address</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('email').hasError('required')">The email address field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('email').hasError('maxlength')">The email address field cannot have more than 254 characters</div>
 	</div>
 
 	<div class="form-group">

@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit
 	{
 		userName: '',
 		phoneNumber: '',
-		emailAddress: '',
+		email: '',
 		knownAs: '',
 		gender: '',
 		birthDate: null,
@@ -84,7 +84,7 @@ export class RegisterComponent implements OnInit
 					[ '', 		[ Validators.required, Validators.maxLength(25), Validators.minLength(10) ] ],
 				phoneNumber:
 					[ '', 		[ Validators.required, Validators.maxLength(15), Validators.pattern ] ],
-				emailAddress:
+				email:
 					[ '', 		[ Validators.required, Validators.maxLength(254), Validators.email ] ],
 				gender:
 					[ 'male',	[] ],

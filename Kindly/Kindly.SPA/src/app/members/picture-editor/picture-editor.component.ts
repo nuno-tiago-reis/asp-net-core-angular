@@ -57,7 +57,7 @@ export class PictureEditorComponent implements OnInit
 	{
 		this.uploader = new FileUploader
 		({
-			url: environment.apiUrl + 'users/' + this.authApi.decodedToken.id + '/pictures',
+			url: environment.apiUrl + 'users/' + this.authApi.user.id + '/pictures',
 			authToken: 'Bearer ' + this.authApi.encodedToken,
 			isHTML5: true,
 			allowedFileType: ['image'],

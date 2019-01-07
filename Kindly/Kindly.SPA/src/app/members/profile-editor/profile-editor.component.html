@@ -60,13 +60,13 @@
 									<input
 										class="form-control ml-2"
 										type="text"
-										name="emailAddress"
-										#emailAddress="ngModel" ngControl="emailAddress"
-										[(ngModel)]="this.user.emailAddress" [ngClass]="{ 'is-invalid': emailAddress.touched && emailAddress.errors }"
+										name="email"
+										#email="ngModel" ngControl="email"
+										[(ngModel)]="this.user.email" [ngClass]="{ 'is-invalid': email.touched && email.errors }"
 										email required [maxLength]=254>
-										<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.email">Not a valid email address</div>
-										<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.required">The email address field is required</div>
-										<div class="invalid-feedback" *ngIf="contactsForm.touched && emailAddress.errors?.maxlength">The email address field cannot have more than 254 characters</div>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && email.errors?.email">Not a valid email address</div>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && email.errors?.required">The email address field is required</div>
+										<div class="invalid-feedback" *ngIf="contactsForm.touched && email.errors?.maxlength">The email address field cannot have more than 254 characters</div>
 									</form>
 						</tab>
 						<tab id="profile" heading="Edit Profile" (select)="this.onSelectTab('profile')">

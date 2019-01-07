@@ -35,7 +35,7 @@ export class ProfileEditorResolver implements Resolve<User>
 	 */
 	public resolve(route: ActivatedRouteSnapshot): Observable<User>
 	{
-		const id = this.authApi.decodedToken.id;
+		const id = this.authApi.user.id;
 
 		return this.usersApi.get(id).pipe
 		(
