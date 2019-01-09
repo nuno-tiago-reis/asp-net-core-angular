@@ -2,11 +2,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 // models
-import { User } from '../../-models/user';
-import { Like } from '../../-models/like';
-import { AuthService } from '../../-services/auth/auth.service';
-import { LikesService } from '../../-services/likes/likes.service';
-import { AlertifyService } from '../../-services/alertify/alertify.service';
+import { User } from '../../../-models/user';
+import { Like } from '../../../-models/like';
+import { AuthService } from '../../../-services/auth/auth.service';
+import { LikesService } from '../../../-services/likes/likes.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 @Component
 ({

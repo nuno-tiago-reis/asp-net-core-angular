@@ -6,6 +6,11 @@
 		</div>
 	</div>
 	<br>
+
+	<div class="row" *ngIf="this.users.length == 0">
+		<h3>No matches</h3>
+	</div>
+
 	<div class="row">
 		<div *ngFor="let user of this.users" class="col-sm-6 col-md-4 col-lg-4 col-xl-2">
 			<app-member-card [user]="user"></app-member-card>

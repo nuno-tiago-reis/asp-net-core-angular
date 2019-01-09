@@ -3,15 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // services
-import { AuthService } from '../-services/auth/auth.service';
-import { MessagesService } from '../-services/messages/messages.service';
-import { AlertifyService } from '../-services/alertify/alertify.service';
+import { AuthService } from '../../-services/auth/auth.service';
+import { MessagesService } from '../../-services/messages/messages.service';
+import { AlertifyService } from '../../-services/alertify/alertify.service';
+import { ContainerMode, MessageParameters } from '../../-services/messages/messages.models';
 
 // models
-import { Message } from '../-models/message';
-import { Pagination } from '../-models/pagination';
-import { PaginatedResult } from '../-models/paginated-result';
-import { ContainerMode, MessageParameters } from '../-services/messages/messages.models';
+import { Message } from '../../-models/message';
+import { Pagination } from '../../-models/pagination';
+import { PaginatedResult } from '../../-models/paginated-result';
 
 @Component
 ({

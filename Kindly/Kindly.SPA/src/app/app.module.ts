@@ -44,7 +44,7 @@ import { AuthGuard } from './-guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './-guards/prevent-unsaved-changes.guard';
 
 // resolvers
-import { ListsResolver } from './-resolvers/lists.resolver';
+import { MatchesResolver } from './-resolvers/matches.resolver';
 import { MessagesResolver } from './-resolvers/messages.resolver';
 import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
@@ -52,18 +52,18 @@ import { ProfileEditorResolver } from './-resolvers/profile-editor.resolver';
 
 // components
 import { AppComponent } from './app.component';
-import { NavComponent } from './nav/nav.component';
-import { HomeComponent } from './home/home.component';
+import { NavBarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
-import { RegisterComponent } from './register/register.component';
-import { ListsComponent } from './lists/lists.component';
-import { MessagesComponent } from './messages/messages.component';
-import { MemberCardComponent } from './members/member-card/member-card.component';
-import { MemberListComponent } from './members/member-list/member-list.component';
-import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
-import { PictureEditorComponent } from './members/picture-editor/picture-editor.component';
-import { ProfileEditorComponent } from './members/profile-editor/profile-editor.component';
+import { HomeComponent } from './page/index/home/home.component';
+import { RegisterComponent } from './page/index/register/register.component';
+import { MatchesComponent } from './page/matches/matches.component';
+import { MessagesComponent } from './page/messages/messages.component';
+import { MemberCardComponent } from './page/members/member-card/member-card.component';
+import { MemberListComponent } from './page/members/member-list/member-list.component';
+import { MemberDetailComponent } from './page/members/member-detail/member-detail.component';
+import { MemberMessagesComponent } from './page/members/member-messages/member-messages.component';
+import { ProfileEditorComponent } from './page/profile/profile-editor/profile-editor.component';
+import { PictureEditorComponent } from './page/profile/picture-editor/picture-editor.component';
 
 // routes
 import { AppRoutes } from './routes';
@@ -154,7 +154,7 @@ export function getAlertConfig(): TooltipConfig
 		AlertifyService,
 
 		// resolvers
-		ListsResolver,
+		MatchesResolver,
 		MessagesResolver,
 		MemberListResolver,
 		MemberDetailResolver,
@@ -181,16 +181,21 @@ export function getAlertConfig(): TooltipConfig
 
 		// components
 		AppComponent,
-		NavComponent,
-		HomeComponent,
+		NavBarComponent,
 		FooterComponent,
+		// home components
+		HomeComponent,
 		RegisterComponent,
-		ListsComponent,
+		// matches components
+		MatchesComponent,
+		// messages components
 		MessagesComponent,
+		// members components
 		MemberCardComponent,
 		MemberListComponent,
 		MemberDetailComponent,
 		MemberMessagesComponent,
+		// profile components
 		PictureEditorComponent,
 		ProfileEditorComponent
 	]

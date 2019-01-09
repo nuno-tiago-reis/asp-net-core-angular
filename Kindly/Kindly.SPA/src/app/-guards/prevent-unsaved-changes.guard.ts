@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ProfileEditorComponent } from '../members/profile-editor/profile-editor.component';
+import { ProfileEditorComponent } from '../page/profile/profile-editor/profile-editor.component';
 
 @Injectable
 ({

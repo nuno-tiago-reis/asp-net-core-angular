@@ -15,7 +15,7 @@ import { PaginatedResult } from '../-models/paginated-result';
 import { LikeMode, LikeParameters } from '../-services/likes/likes.models';
 
 @Injectable()
-export class ListsResolver implements Resolve<PaginatedResult<Like>>
+export class MatchesResolver implements Resolve<PaginatedResult<Like>>
 {
 	/**
 	 * The page number.
@@ -37,7 +37,7 @@ export class ListsResolver implements Resolve<PaginatedResult<Like>>
 	};
 
 	/**
-	 * Creates an instance of the lists resolver.
+	 * Creates an instance of the matches resolver.
 	 *
 	 * @param router The router.
 	 * @param authApi The auth service.

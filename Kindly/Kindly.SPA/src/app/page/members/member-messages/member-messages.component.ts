@@ -3,13 +3,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { tap } from 'rxjs/operators';
 
 // services
-import { AuthService } from '../../-services/auth/auth.service';
-import { MessagesService } from '../../-services/messages/messages.service';
-import { AlertifyService } from '../../-services/alertify/alertify.service';
+import { AuthService } from '../../../-services/auth/auth.service';
+import { MessagesService } from '../../../-services/messages/messages.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 // models
-import { Message } from '../../-models/message';
-import { CreateRequest, UpdateRequest } from '../../-services/messages/messages.models';
+import { Message } from '../../../-models/message';
+import { CreateRequest, UpdateRequest } from '../../../-services/messages/messages.models';
 
 @Component
 ({
@@ -83,8 +83,6 @@ export class MemberMessagesComponent implements OnInit
 				for (let i = 0; i < messages.length; i++)
 				{
 					const message = messages[i];
-
-					console.log(message);
 
 					if (message.isRead === false && message.recipientID === user.id)
 					{

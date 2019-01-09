@@ -3,15 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // services
-import { AuthService } from '../../-services/auth/auth.service';
-import { UsersService } from '../../-services/users/users.service';
-import { AlertifyService } from '../../-services/alertify/alertify.service';
+import { AuthService } from '../../../-services/auth/auth.service';
+import { UsersService } from '../../../-services/users/users.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 // models
-import { User, Gender } from '../../-models/user';
-import { Pagination } from '../../-models/pagination';
-import { PaginatedResult } from '../../-models/paginated-result';
-import { UserParameters } from '../../-services/users/users.models';
+import { User, Gender } from '../../../-models/user';
+import { Pagination } from '../../../-models/pagination';
+import { PaginatedResult } from '../../../-models/paginated-result';
+import { UserParameters } from '../../../-services/users/users.models';
 
 @Component
 ({

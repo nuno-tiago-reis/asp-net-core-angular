@@ -3,25 +3,25 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // services
-import { AuthService } from '../-services/auth/auth.service';
-import { LikesService } from '../-services/likes/likes.service';
-import { AlertifyService } from '../-services/alertify/alertify.service';
+import { AuthService } from '../../-services/auth/auth.service';
+import { LikesService } from '../../-services/likes/likes.service';
+import { AlertifyService } from '../../-services/alertify/alertify.service';
 
 // models
-import { User } from '../-models/user';
-import { Like } from '../-models/like';
-import { Pagination } from '../-models/pagination';
-import { PaginatedResult } from '../-models/paginated-result';
-import { LikeMode, LikeParameters } from '../-services/likes/likes.models';
+import { User } from '../../-models/user';
+import { Like } from '../../-models/like';
+import { Pagination } from '../../-models/pagination';
+import { PaginatedResult } from '../../-models/paginated-result';
+import { LikeMode, LikeParameters } from '../../-services/likes/likes.models';
 
 @Component
 ({
-	selector: 'app-lists',
-	templateUrl: './lists.component.html',
-	styleUrls: [ './lists.component.css' ]
+	selector: 'app-matches',
+	templateUrl: './matches.component.html',
+	styleUrls: [ './matches.component.css' ]
 })
 
-export class ListsComponent implements OnInit
+export class MatchesComponent implements OnInit
 {
 	/**
 	 * The array of users.

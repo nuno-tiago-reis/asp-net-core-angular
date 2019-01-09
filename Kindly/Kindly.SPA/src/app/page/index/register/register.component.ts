@@ -4,12 +4,12 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 
 // services
-import { AuthService } from '../-services/auth/auth.service';
-import { AlertifyService } from '../-services/alertify/alertify.service';
+import { AuthService } from '../../../-services/auth/auth.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 // models
-import { RegisterRequest } from '../-services/auth/auth.models';
-import { User } from '../-models/user';
+import { User } from '../../../-models/user';
+import { RegisterRequest } from '../../../-services/auth/auth.models';
 
 @Component
 ({

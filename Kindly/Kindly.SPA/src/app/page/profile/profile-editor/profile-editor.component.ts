@@ -5,12 +5,12 @@ import { NgForm } from '@angular/forms';
 import { TabsetComponent } from 'ngx-bootstrap';
 
 // services
-import { AuthService } from '../../-services/auth/auth.service';
-import { UsersService } from '../../-services/users/users.service';
-import { AlertifyService } from '../../-services/alertify/alertify.service';
+import { AuthService } from '../../../-services/auth/auth.service';
+import { UsersService } from '../../../-services/users/users.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 // models
-import { User } from '../../-models/user';
+import { User } from '../../../-models/user';
 
 @Component
 ({

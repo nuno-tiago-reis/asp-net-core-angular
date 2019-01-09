@@ -8,17 +8,15 @@ import { AlertifyService } from '../-services/alertify/alertify.service';
 
 // models
 import { LoginWithUserNameRequest } from '../-services/auth/auth.models';
-import { DecodedToken } from '../-models/token';
-import { User } from '../-models/user';
 
 @Component
 ({
-	selector: 'app-nav',
-	templateUrl: './nav.component.html',
-	styleUrls: [ './nav.component.css' ]
+	selector: 'app-navbar',
+	templateUrl: './navbar.component.html',
+	styleUrls: [ './navbar.component.css' ]
 })
 
-export class NavComponent implements OnInit
+export class NavBarComponent implements OnInit
 {
 	/**
 	 * The login request.

@@ -3,15 +3,15 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 
 // services
-import { AuthService } from '../../-services/auth/auth.service';
-import { PicturesService } from '../../-services/pictures/pictures.service';
-import { AlertifyService } from '../../-services/alertify/alertify.service';
+import { AuthService } from '../../../-services/auth/auth.service';
+import { PicturesService } from '../../../-services/pictures/pictures.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 // models
-import { Picture } from '../../-models/picture';
+import { Picture } from '../../../-models/picture';
 
 // environment
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component
 ({

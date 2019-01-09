@@ -1,18 +1,18 @@
 // components
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { ListsComponent } from './lists/lists.component';
-import { MessagesComponent } from './messages/messages.component';
-import { MemberListComponent } from './members/member-list/member-list.component';
-import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { ProfileEditorComponent } from './members/profile-editor/profile-editor.component';
+import { HomeComponent } from './page/index/home/home.component';
+import { MatchesComponent } from './page/matches/matches.component';
+import { MessagesComponent } from './page/messages/messages.component';
+import { MemberListComponent } from './page/members/member-list/member-list.component';
+import { MemberDetailComponent } from './page/members/member-detail/member-detail.component';
+import { ProfileEditorComponent } from './page/profile/profile-editor/profile-editor.component';
 
 // guards
 import { AuthGuard } from './-guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './-guards/prevent-unsaved-changes.guard';
 
 // resolvers
-import { ListsResolver } from './-resolvers/lists.resolver';
+import { MatchesResolver } from './-resolvers/matches.resolver';
 import { MessagesResolver } from './-resolvers/messages.resolver';
 import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
@@ -27,7 +27,7 @@ export const AppRoutes: Routes =
 		canActivate: [AuthGuard],
 		children:
 		[
-			{ path: 'lists', component: ListsComponent, resolve: { likes: ListsResolver } },
+			{ path: 'matches', component: MatchesComponent, resolve: { likes: MatchesResolver } },
 			{ path: 'messages', component: MessagesComponent, resolve: { messages: MessagesResolver } },
 			{ path: 'members', component: MemberListComponent, resolve: { users: MemberListResolver } },
 			{ path: 'members/:id', component: MemberDetailComponent, resolve: { user: MemberDetailResolver } },

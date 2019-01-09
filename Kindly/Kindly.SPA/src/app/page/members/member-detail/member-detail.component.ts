@@ -6,13 +6,13 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { NgxGalleryImage, NgxGalleryOptions, NgxGalleryAnimation } from 'ngx-gallery';
 
 // services
-import { AuthService } from '../../-services/auth/auth.service';
-import { LikesService } from '../../-services/likes/likes.service';
-import { AlertifyService } from '../../-services/alertify/alertify.service';
+import { AuthService } from '../../../-services/auth/auth.service';
+import { LikesService } from '../../../-services/likes/likes.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 // models
-import { User } from '../../-models/user';
-import { Like } from '../../-models/like';
+import { User } from '../../../-models/user';
+import { Like } from '../../../-models/like';
 
 @Component
 ({
