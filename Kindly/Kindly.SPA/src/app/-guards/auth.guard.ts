@@ -1,6 +1,6 @@
 // components
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 // services
@@ -16,23 +16,41 @@ export class AuthGuard implements CanActivate
 {
 	/**
 	 * Creates an instance of the auth guard.
+	 *
+	 * @param router The router.
+	 * @param authApi The auth service.
+	 * @param alertify The alertify service.
 	 */
-	public constructor(private auth: AuthService, private router: Router, private alertify: AlertifyService)
+	public constructor(private authApi: AuthService, private router: Router, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
 
 	/**
 	 * Checks if a route can be activated.
+	 *
+	 * @param next The activated route.
 	 */
-	public canActivate (): Observable<boolean> | Promise<boolean> | boolean
+	public canActivate (next: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean
 	{
-		if (this.auth.isLoggedIn())
-			return true;
+		const roles = next.firstChild.data['roles'] as Array<string>;
 
-		this.alertify.error('You need to log in to access this page.');
-		this.router.navigate(['home']);
+		if (roles && this.authApi.isInRoles(roles) === false)
+		{
+			this.alertify.error('You are not authorized to access this page.');
+			this.router.navigate(['home']);
 
-		return false;
+			return false;
+		}
+
+		if (this.authApi.isLoggedIn() === false)
+		{
+			this.alertify.error('You need to log in to access this page.');
+			this.router.navigate(['home']);
+
+			return false;
+		}
+
+		return true;
 	}
 }

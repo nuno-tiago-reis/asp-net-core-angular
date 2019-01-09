@@ -11,7 +11,8 @@ describe('PictureEditorComponent', () =>
 		TestBed.configureTestingModule
 		({
 			declarations: [ PictureEditorComponent ]
-		}).compileComponents();
+		})
+		.compileComponents();
 	}));
 
 	beforeEach(() =>

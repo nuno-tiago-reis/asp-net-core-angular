@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MemberMessagesComponent } from './member-messages.component';
 
 describe('MemberMessagesComponent', () =>
@@ -12,7 +11,8 @@ describe('MemberMessagesComponent', () =>
 		TestBed.configureTestingModule
 		({
 			declarations: [MemberMessagesComponent]
-		}).compileComponents();
+		})
+		.compileComponents();
 	}));
 
 	beforeEach(() =>

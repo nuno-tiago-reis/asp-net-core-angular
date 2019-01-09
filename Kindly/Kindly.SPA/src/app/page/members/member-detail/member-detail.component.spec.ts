@@ -11,7 +11,8 @@ describe('MemberDetailComponent', () =>
 		TestBed.configureTestingModule
 		({
 			declarations: [ MemberDetailComponent ]
-		}).compileComponents();
+		})
+		.compileComponents();
 	}));
 
 	beforeEach(() =>

@@ -1,23 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MemberCardComponent } from './member-card.component';
+import { AdminPanelComponent } from './admin-panel.component';
 
-describe('MemberCardComponent', () =>
+describe('AdminPanelComponent', () =>
 {
-	let component: MemberCardComponent;
-	let fixture: ComponentFixture<MemberCardComponent>;
+	let component: AdminPanelComponent;
+	let fixture: ComponentFixture<AdminPanelComponent>;
 
 	beforeEach(async(() =>
 	{
 		TestBed.configureTestingModule
 		({
-			declarations: [ MemberCardComponent ]
+			declarations: [ AdminPanelComponent ]
 		})
 		.compileComponents();
 	}));
 
 	beforeEach(() =>
 	{
-		fixture = TestBed.createComponent(MemberCardComponent);
+		fixture = TestBed.createComponent(AdminPanelComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

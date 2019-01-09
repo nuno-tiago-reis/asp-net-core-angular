@@ -50,6 +50,9 @@ import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
 import { ProfileEditorResolver } from './-resolvers/profile-editor.resolver';
 
+// directives
+import { HasRoleDirective } from './-directives/has-role.directive';
+
 // components
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './navbar/navbar.component';
@@ -64,6 +67,7 @@ import { MemberDetailComponent } from './page/members/member-detail/member-detai
 import { MemberMessagesComponent } from './page/members/member-messages/member-messages.component';
 import { ProfileEditorComponent } from './page/profile/profile-editor/profile-editor.component';
 import { PictureEditorComponent } from './page/profile/picture-editor/picture-editor.component';
+import { AdminPanelComponent } from './page/admin/admin-panel/admin-panel.component';
 
 // routes
 import { AppRoutes } from './routes';
@@ -197,7 +201,12 @@ export function getAlertConfig(): TooltipConfig
 		MemberMessagesComponent,
 		// profile components
 		PictureEditorComponent,
-		ProfileEditorComponent
+		ProfileEditorComponent,
+		// admin components
+		AdminPanelComponent,
+
+		// directives
+		HasRoleDirective,
 	]
 })
 

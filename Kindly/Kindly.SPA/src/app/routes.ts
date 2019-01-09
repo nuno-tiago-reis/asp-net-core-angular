@@ -6,6 +6,7 @@ import { MessagesComponent } from './page/messages/messages.component';
 import { MemberListComponent } from './page/members/member-list/member-list.component';
 import { MemberDetailComponent } from './page/members/member-detail/member-detail.component';
 import { ProfileEditorComponent } from './page/profile/profile-editor/profile-editor.component';
+import { AdminPanelComponent } from './page/admin/admin-panel/admin-panel.component';
 
 // guards
 import { AuthGuard } from './-guards/auth.guard';
@@ -27,6 +28,7 @@ export const AppRoutes: Routes =
 		canActivate: [AuthGuard],
 		children:
 		[
+			{ path: 'admin', component: AdminPanelComponent, data: { roles: [ 'Administrator', 'Moderator' ] } },
 			{ path: 'matches', component: MatchesComponent, resolve: { likes: MatchesResolver } },
 			{ path: 'messages', component: MessagesComponent, resolve: { messages: MessagesResolver } },
 			{ path: 'members', component: MemberListComponent, resolve: { users: MemberListResolver } },

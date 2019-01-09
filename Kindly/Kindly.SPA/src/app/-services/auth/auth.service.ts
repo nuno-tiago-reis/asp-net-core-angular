@@ -271,19 +271,6 @@ export class AuthService
 	}
 
 	/**
-	 * Sets the profile picture url.
-	 *
-	 * @param profilePictureUrl The profile picture url.
-	 */
-	public setProfilePictureUrl (profilePictureUrl: string)
-	{
-		this.user.profilePictureUrl = profilePictureUrl;
-		this.profilePictureUrl.next(profilePictureUrl);
-
-		localStorage.setItem('user', JSON.stringify(this.user));
-	}
-
-	/**
 	 * Sets the known as.
 	 *
 	 * @param knownAs The known as.
@@ -297,10 +284,49 @@ export class AuthService
 	}
 
 	/**
+	 * Sets the profile picture url.
+	 *
+	 * @param profilePictureUrl The profile picture url.
+	 */
+	public setProfilePictureUrl (profilePictureUrl: string)
+	{
+		this.user.profilePictureUrl = profilePictureUrl;
+		this.profilePictureUrl.next(profilePictureUrl);
+
+		localStorage.setItem('user', JSON.stringify(this.user));
+	}
+
+	/**
 	 * Refreshes the user in storage.
 	 */
 	public refreshUserInStorage()
 	{
 		localStorage.setItem('user', JSON.stringify(this.user));
+	}
+
+	/**
+	 * Checks if the logged in user has any roles.
+	 */
+	public hasRoles(): boolean
+	{
+		return this.decodedToken.role !== null;
+	}
+
+	/**
+	 * Checks if the logged in user has one of the given roles.
+	 *
+	 * @param roles user roles.
+	 */
+	public isInRoles(roles: string[]): boolean
+	{
+		const userRoles = this.decodedToken.role as Array<string>;
+
+		for (let i = 0; i < roles.length; i++)
+		{
+			if (userRoles.indexOf(roles[i]) !== -1)
+				return true;
+		}
+
+		return false;
 	}
 }

@@ -8,8 +8,8 @@ export interface LoginToken
 
 export interface DecodedToken
 {
-	id: string;
-	profileName: string;
+	nameid: string;
+	role: string[];
 	nbf: number;
 	exp: number;
 	iat: number;
