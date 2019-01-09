@@ -37,6 +37,6 @@ namespace Kindly.API.Models.Repositories.Messages
 		/// 
 		/// <param name="senderID">The sender identifier.</param>
 		/// <param name="recipientID">The recipient identifier.</param>
-		Task<IEnumerable<Message>> GetThread(Guid senderID, Guid recipientID);
+		Task<IEnumerable<Message>> GetThreadByUsers(Guid senderID, Guid recipientID);
 	}
 }

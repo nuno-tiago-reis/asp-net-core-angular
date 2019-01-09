@@ -5,6 +5,13 @@ namespace Kindly.API.Models.Repositories.Users
 	public interface IUserRepository : IEntityRepository<User, UserParameters>
 	{
 		/// <summary>
+		/// Checks if a user exists with the given email.
+		/// </summary>
+		/// 
+		/// <param name="email">The email.</param>
+		Task<bool> EmailExists(string email);
+
+		/// <summary>
 		/// Checks if a user exists with the given user name.
 		/// </summary>
 		/// 
@@ -19,11 +26,11 @@ namespace Kindly.API.Models.Repositories.Users
 		Task<bool> PhoneNumberExists(string phoneNumber);
 
 		/// <summary>
-		/// Checks if a user exists with the given email address.
+		/// Gets a user by email.
 		/// </summary>
 		/// 
-		/// <param name="emailAddress">The email address.</param>
-		Task<bool> EmailAddressExists(string emailAddress);
+		/// <param name="email">The email.</param>
+		Task<User> GetByEmail(string email);
 
 		/// <summary>
 		/// Gets a user by user name.
@@ -38,12 +45,5 @@ namespace Kindly.API.Models.Repositories.Users
 		/// 
 		/// <param name="phoneNumber">The phone number.</param>
 		Task<User> GetByPhoneNumber(string phoneNumber);
-
-		/// <summary>
-		/// Gets a user by email address.
-		/// </summary>
-		/// 
-		/// <param name="emailAddress">The email address.</param>
-		Task<User> GetByEmailAddress(string emailAddress);
 	}
 }

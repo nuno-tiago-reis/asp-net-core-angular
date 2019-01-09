@@ -105,6 +105,18 @@ namespace Kindly.API.Models.Repositories.Likes
 		{
 			var likes = this.GetQueryable();
 
+			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
+			{
+				if (parameters.OrderBy == nameof(Like.CreatedAt).ToLowerCamelCase())
+				{
+					likes = likes.OrderByDescending(l => l.CreatedAt);
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+				}
+			}
+
 			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
 		}
 		#endregion
@@ -117,7 +129,10 @@ namespace Kindly.API.Models.Repositories.Likes
 			if (user == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			var like = await this.Context.Likes.SingleOrDefaultAsync(l => l.ID == likeID && l.SourceID == userID);
+			var like = await this.Context.Likes.SingleOrDefaultAsync
+			(
+				l => l.ID == likeID && l.SourceID == userID
+			);
 			if (like == null)
 				throw new KindlyException(Like.DoesNotExist, true);
 

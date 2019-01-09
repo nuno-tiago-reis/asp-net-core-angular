@@ -1,8 +1,9 @@
 ﻿using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Messages;
 using Kindly.API.Models.Repositories.Pictures;
+using Kindly.API.Models.Repositories.Identity;
 using Kindly.API.Models.Repositories.Users;
-using Kindly.API.Models.Repositories.Users.Identity;
+using Kindly.API.Models.Repositories.Roles;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -42,18 +43,18 @@ namespace Kindly.API.Models
 			base.OnModelCreating(builder);
 
 			// Identity
-			builder.ApplyConfiguration(new RoleConfiguration());
-			builder.ApplyConfiguration(new RoleClaimConfiguration());
-			builder.ApplyConfiguration(new UserConfiguration());
 			builder.ApplyConfiguration(new UserRoleConfiguration());
 			builder.ApplyConfiguration(new UserClaimConfiguration());
 			builder.ApplyConfiguration(new UserLoginConfiguration());
 			builder.ApplyConfiguration(new UserTokenConfiguration());
+			builder.ApplyConfiguration(new RoleClaimConfiguration());
 
 			// Kindly
 			builder.ApplyConfiguration(new LikeConfiguration());
 			builder.ApplyConfiguration(new PictureConfiguration());
 			builder.ApplyConfiguration(new MessageConfiguration());
+			builder.ApplyConfiguration(new UserConfiguration());
+			builder.ApplyConfiguration(new RoleConfiguration());
 		}
 	}
 }

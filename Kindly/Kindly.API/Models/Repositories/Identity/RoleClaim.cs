@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Kindly.API.Models.Repositories.Users.Identity
+namespace Kindly.API.Models.Repositories.Identity
 {
 	public class RoleClaim : IdentityRoleClaim<Guid>
 	{

@@ -615,14 +615,38 @@ namespace Kindly.API.Migrations
 				newName: "EmailAddress"
 			);
 
-			migrationBuilder.AlterColumn<byte[]>
+			#region [Alter Column byte => varchar]
+			/*migrationBuilder.AlterColumn<byte[]>
 			(
 				name: "PasswordHash",
 				table: "Users",
 				nullable: true,
 				oldClrType: typeof(string),
 				oldNullable: true
+			);*/
+
+			migrationBuilder.AddColumn<byte[]>
+			(
+				name: "PasswordHashTmp",
+				table: "Users",
+				nullable: true
 			);
+
+			migrationBuilder.Sql("Update Users SET PasswordHashTmp = CONVERT(varbinary, PasswordHash)");
+
+			migrationBuilder.DropColumn
+			(
+				name: "PasswordHash",
+				table: "Users"
+			);
+
+			migrationBuilder.RenameColumn
+			(
+				name: "PasswordHashTmp",
+				table: "Users",
+				newName: "PasswordHash"
+			);
+			#endregion
 
 			migrationBuilder.AddColumn<byte[]>
 			(

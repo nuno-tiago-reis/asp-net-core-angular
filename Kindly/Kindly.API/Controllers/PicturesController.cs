@@ -23,8 +23,8 @@ namespace Kindly.API.Controllers
 {
 	[Authorize]
 	[ApiController]
-	[Route("api/users/{userID}/[controller]")]
 	[ServiceFilter(typeof(KindlyActivityFilter))]
+	[Route("api/users/{userID:Guid}/[controller]")]
 	public sealed class PicturesController : KindlyController
 	{
 		#region [Properties]
@@ -67,7 +67,7 @@ namespace Kindly.API.Controllers
 
 		#region [Interface Methods]
 		/// <summary>
-		/// Creates the specified picture.
+		/// Creates a picture for a user.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -98,7 +98,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Updates the specified picture.
+		/// Updates a users picture.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -123,7 +123,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Deletes a picture.
+		/// Deletes a users picture.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -154,7 +154,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Gets a picture.
+		/// Gets a users picture.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -175,7 +175,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Gets the pictures.
+		/// Gets a users pictures.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>

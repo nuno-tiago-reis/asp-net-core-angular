@@ -3,7 +3,7 @@
 using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
 using Kindly.API.Models.Repositories.Messages;
-using Kindly.API.Models.Repositories.Users.Identity;
+using Kindly.API.Models.Repositories.Identity;
 
 using Microsoft.AspNetCore.Identity;
 

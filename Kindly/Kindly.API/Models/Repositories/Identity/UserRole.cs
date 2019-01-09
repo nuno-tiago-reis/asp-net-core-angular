@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Kindly.API.Models.Repositories.Users;
+using Kindly.API.Models.Repositories.Roles;
+
+using Microsoft.AspNetCore.Identity;
 
 using System;
 
-namespace Kindly.API.Models.Repositories.Users.Identity
+namespace Kindly.API.Models.Repositories.Identity
 {
 	public class UserRole : IdentityUserRole<Guid>
 	{

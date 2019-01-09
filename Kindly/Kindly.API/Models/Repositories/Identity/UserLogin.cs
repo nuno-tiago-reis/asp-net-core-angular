@@ -2,9 +2,9 @@
 
 using System;
 
-namespace Kindly.API.Models.Repositories.Users.Identity
+namespace Kindly.API.Models.Repositories.Identity
 {
-	public class UserClaim : IdentityUserClaim<Guid>
+	public class UserLogin : IdentityUserLogin<Guid>
 	{
 		/// <summary>
 		/// Gets or sets the user identifier.

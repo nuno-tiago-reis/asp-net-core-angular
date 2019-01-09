@@ -17,8 +17,8 @@ namespace Kindly.API.Controllers
 {
 	[Authorize]
 	[ApiController]
-	[Route("api/users/{userID}/[controller]")]
 	[ServiceFilter(typeof(KindlyActivityFilter))]
+	[Route("api/users/{userID:Guid}/[controller]")]
 	public sealed class MessagesController : KindlyController
 	{
 		#region [Properties]
@@ -49,7 +49,7 @@ namespace Kindly.API.Controllers
 
 		#region [Interface Methods]
 		/// <summary>
-		/// Creates the specified message.
+		/// Creates a message for a user.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -69,7 +69,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Updates the specified message.
+		/// Updates a users message.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -93,7 +93,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Deletes a message.
+		/// Deletes a users message.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -131,7 +131,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Gets a message.
+		/// Gets a users message.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -152,7 +152,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Gets the messages.
+		/// Gets a users messages.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -175,15 +175,15 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Gets the messages.
+		/// Gets a message thread between two users.
 		/// </summary>
 		/// 
-		/// <param name="userID">The user identifier.</param>
-		/// <param name="memberID">The member identifier.</param>
-		[HttpGet("thread/{memberID:Guid}")]
-		public async Task<IActionResult> GetAll(Guid userID, Guid memberID)
+		/// <param name="userID">The first user identifier.</param>
+		/// <param name="secondUserID">The second user identifier.</param>
+		[HttpGet("thread/{secondUserID:Guid}")]
+		public async Task<IActionResult> GetThread(Guid userID, Guid secondUserID)
 		{
-			var messages = await this.Repository.GetThread(userID, memberID);
+			var messages = await this.Repository.GetThreadByUsers(userID, secondUserID);
 			var messageDtos = messages.Select(l => this.Mapper.Map<MessageDto>(l)).ToList();
 
 			return this.Ok(messageDtos);

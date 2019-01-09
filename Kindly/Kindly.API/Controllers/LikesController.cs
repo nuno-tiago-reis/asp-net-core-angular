@@ -19,8 +19,8 @@ namespace Kindly.API.Controllers
 {
 	[Authorize]
 	[ApiController]
-	[Route("api/users/{userID}/[controller]")]
 	[ServiceFilter(typeof(KindlyActivityFilter))]
+	[Route("api/users/{userID:Guid}/[controller]")]
 	public sealed class LikesController : KindlyController
 	{
 		#region [Properties]
@@ -51,7 +51,7 @@ namespace Kindly.API.Controllers
 
 		#region [Interface Methods]
 		/// <summary>
-		/// Creates the specified like.
+		/// Creates a like for a user.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -71,7 +71,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Updates the specified like.
+		/// Updates a users like.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -96,7 +96,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Deletes a like.
+		/// Deletes a users like.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -116,7 +116,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Gets a like.
+		/// Gets a users like.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
@@ -137,7 +137,7 @@ namespace Kindly.API.Controllers
 		}
 
 		/// <summary>
-		/// Gets the likes.
+		/// Gets a users likes.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>

@@ -5,15 +5,17 @@ using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
 using Kindly.API.Models.Repositories.Messages;
 using Kindly.API.Models.Repositories.Users;
-using Kindly.API.Models.Repositories.Users.Identity;
+using Kindly.API.Models.Repositories.Roles;
 using Kindly.API.Utility;
 using Kindly.API.Utility.Settings;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +25,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Kindly.API
 {
@@ -86,6 +86,7 @@ namespace Kindly.API
 			services.AddScoped<IMessageRepository, MessageRepository>();
 			services.AddScoped<IPictureRepository, PictureRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IRoleRepository, RoleRepository>();
 
 			// Cloudinary
 			services.Configure<CloudinarySettings>(Configuration.GetSection(KindlyConstants.AppSettingsCloudinary));

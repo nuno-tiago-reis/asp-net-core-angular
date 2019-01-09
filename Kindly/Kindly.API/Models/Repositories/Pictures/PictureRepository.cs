@@ -156,7 +156,10 @@ namespace Kindly.API.Models.Repositories.Pictures
 			if (user == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			var picture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.ID == pictureID && p.UserID == userID);
+			var picture = await this.Context.Pictures.SingleOrDefaultAsync
+			(
+				p => p.ID == pictureID && p.UserID == userID
+			);
 			if (picture == null)
 				throw new KindlyException(Picture.DoesNotExist, true);
 

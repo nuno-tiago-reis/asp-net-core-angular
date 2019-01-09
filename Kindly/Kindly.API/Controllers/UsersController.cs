@@ -17,8 +17,8 @@ namespace Kindly.API.Controllers
 {
 	[Authorize]
 	[ApiController]
-	[Route("api/[controller]")]
 	[ServiceFilter(typeof(KindlyActivityFilter))]
+	[Route("api/[controller]")]
 	public sealed class UsersController : KindlyController
 	{
 		#region [Properties]

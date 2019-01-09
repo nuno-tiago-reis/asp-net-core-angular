@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Kindly.API.Models.Repositories.Users;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Kindly.API.Models.Repositories.Users.Identity
+namespace Kindly.API.Models.Repositories.Roles
 {
 	public sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 	{

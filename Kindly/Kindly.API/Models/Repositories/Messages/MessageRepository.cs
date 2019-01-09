@@ -196,7 +196,7 @@ namespace Kindly.API.Models.Repositories.Messages
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<Message>> GetThread(Guid senderID, Guid recipientID)
+		public async Task<IEnumerable<Message>> GetThreadByUsers(Guid senderID, Guid recipientID)
 		{
 			var messages = this.GetQueryable()
 				.Where

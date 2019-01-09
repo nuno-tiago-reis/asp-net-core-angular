@@ -50,6 +50,8 @@ namespace Kindly.API.Migrations
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
+			migrationBuilder.Sql("UPDATE Users SET LookingFor = LEFT(LookingFor, 200) WHERE LEN(LookingFor) > 200");
+
 			migrationBuilder.AlterColumn<string>
 			(
 				name: "LookingFor",
@@ -59,6 +61,8 @@ namespace Kindly.API.Migrations
 				oldClrType: typeof(string),
 				oldMaxLength: 250
 			);
+	
+			migrationBuilder.Sql("UPDATE Users SET Introduction = LEFT(Introduction, 200) WHERE LEN(Introduction) > 200");
 
 			migrationBuilder.AlterColumn<string>
 			(
@@ -68,7 +72,9 @@ namespace Kindly.API.Migrations
 				nullable: false,
 				oldClrType: typeof(string),
 				oldMaxLength: 500
-				);
+			);
+
+			migrationBuilder.Sql("UPDATE Users SET Interests = LEFT(Interests, 200) WHERE LEN(Interests) > 200");
 
 			migrationBuilder.AlterColumn<string>
 			(
@@ -78,7 +84,7 @@ namespace Kindly.API.Migrations
 				nullable: false,
 				oldClrType: typeof(string),
 				oldMaxLength: 250
-				);
+			);
 
 			migrationBuilder.AlterColumn<bool>
 			(

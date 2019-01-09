@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -24,8 +24,8 @@ namespace Kindly.API.Controllers
 {
 	[ApiController]
 	[AllowAnonymous]
-	[Route("api/[controller]")]
 	[ServiceFilter(typeof(KindlyActivityFilter))]
+	[Route("api/[controller]")]
 	public sealed class AuthController : KindlyController
 	{
 		#region [Properties]
@@ -117,27 +117,18 @@ namespace Kindly.API.Controllers
 		[HttpPost("login/id")]
 		public async Task<IActionResult> LoginWithID(LoginWithIdDto loginInfo)
 		{
-			try
-			{
-				var user = await this.UserManager.FindByIdAsync(loginInfo.ID.ToString());
-				if (user == null)
-					return this.NotFound();
+			var user = await this.UserManager.FindByIdAsync(loginInfo.ID.ToString());
+			if (user == null)
+				return this.NotFound();
 
-				var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
-				if (result.Succeeded)
-				{
-					return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), this.GenerateLoginToken(user)));
-				}
-				else
-				{
-					return this.Unauthorized();
-				}
+			var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
+			if (result.Succeeded)
+			{
+				return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), await this.GenerateLoginToken(user)));
 			}
-			catch (KindlyException exception)
+			else
 			{
-				exception.StatusCode = StatusCodes.Status401Unauthorized;
-
-				throw;
+				return this.Unauthorized();
 			}
 		}
 
@@ -149,27 +140,18 @@ namespace Kindly.API.Controllers
 		[HttpPost("login/user-name")]
 		public async Task<IActionResult> LoginWithUserName(LoginWithUserNameDto loginInfo)
 		{
-			try
-			{
-				var user = await this.UserManager.FindByNameAsync(loginInfo.UserName);
-				if (user == null)
-					return this.NotFound();
+			var user = await this.UserManager.FindByNameAsync(loginInfo.UserName);
+			if (user == null)
+				return this.NotFound();
 
-				var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
-				if (result.Succeeded)
-				{
-					return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), this.GenerateLoginToken(user)));
-				}
-				else
-				{
-					return this.Unauthorized();
-				}
+			var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
+			if (result.Succeeded)
+			{
+				return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), await this.GenerateLoginToken(user)));
 			}
-			catch (KindlyException exception)
+			else
 			{
-				exception.StatusCode = StatusCodes.Status401Unauthorized;
-
-				throw;
+				return this.Unauthorized();
 			}
 		}
 
@@ -181,30 +163,21 @@ namespace Kindly.API.Controllers
 		[HttpPost("login/email-address")]
 		public async Task<IActionResult> LoginWithEmail(LoginWithEmailDto loginInfo)
 		{
-			try
+			var user = await this.UserManager.FindByEmailAsync(loginInfo.Email);
+			if (user == null)
+				return this.NotFound();
+
+			Console.WriteLine(user.ID);
+			Console.WriteLine(loginInfo.Email);
+
+			var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
+			if (result.Succeeded)
 			{
-				var user = await this.UserManager.FindByEmailAsync(loginInfo.Email);
-				if (user == null)
-					return this.NotFound();
-
-				Console.WriteLine(user.ID);
-				Console.WriteLine(loginInfo.Email);
-
-				var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
-				if (result.Succeeded)
-				{
-					return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), this.GenerateLoginToken(user)));
-				}
-				else
-				{
-					return this.Unauthorized();
-				}
+				return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), await this.GenerateLoginToken(user)));
 			}
-			catch (KindlyException exception)
+			else
 			{
-				exception.StatusCode = StatusCodes.Status401Unauthorized;
-
-				throw;
+				return this.Unauthorized();
 			}
 		}
 
@@ -263,6 +236,9 @@ namespace Kindly.API.Controllers
 		{
 			var databaseUser = await this.UserManager.Users
 				.Include(u => u.Pictures)
+				.Include(u => u.LikeSources)
+				.Include(u => u.LikeTargets)
+				.Include(u => u.UserRoles)
 				.FirstOrDefaultAsync(u => u.UserName == user.UserName);
 			var databaseUserDto = Mapper.Map<UserDetailedDto>(databaseUser);
 
@@ -274,24 +250,29 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="user">The user.</param>
-		private string GenerateLoginToken(User user)
+		private async Task<string> GenerateLoginToken(User user)
 		{
+			var roles = await this.UserManager.GetRolesAsync(user);
+
+			var claims = new List<Claim>
+			{
+				new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
+			};
+
+			foreach (string role in roles)
+			{
+				claims.Add(new Claim(ClaimTypes.Role, role));
+			}
+
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
-				Subject = new ClaimsIdentity
-				(
-					new[]
-					{
-						new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
-					}
-				),
+				Subject = new ClaimsIdentity(claims),
 				Expires = DateTime.Now.AddDays(1),
 				SigningCredentials = this.SigningCredentials
 			};
-			var token = tokenHandler.CreateToken(tokenDescriptor);
 
-			return tokenHandler.WriteToken(token);
+			return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
 		}
 		#endregion
 	}

@@ -1,6 +1,7 @@
 ﻿using Kindly.API.Utility;
 using Kindly.API.Utility.Collections;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using System;
@@ -14,9 +15,9 @@ namespace Kindly.API.Models.Repositories.Users
 	{
 		#region [Properties]
 		/// <summary>
-		/// Gets or sets the context.
+		/// Gets or sets the user manager.
 		/// </summary>
-		public KindlyContext Context { get; set; }
+		public UserManager<User> UserManager { get; set; }
 		#endregion
 
 		#region [Constructors]
@@ -24,10 +25,10 @@ namespace Kindly.API.Models.Repositories.Users
 		/// Initializes a new instance of the <see cref="UserRepository"/> class.
 		/// </summary>
 		/// 
-		/// <param name="context">The context.</param>
-		public UserRepository(KindlyContext context)
+		/// <param name="userManager">The user manager.</param>
+		public UserRepository(UserManager<User> userManager)
 		{
-			this.Context = context;
+			this.UserManager = userManager;
 		}
 		#endregion
 
@@ -36,6 +37,11 @@ namespace Kindly.API.Models.Repositories.Users
 		public async Task<User> Create(User user)
 		{
 			// Keys
+			if (string.IsNullOrWhiteSpace(user.Email))
+				throw new KindlyException(user.InvalidFieldMessage(u => u.Email));
+			if (await this.EmailExists(user.Email))
+				throw new KindlyException(user.ExistingFieldMessage(u => u.Email));
+
 			if (string.IsNullOrWhiteSpace(user.UserName))
 				throw new KindlyException(user.InvalidFieldMessage(u => u.UserName));
 			if (await this.UserNameExists(user.UserName))
@@ -45,11 +51,6 @@ namespace Kindly.API.Models.Repositories.Users
 				throw new KindlyException(user.InvalidFieldMessage(u => u.PhoneNumber));
 			if (await this.PhoneNumberExists(user.PhoneNumber))
 				throw new KindlyException(user.ExistingFieldMessage(u => u.PhoneNumber));
-
-			if (string.IsNullOrWhiteSpace(user.Email))
-				throw new KindlyException(user.InvalidFieldMessage(u => u.Email));
-			if (await this.EmailAddressExists(user.Email))
-				throw new KindlyException(user.ExistingFieldMessage(u => u.Email));
 
 			// Properties
 			if (string.IsNullOrWhiteSpace(user.KnownAs))
@@ -68,17 +69,21 @@ namespace Kindly.API.Models.Repositories.Users
 				throw new KindlyException(user.InvalidFieldMessage(u => u.BirthDate));
 
 			// Create
-			this.Context.Add(user);
-
-			await this.Context.SaveChangesAsync();
-
-			return user;
+			var result = await this.UserManager.CreateAsync(user);
+			if (result.Succeeded)
+			{
+				return user;
+			}
+			else
+			{
+				throw new KindlyException(result.Errors);
+			}
 		}
 
 		/// <inheritdoc />
 		public async Task<User> Update(User user)
 		{
-			var databaseUser = await this.Context.Users.FindAsync(user.ID);
+			var databaseUser = await this.UserManager.FindByIdAsync(user.ID.ToString());
 			if (databaseUser == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
@@ -86,7 +91,7 @@ namespace Kindly.API.Models.Repositories.Users
 			if (!string.IsNullOrWhiteSpace(user.PhoneNumber) && databaseUser.PhoneNumber != user.PhoneNumber && await this.PhoneNumberExists(user.PhoneNumber))
 				throw new KindlyException(user.ExistingFieldMessage(u => u.PhoneNumber));
 
-			if (!string.IsNullOrWhiteSpace(user.Email) && databaseUser.Email != user.Email && await this.EmailAddressExists(user.Email))
+			if (!string.IsNullOrWhiteSpace(user.Email) && databaseUser.Email != user.Email && await this.EmailExists(user.Email))
 				throw new KindlyException(user.ExistingFieldMessage(u => u.Email));
 
 			databaseUser.PhoneNumber =
@@ -124,22 +129,34 @@ namespace Kindly.API.Models.Repositories.Users
 				user.LastActiveAt != default(DateTime) ? user.LastActiveAt : databaseUser.LastActiveAt;
 
 			// Update
-			await this.Context.SaveChangesAsync();
-
-			return databaseUser;
+			var result = await this.UserManager.UpdateAsync(databaseUser);
+			if (result.Succeeded)
+			{
+				return databaseUser;
+			}
+			else
+			{
+				throw new KindlyException(result.Errors);
+			}
 		}
 
 		/// <inheritdoc />
 		public async Task Delete(Guid userID)
 		{
-			var user = await this.Context.Users.FindAsync(userID);
+			var user = await this.UserManager.FindByIdAsync(userID.ToString());
 			if (user == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
 			// Delete
-			this.Context.Users.Remove(user);
-
-			await this.Context.SaveChangesAsync();
+			var result = await this.UserManager.DeleteAsync(user);
+			if (result.Succeeded)
+			{
+				// Nothing to do here.
+			}
+			else
+			{
+				throw new KindlyException(result.Errors);
+			}
 		}
 
 		/// <inheritdoc />
@@ -161,7 +178,7 @@ namespace Kindly.API.Models.Repositories.Users
 
 			if (parameters.Gender.HasValue == false)
 			{
-				var user = await this.Context.Users.FindAsync(parameters.UserID);
+				var user = await this.UserManager.FindByIdAsync(parameters.UserID.ToString());
 
 				switch (user.Gender)
 				{
@@ -217,39 +234,39 @@ namespace Kindly.API.Models.Repositories.Users
 
 		#region [Methods] IUserRepository
 		/// <inheritdoc />
+		public async Task<bool> EmailExists(string email)
+		{
+			return await this.UserManager.Users.AnyAsync(u => u.Email == email);
+		}
+
+		/// <inheritdoc />
 		public async Task<bool> UserNameExists(string userName)
 		{
-			return await this.Context.Users.AnyAsync(u => u.UserName == userName);
+			return await this.UserManager.Users.AnyAsync(u => u.UserName == userName);
 		}
 
 		/// <inheritdoc />
 		public async Task<bool> PhoneNumberExists(string phoneNumber)
 		{
-			return await this.Context.Users.AnyAsync(u => u.PhoneNumber == phoneNumber);
+			return await this.UserManager.Users.AnyAsync(u => u.PhoneNumber == phoneNumber);
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> EmailAddressExists(string emailAddress)
+		public async Task<User> GetByEmail(string email)
 		{
-			return await this.Context.Users.AnyAsync(u => u.Email == emailAddress);
+			return await this.UserManager.Users.SingleOrDefaultAsync(u => u.Email == email);
 		}
 
 		/// <inheritdoc />
 		public async Task<User> GetByUserName(string userName)
 		{
-			return await this.Context.Users.SingleOrDefaultAsync(u => u.UserName == userName);
+			return await this.UserManager.Users.SingleOrDefaultAsync(u => u.UserName == userName);
 		}
 
 		/// <inheritdoc />
 		public async Task<User> GetByPhoneNumber(string phoneNumber)
 		{
-			return await this.Context.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
-		}
-
-		/// <inheritdoc />
-		public async Task<User> GetByEmailAddress(string emailAddress)
-		{
-			return await this.Context.Users.SingleOrDefaultAsync(u => u.Email == emailAddress);
+			return await this.UserManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
 		}
 		#endregion
 
@@ -259,7 +276,7 @@ namespace Kindly.API.Models.Repositories.Users
 		/// </summary>
 		private IQueryable<User> GetQueryable()
 		{
-			return this.Context.Users
+			return this.UserManager.Users
 				.Include(u => u.Pictures)
 				.Include(u => u.LikeTargets)
 				.Include(u => u.LikeSources)
