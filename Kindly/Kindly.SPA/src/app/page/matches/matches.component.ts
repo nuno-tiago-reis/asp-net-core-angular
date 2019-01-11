@@ -39,28 +39,28 @@ export class MatchesComponent implements OnInit
 	public filterParameters: LikeParameters;
 
 	/**
-	 * The like mode for the sources (uses that like me).
+	 * The like mode for the senders (uses that like me).
 	 */
-	public readonly LikeModeSources: LikeMode = LikeMode.Sources;
+	public readonly LikeModeSenders: LikeMode = LikeMode.Senders;
 
 	/**
-	 * The like mode for the sources (users that i like).
+	 * The like mode for the recipients (users that i like).
 	 */
-	public readonly LikeModeTargets: LikeMode = LikeMode.Targets;
+	public readonly LikeModeRecipients: LikeMode = LikeMode.Recipients;
 
 	/**
-	 * Creates an instance of the lists component.
+	 * Creates an instance of the matches component.
 	 *
-	 * @param route The activated route.
+	 * @param activatedRoute The activated route.
 	 * @param authApi The auth service.
 	 * @param likesApi The likes service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private route: ActivatedRoute, private authApi: AuthService, private likesApi: LikesService, private alertify: AlertifyService)
+	public constructor (private activatedRoute: ActivatedRoute, private authApi: AuthService, private likesApi: LikesService, private alertify: AlertifyService)
 	{
 		this.filterParameters =
 		{
-			mode: LikeMode.Sources,
+			mode: LikeMode.Senders,
 			includeRequestUser: false
 		};
 	}
@@ -70,16 +70,16 @@ export class MatchesComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		this.route.data.subscribe(data =>
+		this.activatedRoute.data.subscribe(data =>
 		{
 			this.users = [];
 
-			for (const like of data['likes'].results)
+			for (const like of data['likes'].results as Like[])
 			{
-				if (this.filterParameters.mode === LikeMode.Sources)
-					this.users.push(like.source);
+				if (this.filterParameters.mode === LikeMode.Senders)
+					this.users.push(like.sender);
 				else
-					this.users.push(like.target);
+					this.users.push(like.recipient);
 			}
 
 			this.pagination = data['likes'].pagination;
@@ -105,10 +105,10 @@ export class MatchesComponent implements OnInit
 		(
 			(body: PaginatedResult<Like>) =>
 			{
-				if (this.filterParameters.mode === LikeMode.Sources)
-					this.users = body.results.map(like => like.source);
+				if (this.filterParameters.mode === LikeMode.Senders)
+					this.users = body.results.map(like => like.sender);
 				else
-					this.users = body.results.map(like => like.target);
+					this.users = body.results.map(like => like.recipient);
 
 				this.pagination = body.pagination;
 			},

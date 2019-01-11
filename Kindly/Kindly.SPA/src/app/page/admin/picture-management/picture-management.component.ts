@@ -3,14 +3,15 @@ import { Component, OnInit } from '@angular/core';
 
 @Component
 ({
-	selector: 'app-admin-panel',
-	templateUrl: './admin-panel.component.html',
-	styleUrls: ['./admin-panel.component.css']
+	selector: 'app-picture-management',
+	templateUrl: './picture-management.component.html',
+	styleUrls: ['./picture-management.component.css']
 })
-export class AdminPanelComponent implements OnInit
+
+export class PictureManagementComponent implements OnInit
 {
 	/**
-	 * Creates an instance of the home component.
+	 * Creates an instance of the picture management component.
 	 */
 	public constructor ()
 	{

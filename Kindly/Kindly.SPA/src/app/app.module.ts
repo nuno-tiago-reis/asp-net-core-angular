@@ -68,9 +68,13 @@ import { MemberMessagesComponent } from './page/members/member-messages/member-m
 import { ProfileEditorComponent } from './page/profile/profile-editor/profile-editor.component';
 import { PictureEditorComponent } from './page/profile/picture-editor/picture-editor.component';
 import { AdminPanelComponent } from './page/admin/admin-panel/admin-panel.component';
+import { MemberManagementComponent } from './page/admin/member-management/member-management.component';
+import { PictureManagementComponent } from './page/admin/picture-management/picture-management.component';
+import { RolesModalComponent } from './page/admin/roles-modal/roles-modal.component';
 
 // routes
 import { AppRoutes } from './routes';
+import { MemberManagementResolver } from './-resolvers/member-management.resolver';
 
 // jwt token
 export function getJwtToken()
@@ -162,6 +166,7 @@ export function getAlertConfig(): TooltipConfig
 		MessagesResolver,
 		MemberListResolver,
 		MemberDetailResolver,
+		MemberManagementResolver,
 		ProfileEditorResolver,
 
 		// interceptors
@@ -187,23 +192,32 @@ export function getAlertConfig(): TooltipConfig
 		AppComponent,
 		NavBarComponent,
 		FooterComponent,
+
 		// home components
 		HomeComponent,
 		RegisterComponent,
+
 		// matches components
 		MatchesComponent,
+
 		// messages components
 		MessagesComponent,
+
 		// members components
 		MemberCardComponent,
 		MemberListComponent,
 		MemberDetailComponent,
 		MemberMessagesComponent,
+
 		// profile components
 		PictureEditorComponent,
 		ProfileEditorComponent,
+
 		// admin components
 		AdminPanelComponent,
+		MemberManagementComponent,
+		PictureManagementComponent,
+		RolesModalComponent,
 
 		// directives
 		HasRoleDirective,

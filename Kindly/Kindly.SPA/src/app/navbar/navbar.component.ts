@@ -28,11 +28,13 @@ export class NavBarComponent implements OnInit
 	};
 
 	/**
-	 * Creates an instance of the nav component.
+	 * Creates an instance of the nav bar component.
 	 *
+	 * @param router The router.
 	 * @param authApi The auth service.
+	 * @param alertify The alertify service.
 	 */
-	public constructor (public authApi: AuthService, private alertify: AlertifyService, private router: Router)
+	public constructor (public router: Router, public authApi: AuthService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}

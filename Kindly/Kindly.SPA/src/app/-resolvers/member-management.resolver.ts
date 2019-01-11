@@ -6,16 +6,15 @@ import { catchError } from 'rxjs/operators';
 
 // services
 import { AuthService } from '../-services/auth/auth.service';
-import { LikesService } from '../-services/likes/likes.service';
+import { UsersService } from '../-services/users/users.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
 
 // models
-import { Like } from '../-models/like';
+import { User } from '../-models/user';
 import { PaginatedResult } from '../-models/paginated-result';
-import { LikeMode, LikeParameters } from '../-services/likes/likes.models';
 
 @Injectable()
-export class MatchesResolver implements Resolve<PaginatedResult<Like>>
+export class MemberManagementResolver implements Resolve<PaginatedResult<User>>
 {
 	/**
 	 * The page number.
@@ -28,23 +27,14 @@ export class MatchesResolver implements Resolve<PaginatedResult<Like>>
 	public readonly pageSize = 18;
 
 	/**
-	 * The filter parameters.
-	 */
-	public readonly filterParameters: LikeParameters =
-	{
-		mode: LikeMode.Senders,
-		includeRequestUser: false
-	};
-
-	/**
-	 * Creates an instance of the matches resolver.
+	 * Creates an instance of the member list resolver.
 	 *
 	 * @param router The router.
 	 * @param authApi The auth service.
-	 * @param likesApi The likes service.
+	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private authApi: AuthService, private likesApi: LikesService, private alertify: AlertifyService)
+	public constructor(private router: Router, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -54,14 +44,14 @@ export class MatchesResolver implements Resolve<PaginatedResult<Like>>
 	 *
 	 * @param route the route.
 	 */
-	public resolve(route: ActivatedRouteSnapshot): Observable<PaginatedResult<Like>>
+	public resolve(route: ActivatedRouteSnapshot): Observable<PaginatedResult<User>>
 	{
-		return this.likesApi.getAll(this.authApi.user.id, this.pageNumber, this.pageSize, this.filterParameters).pipe
+		return this.usersApi.getAllWithRoles(this.pageNumber, this.pageSize).pipe
 		(
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving the lists.');
+				this.alertify.error('Problem retrieving the member list.');
 				this.router.navigate(['/home']);
 
 				return of(null);

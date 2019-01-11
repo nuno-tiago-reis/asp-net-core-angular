@@ -39,7 +39,7 @@ export class PictureEditorComponent implements OnInit
 	public hasFileOverDropZone: boolean;
 
 	/**
-	 * Creates an instance of the member list component.
+	 * Creates an instance of the picture editor component.
 	 *
 	 * @param authApi The auth service.
 	 * @param picturesApi The pictures service.

@@ -1,17 +1,17 @@
 export interface CreateRequest
 {
-	targetID: string;
+	recipientID: string;
 }
 
 export interface UpdateRequest
 {
-	targetID: string;
+	recipientID: string;
 }
 
 export enum LikeMode
 {
-	Targets = 'targets',
-	Sources = 'sources'
+	Recipients = 'recipients',
+	Senders = 'senders'
 }
 
 export interface LikeParameters

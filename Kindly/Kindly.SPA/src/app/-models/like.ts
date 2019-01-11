@@ -3,9 +3,9 @@ import { User } from './user';
 export interface Like
 {
 	id: string;
-	sourceID: string;
-	source: User;
-	targetID: string;
-	target: User;
+	senderID: string;
+	sender: User;
+	recipientID: string;
+	recipient: User;
 	createdAt: Date;
 }

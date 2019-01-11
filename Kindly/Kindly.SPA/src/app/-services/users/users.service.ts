@@ -152,4 +152,51 @@ export class UsersService
 
 		return observable;
 	}
+
+	/**
+	 * Gets all users with roles.
+	 *
+	 * @param pageNumber The page number.
+	 * @param pageSize The page size.
+	 */
+	public getAllWithRoles (pageNumber?: number, pageSize?: number): Observable<PaginatedResult<User>>
+	{
+		let parameters = new HttpParams();
+
+		if (pageNumber !== null && pageSize !== null)
+		{
+			parameters = parameters.append('pageNumber', pageNumber.toString());
+			parameters = parameters.append('pageSize', pageSize.toString());
+		}
+
+		const observable = this.http.get<User[]>(this.baseURL + 'roles/', { observe: 'response', params: parameters }).pipe(map
+		(
+			(response) =>
+			{
+				response.body.forEach
+				(
+					(user) =>
+					{
+						if (user.profilePictureUrl === '' || user.profilePictureUrl === null)
+						{
+							user.profilePictureUrl = DEFAULT_PICTURE;
+						}
+					}
+				);
+
+				const paginatedResult: PaginatedResult<User> = new PaginatedResult<User>();
+				paginatedResult.results = response.body;
+
+				const pagination = response.headers.get('Pagination');
+				if (pagination !== null)
+				{
+					paginatedResult.pagination = JSON.parse(pagination);
+				}
+
+				return paginatedResult;
+			}
+		));
+
+		return observable;
+	}
 }

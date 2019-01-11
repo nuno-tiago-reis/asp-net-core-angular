@@ -50,12 +50,12 @@ export class MemberListComponent implements OnInit
 	/**
 	 * Creates an instance of the member list component.
 	 *
-	 * @param route The activated route.
+	 * @param activatedRoute The activated route.
 	 * @param authApi The auth service.
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private route: ActivatedRoute, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor (private activatedRoute: ActivatedRoute, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -65,7 +65,7 @@ export class MemberListComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		this.route.data.subscribe(data =>
+		this.activatedRoute.data.subscribe(data =>
 		{
 			this.users = data['users'].results;
 			this.pagination = data['users'].pagination;
@@ -99,7 +99,7 @@ export class MemberListComponent implements OnInit
 				break;
 		}
 
-		if(resetUsers)
+		if (resetUsers)
 			this.getUsers();
 	}
 

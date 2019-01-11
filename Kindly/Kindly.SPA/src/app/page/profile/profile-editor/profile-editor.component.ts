@@ -50,10 +50,10 @@ export class ProfileEditorComponent implements OnInit
 	public profilePictureUrl: string;
 
 	/**
-	 * Creates an instance of the member edit component.
+	 * Creates an instance of the profile editor component.
 	 *
-	 * @param router The router.
 	 * @param activatedRoute The activated route.
+	 * @param router The router.
 	 * @param authApi The auth service.
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.

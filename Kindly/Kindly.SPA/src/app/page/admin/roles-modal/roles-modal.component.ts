@@ -3,14 +3,15 @@ import { Component, OnInit } from '@angular/core';
 
 @Component
 ({
-	selector: 'app-admin-panel',
-	templateUrl: './admin-panel.component.html',
-	styleUrls: ['./admin-panel.component.css']
+	selector: 'app-roles-modal',
+	templateUrl: './roles-modal.component.html',
+	styleUrls: ['./roles-modal.component.css']
 })
-export class AdminPanelComponent implements OnInit
+
+export class RolesModalComponent implements OnInit
 {
 	/**
-	 * Creates an instance of the home component.
+	 * Creates an instance of the roles modal component.
 	 */
 	public constructor ()
 	{

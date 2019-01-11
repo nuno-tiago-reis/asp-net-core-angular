@@ -1,3 +1,4 @@
+import { Role } from './role';
 import { Like } from './like';
 import { Picture } from './picture';
 
@@ -17,8 +18,9 @@ export interface User
 	interests?: string;
 	profilePictureUrl?: string;
 	pictures?: Picture[];
-	likeTargets: Like[];
-	likeSources: Like[];
+	likeSenders: Like[];
+	likeRecipients: Like[];
+	roles: Role[];
 	createdAt: Date;
 	lastActiveAt: Date;
 }

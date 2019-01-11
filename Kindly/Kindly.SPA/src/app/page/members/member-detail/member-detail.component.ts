@@ -57,8 +57,8 @@ export class MemberDetailComponent implements OnInit
 	/**
 	 * Creates an instance of the member detail component.
 	 *
-	 * @param router The router.
 	 * @param activatedRoute The activated route.
+	 * @param router The router.
 	 * @param authApi The auth service.
 	 * @param likesApi The likes service.
 	 * @param alertify The alertify service.
@@ -167,9 +167,9 @@ export class MemberDetailComponent implements OnInit
 	 */
 	public hasLike(): boolean
 	{
-		for (const like of this.authApi.user.likeTargets)
+		for (const like of this.authApi.user.likeRecipients)
 		{
-			if (like.targetID === this.user.id)
+			if (like.recipientID === this.user.id)
 			{
 				this.like = like;
 				return true;
@@ -184,12 +184,12 @@ export class MemberDetailComponent implements OnInit
 	 */
 	public sendLike(): void
 	{
-		this.likesApi.create(this.authApi.user.id, { targetID: this.user.id }).subscribe
+		this.likesApi.create(this.authApi.user.id, { recipientID: this.user.id }).subscribe
 		(
 			(like) =>
 			{
 				this.like = like;
-				this.authApi.user.likeTargets.push(like);
+				this.authApi.user.likeRecipients.push(like);
 				this.authApi.refreshUserInStorage();
 
 				this.alertify.success(`You have liked ${this.user.knownAs}.`);
@@ -210,7 +210,7 @@ export class MemberDetailComponent implements OnInit
 		(
 			() =>
 			{
-				this.authApi.user.likeTargets.splice(this.authApi.user.likeTargets.findIndex(l => l.id === this.like.id), 1);
+				this.authApi.user.likeRecipients.splice(this.authApi.user.likeRecipients.findIndex(l => l.id === this.like.id), 1);
 				this.authApi.refreshUserInStorage();
 				this.like = null;
 

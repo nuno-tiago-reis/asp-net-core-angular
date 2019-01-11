@@ -1,0 +1,27 @@
+<div class="row">
+	<table class="table">
+		<tr>
+			<th style="width: 10%">User Id</th>
+			<th style="width: 30%">Username</th>
+			<th style="width: 40%">Active roles</th>
+			<th style="width: 20%"></th>
+		</tr>
+		<tr *ngFor="let user of this.users">
+			<td>{{user.id}}</td>
+			<td>{{user.userName}}</td>
+			<td>{{this.getUserRoles(user)}}</td>
+			<td><button class="btn btn-info" (click)="this.showEditRolesModal(user)">Edit Roles</button></td>
+		</tr>
+	</table>
+</div>
+
+<div class="d-flex justify-content-center">
+	<pagination
+		[boundaryLinks]="true"
+		(pageChanged)="this.changePage($event)"
+		[(ngModel)]="this.pagination.pageNumber"
+		[totalItems]="this.pagination.totalCount"
+		[itemsPerPage]="this.pagination.pageSize"
+		previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+	</pagination>
+</div>
