@@ -12,15 +12,15 @@ namespace Kindly.API.Models.Repositories.Likes
 			builder.HasKey(like => like.ID);
 
 			// Indices
-			builder.HasIndex(like => like.SourceID);
-			builder.HasIndex(like => like.TargetID);
-			builder.HasIndex(like => new { like.SourceID, like.TargetID }).IsUnique();
+			builder.HasIndex(like => like.SenderID);
+			builder.HasIndex(like => like.RecipientID);
+			builder.HasIndex(like => new { like.SenderID, like.RecipientID }).IsUnique();
 
 			// Properties
-			builder.Property(like => like.SourceID)
+			builder.Property(like => like.SenderID)
 				.IsRequired();
 
-			builder.Property(like => like.TargetID)
+			builder.Property(like => like.RecipientID)
 				.IsRequired();
 
 			builder.Property(like => like.CreatedAt)
@@ -30,15 +30,15 @@ namespace Kindly.API.Models.Repositories.Likes
 
 			// Relationships
 			builder
-				.HasOne(like => like.Source)
-				.WithMany(user => user.LikeTargets)
-				.HasForeignKey(like => like.SourceID)
+				.HasOne(like => like.Sender)
+				.WithMany(user => user.LikeRecipients)
+				.HasForeignKey(like => like.SenderID)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			builder
-				.HasOne(like => like.Target)
-				.WithMany(user => user.LikeSources)
-				.HasForeignKey(like => like.TargetID)
+				.HasOne(like => like.Recipient)
+				.WithMany(user => user.LikeSenders)
+				.HasForeignKey(like => like.RecipientID)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}

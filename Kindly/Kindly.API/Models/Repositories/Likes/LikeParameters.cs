@@ -2,8 +2,8 @@
 {
 	public enum LikeMode
 	{
-		Targets = 0,
-		Sources = 1
+		Recipients = 0,
+		Senders = 1
 	}
 
 	public sealed class LikeParameters : PaginationParameters

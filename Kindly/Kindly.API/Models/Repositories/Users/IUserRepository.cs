@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Kindly.API.Utility.Collections;
+
+using System;
+using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Users
 {
@@ -45,5 +48,35 @@ namespace Kindly.API.Models.Repositories.Users
 		/// 
 		/// <param name="phoneNumber">The phone number.</param>
 		Task<User> GetByPhoneNumber(string phoneNumber);
+
+		/// <summary>
+		/// Adds the role to the user.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		/// <param name="roleID">The role identifier.</param>
+		Task AddRoleToUser(Guid userID, Guid roleID);
+
+		/// <summary>
+		/// Removes the role from the user.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		/// <param name="roleID">The role identifier.</param>
+		Task RemoveRoleFromUser(Guid userID, Guid roleID);
+
+		/// <summary>
+		/// Gets the user with its roles.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		Task<User> GetUserWithRoles(Guid userID);
+
+		/// <summary>
+		/// Gets all the users with their respective roles.
+		/// </summary>
+		/// 
+		/// <param name="parameters">The parameters.</param>
+		Task<PagedList<User>> GetUsersWithRoles(UserParameters parameters);
 	}
 }

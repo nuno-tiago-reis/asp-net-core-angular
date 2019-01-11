@@ -3,6 +3,7 @@
 using Kindly.API.Contracts;
 using Kindly.API.Contracts.Likes;
 using Kindly.API.Models.Repositories.Likes;
+using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility.Collections;
 using Kindly.API.Utility;
 
@@ -15,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kindly.API.Controllers
+namespace Kindly.API.Controllers.Likes
 {
 	[Authorize]
 	[ApiController]
@@ -24,11 +25,6 @@ namespace Kindly.API.Controllers
 	public sealed class LikesController : KindlyController
 	{
 		#region [Properties]
-		/// <summary>
-		/// Gets or sets the mapper.
-		/// </summary>
-		private IMapper Mapper { get; set; }
-
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
@@ -42,9 +38,15 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="mapper">The mapper.</param>
 		/// <param name="repository">The repository.</param>
-		public LikesController(IMapper mapper, ILikeRepository repository)
+		/// <param name="authorizationService">The authorization service.</param>
+		public LikesController
+		(
+			IMapper mapper,
+			ILikeRepository repository,
+			IAuthorizationService authorizationService
+		)
+		: base(mapper, authorizationService)
 		{
-			this.Mapper = mapper;
 			this.Repository = repository;
 		}
 		#endregion
@@ -59,15 +61,28 @@ namespace Kindly.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(Guid userID, CreateLikeDto createLikeInfo)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
+			var like = new Like
+			{
+				SenderID = userID
+			};
 
-			var like = Mapper.Map<Like>(createLikeInfo);
-			like.SourceID = userID;
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, like, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
+			this.Mapper.Map(createLikeInfo, like);
 
 			await this.Repository.Create(like);
 
-			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{like.ID}"), Mapper.Map<LikeDto>(like));
+			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{like.ID}"), this.Mapper.Map<LikeDto>(like));
 		}
 
 		/// <summary>
@@ -80,15 +95,25 @@ namespace Kindly.API.Controllers
 		[HttpPut("{likeID:Guid}")]
 		public async Task<IActionResult> Update(Guid userID, Guid likeID, UpdateLikeDto updateLikeInfo)
 		{
-			if (userID != this.GetInvocationUserID())
-					return this.Unauthorized();
+			var like = new Like
+			{
+				ID = likeID,
+				SenderID = userID
+			};
 
-			if (await this.Repository.LikeBelongsToUser(userID, likeID) == false)
-				return this.NotFound();
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, like, nameof(KindlyPolicies.AllowIfOwner)
+			);
 
-			var like = Mapper.Map<Like>(updateLikeInfo);
-			like.ID = likeID;
-			like.SourceID = userID;
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
+			this.Mapper.Map(updateLikeInfo, like);
 
 			await this.Repository.Update(like);
 
@@ -104,11 +129,23 @@ namespace Kindly.API.Controllers
 		[HttpDelete("{likeID:Guid}")]
 		public async Task<IActionResult> Delete(Guid userID, Guid likeID)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
+			var like = new Like
+			{
+				ID = likeID,
+				SenderID = userID
+			};
 
-			if (await this.Repository.LikeBelongsToUser(userID, likeID) == false)
-				return this.NotFound();
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, like, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
 
 			await this.Repository.Delete(likeID);
 
@@ -124,13 +161,20 @@ namespace Kindly.API.Controllers
 		[HttpGet("{likeID:Guid}")]
 		public async Task<IActionResult> Get(Guid userID, Guid likeID)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
-
-			if (await this.Repository.LikeBelongsToUser(userID, likeID) == false)
-				return this.NotFound();
-
 			var like = await this.Repository.Get(likeID);
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, like, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
 			var likeDto = this.Mapper.Map<LikeDto>(like);
 
 			return this.Ok(likeDto);
@@ -145,31 +189,48 @@ namespace Kindly.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAll(Guid userID, [FromQuery] LikeParameters parameters)
 		{
+			var user = new User
+			{
+				ID = userID
+			};
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, user, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
 			PagedList<Like> likes;
 			IEnumerable<LikeDto> likeDtos;
 
 			switch (parameters.Mode)
 			{
-				case LikeMode.Targets:
-					likes = await this.Repository.GetBySourceUser(userID, parameters);
+				case LikeMode.Recipients:
+					likes = await this.Repository.GetBySenderUser(userID, parameters);
 					likeDtos = likes.Select(l => this.Mapper.Map<LikeDto>(l)).ToList();
 
 					if (parameters.IncludeRequestUser)
 						break;
 
 					foreach (var likeDto in likeDtos)
-						likeDto.CleanSource();
+						likeDto.RemoveSender();
 					break;
 
-				case LikeMode.Sources:
-					likes = await this.Repository.GetByTargetUser(userID, parameters);
+				case LikeMode.Senders:
+					likes = await this.Repository.GetByRecipientUser(userID, parameters);
 					likeDtos = likes.Select(l => this.Mapper.Map<LikeDto>(l)).ToList();
 
 					if (parameters.IncludeRequestUser)
 						break;
 
 					foreach (var likeDto in likeDtos)
-						likeDto.CleanTarget();
+						likeDto.RemoveRecipient();
 					break;
 
 				default:

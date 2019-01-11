@@ -8,9 +8,9 @@ namespace Kindly.API.Contracts.Likes
 	public sealed class CreateLikeDto
 	{
 		/// <summary>
-		/// Gets or sets the target identifier.
+		/// Gets or sets the recipient identifier.
 		/// </summary>
 		[Required]
-		public Guid TargetID { get; set; }
+		public Guid RecipientID { get; set; }
 	}
 }

@@ -97,14 +97,14 @@ namespace Kindly.API.Models.Repositories.Users
 		public DateTime LastActiveAt { get; set; }
 
 		/// <summary>
-		/// Gets or sets the like targets.
+		/// Gets or sets the like recipients.
 		/// </summary>
-		public ICollection<Like> LikeTargets { get; set; }
+		public ICollection<Like> LikeRecipients { get; set; }
 
 		/// <summary>
-		/// Gets or sets the likes sources.
+		/// Gets or sets the likes senders.
 		/// </summary>
-		public ICollection<Like> LikeSources { get; set; }
+		public ICollection<Like> LikeSenders { get; set; }
 
 		/// <summary>
 		/// Gets or sets the messages sent.

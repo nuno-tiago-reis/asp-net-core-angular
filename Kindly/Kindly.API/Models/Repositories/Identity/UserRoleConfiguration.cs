@@ -8,9 +8,6 @@ namespace Kindly.API.Models.Repositories.Identity
 		/// <inheritdoc />
 		public void Configure(EntityTypeBuilder<UserRole> builder)
 		{
-			// Keys
-			//builder.HasKey(userRole => new { userRole.UserId, userRole .RoleId });
-
 			// Properties
 			builder.Property(userLogin => userLogin.UserId)
 				.IsRequired()

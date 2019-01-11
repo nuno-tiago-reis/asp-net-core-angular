@@ -7,13 +7,24 @@ using Kindly.API.Models.Repositories.Roles;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 using System;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Kindly.API.Models
 {
 	public class KindlyContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 	{
+		/// <summary>
+		/// The logger factory.
+		/// </summary>
+		public static readonly LoggerFactory LoggerFactory = new LoggerFactory
+		(
+			new[] { new ConsoleLoggerProvider((_, __) => true, true) }
+		);
+
 		/// <summary>
 		/// The likes.
 		/// </summary>
@@ -55,6 +66,12 @@ namespace Kindly.API.Models
 			builder.ApplyConfiguration(new MessageConfiguration());
 			builder.ApplyConfiguration(new UserConfiguration());
 			builder.ApplyConfiguration(new RoleConfiguration());
+		}
+
+		/// <inheritdoc />
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			//optionsBuilder.UseLoggerFactory(LoggerFactory);
 		}
 	}
 }

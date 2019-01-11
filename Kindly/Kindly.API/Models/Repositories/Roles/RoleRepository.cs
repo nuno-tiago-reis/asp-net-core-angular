@@ -1,6 +1,5 @@
 ﻿using Kindly.API.Utility;
 using Kindly.API.Utility.Collections;
-using Kindly.API.Models.Repositories.Users;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +15,6 @@ namespace Kindly.API.Models.Repositories.Roles
 	{
 		#region [Properties]
 		/// <summary>
-		/// Gets or sets the user manager.
-		/// </summary>
-		public UserManager<User> UserManager { get; set; }
-
-		/// <summary>
 		/// Gets or sets the role manager.
 		/// </summary>
 		public RoleManager<Role> RoleManager { get; set; }
@@ -31,11 +25,9 @@ namespace Kindly.API.Models.Repositories.Roles
 		/// Initializes a new instance of the <see cref="RoleRepository"/> class.
 		/// </summary>
 		/// 
-		/// <param name="userManager">The user manager.</param>
 		/// <param name="roleManager">The role manager.</param>
-		public RoleRepository(UserManager<User> userManager, RoleManager<Role> roleManager)
+		public RoleRepository(RoleManager<Role> roleManager)
 		{
-			this.UserManager = userManager;
 			this.RoleManager = roleManager;
 		}
 		#endregion
@@ -105,7 +97,7 @@ namespace Kindly.API.Models.Repositories.Roles
 		/// <inheritdoc />
 		public async Task<Role> Get(Guid roleID)
 		{
-			return await this.GetQueryable().SingleOrDefaultAsync(p => p.ID == roleID);
+			return await this.GetQueryable().SingleOrDefaultAsync(p => p.Id == roleID);
 		}
 
 		/// <inheritdoc />
@@ -124,67 +116,7 @@ namespace Kindly.API.Models.Repositories.Roles
 		#endregion
 
 		#region [Methods] IRoleRepository
-		/// <inheritdoc />
-		public async Task AddRoleToUser(Guid userID, Role role)
-		{
-			var databaseUser = await this.UserManager.FindByIdAsync(userID.ToString());
-			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist, true);
-
-			var databaseRole = await this.RoleManager.FindByNameAsync(role.Name);
-			if (databaseRole == null)
-				throw new KindlyException(Role.DoesNotExist, true);
-
-			if (await this.UserManager.IsInRoleAsync(databaseUser, databaseRole.Name))
-				throw new KindlyException(string.Format(Role.UserIsAlreadyInRole, databaseRole.Name));
-
-			var result = await this.UserManager.AddToRoleAsync(databaseUser, databaseRole.Name);
-			if (result.Succeeded)
-			{
-				// Nothing to do here.
-			}
-			else
-			{
-				throw new KindlyException(result.Errors);
-			}
-		}
-
-		/// <inheritdoc />
-		public async Task RemoveRoleFromUser(Guid userID, Guid roleID)
-		{
-			var databaseUser = await this.UserManager.FindByIdAsync(userID.ToString());
-			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist, true);
-
-			var databaseRole = await this.RoleManager.FindByIdAsync(roleID.ToString());
-			if (databaseRole == null)
-				throw new KindlyException(Role.DoesNotExist, true);
-
-			if (await this.UserManager.IsInRoleAsync(databaseUser, databaseRole.Name) == false)
-				throw new KindlyException(string.Format(Role.UserIsNotInRole, databaseRole.Name));
-
-			var result = await this.UserManager.RemoveFromRoleAsync(databaseUser, databaseRole.Name);
-			if (result.Succeeded)
-			{
-				// Nothing to do here.
-			}
-			else
-			{
-				throw new KindlyException(result.Errors);
-			}
-		}
-
-		/// <inheritdoc />
-		public async Task<IEnumerable<Role>> GetRolesFromUser(Guid userID)
-		{
-			var databaseUser = await this.UserManager.FindByIdAsync(userID.ToString());
-			if (databaseUser == null)
-				throw new KindlyException(User.DoesNotExist, true);
-
-			var roleNames = await this.UserManager.GetRolesAsync(databaseUser);
-
-			return await this.RoleManager.Roles.Where(role => roleNames.Contains(role.Name)).ToListAsync();
-		}
+		// Nothing to do here.
 		#endregion
 
 		#region [Methods] Utility

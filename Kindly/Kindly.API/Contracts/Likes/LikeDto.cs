@@ -16,28 +16,28 @@ namespace Kindly.API.Contracts.Likes
 		public Guid ID { get; set; }
 
 		/// <summary>
-		/// Gets or sets the target identifier.
+		/// Gets or sets the sender identifier.
 		/// </summary>
 		[Required]
-		public Guid? TargetID { get; set; }
+		public Guid? SenderID { get; set; }
 
 		/// <summary>
-		/// Gets or sets the target.
+		/// Gets or sets the sender.
 		/// </summary>
 		[Required]
-		public UserDto Target { get; set; }
+		public UserDto Sender { get; set; }
 
 		/// <summary>
-		/// Gets or sets the source identifier.
+		/// Gets or sets the recipient identifier.
 		/// </summary>
 		[Required]
-		public Guid? SourceID { get; set; }
+		public Guid? RecipientID { get; set; }
 
 		/// <summary>
-		/// Gets or sets the source.
+		/// Gets or sets the recipient.
 		/// </summary>
 		[Required]
-		public UserDto Source { get; set; }
+		public UserDto Recipient { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created at date.
@@ -47,21 +47,21 @@ namespace Kindly.API.Contracts.Likes
 		public DateTime CreatedAt { get; set; }
 
 		/// <summary>
-		/// Cleans the source.
+		/// Cleans the sender.
 		/// </summary>
-		public void CleanSource()
+		public void RemoveSender()
 		{
-			this.SourceID = null;
-			this.Source = null;
+			this.SenderID = null;
+			this.Sender = null;
 		}
 
 		/// <summary>
-		/// Cleans the target.
+		/// Cleans the recipient.
 		/// </summary>
-		public void CleanTarget()
+		public void RemoveRecipient()
 		{
-			this.TargetID = null;
-			this.Target = null;
+			this.RecipientID = null;
+			this.Recipient = null;
 		}
 	}
 }

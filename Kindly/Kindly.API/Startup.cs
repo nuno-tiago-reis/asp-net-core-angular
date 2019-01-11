@@ -1,5 +1,11 @@
 ﻿using AutoMapper;
 
+using Kindly.API.Controllers;
+using Kindly.API.Controllers.Auth;
+using Kindly.API.Controllers.Likes;
+using Kindly.API.Controllers.Messages;
+using Kindly.API.Controllers.Pictures;
+using Kindly.API.Controllers.Users;
 using Kindly.API.Models;
 using Kindly.API.Models.Repositories.Likes;
 using Kindly.API.Models.Repositories.Pictures;
@@ -81,18 +87,33 @@ namespace Kindly.API
 				options.UseSqlServer(this.Configuration.GetConnectionString(KindlyConstants.DefaultConnection));
 			});
 
-			// Database Repositories
 			services.AddScoped<ILikeRepository, LikeRepository>();
 			services.AddScoped<IMessageRepository, MessageRepository>();
 			services.AddScoped<IPictureRepository, PictureRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IRoleRepository, RoleRepository>();
 
-			// Cloudinary
+			// Configurations
 			services.Configure<CloudinarySettings>(Configuration.GetSection(KindlyConstants.AppSettingsCloudinary));
 
 			// Filters
 			services.AddScoped<KindlyActivityFilter>();
+
+			// Authorization - Policies
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(nameof(KindlyPolicies.AllowIfOwner), policy =>
+				{
+					policy.AddRequirements(new AllowIfOwnerRequirement());
+				});
+			});
+
+			// Authorization - Handlers
+			services.AddScoped<IAuthorizationHandler, AuthAuthorizationHandler>();
+			services.AddScoped<IAuthorizationHandler, LikesAuthorizationHandler>();
+			services.AddScoped<IAuthorizationHandler, MessagesAuthorizationHandler>();
+			services.AddScoped<IAuthorizationHandler, PicturesAuthorizationHandler>();
+			services.AddScoped<IAuthorizationHandler, UsersAuthorizationHandler>();
 
 			// Authentication - Identity
 			var builder = services.AddIdentityCore<User>(options =>

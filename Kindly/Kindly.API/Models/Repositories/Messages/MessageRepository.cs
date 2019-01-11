@@ -43,13 +43,13 @@ namespace Kindly.API.Models.Repositories.Messages
 			// Foreign Keys
 			var sender = await this.Context.Users
 				.Include(u => u.Pictures)
-				.SingleOrDefaultAsync(u => u.ID == message.SenderID);
+				.SingleOrDefaultAsync(u => u.Id == message.SenderID);
 			if (sender == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
 			var recipient = await this.Context.Users
 				.Include(u => u.Pictures)
-				.SingleOrDefaultAsync(u => u.ID == message.RecipientID);
+				.SingleOrDefaultAsync(u => u.Id == message.RecipientID);
 			if (recipient == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
@@ -134,15 +134,10 @@ namespace Kindly.API.Models.Repositories.Messages
 		/// <inheritdoc />
 		public async Task<bool> MessageBelongsToUser(Guid userID, Guid messageID)
 		{
-			var user = await this.Context.Users.FindAsync(userID);
-			if (user == null)
-				throw new KindlyException(User.DoesNotExist, true);
+			bool exists = await this.Context.Messages
+				.AnyAsync(m => m.ID == messageID && (m.SenderID == userID || m.RecipientID == userID));
 
-			var message = await this.Context.Messages.SingleOrDefaultAsync
-			(
-				m => m.ID == messageID && (m.SenderID == userID || m.RecipientID == userID)
-			);
-			if (message == null)
+			if (exists == false)
 				throw new KindlyException(Message.DoesNotExist, true);
 
 			return true;

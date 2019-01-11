@@ -19,7 +19,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kindly.API.Controllers
+namespace Kindly.API.Controllers.Pictures
 {
 	[Authorize]
 	[ApiController]
@@ -28,11 +28,6 @@ namespace Kindly.API.Controllers
 	public sealed class PicturesController : KindlyController
 	{
 		#region [Properties]
-		/// <summary>
-		/// Gets or sets the mapper.
-		/// </summary>
-		private IMapper Mapper { get; set; }
-
 		/// <summary>
 		/// Gets or sets the cloudinary.
 		/// </summary>
@@ -51,10 +46,17 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="mapper">The mapper.</param>
 		/// <param name="repository">The repository.</param>
+		/// <param name="authorizationService">The authorization service.</param>
 		/// <param name="cloudinarySettings">The cloudinary settings.</param>
-		public PicturesController(IMapper mapper, IPictureRepository repository, IOptions<CloudinarySettings> cloudinarySettings)
+		public PicturesController
+		(
+			IMapper mapper,
+			IPictureRepository repository,
+			IAuthorizationService authorizationService,
+			IOptions<CloudinarySettings> cloudinarySettings
+		)
+		: base(mapper, authorizationService)
 		{
-			this.Mapper = mapper;
 			this.Repository = repository;
 			this.Cloudinary = new Cloudinary(new Account
 			(
@@ -75,17 +77,28 @@ namespace Kindly.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(Guid userID, [FromForm][FromBody] CreatePictureDto createPictureInfo)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
-
 			try
 			{
-				var uploadResult = this.UploadToCloudinary(createPictureInfo.File);
+				var picture = new Picture
+				{
+					UserID = userID
+				};
 
-				var picture = this.Mapper.Map<Picture>(createPictureInfo);
-				picture.UserID = userID;
-				picture.Url = uploadResult.Uri.ToString();
-				picture.PublicID = uploadResult.PublicId;
+				#region [Authorization]
+				var result = await this.AuthorizationService.AuthorizeAsync
+				(
+					this.User, picture, nameof(KindlyPolicies.AllowIfOwner)
+				);
+
+				if (result.Succeeded == false)
+				{
+					return this.Unauthorized();
+				}
+				#endregion
+
+				this.Mapper.Map(createPictureInfo, picture);
+
+				this.UploadToCloudinary(picture, createPictureInfo.File);
 
 				await this.Repository.Create(picture);
 
@@ -107,15 +120,25 @@ namespace Kindly.API.Controllers
 		[HttpPut("{pictureID:Guid}")]
 		public async Task<IActionResult> Update(Guid userID, Guid pictureID, UpdatePictureDto updatePictureInfo)
 		{
-			if (userID != this.GetInvocationUserID())
+			var picture = new Picture
+			{
+				ID = pictureID,
+				UserID = userID
+			};
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, picture, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
 				return this.Unauthorized();
+			}
+			#endregion
 
-			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
-				return this.NotFound();
-
-			var picture = Mapper.Map<Picture>(updatePictureInfo);
-			picture.ID = pictureID;
-			picture.UserID = userID;
+			this.Mapper.Map<Picture>(updatePictureInfo);
 
 			await this.Repository.Update(picture);
 
@@ -131,17 +154,23 @@ namespace Kindly.API.Controllers
 		[HttpDelete("{pictureID:Guid}")]
 		public async Task<IActionResult> Delete(Guid userID, Guid pictureID)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
-
-			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
-				return this.NotFound();
-
 			try
 			{
 				var picture = await this.Repository.Get(pictureID);
 
-				this.DeleteInCloudinary(picture.PublicID);
+				#region [Authorization]
+				var result = await this.AuthorizationService.AuthorizeAsync
+				(
+					this.User, picture, nameof(KindlyPolicies.AllowIfOwner)
+				);
+
+				if (result.Succeeded == false)
+				{
+					return this.Unauthorized();
+				}
+				#endregion
+
+				this.DeleteInCloudinary(picture);
 
 				await this.Repository.Delete(pictureID);
 
@@ -162,12 +191,6 @@ namespace Kindly.API.Controllers
 		[HttpGet("{pictureID:Guid}")]
 		public async Task<IActionResult> Get(Guid userID, Guid pictureID)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
-
-			if (await this.Repository.PictureBelongsToUser(userID, pictureID) == false)
-				return this.NotFound();
-
 			var picture = await this.Repository.Get(pictureID);
 			var pictureDto = this.Mapper.Map<PictureDto>(picture);
 
@@ -203,8 +226,9 @@ namespace Kindly.API.Controllers
 		/// Uploads the picture file to cloudinary.
 		/// </summary>
 		/// 
+		/// <param name="picture">The picture.</param>
 		/// <param name="file">The file.</param>
-		private ImageUploadResult UploadToCloudinary(IFormFile file)
+		private void UploadToCloudinary(Picture picture, IFormFile file)
 		{
 			if (file == null || file.Length <= 0)
 				throw new ArgumentException("The picture is empty.");
@@ -221,7 +245,8 @@ namespace Kindly.API.Controllers
 				if (uploadResult.Error != null)
 					throw new ArgumentException("There was an error uploading the picture: " + uploadResult.Error.Message);
 
-				return uploadResult;
+				picture.Url = uploadResult.Uri.ToString();
+				picture.PublicID = uploadResult.PublicId;
 			}
 		}
 
@@ -229,13 +254,13 @@ namespace Kindly.API.Controllers
 		/// Deletes the picture in cloudinary.
 		/// </summary>
 		/// 
-		/// <param name="publicID">The public id.</param>
-		private void DeleteInCloudinary(string publicID)
+		/// <param name="picture">The picture.</param>
+		private void DeleteInCloudinary(Picture picture)
 		{
-			if (string.IsNullOrWhiteSpace(publicID))
+			if (string.IsNullOrWhiteSpace(picture.PublicID))
 				return;
 
-			var deleteResult = this.Cloudinary.Destroy(new DeletionParams(publicID));
+			var deleteResult = this.Cloudinary.Destroy(new DeletionParams(picture.PublicID));
 			if (deleteResult.Error != null)
 				throw new ArgumentException("There was an error deleting the picture: " + deleteResult.Error.Message);
 		}

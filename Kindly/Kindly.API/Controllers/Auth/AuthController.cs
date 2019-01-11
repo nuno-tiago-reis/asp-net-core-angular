@@ -30,11 +30,6 @@ namespace Kindly.API.Controllers
 	{
 		#region [Properties]
 		/// <summary>
-		/// Gets or sets the mapper.
-		/// </summary>
-		private IMapper Mapper { get; set; }
-
-		/// <summary>
 		/// Gets or sets the user manager.
 		/// </summary>
 		private UserManager<User> UserManager { get; set; }
@@ -57,23 +52,26 @@ namespace Kindly.API.Controllers
 
 		#region [Constructors]
 		/// <summary>
-		/// Initializes a new instance of the <see cref="UsersController"/> class.
+		/// Initializes a new instance of the <see cref="AuthController"/> class.
 		/// </summary>
 		/// 
 		/// <param name="mapper">The mapper.</param>
 		/// <param name="userManager">The user manager.</param>
 		/// <param name="signInManager">The sign in manager.</param>
+		/// <param name="authorizationService">The authorization service.</param>
 		/// <param name="configuration">The configuration.</param>
 		public AuthController
 		(
 			IMapper mapper,
 			UserManager<User> userManager,
 			SignInManager<User> signInManager,
-			IConfiguration configuration)
+			IAuthorizationService authorizationService,
+			IConfiguration configuration
+		)
+		: base (mapper, authorizationService)
 		{
 			string secret = configuration.GetSection(KindlyConstants.AppSettingsEncryptionKey).Value;
-
-			this.Mapper = mapper;
+			
 			this.UserManager = userManager;
 			this.SignInManager = signInManager;
 			this.SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
@@ -98,14 +96,16 @@ namespace Kindly.API.Controllers
 			if (await this.UserManager.FindByNameAsync(user.UserName) != null)
 				return this.BadRequest(user.ExistingFieldMessage(u => u.UserName));
 
-			var result = await this.UserManager.CreateAsync(user, registerInfo.Password);
-			if (result.Succeeded)
+			var userResult = await this.UserManager.CreateAsync(user, registerInfo.Password);
+			if (userResult.Succeeded)
 			{
+				await this.UserManager.AddToRoleAsync(user, nameof(KindlyRoles.Member));
+
 				return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
 			}
 			else
 			{
-				return this.BadRequest(result.Errors);
+				return this.BadRequest(userResult.Errors);
 			}
 		}
 
@@ -167,9 +167,6 @@ namespace Kindly.API.Controllers
 			if (user == null)
 				return this.NotFound();
 
-			Console.WriteLine(user.ID);
-			Console.WriteLine(loginInfo.Email);
-
 			var result = await this.SignInManager.CheckPasswordSignInAsync(user, loginInfo.Password, false);
 			if (result.Succeeded)
 			{
@@ -186,21 +183,32 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="passwordInfo">The password information.</param>
-		[Authorize]
 		[HttpPost("password")]
 		public async Task<IActionResult> AddPassword(AddPasswordDto passwordInfo)
 		{
-			if (passwordInfo.ID != this.GetInvocationUserID())
-				return this.Unauthorized();
+			var user = await this.UserManager.FindByIdAsync(passwordInfo.ID.ToString());
 
-			var user = new User
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, user, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
 			{
-				ID = passwordInfo.ID
-			};
+				return this.Unauthorized();
+			}
+			#endregion
 
-			await this.UserManager.AddPasswordAsync(user, passwordInfo.Password);
-
-			return this.Ok();
+			var identityResult = await this.UserManager.AddPasswordAsync(user, passwordInfo.Password);
+			if (identityResult.Succeeded)
+			{
+				return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), await this.GenerateLoginToken(user)));
+			}
+			else
+			{
+				return this.Unauthorized();
+			}
 		}
 
 		/// <summary>
@@ -208,21 +216,32 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="passwordInfo">The password information.</param>
-		[Authorize]
 		[HttpPut("password")]
 		public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordInfo)
 		{
-			if (passwordInfo.ID != this.GetInvocationUserID())
-				return this.Unauthorized();
+			var user = await this.UserManager.FindByIdAsync(passwordInfo.ID.ToString());
 
-			var user = new User
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, user, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
 			{
-				ID = passwordInfo.ID
-			};
+				return this.Unauthorized();
+			}
+			#endregion
 
-			await this.UserManager.ChangePasswordAsync(user, passwordInfo.OldPassword, passwordInfo.NewPassword);
-
-			return this.Ok();
+			var identityResult = await this.UserManager.ChangePasswordAsync(user, passwordInfo.OldPassword, passwordInfo.NewPassword);
+			if (identityResult.Succeeded)
+			{
+				return this.Ok(new LoginResponseDto(await this.GenerateUserDto(user), await this.GenerateLoginToken(user)));
+			}
+			else
+			{
+				return this.Unauthorized();
+			}
 		}
 		#endregion
 
@@ -236,8 +255,8 @@ namespace Kindly.API.Controllers
 		{
 			var databaseUser = await this.UserManager.Users
 				.Include(u => u.Pictures)
-				.Include(u => u.LikeSources)
-				.Include(u => u.LikeTargets)
+				.Include(u => u.LikeSenders)
+				.Include(u => u.LikeRecipients)
 				.Include(u => u.UserRoles)
 				.FirstOrDefaultAsync(u => u.UserName == user.UserName);
 			var databaseUserDto = Mapper.Map<UserDetailedDto>(databaseUser);

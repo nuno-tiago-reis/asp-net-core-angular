@@ -8,9 +8,6 @@ namespace Kindly.API.Models.Repositories.Identity
 		/// <inheritdoc />
 		public void Configure(EntityTypeBuilder<UserToken> builder)
 		{
-			// Keys
-			//builder.HasKey(userToken => new { userToken.UserId, userToken.LoginProvider });
-
 			// Properties
 			builder.Property(userToken => userToken.UserId)
 				.IsRequired()

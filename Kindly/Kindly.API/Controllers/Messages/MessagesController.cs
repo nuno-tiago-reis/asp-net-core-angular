@@ -3,6 +3,7 @@
 using Kindly.API.Contracts;
 using Kindly.API.Contracts.Messages;
 using Kindly.API.Models.Repositories.Messages;
+using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kindly.API.Controllers
+namespace Kindly.API.Controllers.Messages
 {
 	[Authorize]
 	[ApiController]
@@ -22,11 +23,6 @@ namespace Kindly.API.Controllers
 	public sealed class MessagesController : KindlyController
 	{
 		#region [Properties]
-		/// <summary>
-		/// Gets or sets the mapper.
-		/// </summary>
-		private IMapper Mapper { get; set; }
-
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
@@ -40,7 +36,14 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="mapper">The mapper.</param>
 		/// <param name="repository">The repository.</param>
-		public MessagesController(IMapper mapper, IMessageRepository repository)
+		/// <param name="authorizationService">The authorization service.</param>
+		public MessagesController
+		(
+			IMapper mapper,
+			IMessageRepository repository,
+			IAuthorizationService authorizationService
+		)
+		: base(mapper, authorizationService)
 		{
 			this.Mapper = mapper;
 			this.Repository = repository;
@@ -57,15 +60,28 @@ namespace Kindly.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(Guid userID, CreateMessageDto createMessageInfo)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
+			var message = new Message
+			{
+				SenderID = userID
+			};
 
-			var message = Mapper.Map<Message>(createMessageInfo);
-			message.SenderID = userID;
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, message, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
+			this.Mapper.Map(createMessageInfo, message);
 
 			await this.Repository.Create(message);
 
-			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{message.ID}"), Mapper.Map<MessageDto>(message));
+			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{message.ID}"), this.Mapper.Map<MessageDto>(message));
 		}
 
 		/// <summary>
@@ -78,14 +94,25 @@ namespace Kindly.API.Controllers
 		[HttpPut("{messageID:Guid}")]
 		public async Task<IActionResult> Update(Guid userID, Guid messageID, UpdateMessageDto updateMessageInfo)
 		{
-			if (userID != this.GetInvocationUserID())
-					return this.Unauthorized();
+			var message = new Message
+			{
+				ID = messageID,
+				SenderID = userID
+			};
 
-			if (await this.Repository.MessageBelongsToUser(userID, messageID) == false)
-				return this.NotFound();
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, message, nameof(KindlyPolicies.AllowIfOwner)
+			);
 
-			var message = Mapper.Map<Message>(updateMessageInfo);
-			message.ID = messageID;
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
+			this.Mapper.Map(updateMessageInfo, message);
 
 			await this.Repository.Update(message);
 
@@ -101,13 +128,25 @@ namespace Kindly.API.Controllers
 		[HttpDelete("{messageID:Guid}")]
 		public async Task<IActionResult> Delete(Guid userID, Guid messageID)
 		{
-			if (userID != this.GetInvocationUserID())
+			var message = new Message
+			{
+				ID = messageID,
+				SenderID = userID
+			};
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, message, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
 				return this.Unauthorized();
+			}
+			#endregion
 
-			if (await this.Repository.MessageBelongsToUser(userID, messageID) == false)
-				return this.NotFound();
-
-			var message = await this.Repository.Get(messageID);
+			message = await this.Repository.Get(messageID);
 
 			if (userID == message.SenderID)
 				message.SenderDeleted = true;
@@ -139,13 +178,20 @@ namespace Kindly.API.Controllers
 		[HttpGet("{messageID:Guid}")]
 		public async Task<IActionResult> Get(Guid userID, Guid messageID)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
-
-			if (await this.Repository.MessageBelongsToUser(userID, messageID) == false)
-				return this.NotFound();
-
 			var message = await this.Repository.Get(messageID);
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, message, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
 			var messageDto = this.Mapper.Map<MessageDto>(message);
 
 			return this.Ok(messageDto);
@@ -160,6 +206,23 @@ namespace Kindly.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAll(Guid userID, [FromQuery] MessageParameters parameters)
 		{
+			var user = new User
+			{
+				ID = userID
+			};
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, user, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
 			var messages = await this.Repository.GetByUser(userID, parameters);
 			var messageDtos = messages.Select(l => this.Mapper.Map<MessageDto>(l)).ToList();
 
@@ -183,6 +246,23 @@ namespace Kindly.API.Controllers
 		[HttpGet("thread/{secondUserID:Guid}")]
 		public async Task<IActionResult> GetThread(Guid userID, Guid secondUserID)
 		{
+			var user = new User
+			{
+				ID = userID
+			};
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, user, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
 			var messages = await this.Repository.GetThreadByUsers(userID, secondUserID);
 			var messageDtos = messages.Select(l => this.Mapper.Map<MessageDto>(l)).ToList();
 

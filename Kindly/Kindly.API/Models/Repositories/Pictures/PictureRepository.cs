@@ -152,15 +152,10 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// <inheritdoc />
 		public async Task<bool> PictureBelongsToUser(Guid userID, Guid pictureID)
 		{
-			var user = await this.Context.Users.FindAsync(userID);
-			if (user == null)
-				throw new KindlyException(User.DoesNotExist, true);
+			bool exists = await this.Context.Pictures
+				.AnyAsync(p => p.ID == pictureID && p.UserID == userID);
 
-			var picture = await this.Context.Pictures.SingleOrDefaultAsync
-			(
-				p => p.ID == pictureID && p.UserID == userID
-			);
-			if (picture == null)
+			if (exists == false)
 				throw new KindlyException(Picture.DoesNotExist, true);
 
 			return true;

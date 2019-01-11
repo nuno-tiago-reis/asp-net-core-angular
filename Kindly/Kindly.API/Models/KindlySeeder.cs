@@ -4,6 +4,7 @@ using CloudinaryDotNet.Actions;
 using Kindly.API.Models.Repositories.Roles;
 using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility.Settings;
+using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -22,21 +23,6 @@ namespace Kindly.API.Models
 	public sealed class KindlySeeder
 	{
 		#region [Constants]
-		/// <summary>
-		/// The administrator role name.
-		/// </summary>
-		private const string AdministratorRole = "Administrator";
-
-		/// <summary>
-		/// The moderator role name.
-		/// </summary>
-		private const string ModeratorRole = "Moderator";
-
-		/// <summary>
-		/// The member role name.
-		/// </summary>
-		private const string MemberRole = "Member";
-
 		/// <summary>
 		/// The default user password.
 		/// </summary>
@@ -117,17 +103,12 @@ namespace Kindly.API.Models
 		{
 			if (!this.RoleManager.Roles.Any())
 			{
-				var roles = new[]
-				{
-					new Role { Name = AdministratorRole },
-					new Role { Name = ModeratorRole },
-					new Role { Name = MemberRole }
-				};
+				var roles = Enum.GetNames(typeof(KindlyRoles));
 
 				// Create the roles
-				foreach (var role in roles)
+				foreach (string role in roles)
 				{
-					this.RoleManager.CreateAsync(role).Wait();
+					this.RoleManager.CreateAsync(new Role { Name = role }).Wait();
 				}
 			}
 
@@ -136,9 +117,9 @@ namespace Kindly.API.Models
 				// Create the administrator
 				this.UserManager.CreateAsync(Administrator, DefaultUserPassword).Wait();
 				// Create the administrators roles
-				this.UserManager.AddToRoleAsync(Administrator, MemberRole).Wait();
-				this.UserManager.AddToRoleAsync(Administrator, ModeratorRole).Wait();
-				this.UserManager.AddToRoleAsync(Administrator, AdministratorRole).Wait();
+				this.UserManager.AddToRoleAsync(Administrator, nameof(KindlyRoles.Member)).Wait();
+				this.UserManager.AddToRoleAsync(Administrator, nameof(KindlyRoles.Moderator)).Wait();
+				this.UserManager.AddToRoleAsync(Administrator, nameof(KindlyRoles.Administrator)).Wait();
 			}
 
 			if ( this.UserManager.Users.Any(u => u.UserName == Administrator.UserName) && this.UserManager.Users.Count() == 1)
@@ -173,7 +154,7 @@ namespace Kindly.API.Models
 					// Create the user
 					this.UserManager.CreateAsync(user, DefaultUserPassword).Wait();
 					// Create the users roles
-					this.UserManager.AddToRoleAsync(user, MemberRole).Wait();
+					this.UserManager.AddToRoleAsync(user, nameof(KindlyRoles.Member)).Wait();
 				}
 			}
 		}

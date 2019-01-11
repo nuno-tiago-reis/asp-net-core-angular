@@ -8,9 +8,6 @@ namespace Kindly.API.Models.Repositories.Identity
 		/// <inheritdoc />
 		public void Configure(EntityTypeBuilder<RoleClaim> builder)
 		{
-			// Keys
-			//builder.HasKey(roleClaim => new { roleClaim.RoleId, roleClaim.ClaimType });
-
 			// Properties
 			builder.Property(roleClaim => roleClaim.RoleId)
 				.IsRequired()

@@ -13,7 +13,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kindly.API.Controllers
+namespace Kindly.API.Controllers.Users
 {
 	[Authorize]
 	[ApiController]
@@ -22,11 +22,6 @@ namespace Kindly.API.Controllers
 	public sealed class UsersController : KindlyController
 	{
 		#region [Properties]
-		/// <summary>
-		/// Gets or sets the mapper.
-		/// </summary>
-		private IMapper Mapper { get; set; }
-
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
@@ -40,9 +35,15 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="mapper">The mapper.</param>
 		/// <param name="repository">The repository.</param>
-		public UsersController(IMapper mapper, IUserRepository repository)
+		/// <param name="authorizationService">The authorization service.</param>
+		public UsersController
+		(
+			IMapper mapper,
+			IUserRepository repository,
+			IAuthorizationService authorizationService
+		)
+		: base(mapper, authorizationService)
 		{
-			this.Mapper = mapper;
 			this.Repository = repository;
 		}
 		#endregion
@@ -56,9 +57,9 @@ namespace Kindly.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(CreateUserDto createUserInfo)
 		{
-			var user = await this.Repository.Create(Mapper.Map<User>(createUserInfo));
+			var user = await this.Repository.Create(this.Mapper.Map<User>(createUserInfo));
 
-			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), Mapper.Map<UserDto>(user));
+			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{user.ID}"), this.Mapper.Map<UserDto>(user));
 		}
 
 		/// <summary>
@@ -70,11 +71,24 @@ namespace Kindly.API.Controllers
 		[HttpPut("{userID:Guid}")]
 		public async Task<IActionResult> Update(Guid userID, UpdateUserDto updateUserInfo)
 		{
-			if (userID != this.GetInvocationUserID())
-				return this.Unauthorized();
+			var user = new User
+			{
+				ID = userID
+			};
 
-			var user = Mapper.Map<User>(updateUserInfo);
-			user.ID = userID;
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, user, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
+				return this.Unauthorized();
+			}
+			#endregion
+
+			this.Mapper.Map(updateUserInfo, user);
 
 			await this.Repository.Update(user);
 
@@ -87,10 +101,25 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="userID">The user identifier.</param>
 		[HttpDelete("{userID:Guid}")]
+		//[Authorize(Policy = nameof(KindlyPolicies.AllowIfOwner))]
 		public async Task<IActionResult> Delete(Guid userID)
 		{
-			if (userID != this.GetInvocationUserID())
+			var user = new User
+			{
+				ID = userID
+			};
+
+			#region [Authorization]
+			var result = await this.AuthorizationService.AuthorizeAsync
+			(
+				this.User, user, nameof(KindlyPolicies.AllowIfOwner)
+			);
+
+			if (result.Succeeded == false)
+			{
 				return this.Unauthorized();
+			}
+			#endregion
 
 			await this.Repository.Delete(userID);
 
@@ -107,7 +136,6 @@ namespace Kindly.API.Controllers
 		{
 			var user = await this.Repository.Get(userID);
 			var userDto = this.Mapper.Map<UserDetailedDto>(user);
-			userDto.CleanLikeSourcesAndTargets();
 
 			return this.Ok(userDto);
 		}

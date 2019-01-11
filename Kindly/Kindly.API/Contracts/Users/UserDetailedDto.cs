@@ -40,33 +40,15 @@ namespace Kindly.API.Contracts.Users
 		public ICollection<PictureDto> Pictures { get; set; }
 
 		/// <summary>
-		/// Gets or sets the like sources.
+		/// Gets or sets the like senders.
 		/// </summary>
 		[JsonProperty(Order = 17)]
-		public ICollection<LikeDto> LikeSources { get; set; }
+		public ICollection<LikeDto> LikeSenders { get; set; }
 
 		/// <summary>
-		/// Gets or sets the like targets.
+		/// Gets or sets the like recipients.
 		/// </summary>
 		[JsonProperty(Order = 18)]
-		public ICollection<LikeDto> LikeTargets { get; set; }
-
-		/// <summary>
-		/// Cleans the like sources and targets.
-		/// </summary>
-		public void CleanLikeSourcesAndTargets()
-		{
-			foreach (var likeDto in this.LikeTargets)
-			{
-				likeDto.Target = null;
-				likeDto.Source = null;
-			}
-
-			foreach (var likeDto in this.LikeSources)
-			{
-				likeDto.Target = null;
-				likeDto.Source = null;
-			}
-		}
+		public ICollection<LikeDto> LikeRecipients { get; set; }
 	}
 }

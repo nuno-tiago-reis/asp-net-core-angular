@@ -13,20 +13,15 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kindly.API.Controllers
+namespace Kindly.API.Controllers.Roles
 {
-	[Authorize]
+	[Authorize(Roles = nameof(KindlyRoles.Administrator))]
 	[ApiController]
 	[ServiceFilter(typeof(KindlyActivityFilter))]
 	[Route("api/[controller]")]
 	public sealed class RolesController : KindlyController
 	{
 		#region [Properties]
-		/// <summary>
-		/// Gets or sets the mapper.
-		/// </summary>
-		private IMapper Mapper { get; set; }
-
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
@@ -40,9 +35,8 @@ namespace Kindly.API.Controllers
 		/// 
 		/// <param name="mapper">The mapper.</param>
 		/// <param name="repository">The repository.</param>
-		public RolesController(IMapper mapper, IRoleRepository repository)
+		public RolesController(IMapper mapper, IRoleRepository repository) : base(mapper)
 		{
-			this.Mapper = mapper;
 			this.Repository = repository;
 		}
 		#endregion
@@ -56,9 +50,9 @@ namespace Kindly.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(CreateRoleDto createRoleInfo)
 		{
-			var role = await this.Repository.Create(Mapper.Map<Role>(createRoleInfo));
+			var role = await this.Repository.Create(this.Mapper.Map<Role>(createRoleInfo));
 
-			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{role.ID}"), Mapper.Map<RoleDto>(role));
+			return this.Created(new Uri($"{Request.GetDisplayUrl()}/{role.ID}"), this.Mapper.Map<RoleDto>(role));
 		}
 
 		/// <summary>
@@ -70,7 +64,7 @@ namespace Kindly.API.Controllers
 		[HttpPut("{roleID:Guid}")]
 		public async Task<IActionResult> Update(Guid roleID, UpdateRoleDto updateRoleInfo)
 		{
-			var role = Mapper.Map<Role>(updateRoleInfo);
+			var role = this.Mapper.Map<Role>(updateRoleInfo);
 			role.ID = roleID;
 
 			await this.Repository.Update(role);

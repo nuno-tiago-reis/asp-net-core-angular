@@ -1,4 +1,4 @@
-﻿using Kindly.API.Models.Repositories.Users;
+﻿using Kindly.API.Models;
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,9 +19,9 @@ namespace Kindly.API.Utility
 			if (resultContext.HttpContext.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier))
 			{
 				// Fetch the user
-				var repository = resultContext.HttpContext.RequestServices.GetService<IUserRepository>();
+				var database = resultContext.HttpContext.RequestServices.GetService<KindlyContext>();
 				var userID = Guid.Parse(resultContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-				var user = await repository.Get(userID);
+				var user = await database.Users.FindAsync(userID);
 
 				if (user != null)
 				{
@@ -29,9 +29,8 @@ namespace Kindly.API.Utility
 					user.LastActiveAt = DateTime.Now;
 
 					// Update the user
-					await repository.Update(user);
+					await database.SaveChangesAsync();
 				}
-
 			}
 		}
 	}

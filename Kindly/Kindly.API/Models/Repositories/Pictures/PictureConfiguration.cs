@@ -35,6 +35,13 @@ namespace Kindly.API.Models.Repositories.Pictures
 				.IsRequired()
 				.ValueGeneratedOnAdd()
 				.HasDefaultValueSql("GetUtcDate()");
+
+			// Relationships
+			builder
+				.HasOne(picture => picture.User)
+				.WithMany(user => user.Pictures)
+				.HasForeignKey(like => like.UserID)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

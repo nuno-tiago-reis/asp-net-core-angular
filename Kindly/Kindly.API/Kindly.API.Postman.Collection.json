@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"knownAs\": \"Tony Stark\",\n    \"userName\": \"tony-stark\",\n    \"phoneNumber\": \"+3519343232932\",\n    \"emailAddress\": \"nuno-tiago-reis2@outlook.pt\",\n    \"gender\": \"male\",\n    \"birthDate\": \"1970-05-29\",\n    \"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark:”Genius, billionaire, playboy, philanthropist.”\",\n    \"lookingFor\": \"The end game.\",\n    \"interests\": \"Pepper Potts.\",\n    \"city\": \"New York\",\n    \"country\": \"United States of America\",\n    \"password\": \"kindly#2018\"\n}"
+							"raw": "{\n    \"knownAs\": \"Tony Stark\",\n    \"userName\": \"tony-stark\",\n    \"phoneNumber\": \"+351912345678\",\n    \"email\": \"nuno-tiago-reis-x@outlook.pt\",\n    \"gender\": \"male\",\n    \"birthDate\": \"1970-05-29\",\n    \"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark:”Genius, billionaire, playboy, philanthropist.”\",\n    \"lookingFor\": \"The end game.\",\n    \"interests\": \"Pepper Potts.\",\n    \"city\": \"New York\",\n    \"country\": \"United States of America\",\n    \"password\": \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/register",
@@ -59,7 +59,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\" : \"08e94d9c-0f57-4e90-a143-08d66668316d\",\n\t\"password\" : \"kindly#2018\"\n}"
+							"raw": "{\n\t\"id\" : \"{{kindly-user-guid}}\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/password",
@@ -96,7 +96,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\" : \"e4fb1bc5-afad-42df-269e-08d661d903a1\",\n\t\"oldPassword\" : \"kindly#2018\",\n\t\"newPassword\" : \"kindly#2018\"\n}"
+							"raw": "{\n\t\"id\" : \"{{kindly-user-guid}}\",\n\t\"oldPassword\" : \"kindly#2018\",\n\t\"newPassword\" : \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/password",
@@ -128,7 +128,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\" : \"cd111c62-2e3c-488f-2dca-08d6673d2dd9\",\n\t\"password\" : \"kindly#2018\"\n}"
+							"raw": "{\n\t\"id\" : \"{{kindly-user-guid}}\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/login/id",
@@ -181,39 +181,6 @@
 					"response": []
 				},
 				{
-					"name": "LoginByPhoneNumber",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"phoneNumber\" : \"+351919999999\",\n\t\"password\" : \"kindly#2018\"\n}"
-						},
-						"url": {
-							"raw": "https://localhost:44351/api/auth/login/phone-number",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44351",
-							"path": [
-								"api",
-								"auth",
-								"login",
-								"phone-number"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "LoginByEmailAddress",
 					"request": {
 						"method": "POST",
@@ -227,7 +194,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"emailAddress\" : \"nuno.reis@linkconsulting.com\",\n\t\"password\" : \"kindly#2018\"\n}"
+							"raw": "{\n\t\"email\" : \"nuno-tiago-reis-x@outlook.pt\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/auth/login/email-address",
@@ -241,6 +208,39 @@
 								"auth",
 								"login",
 								"email-address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginWithAdministrator",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\" : \"administrator\",\n\t\"password\" : \"kindly#2018\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/auth/login/user-name",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								"user-name"
 							]
 						}
 					},
@@ -270,7 +270,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"knownAs\": \"Tiago Reis\",\n\t\"username\": \"tiago-reis\",\n\t\"emailAddress\" : \"nuno-tiago-reis@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1991-12-08\",\n\t\"introduction\": \"Quis nisi mollit enim ad est exercitation eiusmod aute elit esse consectetur consequat officia. Nostrud et aute aliquip cillum dolore duis elit id mollit. In esse laborum id enim cupidatat qui pariatur fugiat tempor culpa. Aute commodo commodo dolore commodo. Duis cupidatat minim consectetur consequat qui ad ut fugiat voluptate ipsum excepteur tempor consectetur excepteur.\",\n\t\"lookingFor\": \"Tempor nisi esse nulla nostrud sunt Lorem anim laboris incididunt cillum do minim.\",\n\t\"interests\": \"Proident veniam voluptate est laboris ex.\",\n\t\"city\": \"Lisboa\",\n\t\"country\": \"Portugal\"\n}"
+							"raw": "{\n    \"knownAs\": \"Tony Stark\",\n    \"userName\": \"tony-stark\",\n    \"phoneNumber\": \"+351912345678\",\n    \"email\": \"nuno-tiago-reis-x@outlook.pt\",\n    \"gender\": \"male\",\n    \"birthDate\": \"1970-05-29\",\n    \"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark:”Genius, billionaire, playboy, philanthropist.”\",\n    \"lookingFor\": \"The end game.\",\n    \"interests\": \"Pepper Potts.\",\n    \"city\": \"New York\",\n    \"country\": \"United States of America\",\n    \"password\": \"kindly#2018\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44351/api/users",
@@ -306,10 +306,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"knownAs\": \"Tony Stark\",\n\t\"username\": \"tony-stark\",\n\t\"emailAddress\" : \"nuno-tiago-reis@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1970-05-29\",\n\t\"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark: ”Genius, billionaire, playboy, philanthropist.”\",\n\t\"lookingFor\": \"The end game.\",\n\t\"interests\": \"Pepper Potts.\",\n\t\"city\": \"New York\",\n\t\"country\": \"United States of America\"\n}"
+							"raw": "{\n\t\"knownAs\": \"Tony Stark\",\n\t\"username\": \"tony-stark\",\n\t\"emailAddress\" : \"nuno-tiago-reis-x@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1970-05-29\",\n\t\"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark: ”Genius, billionaire, playboy, philanthropist.”\",\n\t\"lookingFor\": \"The end game.\",\n\t\"interests\": \"Pepper Potts.\",\n\t\"city\": \"New York\",\n\t\"country\": \"United States of America\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -318,7 +318,7 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3"
+								"{{kindly-user-guid}}"
 							]
 						}
 					},
@@ -340,7 +340,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/a2fd22ba-a39e-46c6-6939-08d670d3b5b3",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -349,7 +349,7 @@
 							"path": [
 								"api",
 								"users",
-								"a2fd22ba-a39e-46c6-6939-08d670d3b5b3"
+								"{{kindly-user-guid}}"
 							]
 						}
 					},
@@ -371,7 +371,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -380,7 +380,7 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3"
+								"{{kindly-user-guid}}"
 							]
 						}
 					},
@@ -402,7 +402,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users?pageNumber=1&pageSize=10",
+							"raw": "https://localhost:44351/api/users?pageNumber=1&pageSize=15",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -419,7 +419,512 @@
 								},
 								{
 									"key": "pageSize",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Very Important Person\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/roles",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Very Important Person 2\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/roles/{{kindly-role-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"roles",
+								"{{kindly-role-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/roles/{{kindly-role-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"roles",
+								"{{kindly-role-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/roles/{{kindly-role-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"roles",
+								"{{kindly-role-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/roles?pageNumber=1&pageSize=10",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"roles"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
 									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddRoleToUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{kindly-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/roles/{{kindly-role-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"roles",
+								"{{kindly-role-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRolesFromUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/roles",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRolesFromUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/roles",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveRoleFromUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/roles/{{kindly-role-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"roles",
+								"{{kindly-role-guid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Likes",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"recipientID\": \"{{kindly-recipient-guid}}\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"likes",
+								"{{kindly-like-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"likes",
+								"{{kindly-like-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"likes",
+								"{{kindly-like-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes?includeRequestUser=false&mode=recipients",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"likes"
+							],
+							"query": [
+								{
+									"key": "includeRequestUser",
+									"value": "false"
+								},
+								{
+									"key": "mode",
+									"value": "recipients"
 								}
 							]
 						}
@@ -464,7 +969,7 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -473,7 +978,7 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"{{kindly-user-guid}}",
 								"pictures"
 							]
 						}
@@ -502,7 +1007,7 @@
 							"raw": "{\n    \"isProfilePicture\": true\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures/9b979870-9d90-4adf-5ed8-08d670d4f869",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -511,9 +1016,9 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"{{kindly-user-guid}}",
 								"pictures",
-								"9b979870-9d90-4adf-5ed8-08d670d4f869"
+								"{{kindly-picture-guid}}"
 							]
 						}
 					},
@@ -535,7 +1040,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures/6b18920e-5d79-4d4a-5ed5-08d670d4f869",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -544,9 +1049,9 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"{{kindly-user-guid}}",
 								"pictures",
-								"6b18920e-5d79-4d4a-5ed5-08d670d4f869"
+								"{{kindly-picture-guid}}"
 							]
 						}
 					},
@@ -568,7 +1073,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures/9b979870-9d90-4adf-5ed8-08d670d4f869",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -577,9 +1082,9 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"{{kindly-user-guid}}",
 								"pictures",
-								"9b979870-9d90-4adf-5ed8-08d670d4f869"
+								"{{kindly-picture-guid}}"
 							]
 						}
 					},
@@ -601,7 +1106,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/pictures",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -610,7 +1115,7 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
+								"{{kindly-user-guid}}",
 								"pictures"
 							],
 							"query": [
@@ -627,7 +1132,7 @@
 			]
 		},
 		{
-			"name": "Likes",
+			"name": "Messages",
 			"item": [
 				{
 					"name": "Create",
@@ -648,10 +1153,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"targetID\": \"358e16a0-3255-4f42-48f9-08d670d3354b\"\n}"
+							"raw": "{\n\t\"content\": \"Hello again! How are you doing?\",\n\t\"recipientID\": \"{{kindly-recipient-guid}}\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -660,8 +1165,8 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
-								"likes"
+								"{{kindly-user-guid}}",
+								"messages"
 							]
 						}
 					},
@@ -686,10 +1191,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"isProfilePicture\": true\n}"
+							"raw": "{\n    \"senderDeleted\": false,\n    \"recipientDeleted\": false,\n    \"isRead\": true,\n    \"readAt\": \"2019-01-03T15:37:00\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes/2f8ce511-fd59-4b1d-cbac-08d670d5d00a",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -698,9 +1203,9 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
-								"likes",
-								"2f8ce511-fd59-4b1d-cbac-08d670d5d00a"
+								"{{kindly-user-guid}}",
+								"messages",
+								"{{kindly-message-guid}}"
 							]
 						}
 					},
@@ -722,7 +1227,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes/51745861-0009-4eac-cbaa-08d670d5d00a",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -731,9 +1236,9 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
-								"likes",
-								"51745861-0009-4eac-cbaa-08d670d5d00a"
+								"{{kindly-user-guid}}",
+								"messages",
+								"{{kindly-message-guid}}"
 							]
 						}
 					},
@@ -755,7 +1260,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes/51745861-0009-4eac-cbaa-08d670d5d00a",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -764,9 +1269,9 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
-								"likes",
-								"51745861-0009-4eac-cbaa-08d670d5d00a"
+								"{{kindly-user-guid}}",
+								"messages",
+								"{{kindly-message-guid}}"
 							]
 						}
 					},
@@ -788,7 +1293,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/725416c8-7762-42c6-6938-08d670d3b5b3/likes?includeRequestUser=false&mode=sources",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages?container=outbox",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -797,18 +1302,48 @@
 							"path": [
 								"api",
 								"users",
-								"725416c8-7762-42c6-6938-08d670d3b5b3",
-								"likes"
+								"{{kindly-user-guid}}",
+								"messages"
 							],
 							"query": [
 								{
-									"key": "includeRequestUser",
-									"value": "false"
-								},
-								{
-									"key": "mode",
-									"value": "sources"
+									"key": "container",
+									"value": "outbox"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetThread",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/thread/{{kindly-recipient-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"{{kindly-user-guid}}",
+								"messages",
+								"thread",
+								"{{kindly-recipient-guid}}"
 							]
 						}
 					},

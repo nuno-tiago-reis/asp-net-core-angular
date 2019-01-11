@@ -14,6 +14,7 @@ namespace Kindly.API.Models.Repositories.Messages
 			// Indices
 			builder.HasIndex(like => like.SenderID);
 			builder.HasIndex(like => like.RecipientID);
+			builder.HasIndex(like => new { like.SenderID, like.RecipientID }).IsUnique();
 
 			// Properties
 			builder.Property(user => user.Content)

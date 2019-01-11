@@ -8,9 +8,6 @@ namespace Kindly.API.Models.Repositories.Users
 		/// <inheritdoc />
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			// Keys
-			//builder.HasKey(user => user.Id);
-
 			// Indices
 			builder.HasIndex(user => user.Email);
 			builder.HasIndex(user => user.UserName);

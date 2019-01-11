@@ -37,19 +37,19 @@ namespace Kindly.API.Models.Repositories.Likes
 		public async Task<Like> Create(Like like)
 		{
 			// Foreign Keys
-			var source = await this.Context.Users
+			var sender = await this.Context.Users
 				.Include(u => u.Pictures)
-				.SingleOrDefaultAsync(u => u.ID == like.SourceID);
-			if (source == null)
+				.SingleOrDefaultAsync(u => u.Id == like.SenderID);
+			if (sender == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			var target = await this.Context.Users
+			var recipient = await this.Context.Users
 				.Include(u => u.Pictures)
-				.SingleOrDefaultAsync(u => u.ID == like.TargetID);
-			if (target == null)
+				.SingleOrDefaultAsync(u => u.Id == like.RecipientID);
+			if (recipient == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
-			if (await this.Context.Likes.AnyAsync(l => l.SourceID == like.SourceID && l.TargetID == like.TargetID))
+			if (await this.Context.Likes.AnyAsync(l => l.SenderID == like.SenderID && l.RecipientID == like.RecipientID))
 				throw new KindlyException(Like.AlreadyExists);
 
 			// Create
@@ -125,44 +125,39 @@ namespace Kindly.API.Models.Repositories.Likes
 		/// <inheritdoc />
 		public async Task<bool> LikeBelongsToUser(Guid userID, Guid likeID)
 		{
-			var user = await this.Context.Users.FindAsync(userID);
-			if (user == null)
-				throw new KindlyException(User.DoesNotExist, true);
+			bool exists = await this.Context.Likes
+				.AnyAsync(p => p.ID == likeID && p.SenderID == userID);
 
-			var like = await this.Context.Likes.SingleOrDefaultAsync
-			(
-				l => l.ID == likeID && l.SourceID == userID
-			);
-			if (like == null)
+			if (exists == false)
 				throw new KindlyException(Like.DoesNotExist, true);
 
 			return true;
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<Like>> GetBySourceUser(Guid userID)
+		public async Task<IEnumerable<Like>> GetBySenderUser(Guid userID)
 		{
-			return await this.GetQueryableBySourceUser(userID).ToListAsync();
+			return await this.GetQueryableBySenderUser(userID).ToListAsync();
 		}
 
 		/// <inheritdoc />
-		public async Task<PagedList<Like>> GetBySourceUser(Guid userID, LikeParameters parameters)
+		public async Task<IEnumerable<Like>> GetByRecipientUser(Guid userID)
 		{
-			var likes = this.GetQueryableBySourceUser(userID);
+			return await this.GetQueryableByRecipientUser(userID).ToListAsync();
+		}
+
+		/// <inheritdoc />
+		public async Task<PagedList<Like>> GetBySenderUser(Guid userID, LikeParameters parameters)
+		{
+			var likes = this.GetQueryableBySenderUser(userID);
 
 			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<Like>> GetByTargetUser(Guid userID)
+		public async Task<PagedList<Like>> GetByRecipientUser(Guid userID, LikeParameters parameters)
 		{
-			return await this.GetQueryableByTargetUser(userID).ToListAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task<PagedList<Like>> GetByTargetUser(Guid userID, LikeParameters parameters)
-		{
-			var likes = this.GetQueryableByTargetUser(userID);
+			var likes = this.GetQueryableByRecipientUser(userID);
 
 			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
 		}
@@ -175,28 +170,28 @@ namespace Kindly.API.Models.Repositories.Likes
 		private IQueryable<Like> GetQueryable()
 		{
 			return this.Context.Likes
-				.Include(l => l.Source.Pictures)
-				.Include(l => l.Target.Pictures)
+				.Include(l => l.Sender.Pictures)
+				.Include(l => l.Recipient.Pictures)
 				.OrderByDescending(l => l.CreatedAt);
 		}
 		
 		/// <summary>
-		/// Gets the queryable by source user.
+		/// Gets the queryable by sender user.
 		/// </summary>
 		/// 
 		/// <param name="userID">The user identifier.</param>
-		private IQueryable<Like> GetQueryableBySourceUser(Guid userID)
+		private IQueryable<Like> GetQueryableBySenderUser(Guid userID)
 		{
-			return this.GetQueryable().Where(l => l.SourceID == userID);
+			return this.GetQueryable().Where(l => l.SenderID == userID);
 		}
 
 		/// <summary>
-		/// Gets the queryable by target user.
+		/// Gets the queryable by recipient user.
 		/// </summary>
 		/// <param name="userID">The user identifier.</param>
-		private IQueryable<Like> GetQueryableByTargetUser(Guid userID)
+		private IQueryable<Like> GetQueryableByRecipientUser(Guid userID)
 		{
-			return this.GetQueryable().Where(l => l.TargetID == userID);
+			return this.GetQueryable().Where(l => l.RecipientID == userID);
 		}
 		#endregion
 	}

@@ -60,6 +60,27 @@ namespace Kindly.API.Contracts.Settings
 					)
 				);
 
+			this.CreateMap<UserWithRolesDto, User>();
+			this.CreateMap<User, UserWithRolesDto>()
+				.ForMember
+				(
+					userDto => userDto.Age,
+					option => option.MapFrom(user => user.BirthDate.CalculateAge())
+				)
+				.ForMember
+				(
+					userDto => userDto.ProfilePictureUrl,
+					option => option.MapFrom
+					(
+						source => source.Pictures.FirstOrDefault(picture => picture.IsProfilePicture.Value).Url
+					)
+				)
+				.ForMember
+				(
+					userDto => userDto.Roles,
+					option => option.MapFrom(user => user.UserRoles.Select(userRole => userRole.Role))
+				);
+
 			this.CreateMap<RegisterDto, User>();
 			this.CreateMap<CreateUserDto, User>();
 			this.CreateMap<UpdateUserDto, User>();

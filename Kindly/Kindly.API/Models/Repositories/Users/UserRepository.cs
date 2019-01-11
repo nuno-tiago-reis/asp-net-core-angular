@@ -1,5 +1,6 @@
 ﻿using Kindly.API.Utility;
 using Kindly.API.Utility.Collections;
+using Kindly.API.Models.Repositories.Roles;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,11 @@ namespace Kindly.API.Models.Repositories.Users
 	{
 		#region [Properties]
 		/// <summary>
+		/// Gets or sets the context.
+		/// </summary>
+		public KindlyContext Context { get; set; }
+
+		/// <summary>
 		/// Gets or sets the user manager.
 		/// </summary>
 		public UserManager<User> UserManager { get; set; }
@@ -25,9 +31,11 @@ namespace Kindly.API.Models.Repositories.Users
 		/// Initializes a new instance of the <see cref="UserRepository"/> class.
 		/// </summary>
 		/// 
+		/// <param name="context">The context.</param>
 		/// <param name="userManager">The user manager.</param>
-		public UserRepository(UserManager<User> userManager)
+		public UserRepository(KindlyContext context, UserManager<User> userManager)
 		{
+			this.Context = context;
 			this.UserManager = userManager;
 		}
 		#endregion
@@ -162,7 +170,7 @@ namespace Kindly.API.Models.Repositories.Users
 		/// <inheritdoc />
 		public async Task<User> Get(Guid userID)
 		{
-			return await this.GetQueryable().SingleOrDefaultAsync(user => user.ID == userID);
+			return await this.GetQueryable().SingleOrDefaultAsync(u => u.Id == userID);
 		}
 
 		/// <inheritdoc />
@@ -180,7 +188,7 @@ namespace Kindly.API.Models.Repositories.Users
 			{
 				var user = await this.UserManager.FindByIdAsync(parameters.UserID.ToString());
 
-				switch (user.Gender)
+				switch (user?.Gender)
 				{
 					case Gender.Female:
 						parameters.Gender = Gender.Male;
@@ -190,8 +198,18 @@ namespace Kindly.API.Models.Repositories.Users
 						parameters.Gender = Gender.Female;
 						break;
 
+					case null:
+					case Gender.Undefined:
+						parameters.Gender = Gender.Undefined;
+						break;
+
 					default:
 						throw new ArgumentOutOfRangeException(nameof(user.Gender));
+				}
+
+				if (parameters.Gender != Gender.Undefined)
+				{
+					users = users.Where(u => u.Gender == parameters.Gender);
 				}
 			}
 
@@ -225,8 +243,7 @@ namespace Kindly.API.Models.Repositories.Users
 				}
 			}
 
-			users = users.Where(u => u.ID != parameters.UserID);
-			users = users.Where(u => u.Gender == parameters.Gender);
+			users = users.Where(u => u.Id != parameters.UserID);
 
 			return await PagedList<User>.CreateAsync(users, parameters.PageNumber, parameters.PageSize);
 		}
@@ -268,6 +285,70 @@ namespace Kindly.API.Models.Repositories.Users
 		{
 			return await this.UserManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
 		}
+
+		/// <inheritdoc />
+		public async Task AddRoleToUser(Guid userID, Guid roleID)
+		{
+			var databaseUser = await this.Context.Users.FindAsync(userID);
+			if (databaseUser == null)
+				throw new KindlyException(User.DoesNotExist, true);
+
+			var databaseRole = await this.Context.Roles.FindAsync(roleID);
+			if (databaseRole == null)
+				throw new KindlyException(Role.DoesNotExist, true);
+
+			if (await this.UserManager.IsInRoleAsync(databaseUser, databaseRole.Name))
+				throw new KindlyException(string.Format(Role.UserIsAlreadyInRole, databaseRole.Name));
+
+			var result = await this.UserManager.AddToRoleAsync(databaseUser, databaseRole.Name);
+			if (result.Succeeded)
+			{
+				// Nothing to do here.
+			}
+			else
+			{
+				throw new KindlyException(result.Errors);
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task RemoveRoleFromUser(Guid userID, Guid roleID)
+		{
+			var databaseUser = await this.Context.Users.FindAsync(userID);
+			if (databaseUser == null)
+				throw new KindlyException(User.DoesNotExist, true);
+
+			var databaseRole = await this.Context.Roles.FindAsync(roleID);
+			if (databaseRole == null)
+				throw new KindlyException(Role.DoesNotExist, true);
+
+			if (await this.UserManager.IsInRoleAsync(databaseUser, databaseRole.Name) == false)
+				throw new KindlyException(string.Format(Role.UserIsNotInRole, databaseRole.Name));
+
+			var result = await this.UserManager.RemoveFromRoleAsync(databaseUser, databaseRole.Name);
+			if (result.Succeeded)
+			{
+				// Nothing to do here.
+			}
+			else
+			{
+				throw new KindlyException(result.Errors);
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task<User> GetUserWithRoles(Guid userID)
+		{
+			return await this.GetRolesQueryable().SingleOrDefaultAsync(u => u.Id == userID);
+		}
+
+		/// <inheritdoc />
+		public async Task<PagedList<User>> GetUsersWithRoles(UserParameters parameters)
+		{
+			var users = this.GetRolesQueryable();
+
+			return await PagedList<User>.CreateAsync(users, parameters.PageNumber, parameters.PageSize);
+		}
 		#endregion
 
 		#region [Methods] Utility
@@ -278,9 +359,20 @@ namespace Kindly.API.Models.Repositories.Users
 		{
 			return this.UserManager.Users
 				.Include(u => u.Pictures)
-				.Include(u => u.LikeTargets)
-				.Include(u => u.LikeSources)
+				.Include(u => u.LikeRecipients)
+				.Include(u => u.LikeSenders)
 				.OrderByDescending(u => u.LastActiveAt);
+		}
+
+		/// <summary>
+		/// Gets the user roles queryable.
+		/// </summary>
+		private IQueryable<User> GetRolesQueryable()
+		{
+			return this.Context.Users
+				.Include(u => u.UserRoles)
+				.ThenInclude(r => r.Role)
+				.OrderByDescending(u => u.CreatedAt);
 		}
 		#endregion
 	}
