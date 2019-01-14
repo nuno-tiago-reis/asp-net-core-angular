@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using Kindly.API.Utility.Collections;
@@ -39,15 +38,10 @@ namespace Kindly.API.Models.Repositories
 		Task<T> Get(Guid entityID);
 
 		/// <summary>
-		/// Gets all the entities.
-		/// </summary>
-		Task<IEnumerable<T>> GetAll();
-
-		/// <summary>
 		/// Gets all the entities using pagination.
 		/// </summary>
 		/// 
 		/// <param name="parameters">The parameters.</param>
-		Task<PagedList<T>> GetAll(P parameters);
+		Task<PagedList<T>> GetAll(P parameters = null);
 	}
 }

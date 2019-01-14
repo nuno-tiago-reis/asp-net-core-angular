@@ -138,7 +138,7 @@ namespace Kindly.API.Controllers.Pictures
 			}
 			#endregion
 
-			this.Mapper.Map<Picture>(updatePictureInfo);
+			this.Mapper.Map(updatePictureInfo, picture);
 
 			await this.Repository.Update(picture);
 
@@ -207,6 +207,82 @@ namespace Kindly.API.Controllers.Pictures
 		public async Task<IActionResult> GetAll(Guid userID, [FromQuery] PictureParameters parameters)
 		{
 			var pictures = await this.Repository.GetByUser(userID, parameters);
+			var pictureDtos = pictures.Select(p => this.Mapper.Map<PictureDto>(p));
+
+			this.Response.AddPaginationHeader(new PaginationHeader
+			(
+				pictures.PageNumber,
+				pictures.PageSize,
+				pictures.TotalPages,
+				pictures.TotalCount
+			));
+
+			return this.Ok(pictureDtos);
+		}
+
+		/// <summary>
+		/// Approves a picture.
+		/// </summary>
+		/// 
+		/// <param name="pictureID">The picture identifier.</param>
+		[HttpPut("/api/users/pictures/{pictureID:Guid}")]
+		[Authorize(Policy = nameof(KindlyPolicies.AllowIfElevatedUser))]
+		public async Task<IActionResult> Approve(Guid pictureID)
+		{
+			var picture = await this.Repository.Get(pictureID);
+
+			if (picture.IsApproved != null && picture.IsApproved.Value)
+			{
+				return this.BadRequest(Picture.CannotApproveApprovedPicture);
+			}
+
+			picture.IsApproved = true;
+
+			await this.Repository.Update(picture);
+
+			return this.Ok();
+		}
+
+		/// <summary>
+		/// Rejects a picture.
+		/// </summary>
+		/// 
+		/// <param name="pictureID">The picture identifier.</param>
+		[HttpDelete("/api/users/pictures/{pictureID:Guid}")]
+		[Authorize(Policy = nameof(KindlyPolicies.AllowIfElevatedUser))]
+		public async Task<IActionResult> Reject(Guid pictureID)
+		{
+			try
+			{
+				var picture = await this.Repository.Get(pictureID);
+
+				if (picture.IsApproved != null && picture.IsApproved.Value)
+				{
+					return this.BadRequest(Picture.CannotRejectApprovedPicture);
+				}
+
+				this.DeleteInCloudinary(picture);
+
+				await this.Repository.Delete(pictureID);
+
+				return this.Ok();
+			}
+			catch (ArgumentException exception)
+			{
+				return this.BadRequest(exception.Message);
+			}
+		}
+
+		/// <summary>
+		/// Gets a users pictures.
+		/// </summary>
+		/// 
+		/// <param name="parameters">The parameters.</param>
+		[HttpGet("/api/users/pictures")]
+		[Authorize(Policy = nameof(KindlyPolicies.AllowIfElevatedUser))]
+		public async Task<IActionResult> GetAll([FromQuery] PictureParameters parameters)
+		{
+			var pictures = await this.Repository.GetAll(parameters);
 			var pictureDtos = pictures.Select(p => this.Mapper.Map<PictureDto>(p));
 
 			this.Response.AddPaginationHeader(new PaginationHeader

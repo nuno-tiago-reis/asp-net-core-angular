@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Likes
 {
-	public sealed class LikesAuthorizationHandler : KindlyAuthorizationHandler<AllowIfOwnerRequirement, Like>
+	public sealed class LikesOwnerHandler : ResourceOwnerHandler<Like>
 	{
+		#region [Properties]
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
 		public ILikeRepository Repository { get; set; }
+		#endregion
 
+		#region [Methods]
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LikesAuthorizationHandler"/> class.
+		/// Initializes a new instance of the <see cref="LikesOwnerHandler"/> class.
 		/// </summary>
 		/// 
 		/// <param name="repository">The repository.</param>
-		public LikesAuthorizationHandler(ILikeRepository repository)
+		public LikesOwnerHandler(ILikeRepository repository)
 		{
 			this.Repository = repository;
 		}
@@ -28,7 +31,7 @@ namespace Kindly.API.Controllers.Likes
 		protected override Task HandleRequirementAsync
 		(
 			AuthorizationHandlerContext context,
-			AllowIfOwnerRequirement requirement,
+			ResourceOwnerRequirement requirement,
 			Like like
 		)
 		{
@@ -49,7 +52,8 @@ namespace Kindly.API.Controllers.Likes
 				context.Fail();
 			}
 
-			return Task.FromResult(0);
+			return Task.CompletedTask;
 		}
+		#endregion
 	}
 }

@@ -11,7 +11,7 @@
 	{
 		#region [Properties]
 		/// <summary>
-		/// Gets or sets the type.
+		/// Gets or sets the container.
 		/// </summary>
 		public MessageContainer Container { get; set; }
 		#endregion

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Likes
@@ -95,26 +94,27 @@ namespace Kindly.API.Models.Repositories.Likes
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<Like>> GetAll()
-		{
-			return await this.GetQueryable().ToListAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task<PagedList<Like>> GetAll(LikeParameters parameters)
+		public async Task<PagedList<Like>> GetAll(LikeParameters parameters = null)
 		{
 			var likes = this.GetQueryable();
 
-			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
+			if (parameters != null)
 			{
-				if (parameters.OrderBy == nameof(Like.CreatedAt).ToLowerCamelCase())
+				if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
 				{
-					likes = likes.OrderByDescending(l => l.CreatedAt);
+					if (parameters.OrderBy == nameof(Like.CreatedAt).ToLowerCamelCase())
+					{
+						likes = likes.OrderByDescending(l => l.CreatedAt);
+					}
+					else
+					{
+						throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+					}
 				}
-				else
-				{
-					throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
-				}
+			}
+			else
+			{
+				parameters = new LikeParameters();
 			}
 
 			return await PagedList<Like>.CreateAsync(likes, parameters.PageNumber, parameters.PageSize);
@@ -132,18 +132,6 @@ namespace Kindly.API.Models.Repositories.Likes
 				throw new KindlyException(Like.DoesNotExist, true);
 
 			return true;
-		}
-
-		/// <inheritdoc />
-		public async Task<IEnumerable<Like>> GetBySenderUser(Guid userID)
-		{
-			return await this.GetQueryableBySenderUser(userID).ToListAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task<IEnumerable<Like>> GetByRecipientUser(Guid userID)
-		{
-			return await this.GetQueryableByRecipientUser(userID).ToListAsync();
 		}
 
 		/// <inheritdoc />

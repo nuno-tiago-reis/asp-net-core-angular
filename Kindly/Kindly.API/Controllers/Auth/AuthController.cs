@@ -183,6 +183,7 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="passwordInfo">The password information.</param>
+		[Authorize]
 		[HttpPost("password")]
 		public async Task<IActionResult> AddPassword(AddPasswordDto passwordInfo)
 		{
@@ -216,6 +217,7 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="passwordInfo">The password information.</param>
+		[Authorize]
 		[HttpPut("password")]
 		public async Task<IActionResult> ChangePassword(ChangePasswordDto passwordInfo)
 		{
@@ -258,7 +260,20 @@ namespace Kindly.API.Controllers
 				.Include(u => u.LikeSenders)
 				.Include(u => u.LikeRecipients)
 				.Include(u => u.UserRoles)
-				.FirstOrDefaultAsync(u => u.UserName == user.UserName);
+				.FirstOrDefaultAsync(u => u.Id == user.ID);
+
+			foreach (var sender in databaseUser.LikeSenders)
+			{
+				sender.Sender = null;
+				sender.Recipient = null;
+			}
+
+			foreach (var recipient in databaseUser.LikeRecipients)
+			{
+				recipient.Sender = null;
+				recipient.Recipient = null;
+			}
+
 			var databaseUserDto = Mapper.Map<UserDetailedDto>(databaseUser);
 
 			return databaseUserDto;

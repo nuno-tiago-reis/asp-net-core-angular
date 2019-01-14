@@ -104,16 +104,21 @@ namespace Kindly.API
 			{
 				options.AddPolicy(nameof(KindlyPolicies.AllowIfOwner), policy =>
 				{
-					policy.AddRequirements(new AllowIfOwnerRequirement());
+					policy.AddRequirements(new ResourceOwnerRequirement());
+				});
+				options.AddPolicy(nameof(KindlyPolicies.AllowIfElevatedUser), policy =>
+				{
+					policy.AddRequirements(new ElevatedUserRequirement());
 				});
 			});
 
 			// Authorization - Handlers
-			services.AddScoped<IAuthorizationHandler, AuthAuthorizationHandler>();
-			services.AddScoped<IAuthorizationHandler, LikesAuthorizationHandler>();
-			services.AddScoped<IAuthorizationHandler, MessagesAuthorizationHandler>();
-			services.AddScoped<IAuthorizationHandler, PicturesAuthorizationHandler>();
-			services.AddScoped<IAuthorizationHandler, UsersAuthorizationHandler>();
+			services.AddScoped<IAuthorizationHandler, AuthOwnerHandler>();
+			services.AddScoped<IAuthorizationHandler, LikesOwnerHandler>();
+			services.AddScoped<IAuthorizationHandler, MessagesOwnerHandler>();
+			services.AddScoped<IAuthorizationHandler, PicturesOwnerHandler>();
+			services.AddScoped<IAuthorizationHandler, UsersOwnerHandler>();
+			services.AddScoped<IAuthorizationHandler, ElevatedUserHandler>();
 
 			// Authentication - Identity
 			var builder = services.AddIdentityCore<User>(options =>

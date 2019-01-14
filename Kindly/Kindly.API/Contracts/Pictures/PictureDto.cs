@@ -35,6 +35,12 @@ namespace Kindly.API.Contracts.Pictures
 		public string Description { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this instance is approved.
+		/// </summary>
+		[Required]
+		public bool IsApproved { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether this instance is the profile picture.
 		/// </summary>
 		[Required]

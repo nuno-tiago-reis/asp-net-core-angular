@@ -1,7 +1,6 @@
 ﻿using Kindly.API.Utility.Collections;
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Pictures
@@ -15,13 +14,6 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// <param name="userID">The user identifier.</param>
 		/// <param name="pictureID">The picture identifier.</param>
 		Task<bool> PictureBelongsToUser(Guid userID, Guid pictureID);
-
-		/// <summary>
-		/// Gets pictures by user id.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		Task<IEnumerable<Picture>> GetByUser(Guid userID);
 
 		/// <summary>
 		/// Gets pictures by user id using pagination.

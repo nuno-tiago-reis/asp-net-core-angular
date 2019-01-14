@@ -147,6 +147,7 @@ namespace Kindly.API.Models
 
 						picture.Url = uploadResult.Uri.ToString();
 						picture.PublicID = uploadResult.PublicId;
+						picture.IsApproved = true;
 
 						Console.WriteLine($"Uploaded picture {picture.PublicID} for {user.UserName}");
 					}

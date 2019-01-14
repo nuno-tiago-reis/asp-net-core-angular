@@ -1,7 +1,6 @@
 ﻿using Kindly.API.Utility.Collections;
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Likes
@@ -15,20 +14,6 @@ namespace Kindly.API.Models.Repositories.Likes
 		/// <param name="userID">The user identifier.</param>
 		/// <param name="likeID">The like identifier.</param>
 		Task<bool> LikeBelongsToUser(Guid userID, Guid likeID);
-
-		/// <summary>
-		/// Gets likes by sender user id.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		Task<IEnumerable<Like>> GetBySenderUser(Guid userID);
-
-		/// <summary>
-		/// Gets likes by recipient user id.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		Task<IEnumerable<Like>> GetByRecipientUser(Guid userID);
 
 		/// <summary>
 		/// Gets likes by sender user id using pagination.

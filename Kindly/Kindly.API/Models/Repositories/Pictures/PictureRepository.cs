@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Pictures
@@ -48,11 +47,13 @@ namespace Kindly.API.Models.Repositories.Pictures
 			if (user == null)
 				throw new KindlyException(User.DoesNotExist, true);
 
+			// Profile picture
+			var profilePicture = await this.GetProfilePicture(picture.UserID);
+
 			if (picture.IsProfilePicture.HasValue && picture.IsProfilePicture.Value)
 			{
 				// Don't allow the indicator to be 'removed'
 				// The only way to 'remove' a profile picture is to add a new one
-				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture.Value);
 				if (profilePicture != null)
 					profilePicture.IsProfilePicture = false;
 
@@ -60,7 +61,7 @@ namespace Kindly.API.Models.Repositories.Pictures
 			}
 			else
 			{
-				if (await this.Context.Pictures.AnyAsync(p => p.UserID == picture.UserID) == false)
+				if (profilePicture == null)
 					picture.IsProfilePicture = true;
 			}
 
@@ -83,16 +84,20 @@ namespace Kindly.API.Models.Repositories.Pictures
 			databasePicture.Description =
 				!string.IsNullOrWhiteSpace(picture.Description) ? picture.Description : databasePicture.Description;
 
-			if (picture.IsProfilePicture.HasValue && picture.IsProfilePicture == true)
+			// Profile picture
+			if (picture.IsProfilePicture.HasValue && picture.IsProfilePicture.Value)
 			{
 				// Don't allow the indicator to be 'removed'
 				// The only way to 'remove' a profile picture is to add a new one
-				var profilePicture = await this.Context.Pictures.SingleOrDefaultAsync(p => p.UserID == picture.UserID && p.IsProfilePicture.Value);
+				var profilePicture = await this.GetProfilePicture(picture.UserID);
 				if (profilePicture != null)
 					profilePicture.IsProfilePicture = false;
 
 				databasePicture.IsProfilePicture = true;
 			}
+
+			databasePicture.IsApproved =
+				picture.IsApproved ?? databasePicture.IsApproved;
 
 			// Update
 			await this.Context.SaveChangesAsync();
@@ -122,26 +127,46 @@ namespace Kindly.API.Models.Repositories.Pictures
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<Picture>> GetAll()
-		{
-			return await this.GetQueryable().ToListAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task<PagedList<Picture>> GetAll(PictureParameters parameters)
+		public async Task<PagedList<Picture>> GetAll(PictureParameters parameters = null)
 		{
 			var pictures = this.GetQueryable();
 
-			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
+			if (parameters != null)
 			{
-				if (parameters.OrderBy == nameof(Picture.CreatedAt).ToLowerCamelCase())
+				switch (parameters.Container)
 				{
-					pictures = pictures.OrderByDescending(p => p.CreatedAt);
+					case PictureContainer.Approved:
+						pictures = pictures
+							.Where(p => p.IsApproved.Value);
+						break;
+
+					case PictureContainer.Unapproved:
+						pictures = pictures
+							.Where(p => p.IsApproved.Value == false);
+						break;
+
+					case PictureContainer.Everything:
+						break;
+
+					default:
+						throw new ArgumentOutOfRangeException(nameof(parameters.Container), parameters.Container, null);
 				}
-				else
+
+				if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
 				{
-					throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+					if (parameters.OrderBy == nameof(Picture.CreatedAt).ToLowerCamelCase())
+					{
+						pictures = pictures.OrderByDescending(p => p.CreatedAt);
+					}
+					else
+					{
+						throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+					}
 				}
+			}
+			else
+			{
+				parameters = new PictureParameters();
 			}
 
 			return await PagedList<Picture>.CreateAsync(pictures, parameters.PageNumber, parameters.PageSize);
@@ -159,12 +184,6 @@ namespace Kindly.API.Models.Repositories.Pictures
 				throw new KindlyException(Picture.DoesNotExist, true);
 
 			return true;
-		}
-
-		/// <inheritdoc />
-		public async Task<IEnumerable<Picture>> GetByUser(Guid userID)
-		{
-			return await this.GetQueryableByUser(userID).ToListAsync();
 		}
 
 		/// <inheritdoc />
@@ -194,10 +213,21 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// <param name="userID">The user identifier.</param>
 		private IQueryable<Picture> GetQueryableByUser(Guid userID)
 		{
-			return this.Context.Pictures
-				.Include(p => p.User)
-				.Where(p => p.UserID == userID)
-				.OrderByDescending(p => p.CreatedAt);
+			return this.GetQueryable()
+				.Where(p => p.UserID == userID);
+		}
+
+		/// <summary>
+		/// Gets the profile picture.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		private async Task<Picture> GetProfilePicture(Guid userID)
+		{
+			var profilePicture = await this.GetQueryable()
+				.SingleOrDefaultAsync(p => p.UserID == userID && p.IsProfilePicture.Value);
+
+			return profilePicture;
 		}
 		#endregion
 	}

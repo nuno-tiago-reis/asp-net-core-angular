@@ -16,6 +16,16 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// The profile picture cannot be deleted message.
 		/// </summary>
 		public const string CannotDeleteTheProfilePicture = "The profile picture cannot be deleted.";
+
+		/// <summary>
+		/// The approved picture cannot be approved message.
+		/// </summary>
+		public const string CannotApproveApprovedPicture = "The picture is already approved.";
+
+		/// <summary>
+		/// The approved picture cannot be rejected message.
+		/// </summary>
+		public const string CannotRejectApprovedPicture = "The picture is already approved.";
 		#endregion
 
 		#region [Properties]
@@ -38,6 +48,11 @@ namespace Kindly.API.Models.Repositories.Pictures
 		/// Gets or sets the description.
 		/// </summary>
 		public string Description { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is approved.
+		/// </summary>
+		public bool? IsApproved { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is the profile picture.

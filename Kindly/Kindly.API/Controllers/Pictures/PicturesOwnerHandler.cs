@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Pictures
 {
-	public sealed class PicturesAuthorizationHandler : KindlyAuthorizationHandler<AllowIfOwnerRequirement, Picture>
+	public sealed class PicturesOwnerHandler : ResourceOwnerHandler<Picture>
 	{
+		#region [Properties]
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
 		public IPictureRepository Repository { get; set; }
+		#endregion
 
+		#region [Methods]
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PicturesAuthorizationHandler"/> class.
+		/// Initializes a new instance of the <see cref="PicturesOwnerHandler"/> class.
 		/// </summary>
 		/// 
 		/// <param name="repository">The repository.</param>
-		public PicturesAuthorizationHandler(IPictureRepository repository)
+		public PicturesOwnerHandler(IPictureRepository repository)
 		{
 			this.Repository = repository;
 		}
@@ -28,7 +31,7 @@ namespace Kindly.API.Controllers.Pictures
 		protected override Task HandleRequirementAsync
 		(
 			AuthorizationHandlerContext context,
-			AllowIfOwnerRequirement requirement,
+			ResourceOwnerRequirement requirement,
 			Picture picture
 		)
 		{
@@ -49,7 +52,8 @@ namespace Kindly.API.Controllers.Pictures
 				context.Fail();
 			}
 
-			return Task.FromResult(0);
+			return Task.CompletedTask;
 		}
+		#endregion
 	}
 }

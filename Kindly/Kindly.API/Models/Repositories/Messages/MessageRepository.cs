@@ -104,26 +104,44 @@ namespace Kindly.API.Models.Repositories.Messages
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<Message>> GetAll()
-		{
-			return await this.GetQueryable().ToListAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task<PagedList<Message>> GetAll(MessageParameters parameters)
+		public async Task<PagedList<Message>> GetAll(MessageParameters parameters = null)
 		{
 			var messages = this.GetQueryable();
 
-			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
+			if (parameters != null)
 			{
-				if (parameters.OrderBy == nameof(Message.CreatedAt).ToLowerCamelCase())
+				switch (parameters.Container)
 				{
-					messages = messages.OrderByDescending(m => m.CreatedAt);
+					case MessageContainer.Unread:
+						messages = messages
+							.Where(m => m.IsRead == false);
+						break;
+
+					case MessageContainer.Inbox:
+						break;
+
+					case MessageContainer.Outbox:
+						break;
+
+					default:
+						throw new ArgumentOutOfRangeException(nameof(parameters.Container), parameters.Container, null);
 				}
-				else
+
+				if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
 				{
-					throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+					if (parameters.OrderBy == nameof(Message.CreatedAt).ToLowerCamelCase())
+					{
+						messages = messages.OrderByDescending(m => m.CreatedAt);
+					}
+					else
+					{
+						throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+					}
 				}
+			}
+			else
+			{
+				parameters = new MessageParameters();
 			}
 
 			return await PagedList<Message>.CreateAsync(messages, parameters.PageNumber, parameters.PageSize);
@@ -141,12 +159,6 @@ namespace Kindly.API.Models.Repositories.Messages
 				throw new KindlyException(Message.DoesNotExist, true);
 
 			return true;
-		}
-
-		/// <inheritdoc />
-		public async Task<IEnumerable<Message>> GetByUser(Guid userID)
-		{
-			return await this.GetQueryableByUser(userID).ToListAsync();
 		}
 
 		/// <inheritdoc />
@@ -225,9 +237,7 @@ namespace Kindly.API.Models.Repositories.Messages
 		/// <param name="userID">The user identifier.</param>
 		private IQueryable<Message> GetQueryableByUser(Guid userID)
 		{
-			return this.Context.Messages
-				.Include(m => m.Sender.Pictures)
-				.Include(m => m.Recipient.Pictures)
+			return this.GetQueryable()
 				.Where(l => l.SenderID == userID || l.RecipientID == userID)
 				.OrderByDescending(l => l.CreatedAt);
 		}

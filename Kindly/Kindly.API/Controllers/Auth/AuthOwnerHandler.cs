@@ -2,29 +2,24 @@
 
 using Microsoft.AspNetCore.Authorization;
 
-using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
-namespace Kindly.API.Controllers.Users
+namespace Kindly.API.Controllers.Auth
 {
-	public sealed class UsersAuthorizationHandler : KindlyAuthorizationHandler<AllowIfOwnerRequirement, User>
+	public sealed class AuthOwnerHandler : ResourceOwnerHandler<User>
 	{
+		#region [Methods]
 		/// <inheritdoc />
 		protected override Task HandleRequirementAsync
 		(
 			AuthorizationHandlerContext context,
-			AllowIfOwnerRequirement requirement,
+			ResourceOwnerRequirement requirement,
 			User user
 		)
 		{
-			Console.WriteLine(JsonConvert.SerializeObject(user));
-
 			var userID = this.GetInvocationUserID(context);
 
-			Console.WriteLine(userID);
-
-			if (userID == user.ID || user.ID == default(Guid))
+			if (userID == user.ID)
 			{
 				context.Succeed(requirement);
 			}
@@ -33,7 +28,8 @@ namespace Kindly.API.Controllers.Users
 				context.Fail();
 			}
 
-			return Task.FromResult(0);
+			return Task.CompletedTask;
 		}
+		#endregion
 	}
 }

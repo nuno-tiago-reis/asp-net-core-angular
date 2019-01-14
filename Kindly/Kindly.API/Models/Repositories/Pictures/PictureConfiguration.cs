@@ -27,6 +27,10 @@ namespace Kindly.API.Models.Repositories.Pictures
 			builder.Property(user => user.Description)
 				.HasMaxLength(200);
 
+			builder.Property(user => user.IsApproved)
+				.IsRequired()
+				.HasDefaultValue(false);
+
 			builder.Property(user => user.IsProfilePicture)
 				.IsRequired()
 				.HasDefaultValue(false);

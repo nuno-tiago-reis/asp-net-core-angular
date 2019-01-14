@@ -101,7 +101,6 @@ namespace Kindly.API.Controllers.Users
 		/// 
 		/// <param name="userID">The user identifier.</param>
 		[HttpDelete("{userID:Guid}")]
-		//[Authorize(Policy = nameof(KindlyPolicies.AllowIfOwner))]
 		public async Task<IActionResult> Delete(Guid userID)
 		{
 			var user = new User
@@ -134,7 +133,17 @@ namespace Kindly.API.Controllers.Users
 		[HttpGet("{userID:Guid}")]
 		public async Task<IActionResult> Get(Guid userID)
 		{
-			var user = await this.Repository.Get(userID);
+			User user;
+
+			if (userID == this.GetInvocationUserID())
+			{
+				user = await this.Repository.GetUserWithPictures(userID, true);
+			}
+			else
+			{
+				user = await this.Repository.GetUserWithPictures(userID, false);
+			}
+
 			var userDto = this.Mapper.Map<UserDetailedDto>(user);
 
 			return this.Ok(userDto);

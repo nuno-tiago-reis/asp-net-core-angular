@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Users
@@ -174,76 +173,77 @@ namespace Kindly.API.Models.Repositories.Users
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<User>> GetAll()
-		{
-			return await this.GetQueryable().ToListAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task<PagedList<User>> GetAll(UserParameters parameters)
+		public async Task<PagedList<User>> GetAll(UserParameters parameters = null)
 		{
 			var users = this.GetQueryable();
 
-			if (parameters.Gender.HasValue == false)
+			if (parameters != null)
 			{
-				var user = await this.UserManager.FindByIdAsync(parameters.UserID.ToString());
-
-				switch (user?.Gender)
+				if (parameters.Gender.HasValue == false)
 				{
-					case Gender.Female:
-						parameters.Gender = Gender.Male;
-						break;
+					var user = await this.UserManager.FindByIdAsync(parameters.UserID.ToString());
 
-					case Gender.Male:
-						parameters.Gender = Gender.Female;
-						break;
+					switch (user?.Gender)
+					{
+						case Gender.Female:
+							parameters.Gender = Gender.Male;
+							break;
 
-					case null:
-					case Gender.Undefined:
-						parameters.Gender = Gender.Undefined;
-						break;
+						case Gender.Male:
+							parameters.Gender = Gender.Female;
+							break;
 
-					default:
-						throw new ArgumentOutOfRangeException(nameof(user.Gender));
+						case null:
+						case Gender.Undefined:
+							parameters.Gender = Gender.Undefined;
+							break;
+
+						default:
+							throw new ArgumentOutOfRangeException(nameof(user.Gender));
+					}
 				}
 
 				if (parameters.Gender != Gender.Undefined)
 				{
 					users = users.Where(u => u.Gender == parameters.Gender);
 				}
-			}
 
-			if (parameters.MinimumAge.HasValue)
-			{
-				var maximumBirthDate = DateTime.Today.AddYears(-parameters.MinimumAge.Value);
-
-				users = users.Where(u => u.BirthDate <= maximumBirthDate);
-			}
-
-			if (parameters.MaximumAge.HasValue)
-			{
-				var minimumBirthDate = DateTime.Today.AddYears(-parameters.MaximumAge.Value-1);
-
-				users = users.Where(u => u.BirthDate >= minimumBirthDate);
-			}
-
-			if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
-			{
-				if (parameters.OrderBy == nameof(User.CreatedAt).ToLowerCamelCase())
+				if (parameters.MinimumAge.HasValue)
 				{
-					users = users.OrderByDescending(u => u.CreatedAt);
-				}
-				else if (parameters.OrderBy == nameof(User.LastActiveAt).ToLowerCamelCase())
-				{
-					users = users.OrderByDescending(u => u.LastActiveAt);
-				}
-				else
-				{
-					throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
-				}
-			}
+					var maximumBirthDate = DateTime.Today.AddYears(-parameters.MinimumAge.Value);
 
-			users = users.Where(u => u.Id != parameters.UserID);
+					users = users.Where(u => u.BirthDate <= maximumBirthDate);
+				}
+
+				if (parameters.MaximumAge.HasValue)
+				{
+					var minimumBirthDate = DateTime.Today.AddYears(-parameters.MaximumAge.Value - 1);
+
+					users = users.Where(u => u.BirthDate >= minimumBirthDate);
+				}
+
+				if (string.IsNullOrWhiteSpace(parameters.OrderBy) == false)
+				{
+					if (parameters.OrderBy == nameof(User.CreatedAt).ToLowerCamelCase())
+					{
+						users = users.OrderByDescending(u => u.CreatedAt);
+					}
+					else if (parameters.OrderBy == nameof(User.LastActiveAt).ToLowerCamelCase())
+					{
+						users = users.OrderByDescending(u => u.LastActiveAt);
+					}
+					else
+					{
+						throw new ArgumentOutOfRangeException(nameof(parameters.OrderBy), parameters.OrderBy, null);
+					}
+				}
+
+				users = users.Where(u => u.Id != parameters.UserID);
+			}
+			else
+			{
+				parameters = new UserParameters();
+			}
 
 			return await PagedList<User>.CreateAsync(users, parameters.PageNumber, parameters.PageSize);
 		}
@@ -266,24 +266,6 @@ namespace Kindly.API.Models.Repositories.Users
 		public async Task<bool> PhoneNumberExists(string phoneNumber)
 		{
 			return await this.UserManager.Users.AnyAsync(u => u.PhoneNumber == phoneNumber);
-		}
-
-		/// <inheritdoc />
-		public async Task<User> GetByEmail(string email)
-		{
-			return await this.UserManager.Users.SingleOrDefaultAsync(u => u.Email == email);
-		}
-
-		/// <inheritdoc />
-		public async Task<User> GetByUserName(string userName)
-		{
-			return await this.UserManager.Users.SingleOrDefaultAsync(u => u.UserName == userName);
-		}
-
-		/// <inheritdoc />
-		public async Task<User> GetByPhoneNumber(string phoneNumber)
-		{
-			return await this.UserManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
 		}
 
 		/// <inheritdoc />
@@ -348,6 +330,19 @@ namespace Kindly.API.Models.Repositories.Users
 			var users = this.GetRolesQueryable();
 
 			return await PagedList<User>.CreateAsync(users, parameters.PageNumber, parameters.PageSize);
+		}
+
+		/// <inheritdoc />
+		public async Task<User> GetUserWithPictures(Guid userID, bool includeUnapprovedPictures)
+		{
+			var user = await this.GetQueryable().SingleOrDefaultAsync(u => u.Id == userID);
+
+			if (includeUnapprovedPictures == false)
+			{
+				user.Pictures = user.Pictures.Where(p => p.IsApproved != null && p.IsApproved.Value).ToList();
+			}
+
+			return user;
 		}
 		#endregion
 

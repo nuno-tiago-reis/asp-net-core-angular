@@ -2,23 +2,25 @@
 
 using Microsoft.AspNetCore.Authorization;
 
+using System;
 using System.Threading.Tasks;
 
-namespace Kindly.API.Controllers.Auth
+namespace Kindly.API.Controllers.Users
 {
-	public sealed class AuthAuthorizationHandler : KindlyAuthorizationHandler<AllowIfOwnerRequirement, User>
+	public sealed class UsersOwnerHandler : ResourceOwnerHandler<User>
 	{
+		#region [Methods]
 		/// <inheritdoc />
 		protected override Task HandleRequirementAsync
 		(
 			AuthorizationHandlerContext context,
-			AllowIfOwnerRequirement requirement,
+			ResourceOwnerRequirement requirement,
 			User user
 		)
 		{
 			var userID = this.GetInvocationUserID(context);
 
-			if (userID == user.ID)
+			if (userID == user.ID || user.ID == default(Guid))
 			{
 				context.Succeed(requirement);
 			}
@@ -29,5 +31,6 @@ namespace Kindly.API.Controllers.Auth
 
 			return Task.FromResult(0);
 		}
+		#endregion
 	}
 }

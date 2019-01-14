@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Messages
 {
-	public sealed class MessagesAuthorizationHandler : KindlyAuthorizationHandler<AllowIfOwnerRequirement, Message>
+	public sealed class MessagesOwnerHandler : ResourceOwnerHandler<Message>
 	{
+		#region [Properties]
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
 		public IMessageRepository Repository { get; set; }
+		#endregion
 
+		#region [Methods]
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MessagesAuthorizationHandler"/> class.
+		/// Initializes a new instance of the <see cref="MessagesOwnerHandler"/> class.
 		/// </summary>
 		/// 
 		/// <param name="repository">The repository.</param>
-		public MessagesAuthorizationHandler(IMessageRepository repository)
+		public MessagesOwnerHandler(IMessageRepository repository)
 		{
 			this.Repository = repository;
 		}
@@ -28,7 +31,7 @@ namespace Kindly.API.Controllers.Messages
 		protected override Task HandleRequirementAsync
 		(
 			AuthorizationHandlerContext context,
-			AllowIfOwnerRequirement requirement,
+			ResourceOwnerRequirement requirement,
 			Message message
 		)
 		{
@@ -48,7 +51,8 @@ namespace Kindly.API.Controllers.Messages
 				context.Fail();
 			}
 
-			return Task.FromResult(0);
+			return Task.CompletedTask;
 		}
+		#endregion
 	}
 }

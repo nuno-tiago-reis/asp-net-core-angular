@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 
 using Kindly.API.Contracts;
+using Kindly.API.Contracts.Roles;
 using Kindly.API.Contracts.Users;
 using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Utility;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +28,11 @@ namespace Kindly.API.Controllers
 		/// Gets or sets the repository.
 		/// </summary>
 		private IUserRepository Repository { get; set; }
+
+		/// <summary>
+		/// Gets or sets the user manager.
+		/// </summary>
+		private UserManager<User> UserManager { get; set; }
 		#endregion
 
 		#region [Constructors]
@@ -33,10 +41,18 @@ namespace Kindly.API.Controllers
 		/// </summary>
 		/// 
 		/// <param name="mapper">The mapper.</param>
+		/// <param name="userManager">The user manager.</param>
 		/// <param name="repository">The repository.</param>
-		public UserRolesController(IMapper mapper, IUserRepository repository) : base(mapper)
+		public UserRolesController
+		(
+			IMapper mapper,
+			IUserRepository repository,
+			UserManager<User> userManager
+		)
+		: base(mapper)
 		{
 			this.Repository = repository;
+			this.UserManager = userManager;
 		}
 		#endregion
 
@@ -65,6 +81,47 @@ namespace Kindly.API.Controllers
 		public async Task<IActionResult> RemoveRoleFromUser(Guid userID, Guid roleID)
 		{
 			await this.Repository.RemoveRoleFromUser(userID, roleID);
+
+			return this.Ok();
+		}
+
+		/// <summary>
+		/// Adds a role to the user.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		/// <param name="userRoles">The user roles.</param>
+		[HttpPut]
+		public async Task<IActionResult> UpdateUserRoles(Guid userID, RolesDto userRoles)
+		{
+			var user = await this.Repository.GetUserWithRoles(userID);
+
+			var addedRoles = userRoles.Roles;
+			var removedRoles = new List<string>();
+
+			foreach (var role in user.UserRoles)
+			{
+				if (userRoles.Roles.Any(roleName => roleName.Equals(role.Role.Name, StringComparison.InvariantCultureIgnoreCase)))
+				{
+					addedRoles.Remove(role.Role.Name);
+				}
+				else
+				{
+					removedRoles.Add(role.Role.Name);
+				}
+			}
+
+			var addResult = await this.UserManager.AddToRolesAsync(user, addedRoles);
+			if (addResult.Succeeded == false)
+			{
+				return this.BadRequest(addResult.Errors);
+			}
+
+			var removeResult = await this.UserManager.RemoveFromRolesAsync(user, removedRoles);
+			if (removeResult.Succeeded == false)
+			{
+				return this.BadRequest(removeResult.Errors);
+			}
 
 			return this.Ok();
 		}

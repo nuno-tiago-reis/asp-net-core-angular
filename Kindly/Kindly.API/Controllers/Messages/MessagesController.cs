@@ -128,11 +128,7 @@ namespace Kindly.API.Controllers.Messages
 		[HttpDelete("{messageID:Guid}")]
 		public async Task<IActionResult> Delete(Guid userID, Guid messageID)
 		{
-			var message = new Message
-			{
-				ID = messageID,
-				SenderID = userID
-			};
+			var message = await this.Repository.Get(messageID);
 
 			#region [Authorization]
 			var result = await this.AuthorizationService.AuthorizeAsync
@@ -145,8 +141,6 @@ namespace Kindly.API.Controllers.Messages
 				return this.Unauthorized();
 			}
 			#endregion
-
-			message = await this.Repository.Get(messageID);
 
 			if (userID == message.SenderID)
 				message.SenderDeleted = true;

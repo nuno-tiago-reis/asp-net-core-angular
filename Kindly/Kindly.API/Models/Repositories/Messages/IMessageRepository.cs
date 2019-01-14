@@ -17,13 +17,6 @@ namespace Kindly.API.Models.Repositories.Messages
 		Task<bool> MessageBelongsToUser(Guid userID, Guid messageID);
 
 		/// <summary>
-		/// Gets messages by user id.
-		/// </summary>
-		/// 
-		/// <param name="userID">The user identifier.</param>
-		Task<IEnumerable<Message>> GetByUser(Guid userID);
-
-		/// <summary>
 		/// Gets messages by user id using pagination.
 		/// </summary>
 		/// 

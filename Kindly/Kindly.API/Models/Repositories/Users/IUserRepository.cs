@@ -29,27 +29,6 @@ namespace Kindly.API.Models.Repositories.Users
 		Task<bool> PhoneNumberExists(string phoneNumber);
 
 		/// <summary>
-		/// Gets a user by email.
-		/// </summary>
-		/// 
-		/// <param name="email">The email.</param>
-		Task<User> GetByEmail(string email);
-
-		/// <summary>
-		/// Gets a user by user name.
-		/// </summary>
-		/// 
-		/// <param name="userName">The user name.</param>
-		Task<User> GetByUserName(string userName);
-
-		/// <summary>
-		/// Gets a user by phone number.
-		/// </summary>
-		/// 
-		/// <param name="phoneNumber">The phone number.</param>
-		Task<User> GetByPhoneNumber(string phoneNumber);
-
-		/// <summary>
 		/// Adds the role to the user.
 		/// </summary>
 		/// 
@@ -78,5 +57,13 @@ namespace Kindly.API.Models.Repositories.Users
 		/// 
 		/// <param name="parameters">The parameters.</param>
 		Task<PagedList<User>> GetUsersWithRoles(UserParameters parameters);
+
+		/// <summary>
+		/// Gets the user with its pictures.
+		/// </summary>
+		/// 
+		/// <param name="userID">The user identifier.</param>
+		/// <param name="includeUnapprovedPictures">Whether to include unapproved pictures.</param>
+		Task<User> GetUserWithPictures(Guid userID, bool includeUnapprovedPictures);
 	}
 }

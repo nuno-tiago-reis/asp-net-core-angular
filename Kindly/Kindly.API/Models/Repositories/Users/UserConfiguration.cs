@@ -18,10 +18,6 @@ namespace Kindly.API.Models.Repositories.Users
 				.IsRequired()
 				.HasColumnName(nameof(User.ID));
 
-			builder.Property(user => user.UserName)
-				.IsRequired()
-				.HasMaxLength(25);
-
 			builder.Property(user => user.Email)
 				.IsRequired()
 				.HasMaxLength(254);

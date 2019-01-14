@@ -40,7 +40,11 @@ namespace Kindly.API.Contracts.Settings
 					userDto => userDto.ProfilePictureUrl,
 					option => option.MapFrom
 					(
-						source => source.Pictures.FirstOrDefault(picture => picture.IsProfilePicture.Value).Url
+						source => source.Pictures.FirstOrDefault
+						(
+							picture => picture.IsProfilePicture.Value && picture.IsApproved.Value
+						)
+						.Url
 					)
 				);
 
@@ -56,7 +60,11 @@ namespace Kindly.API.Contracts.Settings
 					userDto => userDto.ProfilePictureUrl,
 					option => option.MapFrom
 					(
-						source => source.Pictures.FirstOrDefault(picture => picture.IsProfilePicture.Value).Url
+						source => source.Pictures.FirstOrDefault
+						(
+							picture => picture.IsProfilePicture.Value && picture.IsApproved.Value
+						)
+						.Url
 					)
 				);
 

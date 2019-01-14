@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Roles
@@ -101,15 +100,17 @@ namespace Kindly.API.Models.Repositories.Roles
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<Role>> GetAll()
-		{
-			return await this.GetQueryable().ToListAsync();
-		}
-
-		/// <inheritdoc />
-		public async Task<PagedList<Role>> GetAll(RoleParameters parameters)
+		public async Task<PagedList<Role>> GetAll(RoleParameters parameters = null)
 		{
 			var roles = this.GetQueryable();
+
+			if (parameters != null)
+			{
+			}
+			else
+			{
+				parameters = new RoleParameters();
+			}
 
 			return await PagedList<Role>.CreateAsync(roles, parameters.PageNumber, parameters.PageSize);
 		}
