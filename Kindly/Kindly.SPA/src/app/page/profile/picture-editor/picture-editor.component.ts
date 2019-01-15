@@ -85,13 +85,15 @@ export class PictureEditorComponent implements OnInit
 					publicID: result.publicID,
 					createdAt: result.createdAt,
 					description: result.description,
+					isApproved: result.isApproved,
 					isProfilePicture: result.isProfilePicture,
 					userID: result.userID
 				};
 
 				if (this.pictures === null || this.pictures.length === 0)
 				{
-					this.setProfilePicture(picture);
+					// emit the profile picture change
+					this.authApi.setProfilePictureUrl(picture.url);
 				}
 
 				this.pictures.push(picture);

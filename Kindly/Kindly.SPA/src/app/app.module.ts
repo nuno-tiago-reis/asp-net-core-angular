@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ngx modules
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipConfig } from 'ngx-bootstrap/tooltip';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -49,6 +50,8 @@ import { MessagesResolver } from './-resolvers/messages.resolver';
 import { MemberListResolver } from './-resolvers/member-list.resolver';
 import { MemberDetailResolver } from './-resolvers/member-detail.resolver';
 import { ProfileEditorResolver } from './-resolvers/profile-editor.resolver';
+import { MemberManagementResolver } from './-resolvers/member-management.resolver';
+import { PictureManagementResolver } from './-resolvers/picture-management.resolver';
 
 // directives
 import { HasRoleDirective } from './-directives/has-role.directive';
@@ -74,7 +77,6 @@ import { RolesModalComponent } from './page/admin/roles-modal/roles-modal.compon
 
 // routes
 import { AppRoutes } from './routes';
-import { MemberManagementResolver } from './-resolvers/member-management.resolver';
 
 // jwt token
 export function getJwtToken()
@@ -137,6 +139,7 @@ export function getAlertConfig(): TooltipConfig
 
 		// ngx
 		TabsModule.forRoot(),
+		ModalModule.forRoot(),
 		TooltipModule.forRoot(),
 		ButtonsModule.forRoot(),
 		PaginationModule.forRoot(),
@@ -167,6 +170,7 @@ export function getAlertConfig(): TooltipConfig
 		MemberListResolver,
 		MemberDetailResolver,
 		MemberManagementResolver,
+		PictureManagementResolver,
 		ProfileEditorResolver,
 
 		// interceptors
@@ -220,7 +224,12 @@ export function getAlertConfig(): TooltipConfig
 		RolesModalComponent,
 
 		// directives
-		HasRoleDirective,
+		HasRoleDirective
+	],
+	entryComponents:
+	[
+		// admin components
+		RolesModalComponent
 	]
 })
 

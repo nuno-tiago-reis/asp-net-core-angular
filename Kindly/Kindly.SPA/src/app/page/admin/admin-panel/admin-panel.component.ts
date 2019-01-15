@@ -1,5 +1,7 @@
 // components
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 @Component
 ({
@@ -7,12 +9,22 @@ import { Component, OnInit } from '@angular/core';
 	templateUrl: './admin-panel.component.html',
 	styleUrls: ['./admin-panel.component.css']
 })
+
 export class AdminPanelComponent implements OnInit
 {
 	/**
-	 * Creates an instance of the home component.
+	 * The admin tabs component.
 	 */
-	public constructor ()
+	@ViewChild('adminTabs')
+	public adminTabs: TabsetComponent;
+
+	/**
+	 * Creates an instance of the home component.
+	 *
+	 * @param activatedRoute The activated route.
+	 * @param router The router.
+	 */
+	public constructor (private activatedRoute: ActivatedRoute, private router: Router)
 	{
 		// Nothing to do here.
 	}
@@ -22,6 +34,53 @@ export class AdminPanelComponent implements OnInit
 	 */
 	public ngOnInit (): void
 	{
-		// Nothing to do here.
+		Promise.resolve(null).then(() =>
+		{
+			this.activatedRoute.queryParams.subscribe
+			(
+				parameters =>
+				{
+					const tab = parameters['tab'];
+
+					switch (tab)
+					{
+						case 'members':
+							this.selectTab(0);
+							break;
+						case 'pictures':
+							this.selectTab(1);
+							break;
+					}
+				}
+			);
+		});
+	}
+
+	/**
+	 * Invoked when a tab is selected
+	 *
+	 * @param tabID The tab selected.
+	 */
+	public onSelectTab(tab: string)
+	{
+		this.router.navigate
+		(
+			[],
+			{
+				relativeTo: this.activatedRoute,
+				queryParams: { tab: tab },
+				queryParamsHandling: 'merge'
+			}
+		);
+	}
+
+	/**
+	 * Selects a tab using the given id.
+	 *
+	 * @param tabID The tab to select.
+	 */
+	public selectTab(tabID: number)
+	{
+		this.adminTabs.tabs[tabID].active = true;
 	}
 }

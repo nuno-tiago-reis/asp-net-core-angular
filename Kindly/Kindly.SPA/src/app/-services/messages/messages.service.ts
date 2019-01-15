@@ -1,3 +1,6 @@
+// modules
+import { DEFAULT_PICTURE } from '../../app.constants';
+
 // components
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -47,7 +50,22 @@ export class MessagesService
 	 */
 	public create (userID: string, model: CreateRequest): Observable<Message>
 	{
-		const observable = this.http.post<Message>(this.baseURL.replace(this.userID, userID), model);
+		const observable = this.http.post<Message>(this.baseURL.replace(this.userID, userID), model).pipe(map
+		(
+			(response) =>
+			{
+				if (response.sender.profilePictureUrl === '' || response.sender.profilePictureUrl === null)
+				{
+					response.sender.profilePictureUrl = DEFAULT_PICTURE;
+				}
+				if (response.recipient.profilePictureUrl === '' || response.recipient.profilePictureUrl === null)
+				{
+					response.recipient.profilePictureUrl = DEFAULT_PICTURE;
+				}
+
+				return response;
+			}
+		));
 
 		return observable;
 	}
@@ -87,7 +105,22 @@ export class MessagesService
 	 */
 	public get (messageID: string, userID: string): Observable<Message>
 	{
-		const observable = this.http.get<Message>(this.baseURL.replace(this.userID, userID) + messageID);
+		const observable = this.http.get<Message>(this.baseURL.replace(this.userID, userID) + messageID).pipe(map
+		(
+			(response) =>
+			{
+				if (response.sender.profilePictureUrl === '' || response.sender.profilePictureUrl === null)
+				{
+					response.sender.profilePictureUrl = DEFAULT_PICTURE;
+				}
+				if (response.recipient.profilePictureUrl === '' || response.recipient.profilePictureUrl === null)
+				{
+					response.recipient.profilePictureUrl = DEFAULT_PICTURE;
+				}
+
+				return response;
+			}
+		));
 
 		return observable;
 	}
@@ -128,6 +161,18 @@ export class MessagesService
 					paginatedResult.pagination = JSON.parse(pagination);
 				}
 
+				response.body.forEach((message) =>
+				{
+					if (message.sender.profilePictureUrl === '' || message.sender.profilePictureUrl === null)
+					{
+						message.sender.profilePictureUrl = DEFAULT_PICTURE;
+					}
+					if (message.recipient.profilePictureUrl === '' || message.recipient.profilePictureUrl === null)
+					{
+						message.recipient.profilePictureUrl = DEFAULT_PICTURE;
+					}
+				});
+
 				return paginatedResult;
 			}
 		));
@@ -143,7 +188,25 @@ export class MessagesService
 	 */
 	public getThread (senderID: string, recipientID: string): Observable<Message[]>
 	{
-		const observable = this.http.get<Message[]>(this.baseURL.replace(this.userID, senderID) + `thread/${recipientID}`);
+		const observable = this.http.get<Message[]>(this.baseURL.replace(this.userID, senderID) + `thread/${recipientID}`).pipe(map
+		(
+			(response) =>
+			{
+				response.forEach((message) =>
+				{
+					if (message.sender.profilePictureUrl === '' || message.sender.profilePictureUrl === null)
+					{
+						message.sender.profilePictureUrl = DEFAULT_PICTURE;
+					}
+					if (message.recipient.profilePictureUrl === '' || message.recipient.profilePictureUrl === null)
+					{
+						message.recipient.profilePictureUrl = DEFAULT_PICTURE;
+					}
+				});
+
+				return response;
+			}
+		));
 
 		return observable;
 	}

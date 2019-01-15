@@ -1,3 +1,6 @@
+// modules
+import { DEFAULT_PICTURE } from '../../app.constants';
+
 // components
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -47,7 +50,22 @@ export class LikesService
 	 */
 	public create (userID: string, model: CreateRequest): Observable<Like>
 	{
-		const observable = this.http.post<Like>(this.baseURL.replace(this.userID, userID), model);
+		const observable = this.http.post<Like>(this.baseURL.replace(this.userID, userID), model).pipe(map
+		(
+			(response) =>
+			{
+				if (response.sender.profilePictureUrl === '' || response.sender.profilePictureUrl === null)
+				{
+					response.sender.profilePictureUrl = DEFAULT_PICTURE;
+				}
+				if (response.recipient.profilePictureUrl === '' || response.recipient.profilePictureUrl === null)
+				{
+					response.recipient.profilePictureUrl = DEFAULT_PICTURE;
+				}
+
+				return response;
+			}
+		));
 
 		return observable;
 	}
@@ -87,7 +105,22 @@ export class LikesService
 	 */
 	public get (likeID: string, userID: string): Observable<Like>
 	{
-		const observable = this.http.get<Like>(this.baseURL.replace(this.userID, userID) + likeID);
+		const observable = this.http.get<Like>(this.baseURL.replace(this.userID, userID) + likeID).pipe(map
+		(
+			(response) =>
+			{
+				if (response.sender.profilePictureUrl === '' || response.sender.profilePictureUrl === null)
+				{
+					response.sender.profilePictureUrl = DEFAULT_PICTURE;
+				}
+				if (response.recipient.profilePictureUrl === '' || response.recipient.profilePictureUrl === null)
+				{
+					response.recipient.profilePictureUrl = DEFAULT_PICTURE;
+				}
+
+				return response;
+			}
+		));
 
 		return observable;
 	}
@@ -128,6 +161,18 @@ export class LikesService
 				{
 					paginatedResult.pagination = JSON.parse(pagination);
 				}
+
+				response.body.forEach((like) =>
+				{
+					if (like.sender !== null && (like.sender.profilePictureUrl === '' || like.sender.profilePictureUrl === null))
+					{
+						like.sender.profilePictureUrl = DEFAULT_PICTURE;
+					}
+					if (like.recipient !== null && (like.recipient.profilePictureUrl === '' || like.recipient.profilePictureUrl === null))
+					{
+						like.recipient.profilePictureUrl = DEFAULT_PICTURE;
+					}
+				});
 
 				return paginatedResult;
 			}

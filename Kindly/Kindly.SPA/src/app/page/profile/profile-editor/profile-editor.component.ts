@@ -60,8 +60,11 @@ export class ProfileEditorComponent implements OnInit
 	 */
 	public constructor
 	(
-		private activatedRoute: ActivatedRoute, private router: Router,
-		private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService
+		private activatedRoute: ActivatedRoute,
+		private router: Router,
+		private authApi: AuthService,
+		private usersApi: UsersService,
+		private alertify: AlertifyService
 	)
 	{
 		// Nothing to do here.
@@ -80,28 +83,31 @@ export class ProfileEditorComponent implements OnInit
 			}
 		);
 
-		this.activatedRoute.queryParams.subscribe
-		(
-			parameters =>
-			{
-				const tab = parameters['tab'];
-
-				switch (tab)
-				{
-					case 'contacts':
-						this.selectTab(0);
-						break;
-					case 'profile':
-						this.selectTab(1);
-						break;
-					case 'pictures':
-						this.selectTab(2);
-						break;
-				}
-			}
-		);
-
 		this.authApi.profilePictureUrlObservable.subscribe(p => this.profilePictureUrl = p);
+
+		Promise.resolve(null).then(() =>
+		{
+			this.activatedRoute.queryParams.subscribe
+			(
+				parameters =>
+				{
+					const tab = parameters['tab'];
+
+					switch (tab)
+					{
+						case 'contacts':
+							this.selectTab(0);
+							break;
+						case 'profile':
+							this.selectTab(1);
+							break;
+						case 'pictures':
+							this.selectTab(2);
+							break;
+					}
+				}
+			);
+		});
 	}
 
 	/**

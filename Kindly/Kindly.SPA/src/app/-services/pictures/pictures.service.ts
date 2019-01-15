@@ -30,6 +30,11 @@ export class PicturesService
 	private readonly baseURL = environment.apiUrl + `users/${this.userID}/pictures/`;
 
 	/**
+	 * The pictures API base url for administration operations.
+	 */
+	private readonly administrationBaseURL = environment.apiUrl + 'users/pictures/';
+
+	/**
 	 * Creates an instance of the pictures service.
 	 *
 	 * @param http The http client.
@@ -112,10 +117,76 @@ export class PicturesService
 
 		if (filterParameters != null)
 		{
-			// placeholder
+			parameters = parameters.append('container', filterParameters.container);
 		}
 
 		const observable = this.http.get<Picture[]>(this.baseURL.replace(this.userID, userID), { observe: 'response', params: parameters }).pipe(map
+		(
+			(response) =>
+			{
+				const paginatedResult: PaginatedResult<Picture> = new PaginatedResult<Picture>();
+				paginatedResult.results = response.body;
+
+				const pagination = response.headers.get('Pagination');
+				if (pagination !== null)
+				{
+					paginatedResult.pagination = JSON.parse(pagination);
+				}
+
+				return paginatedResult;
+			}
+		));
+
+		return observable;
+	}
+
+	/**
+	 * Approves a picture (the picture id is mandatory).
+	 *
+	 * @param pictureID The picture ID.
+	 */
+	public approve (pictureID: string): Observable<void>
+	{
+		const observable = this.http.put<void>(this.administrationBaseURL + pictureID, null);
+
+		return observable;
+	}
+
+	/**
+	 * Rejects a picture (the picture id is mandatory).
+	 *
+	 * @param pictureID The picture ID.
+	 */
+	public reject (pictureID: string): Observable<void>
+	{
+		const observable = this.http.delete<void>(this.administrationBaseURL + pictureID);
+
+		return observable;
+	}
+
+	/**
+	 * Gets all pictures for approval/rejection.
+	 *
+	 * @param pageNumber The page number.
+	 * @param pageSize The page size.
+	 * @param filterParameters The filter parameters.
+	 */
+	public getAllForAdministration (pageNumber?: number, pageSize?: number, filterParameters?: PictureParameters): Observable<PaginatedResult<Picture>>
+	{
+		let parameters = new HttpParams();
+
+		if (pageNumber !== null && pageSize !== null)
+		{
+			parameters = parameters.append('pageNumber', pageNumber.toString());
+			parameters = parameters.append('pageSize', pageSize.toString());
+		}
+
+		if (filterParameters != null)
+		{
+			parameters = parameters.append('container', filterParameters.container);
+		}
+
+		const observable = this.http.get<Picture[]>(this.administrationBaseURL, { observe: 'response', params: parameters }).pipe(map
 		(
 			(response) =>
 			{

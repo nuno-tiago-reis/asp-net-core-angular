@@ -1,5 +1,9 @@
 // components
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+
+// models
+import { User } from 'src/app/-models/user';
 
 @Component
 ({
@@ -11,9 +15,32 @@ import { Component, OnInit } from '@angular/core';
 export class RolesModalComponent implements OnInit
 {
 	/**
-	 * Creates an instance of the roles modal component.
+	 * The update selected roles event.
 	 */
-	public constructor ()
+	@Output()
+	public updateSelectedRoles = new EventEmitter();
+
+	/**
+	 * The user.
+	 */
+	public user: User;
+
+	/**
+	 * The role objects.
+	 */
+	public roles: any[];
+
+	/**
+	 * The close button name.
+	 */
+	public closeButtonName: string;
+
+	/**
+	 * Creates an instance of the roles modal component.
+	 *
+	 * @param modalRef The modal reference.
+	 */
+	public constructor (public modalRef: BsModalRef)
 	{
 		// Nothing to do here.
 	}
@@ -24,5 +51,14 @@ export class RolesModalComponent implements OnInit
 	public ngOnInit (): void
 	{
 		// Nothing to do here.
+	}
+
+	/**
+	 * Updates the users roles.
+	 */
+	public updateRoles(): void
+	{
+		this.updateSelectedRoles.emit(this.roles);
+		this.modalRef.hide();
 	}
 }

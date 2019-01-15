@@ -5,13 +5,13 @@
 	</div>
 
 	<div class="tab-panel">
-		<tabset class="member-tabset">
-			<tab heading="Member Management" *appHasRole="['Administrator']">
+		<tabset class="member-tabset" #adminTabs>
+			<tab id="members" heading="Member Management" *appHasRole="['Administrator']" (select)="this.onSelectTab('members')">
 			<div class="container">
 				<app-member-management></app-member-management>
 			</div>
 			</tab>
-			<tab heading="Picture Management" *appHasRole="['Administrator', 'Moderator']">
+			<tab id="pictures" heading="Picture Management" *appHasRole="['Administrator', 'Moderator']" (select)="this.onSelectTab('pictures')">
 				<app-picture-management></app-picture-management>
 			</tab>
 		</tabset>

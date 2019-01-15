@@ -85,27 +85,6 @@ export class MemberDetailComponent implements OnInit
 			}
 		);
 
-		this.activatedRoute.queryParams.subscribe
-		(
-			parameters =>
-			{
-				const tab = parameters['tab'];
-
-				switch (tab)
-				{
-					case 'about':
-						this.selectTab(0);
-						break;
-					case 'pictures':
-						this.selectTab(1);
-						break;
-					case 'messages':
-						this.selectTab(2);
-						break;
-				}
-			}
-		);
-
 		this.galleryImages = [];
 
 		for (let i = 0; i < this.user.pictures.length; i++)
@@ -132,6 +111,30 @@ export class MemberDetailComponent implements OnInit
 				preview: false
 			}
 		];
+
+		Promise.resolve(null).then(() =>
+		{
+			this.activatedRoute.queryParams.subscribe
+			(
+				parameters =>
+				{
+					const tab = parameters['tab'];
+
+					switch (tab)
+					{
+						case 'about':
+							this.selectTab(0);
+							break;
+						case 'pictures':
+							this.selectTab(1);
+							break;
+						case 'messages':
+							this.selectTab(2);
+							break;
+					}
+				}
+			);
+		});
 	}
 
 	/**

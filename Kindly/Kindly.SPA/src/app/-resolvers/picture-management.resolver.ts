@@ -5,15 +5,16 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 // services
-import { UsersService } from '../-services/users/users.service';
+import { PicturesService } from '../-services/pictures/pictures.service';
 import { AlertifyService } from '../-services/alertify/alertify.service';
+import { PictureParameters, PictureMode } from '../-services/pictures/pictures.models';
 
 // models
-import { User } from '../-models/user';
+import { Picture } from '../-models/picture';
 import { PaginatedResult } from '../-models/paginated-result';
 
 @Injectable()
-export class MemberManagementResolver implements Resolve<PaginatedResult<User>>
+export class PictureManagementResolver implements Resolve<PaginatedResult<Picture>>
 {
 	/**
 	 * The page number.
@@ -29,10 +30,10 @@ export class MemberManagementResolver implements Resolve<PaginatedResult<User>>
 	 * Creates an instance of the member list resolver.
 	 *
 	 * @param router The router.
-	 * @param usersApi The users service.
+	 * @param picturesApi The pictures service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor(private router: Router, private picturesApi: PicturesService, private alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}
@@ -42,14 +43,19 @@ export class MemberManagementResolver implements Resolve<PaginatedResult<User>>
 	 *
 	 * @param route the route.
 	 */
-	public resolve(route: ActivatedRouteSnapshot): Observable<PaginatedResult<User>>
+	public resolve(route: ActivatedRouteSnapshot): Observable<PaginatedResult<Picture>>
 	{
-		return this.usersApi.getAllWithRoles(this.pageNumber, this.pageSize).pipe
+		const filterParameters: PictureParameters =
+		{
+			container: PictureMode.Unapproved
+		};
+
+		return this.picturesApi.getAllForAdministration(this.pageNumber, this.pageSize, filterParameters).pipe
 		(
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving the member list.');
+				this.alertify.error('Problem retrieving the pictures list.');
 				this.router.navigate(['/home']);
 
 				return of(null);

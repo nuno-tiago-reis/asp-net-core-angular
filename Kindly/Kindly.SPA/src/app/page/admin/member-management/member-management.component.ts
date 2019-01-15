@@ -1,6 +1,8 @@
 // components
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 
 // services
 import { UsersService } from 'src/app/-services/users/users.service';
@@ -10,6 +12,7 @@ import { AlertifyService } from 'src/app/-services/alertify/alertify.service';
 import { User } from 'src/app/-models/user';
 import { Pagination } from 'src/app/-models/pagination';
 import { PaginatedResult } from 'src/app/-models/paginated-result';
+import { UpdateRolesRequest } from 'src/app/-services/users/users.models';
 
 @Component
 ({
@@ -31,9 +34,9 @@ export class MemberManagementComponent implements OnInit
 	public pagination: Pagination;
 
 	/**
-	 * The JSON interface.
+	 * The modal reference.
 	 */
-	public JSON: JSON;
+	public modalRef: BsModalRef;
 
 	/**
 	 * Creates an instance of the member management component.
@@ -41,10 +44,17 @@ export class MemberManagementComponent implements OnInit
 	 * @param activatedRoute The activated route.
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
+	 * @param modalService The modal service.
 	 */
-	public constructor (private activatedRoute: ActivatedRoute, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor
+	(
+		private activatedRoute: ActivatedRoute,
+		private usersApi: UsersService,
+		private alertify: AlertifyService,
+		private modalService: BsModalService
+	)
 	{
-		this.JSON = JSON;
+		// Nothing to do here.
 	}
 
 	/**
@@ -95,7 +105,46 @@ export class MemberManagementComponent implements OnInit
 	 */
 	public showEditRolesModal(user: User): void
 	{
-		// Nothing to do here.
+		const initialState =
+		{
+			user: user,
+			roles: this.getUserRoleObjects(user),
+			closeButtonName: 'Close'
+		};
+
+		this.modalRef = this.modalService.show(RolesModalComponent, {initialState});
+		this.modalRef.content.updateSelectedRoles.subscribe
+		(
+			(roles) =>
+			{
+				const rolesToUpdate: UpdateRolesRequest =
+				{
+					roles: [...roles.filter(role => role.checked === true).map(role => role.name)]
+				};
+
+				if (rolesToUpdate)
+				{
+					this.usersApi.updateRoles(user.id, rolesToUpdate).subscribe
+					(
+						(body: void) =>
+						{
+							user.roles = [];
+
+							rolesToUpdate.roles.forEach(roleName =>
+							{
+								user.roles.push({ id: '', name: roleName })
+							});
+
+							this.alertify.success('Updated the users roles.');
+						},
+						(error: any) =>
+						{
+							this.alertify.error('Problem updating user roles.');
+						}
+					);
+				}
+			}
+		);
 	}
 
 	/**
@@ -116,5 +165,45 @@ export class MemberManagementComponent implements OnInit
 		);
 
 		return roles.slice(0, roles.length - 2);
+	}
+
+	/**
+	 * Returns a users roles in separate objects.
+	 *
+	 * @param user The user.
+	 */
+	public getUserRoleObjects(user: User): any
+	{
+		const roles = [];
+		const availableRoles: any[] =
+		[
+			{ name: 'Administrator', value: 'Administrator' },
+			{ name: 'Moderator', value: 'Moderator' },
+			{ name: 'Member', value: 'Member' }
+		];
+
+		for (let i = 0; i < availableRoles.length; i++)
+		{
+			let matches = false;
+
+			for (let j = 0; j < user.roles.length; j++)
+			{
+				if (availableRoles[i].name === user.roles[j].name)
+				{
+					matches = true;
+					availableRoles[i].checked = true;
+					roles.push(availableRoles[i]);
+					break;
+				}
+			}
+
+			if (!matches)
+			{
+				availableRoles[i].checked = false;
+				roles.push(availableRoles[i]);
+			}
+		}
+
+		return roles;
 	}
 }

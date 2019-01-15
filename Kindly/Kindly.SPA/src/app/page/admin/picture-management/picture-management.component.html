@@ -1,3 +1,21 @@
-<p>
-  picture-management works!
-</p>
+<div class="row">
+	<div class="col-sm-3" *ngFor="let picture of this.pictures">
+		<img src="{{picture.url}}" class="img-thumbnail p-1" alt="{{picture.userID}}">
+
+		<div class="text-center">
+			<button type="button" class="btn btn-sm btn-success w-45 mr-1" (click)="this.approvePicture(picture.id)">Approve</button>
+			<button type="button" class="btn btn-sm btn-danger w-45 ml-1" (click)="this.rejectPicture(picture.id)">Reject</button>
+		</div>
+	</div>
+</div>
+
+<div class="d-flex justify-content-center mt-5">
+	<pagination
+		[boundaryLinks]="true"
+		(pageChanged)="this.changePage($event)"
+		[(ngModel)]="this.pagination.pageNumber"
+		[totalItems]="this.pagination.totalCount"
+		[itemsPerPage]="this.pagination.pageSize"
+		previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+	</pagination>
+</div>

@@ -28,6 +28,11 @@ export interface UpdateRequest
 	interests: string;
 }
 
+export interface UpdateRolesRequest
+{
+	roles: string[]
+}
+
 export interface UserParameters
 {
 	gender: string;

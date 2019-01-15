@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 // models
 import { User } from '../../-models/user';
 import { PaginatedResult } from '../../-models/paginated-result';
-import { CreateRequest, UpdateRequest, UserParameters } from './users.models';
+import { CreateRequest, UpdateRequest, UpdateRolesRequest, UserParameters } from './users.models';
 
 // environment
 import { environment } from '../../../environments/environment';
@@ -149,6 +149,19 @@ export class UsersService
 				return paginatedResult;
 			}
 		));
+
+		return observable;
+	}
+
+	/**
+	 * Updates a users roles (the id is mandatory).
+	 *
+	 * @param id The id.
+	 * @param model The model.
+	 */
+	public updateRoles (id: string, model: UpdateRolesRequest)
+	{
+		const observable = this.http.put<void>(this.baseURL + id + '/roles/', model);
 
 		return observable;
 	}
