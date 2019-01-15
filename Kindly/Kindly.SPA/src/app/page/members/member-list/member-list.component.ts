@@ -77,7 +77,7 @@ export class MemberListComponent implements OnInit
 	/**
 	 * Invoked when the filtering parameters are reset.
 	 *
-	 * @param resetUsers Whether the users should be reset aswell.
+	 * @param resetUsers Whether the users should be reset as well.
 	 */
 	public resetFilter(resetUsers: boolean)
 	{

@@ -23,7 +23,7 @@
 				</select>
 			</div>
 			<button type="submit" class="btn btn-primary" style="margin-left:10px">Find</button>
-			<button type="button" class="btn btn-info" style="margin-left:10px" (click)="this.resetFilter()">Reset</button>
+			<button type="button" class="btn btn-info" style="margin-left:10px" (click)="this.resetFilter(true)">Reset</button>
 			<div class="col">
 				<div class="btn-group float-right">
 					<button type="button" name="orderBy" class="btn btn-primary" btnRadio="lastActiveAt" [(ngModel)]="this.filterParameters.orderBy" (click)="this.getUsers()">Last Active</button>

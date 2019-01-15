@@ -14,33 +14,15 @@
 
 	"profiles":
 	{
-		"Kindly.SPA [IIS]":
-		{
-			"commandName": "IISExpress",
-			"launchBrowser": true,
-			"applicationUrl": "https://localhost:44350",
-			"environmentVariables":
-			{
-				"ASPNETCORE_ENVIRONMENT": "Development"
-			}
-		},
-		"Kindly.SPA [Kestrel]":
-		{
-			"commandName": "Project",
-			"launchBrowser": false,
-			"applicationUrl": "https://localhost:44350",
-			"environmentVariables":
-			{
-				"ASPNETCORE_ENVIRONMENT": "Development"
-			}
-		},
-		"Kindly.SPA.Watch [Kestrel]":
+		"Kindly.SPA.Watch [NPM]":
 		{
 			"commandName": "Executable",
-			"commandLineArgs": "watch --project ..\\..\\..\\Kindly.SPA.csproj run",
-			"executablePath": "C:\\Program Files\\dotnet\\dotnet.exe",
+			"commandLineArgs": "start",
+			"executablePath": "C:\\Program Files\\NodeJS\\npm.cmd",
+			"workingDirectory": "..\\Kindly.SPA",
 			"launchBrowser": true,
-			"applicationUrl": "https://localhost:44350",
+			"applicationUrl": "http://localhost:62599",
+			//"applicationUrl": "https://localhost:44350",
 			"environmentVariables":
 			{
 				"ASPNETCORE_ENVIRONMENT": "Development"

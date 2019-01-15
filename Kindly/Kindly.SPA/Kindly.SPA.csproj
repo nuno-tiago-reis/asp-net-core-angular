@@ -3,9 +3,16 @@
   <PropertyGroup>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked> 
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <PostBuildEvent>ng build --aot</PostBuildEvent>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <Target Name="NgDebug" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+    <Exec WorkingDirectory="$(ProjectDir)" Command="ng build -ec --aot" />
+  </Target>
+
+  <Target Name="NgRelease" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <Exec WorkingDirectory="$(ProjectDir)" Command="ng build -ec --aot --prod" />
+  </Target>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />

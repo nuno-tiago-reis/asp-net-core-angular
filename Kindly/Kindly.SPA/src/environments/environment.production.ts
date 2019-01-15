@@ -2,5 +2,5 @@ export const environment =
 {
 	production: true,
 
-	apiUrl: 'https://vidly-app.azurewebsites.net/api/'
+	apiUrl: 'https://kindly-app.azurewebsites.net/api/'
 };
