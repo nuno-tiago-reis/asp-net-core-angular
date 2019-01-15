@@ -15,9 +15,9 @@ import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class KindlyHttpInterceptor implements HttpInterceptor
 {
@@ -65,10 +65,15 @@ export class KindlyHttpInterceptor implements HttpInterceptor
 
 						for (const key in serverError)
 						{
-							if (!serverError[key])
-								continue;
+							if (serverError.hasOwnProperty(key))
+							{
+								if (!serverError[key])
+								{
+									continue;
+								}
 
-							modelErrors += serverError[key] + '\n';
+								modelErrors += serverError[key] + '\n';
+							}
 						}
 
 						if (modelErrors !== '\n')
@@ -102,7 +107,7 @@ export class KindlyHttpInterceptor implements HttpInterceptor
 	}
 }
 
-export const ServiceInterceptorProvider =
+export const serviceInterceptorProvider =
 {
 	provide: HTTP_INTERCEPTORS,
 	useClass: KindlyHttpInterceptor,

@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { ProfileEditorComponent } from '../page/profile/profile-editor/profile-editor.component';
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class PreventUnsavedChangesGuard implements CanDeactivate<ProfileEditorComponent>
 {

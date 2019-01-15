@@ -45,7 +45,12 @@ export class PictureEditorComponent implements OnInit
 	 * @param picturesApi The pictures service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private authApi: AuthService, private picturesApi: PicturesService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly authApi: AuthService,
+		private readonly picturesApi: PicturesService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}
@@ -58,7 +63,7 @@ export class PictureEditorComponent implements OnInit
 		this.uploader = new FileUploader
 		({
 			url: environment.apiUrl + 'users/' + this.authApi.user.id + '/pictures',
-			authToken: 'Bearer ' + this.authApi.encodedToken,
+			authToken: `Bearer ${this.authApi.encodedToken}`,
 			isHTML5: true,
 			allowedFileType: ['image'],
 			removeAfterUpload: true,
@@ -132,7 +137,7 @@ export class PictureEditorComponent implements OnInit
 			(next) =>
 			{
 				// update the previous profile picture
-				const profilePictures = this.pictures.filter(p => p.isProfilePicture === true);
+				const profilePictures = this.pictures.filter(p => p.isProfilePicture);
 				for (let i = 0; i < profilePictures.length; i++)
 					profilePictures[i].isProfilePicture = false;
 
@@ -192,7 +197,7 @@ export class PictureEditorComponent implements OnInit
 	}
 
 	/**
-	 * Gets the deltee tooltip message.
+	 * Gets the delete tooltip message.
 	 *
 	 * @param picture The picture.
 	 */

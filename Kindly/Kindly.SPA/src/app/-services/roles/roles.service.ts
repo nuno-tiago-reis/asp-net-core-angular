@@ -13,9 +13,9 @@ import { CreateRequest, UpdateRequest, RoleParameters } from '../roles/roles.mod
 import { environment } from '../../../environments/environment';
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class RolesService
 {
@@ -60,7 +60,7 @@ export class RolesService
 	}
 
 	/**
-	 * Deletes a role (the role id ismandatory).
+	 * Deletes a role (the role id is mandatory).
 	 *
 	 * @param roleID The role ID.
 	 */
@@ -109,7 +109,7 @@ export class RolesService
 		(
 			(response) =>
 			{
-				const paginatedResult: PaginatedResult<Role> = new PaginatedResult<Role>();
+				const paginatedResult = new PaginatedResult<Role>();
 				paginatedResult.results = response.body;
 
 				const pagination = response.headers.get('Pagination');

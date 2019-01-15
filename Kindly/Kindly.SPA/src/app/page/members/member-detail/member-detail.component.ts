@@ -65,8 +65,11 @@ export class MemberDetailComponent implements OnInit
 	 */
 	public constructor
 	(
-		private activatedRoute: ActivatedRoute, private router: Router,
-		private authApi: AuthService, private likesApi: LikesService, private alertify: AlertifyService
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly router: Router,
+		private readonly authApi: AuthService,
+		private readonly likesApi: LikesService,
+		private readonly alertify: AlertifyService
 	)
 	{
 		// Nothing to do here.

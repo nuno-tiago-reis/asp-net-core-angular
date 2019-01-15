@@ -36,7 +36,7 @@
 
 /**
  * If the application will be indexed by Google Search, the following is required.
- * Googlebot uses a renderer based on Chrome 41.
+ * GoogleBot uses a renderer based on Chrome 41.
  * https://developers.google.com/search/docs/guides/rendering
  **/
 // import 'core-js/es6/array';

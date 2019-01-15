@@ -21,7 +21,7 @@ import { MemberManagementResolver } from './-resolvers/member-management.resolve
 import { PictureManagementResolver } from './-resolvers/picture-management.resolver';
 import { ProfileEditorResolver } from './-resolvers/profile-editor.resolver';
 
-export const AppRoutes: Routes =
+export const appRoutes: Routes =
 [
 	{ path: '', component: HomeComponent },
 	{

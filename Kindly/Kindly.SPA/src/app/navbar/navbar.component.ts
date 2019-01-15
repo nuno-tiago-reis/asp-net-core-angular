@@ -34,7 +34,7 @@ export class NavBarComponent implements OnInit
 	 * @param authApi The auth service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (public router: Router, public authApi: AuthService, private alertify: AlertifyService)
+	public constructor (public router: Router, public authApi: AuthService, private readonly alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}

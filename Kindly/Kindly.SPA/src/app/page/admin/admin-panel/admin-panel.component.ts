@@ -24,7 +24,11 @@ export class AdminPanelComponent implements OnInit
 	 * @param activatedRoute The activated route.
 	 * @param router The router.
 	 */
-	public constructor (private activatedRoute: ActivatedRoute, private router: Router)
+	public constructor
+	(
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly router: Router
+	)
 	{
 		// Nothing to do here.
 	}

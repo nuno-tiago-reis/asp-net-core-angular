@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 declare let alertify: any;
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class AlertifyService
 {
@@ -24,7 +24,7 @@ export class AlertifyService
 	 * @param title The pop-up title.
 	 * @param message The pop-up message.
 	 * @param onConfirm The confirmation callback.
-	 * @param onCancel The cancelation callback.
+	 * @param onCancel The cancellation callback.
 	 */
 	public confirm (title: string, message: string, onConfirm: () => any, onCancel: () => any): void
 	{
@@ -36,14 +36,14 @@ export class AlertifyService
 			message,
 
 			// Confirm callback
-			function(event: any)
+			(event: any) =>
 			{
 				if (event)
 					onConfirm();
 			},
 
 			// Cancel callback
-			function(event: any)
+			(event: any) =>
 			{
 				if (event)
 					onCancel();

@@ -43,7 +43,13 @@ export class MessagesResolver implements Resolve<PaginatedResult<Message>>
 	 * @param messagesApi The messages service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private authApi: AuthService, private messagesApi: MessagesService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly router: Router,
+		private readonly authApi: AuthService,
+		private readonly messagesApi: MessagesService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}

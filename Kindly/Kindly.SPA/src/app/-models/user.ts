@@ -27,7 +27,7 @@ export interface User
 
 export enum Gender
 {
-	male = 'male',
-	female = 'female',
-	undefined = 'undefined'
+	Male = 'male',
+	Female = 'female',
+	Undefined = 'undefined'
 }

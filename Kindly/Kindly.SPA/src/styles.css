@@ -1,3 +1,5 @@
+/* ReSharper disable Html.PathError */
+
 /* bootstrap */
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -49,7 +51,7 @@
 .member-tabset>.nav-tabs>li.open .dropdown-menu,
 .member-tabset>.nav-tabs>li:hover .dropdown-menu
 {
-	margin-top: 0px;
+	margin-top: 0;
 }
 
 .member-tabset>.nav-tabs>li.active
@@ -82,7 +84,7 @@
 {
 	width: auto;
 	max-width: none;
-    background: white;
+	background: white;
 }
 
 .tooltip-inner

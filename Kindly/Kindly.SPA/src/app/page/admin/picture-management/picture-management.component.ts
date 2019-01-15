@@ -40,9 +40,9 @@ export class PictureManagementComponent implements OnInit
 	 */
 	public constructor
 	(
-		private activatedRoute: ActivatedRoute,
-		private picturesApi: PicturesService,
-		private alertify: AlertifyService
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly picturesApi: PicturesService,
+		private readonly alertify: AlertifyService
 	)
 	{
 		// Nothing to do here.

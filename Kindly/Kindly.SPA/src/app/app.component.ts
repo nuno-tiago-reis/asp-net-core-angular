@@ -10,9 +10,9 @@ import { Component } from '@angular/core';
 export class AppComponent
 {
 	/**
-	 * Creates an instance of the app component.
+	 * Creates an instance of the auth guard.
 	 */
-	public constructor ()
+	public constructor()
 	{
 		// Nothing to do here.
 	}

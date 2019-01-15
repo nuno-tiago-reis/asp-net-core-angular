@@ -46,7 +46,13 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly router: Router,
+		private readonly authApi: AuthService,
+		private readonly usersApi: UsersService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}

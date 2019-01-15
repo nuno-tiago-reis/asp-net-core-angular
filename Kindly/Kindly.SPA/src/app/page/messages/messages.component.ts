@@ -40,17 +40,17 @@ export class MessagesComponent implements OnInit
 	/**
 	 * The container mode for inbound messages.
 	 */
-	public readonly ContainerModeInbox: ContainerMode = ContainerMode.Inbox;
+	public readonly containerModeInbox: ContainerMode = ContainerMode.Inbox;
 
 	/**
 	 * The container mode for unread messages.
 	 */
-	public readonly ContainerModeUnread: ContainerMode = ContainerMode.Unread;
+	public readonly containerModeUnread: ContainerMode = ContainerMode.Unread;
 
 	/**
 	 * The container mode for outbound messages.
 	 */
-	public readonly ContainerModeOutbox: ContainerMode = ContainerMode.Outbox;
+	public readonly containerModeOutbox: ContainerMode = ContainerMode.Outbox;
 
 	/**
 	 * Creates an instance of the messages component.
@@ -60,7 +60,13 @@ export class MessagesComponent implements OnInit
 	 * @param messagesApi The messages service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private route: ActivatedRoute, private authApi: AuthService, private messagesApi: MessagesService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly route: ActivatedRoute,
+		private readonly authApi: AuthService,
+		private readonly messagesApi: MessagesService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		this.filterParameters =
 		{

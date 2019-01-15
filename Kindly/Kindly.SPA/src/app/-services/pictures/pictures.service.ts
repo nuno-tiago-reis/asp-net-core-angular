@@ -13,9 +13,9 @@ import { CreateRequest, UpdateRequest, PictureParameters } from '../pictures/pic
 import { environment } from '../../../environments/environment';
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class PicturesService
 {
@@ -124,7 +124,7 @@ export class PicturesService
 		(
 			(response) =>
 			{
-				const paginatedResult: PaginatedResult<Picture> = new PaginatedResult<Picture>();
+				const paginatedResult = new PaginatedResult<Picture>();
 				paginatedResult.results = response.body;
 
 				const pagination = response.headers.get('Pagination');
@@ -190,7 +190,7 @@ export class PicturesService
 		(
 			(response) =>
 			{
-				const paginatedResult: PaginatedResult<Picture> = new PaginatedResult<Picture>();
+				const paginatedResult = new PaginatedResult<Picture>();
 				paginatedResult.results = response.body;
 
 				const pagination = response.headers.get('Pagination');

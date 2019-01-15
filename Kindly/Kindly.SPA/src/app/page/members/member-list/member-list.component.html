@@ -7,11 +7,11 @@
 	<div class="text-center mt-3">
 		<form class="form-inline text-center" #form="ngForm" (ngSubmit)="this.getUsers()" novalidate>
 			<div class="form-group">
-				<label for="minAge">Minimum Age </label>
+				<label for="minimumAge">Minimum Age </label>
 				<input type="number" class="form-control ml-1" style="width: 70px" id="minimumAge" name="minimumAge" [(ngModel)]="this.filterParameters.minimumAge">
 			</div>
 			<div class="form-group px-2">
-				<label for="maxAge">Maximum Age </label>
+				<label for="maximumAge">Maximum Age </label>
 				<input type="number" class="form-control ml-1" style="width: 70px" id="maximumAge" name="maximumAge" [(ngModel)]="this.filterParameters.maximumAge">
 			</div>
 			<div class="form-group px-2">

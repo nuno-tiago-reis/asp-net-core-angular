@@ -1,5 +1,5 @@
 // modules
-import { DEFAULT_PICTURE } from '../../app.constants';
+import { defaultPicture as DEFAULT_PICTURE } from '../../app.constants';
 
 // components
 import { Injectable } from '@angular/core';
@@ -16,9 +16,9 @@ import { CreateRequest, UpdateRequest, LikeParameters } from '../likes/likes.mod
 import { environment } from '../../../environments/environment';
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class LikesService
 {
@@ -153,7 +153,7 @@ export class LikesService
 		(
 			(response) =>
 			{
-				const paginatedResult: PaginatedResult<Like> = new PaginatedResult<Like>();
+				const paginatedResult = new PaginatedResult<Like>();
 				paginatedResult.results = response.body;
 
 				const pagination = response.headers.get('Pagination');

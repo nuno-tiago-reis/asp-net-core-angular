@@ -33,7 +33,12 @@ export class PictureManagementResolver implements Resolve<PaginatedResult<Pictur
 	 * @param picturesApi The pictures service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private picturesApi: PicturesService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly router: Router,
+		private readonly picturesApi: PicturesService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}

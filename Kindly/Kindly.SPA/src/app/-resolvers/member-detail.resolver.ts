@@ -21,7 +21,12 @@ export class MemberDetailResolver implements Resolve<User>
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor(private router: Router, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly router: Router,
+		private readonly usersApi: UsersService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}

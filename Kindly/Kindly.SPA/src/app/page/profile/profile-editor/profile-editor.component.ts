@@ -60,11 +60,11 @@ export class ProfileEditorComponent implements OnInit
 	 */
 	public constructor
 	(
-		private activatedRoute: ActivatedRoute,
-		private router: Router,
-		private authApi: AuthService,
-		private usersApi: UsersService,
-		private alertify: AlertifyService
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly router: Router,
+		private readonly authApi: AuthService,
+		private readonly usersApi: UsersService,
+		private readonly alertify: AlertifyService
 	)
 	{
 		// Nothing to do here.

@@ -1,5 +1,5 @@
 // modules
-import { DEFAULT_PICTURE } from '../../app.constants';
+import { defaultPicture as DEFAULT_PICTURE } from '../../app.constants';
 
 // components
 import { Injectable } from '@angular/core';
@@ -16,9 +16,9 @@ import { CreateRequest, UpdateRequest, UpdateRolesRequest, UserParameters } from
 import { environment } from '../../../environments/environment';
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class UsersService
 {
@@ -137,7 +137,7 @@ export class UsersService
 					}
 				);
 
-				const paginatedResult: PaginatedResult<User> = new PaginatedResult<User>();
+				const paginatedResult = new PaginatedResult<User>();
 				paginatedResult.results = response.body;
 
 				const pagination = response.headers.get('Pagination');
@@ -197,7 +197,7 @@ export class UsersService
 					}
 				);
 
-				const paginatedResult: PaginatedResult<User> = new PaginatedResult<User>();
+				const paginatedResult = new PaginatedResult<User>();
 				paginatedResult.results = response.body;
 
 				const pagination = response.headers.get('Pagination');

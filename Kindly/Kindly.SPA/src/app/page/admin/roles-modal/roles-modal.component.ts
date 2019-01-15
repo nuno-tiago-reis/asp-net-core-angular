@@ -3,7 +3,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 // models
-import { User } from 'src/app/-models/user';
+import { User } from '../../../-models/user';
 
 @Component
 ({

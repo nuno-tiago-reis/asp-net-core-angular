@@ -5,14 +5,14 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 
 // services
-import { UsersService } from 'src/app/-services/users/users.service';
-import { AlertifyService } from 'src/app/-services/alertify/alertify.service';
+import { UsersService } from '../../../-services/users/users.service';
+import { AlertifyService } from '../../../-services/alertify/alertify.service';
 
 // model
-import { User } from 'src/app/-models/user';
-import { Pagination } from 'src/app/-models/pagination';
-import { PaginatedResult } from 'src/app/-models/paginated-result';
-import { UpdateRolesRequest } from 'src/app/-services/users/users.models';
+import { User } from '../../../-models/user';
+import { Pagination } from '../../../-models/pagination';
+import { PaginatedResult } from '../../../-models/paginated-result';
+import { UpdateRolesRequest } from '../../../-services/users/users.models';
 
 @Component
 ({
@@ -48,10 +48,10 @@ export class MemberManagementComponent implements OnInit
 	 */
 	public constructor
 	(
-		private activatedRoute: ActivatedRoute,
-		private usersApi: UsersService,
-		private alertify: AlertifyService,
-		private modalService: BsModalService
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly usersApi: UsersService,
+		private readonly alertify: AlertifyService,
+		private readonly modalService: BsModalService
 	)
 	{
 		// Nothing to do here.
@@ -122,7 +122,7 @@ export class MemberManagementComponent implements OnInit
 					roles: [...roles.filter(role => role.checked === true).map(role => role.name)]
 				};
 
-				if (rolesToUpdate)
+				if (rolesToUpdate.roles.length > 0)
 				{
 					this.usersApi.updateRoles(user.id, rolesToUpdate).subscribe
 					(
@@ -132,7 +132,7 @@ export class MemberManagementComponent implements OnInit
 
 							rolesToUpdate.roles.forEach(roleName =>
 							{
-								user.roles.push({ id: '', name: roleName })
+								user.roles.push({ id: '', name: roleName });
 							});
 
 							this.alertify.success('Updated the users roles.');

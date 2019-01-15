@@ -13,7 +13,7 @@
 				<!-- member detail user -->
 				<div *ngIf="message.recipientID !== this.recipientID" class="row">
 					<div class="chat-img ml-3">
-						<img src="{{message.sender.profilePictureUrl}}" class="rounded-circle">
+						<img src="{{message.sender.profilePictureUrl}}" class="rounded-circle" alt="">
 					</div>
 					<div class="chat-body col-sm-9 ml-1">
 						<div class="row">
@@ -57,7 +57,7 @@
 						</div>
 					</div>
 					<div class="chat-img">
-						<img src="{{message.sender.profilePictureUrl}}" class="rounded-circle">
+						<img src="{{message.sender.profilePictureUrl}}" class="rounded-circle" alt="">
 					</div>
 				</div>
 			</li>

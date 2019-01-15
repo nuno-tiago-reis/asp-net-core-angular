@@ -19,11 +19,11 @@ export class FooterComponent implements OnInit
 	 * The current date.
 	 */
 	public date = new Date();
-
+	
 	/**
-	 * Creates an instance of the footer component.
+	 * Creates an instance of the auth guard.
 	 */
-	public constructor ()
+	public constructor()
 	{
 		// Nothing to do here.
 	}

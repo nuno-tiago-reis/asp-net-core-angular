@@ -42,9 +42,9 @@ export class MemberListComponent implements OnInit
 	 */
 	public readonly genderLabels =
 	[
-		{ value: Gender.male, display: 'Males' },
-		{ value: Gender.female, display: 'Females' },
-		{ value: Gender.undefined, display: 'Everything' }
+		{ value: Gender.Male, display: 'Males' },
+		{ value: Gender.Female, display: 'Females' },
+		{ value: Gender.Undefined, display: 'Everything' }
 	];
 
 	/**
@@ -55,7 +55,12 @@ export class MemberListComponent implements OnInit
 	 * @param usersApi The users service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private activatedRoute: ActivatedRoute, private authApi: AuthService, private usersApi: UsersService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly authApi: AuthService,
+		private readonly usersApi: UsersService,
+		private readonly alertify: AlertifyService)
 	{
 		// Nothing to do here.
 	}

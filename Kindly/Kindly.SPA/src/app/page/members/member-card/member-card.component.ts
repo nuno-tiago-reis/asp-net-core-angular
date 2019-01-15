@@ -35,7 +35,12 @@ export class MemberCardComponent implements OnInit
 	 * @param likesApi The likes service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private authApi: AuthService, private likesApi: LikesService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly authApi: AuthService,
+		private readonly likesApi: LikesService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}

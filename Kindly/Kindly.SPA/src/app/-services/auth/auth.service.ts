@@ -1,5 +1,5 @@
 // modules
-import { DEFAULT_PICTURE, DEFAULT_KNOWN_AS } from '../../app.constants';
+import { defaultPicture as DEFAULT_PICTURE, defaultKnownAs as DEFAULT_KNOWN_AS } from '../../app.constants';
 
 // components
 import { Injectable } from '@angular/core';
@@ -26,9 +26,9 @@ from './auth.models';
 import { environment } from '../../../environments/environment';
 
 @Injectable
-({
+(({
 	providedIn: 'root'
-})
+}) as any)
 
 export class AuthService
 {

@@ -1,13 +1,13 @@
 nav
 {
-	padding-bottom: 0px;
+	padding-bottom: 0;
 	max-height: 54px;
 	border-bottom: 4px solid black;
 }
 
 nav div.container
 {
-	padding: 0px;
+	padding: 0;
 	max-height: 50px;
 }
 

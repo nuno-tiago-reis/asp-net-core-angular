@@ -44,7 +44,12 @@ export class MemberMessagesComponent implements OnInit
 	 * @param alertify The alertify service.
 	 * @param timeAgo The time ago pipe.
 	 */
-	public constructor (private authApi: AuthService, private messagesApi: MessagesService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly authApi: AuthService,
+		private readonly messagesApi: MessagesService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		// Nothing to do here.
 	}
@@ -69,7 +74,7 @@ export class MemberMessagesComponent implements OnInit
 	public getMessages(): void
 	{
 		const user = this.authApi.user;
-		const date: Date = new Date();
+		const date = new Date();
 		const updateRequest: UpdateRequest =
 		{
 			isRead: true,

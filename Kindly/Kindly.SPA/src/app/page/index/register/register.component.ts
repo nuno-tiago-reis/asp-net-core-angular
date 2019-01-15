@@ -65,7 +65,13 @@ export class RegisterComponent implements OnInit
 	 * @param alertify The auth service.
 	 * @param formBuilder The form builder.
 	 */
-	public constructor (private router: Router, private authApi: AuthService, private alertify: AlertifyService, private formBuilder: FormBuilder)
+	public constructor
+	(
+		private readonly router: Router,
+		private readonly authApi: AuthService,
+		private readonly alertify: AlertifyService,
+		private readonly formBuilder: FormBuilder
+	)
 	{
 		// Nothing to do here.
 	}

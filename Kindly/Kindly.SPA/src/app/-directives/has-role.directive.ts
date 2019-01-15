@@ -29,7 +29,12 @@ export class HasRoleDirective implements OnInit
 	 * @param templateRef The template reference.
 	 * @param authApi The auth service.
 	 */
-	public constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<any>, private authApi: AuthService)
+	public constructor
+	(
+		private readonly viewContainerRef: ViewContainerRef,
+		private readonly templateRef: TemplateRef<any>,
+		private readonly authApi: AuthService
+	)
 	{
 		// nothing to do here.
 	}

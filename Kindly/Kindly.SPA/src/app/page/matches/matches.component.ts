@@ -41,12 +41,12 @@ export class MatchesComponent implements OnInit
 	/**
 	 * The like mode for the senders (uses that like me).
 	 */
-	public readonly LikeModeSenders: LikeMode = LikeMode.Senders;
+	public readonly likeModeSenders: LikeMode = LikeMode.Senders;
 
 	/**
 	 * The like mode for the recipients (users that i like).
 	 */
-	public readonly LikeModeRecipients: LikeMode = LikeMode.Recipients;
+	public readonly likeModeRecipients: LikeMode = LikeMode.Recipients;
 
 	/**
 	 * Creates an instance of the matches component.
@@ -56,7 +56,13 @@ export class MatchesComponent implements OnInit
 	 * @param likesApi The likes service.
 	 * @param alertify The alertify service.
 	 */
-	public constructor (private activatedRoute: ActivatedRoute, private authApi: AuthService, private likesApi: LikesService, private alertify: AlertifyService)
+	public constructor
+	(
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly authApi: AuthService,
+		private readonly likesApi: LikesService,
+		private readonly alertify: AlertifyService
+	)
 	{
 		this.filterParameters =
 		{

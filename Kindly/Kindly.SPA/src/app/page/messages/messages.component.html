@@ -33,11 +33,11 @@
 				<td>{{message.content}}</td>
 				<td>
 					<div *ngIf="this.filterParameters.container !== this.ContainerModeOutbox">
-						<img src={{message?.sender.profilePictureUrl}} class="img-circle rounded-circle mr-1">
+						<img src={{message?.sender.profilePictureUrl}} class="img-circle rounded-circle mr-1" alt="">
 						<strong>{{message.sender.knownAs}}</strong>
 					</div>
 					<div *ngIf="this.filterParameters.container === this.ContainerModeOutbox">
-						<img src={{message?.recipient.profilePictureUrl}} class="img-circle rounded-circle mr-1">
+						<img src={{message?.recipient.profilePictureUrl}} class="img-circle rounded-circle mr-1" alt="">
 						<strong>{{message.recipient.knownAs}}</strong>
 					</div>
 				</td>

@@ -38,7 +38,7 @@ import { LikesService } from './-services/likes/likes.service';
 import { MessagesService } from './-services/messages/messages.service';
 import { PicturesService } from './-services/pictures/pictures.service';
 import { AlertifyService } from './-services/alertify/alertify.service';
-import { ServiceInterceptorProvider } from './-services/http.interceptor';
+import { serviceInterceptorProvider as ServiceInterceptorProvider } from './-services/http.interceptor';
 
 // guards
 import { AuthGuard } from './-guards/auth.guard';
@@ -76,7 +76,7 @@ import { PictureManagementComponent } from './page/admin/picture-management/pict
 import { RolesModalComponent } from './page/admin/roles-modal/roles-modal.component';
 
 // routes
-import { AppRoutes } from './routes';
+import { appRoutes as AppRoutes } from './routes';
 
 // jwt token
 export function getJwtToken()
@@ -115,7 +115,7 @@ export function getAlertConfig(): TooltipConfig
 			{
 				whitelistedDomains:
 				[
-					'localhost:44351',
+					'localhost:44351'
 				],
 				blacklistedRoutes:
 				[
