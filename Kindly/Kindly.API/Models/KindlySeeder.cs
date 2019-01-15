@@ -145,7 +145,7 @@ namespace Kindly.API.Models
 						if (uploadResult.Error != null)
 							throw new ArgumentException("There was an error uploading the picture: " + uploadResult.Error.Message);
 
-						picture.Url = uploadResult.Uri.ToString();
+						picture.Url = uploadResult.SecureUri.ToString();
 						picture.PublicID = uploadResult.PublicId;
 						picture.IsApproved = true;
 
