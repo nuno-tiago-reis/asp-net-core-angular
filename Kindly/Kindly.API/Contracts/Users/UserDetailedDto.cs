@@ -15,6 +15,7 @@ namespace Kindly.API.Contracts.Users
 		/// <summary>
 		/// Gets or sets the introduction.
 		/// </summary>
+		[Required]
 		[DataType(DataType.Text)]
 		[JsonProperty(Order = 13)]
 		public string Introduction { get; set; }
@@ -22,6 +23,7 @@ namespace Kindly.API.Contracts.Users
 		/// <summary>
 		/// Gets or sets the interests.
 		/// </summary>
+		[Required]
 		[DataType(DataType.Text)]
 		[JsonProperty(Order = 14)]
 		public string Interests { get; set; }
@@ -29,6 +31,7 @@ namespace Kindly.API.Contracts.Users
 		/// <summary>
 		/// Gets or sets what the user is looking for.
 		/// </summary>
+		[Required]
 		[DataType(DataType.Text)]
 		[JsonProperty(Order = 15)]
 		public string LookingFor { get; set; }
@@ -36,18 +39,21 @@ namespace Kindly.API.Contracts.Users
 		/// <summary>
 		/// Gets or sets the pictures.
 		/// </summary>
+		[Required]
 		[JsonProperty(Order = 16)]
 		public ICollection<PictureDto> Pictures { get; set; }
 
 		/// <summary>
 		/// Gets or sets the like senders.
 		/// </summary>
+		[Required]
 		[JsonProperty(Order = 17)]
 		public ICollection<LikeDto> LikeSenders { get; set; }
 
 		/// <summary>
 		/// Gets or sets the like recipients.
 		/// </summary>
+		[Required]
 		[JsonProperty(Order = 18)]
 		public ICollection<LikeDto> LikeRecipients { get; set; }
 	}

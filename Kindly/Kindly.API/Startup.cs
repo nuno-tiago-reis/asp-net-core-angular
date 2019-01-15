@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 
+using JetBrains.Annotations;
+
 using Kindly.API.Controllers;
 using Kindly.API.Controllers.Auth;
 using Kindly.API.Controllers.Likes;
@@ -56,6 +58,7 @@ namespace Kindly.API
 		/// </summary>
 		/// 
 		/// <param name="services">The services.</param>
+		[UsedImplicitly]
 		public void ConfigureServices(IServiceCollection services)
 		{
 			// Cors
@@ -164,6 +167,7 @@ namespace Kindly.API
 		/// <param name="applicationBuilder">The application builder.</param>
 		/// <param name="environment">The environment.</param>
 		/// <param name="seeder">The seeder.</param>
+		[UsedImplicitly]
 		public void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment environment, KindlySeeder seeder)
 		{
 			if (environment.IsDevelopment())

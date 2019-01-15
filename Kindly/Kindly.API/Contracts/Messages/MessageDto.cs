@@ -60,11 +60,13 @@ namespace Kindly.API.Contracts.Messages
 		/// <summary>
 		/// Gets or sets a value indicating whether this message is read.
 		/// </summary>
+		[Required]
 		public bool? IsRead { get; set; }
 
 		/// <summary>
 		/// Gets or sets the date at which the message was read.
 		/// </summary>
+		[Required]
 		public DateTime? ReadAt { get; set; }
 
 		/// <summary>

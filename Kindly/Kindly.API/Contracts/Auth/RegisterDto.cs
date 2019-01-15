@@ -2,9 +2,11 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Auth
 {
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class RegisterDto
 	{
 		/// <summary>

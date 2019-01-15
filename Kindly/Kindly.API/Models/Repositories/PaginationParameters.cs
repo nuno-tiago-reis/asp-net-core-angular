@@ -53,6 +53,7 @@ namespace Kindly.API.Models.Repositories
 		public string OrderBy { get; set; }
 		#endregion
 
+		#region [Constructors]
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PaginationParameters"/> class.
 		/// </summary>
@@ -61,5 +62,6 @@ namespace Kindly.API.Models.Repositories
 			this.PageNumber = 1;
 			this.PageSize = 10;
 		}
+		#endregion
 	}
 }

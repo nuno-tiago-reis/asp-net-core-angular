@@ -2,6 +2,7 @@
 {
 	public sealed class PaginationHeader
 	{
+		#region [Properties]
 		/// <summary>
 		/// Gets or sets the page number.
 		/// </summary>
@@ -21,7 +22,9 @@
 		/// Gets or sets the total count.
 		/// </summary>
 		public int TotalCount { get; set; }
+		#endregion
 
+		#region [Constructors]
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PaginationHeader"/> class.
 		/// </summary>
@@ -37,5 +40,6 @@
 			this.TotalPages = totalPages;
 			this.TotalCount = totalCount;
 		}
+		#endregion
 	}
 }

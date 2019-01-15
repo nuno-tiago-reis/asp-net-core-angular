@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Roles
 {
@@ -8,6 +9,7 @@ namespace Kindly.API.Contracts.Roles
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
+		[Required]
 		public string Name { get; set; }
 	}
 }

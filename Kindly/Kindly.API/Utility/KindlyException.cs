@@ -8,6 +8,7 @@ namespace Kindly.API.Utility
 {
 	public sealed class KindlyException : Exception
 	{
+		#region [Properties]
 		/// <value>
 		/// The messages.
 		/// </value>
@@ -17,7 +18,9 @@ namespace Kindly.API.Utility
 		/// Whether the exception is due to a missing resource.
 		/// </summary>
 		public bool MissingResource { get; set; }
+		#endregion
 
+		#region [Constructors]
 		/// <summary>
 		/// Initializes a new instance of the <see cref="KindlyException"/> class.
 		/// </summary>
@@ -41,5 +44,6 @@ namespace Kindly.API.Utility
 			this.MissingResource = missingResource;
 			this.Messages = errors.Select(error => error.Description).ToArray();
 		}
+		#endregion
 	}
 }

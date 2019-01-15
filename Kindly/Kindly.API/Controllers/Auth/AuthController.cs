@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -293,10 +294,7 @@ namespace Kindly.API.Controllers
 				new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
 			};
 
-			foreach (string role in roles)
-			{
-				claims.Add(new Claim(ClaimTypes.Role, role));
-			}
+			claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenDescriptor = new SecurityTokenDescriptor

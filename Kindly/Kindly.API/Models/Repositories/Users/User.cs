@@ -19,21 +19,6 @@ namespace Kindly.API.Models.Repositories.Users
 		/// The user does not exist message.
 		/// </summary>
 		public const string DoesNotExist = "The user does not exist.";
-
-		/// <summary>
-		/// The password is incorrect message.
-		/// </summary>
-		public const string PasswordIsIncorrect = "The password is incorrect.";
-
-		/// <summary>
-		/// The user already has a password. 
-		/// </summary>
-		public const string PasswordAlreadyExists = "The user already has a password.";
-
-		/// <summary>
-		/// The user or password is incorrect message.
-		/// </summary>
-		public const string UserOrPasswordAreIncorrect = "The user or the password is incorrect.";
 		#endregion
 
 		#region [Properties]

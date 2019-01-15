@@ -8,6 +8,7 @@ namespace Kindly.API.Utility.Collections
 {
 	public sealed class PagedList<T> : List<T> where T : class
 	{
+		#region [Properties]
 		/// <summary>
 		/// Gets or sets the page number.
 		/// </summary>
@@ -27,7 +28,9 @@ namespace Kindly.API.Utility.Collections
 		/// Gets or sets the total totalCount.
 		/// </summary>
 		public int TotalCount { get; set; }
+		#endregion
 
+		#region [Constructors]
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PagedList{T}"/> class.
 		/// </summary>
@@ -60,5 +63,6 @@ namespace Kindly.API.Utility.Collections
 
 			return new PagedList<T>(items, count, pageNumber, pageSize);
 		}
+		#endregion
 	}
 }

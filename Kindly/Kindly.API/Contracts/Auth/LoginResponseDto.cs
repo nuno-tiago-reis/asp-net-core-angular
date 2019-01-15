@@ -1,5 +1,7 @@
 ﻿using Kindly.API.Contracts.Users;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Kindly.API.Contracts.Auth
 {
 	public sealed class LoginResponseDto
@@ -7,17 +9,13 @@ namespace Kindly.API.Contracts.Auth
 		/// <summary>
 		/// Gets or sets the user.
 		/// </summary>
-		/// <value>
-		/// The user.
-		/// </value>
+		[Required]
 		public UserDto User { get; set; }
 
 		/// <summary>
 		/// Gets or sets the token.
 		/// </summary>
-		/// <value>
-		/// The token.
-		/// </value>
+		[Required]
 		public string Token { get; set; }
 
 		/// <summary>
@@ -30,14 +28,6 @@ namespace Kindly.API.Contracts.Auth
 		{
 			this.User = user;
 			this.Token = token;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="LoginResponseDto"/> class.
-		/// </summary>
-		public LoginResponseDto()
-		{
-			// Nothing to do here.
 		}
 	}
 }

@@ -101,6 +101,7 @@ namespace Kindly.API.Contracts.Users
 		/// <summary>
 		/// Gets or sets the picture url.
 		/// </summary>
+		[Required]
 		[DataType(DataType.ImageUrl)]
 		[JsonProperty(Order = 12)]
 		public string ProfilePictureUrl { get; set; }

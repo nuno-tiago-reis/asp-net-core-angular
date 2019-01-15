@@ -58,6 +58,7 @@ namespace Kindly.API.Models.Repositories.Users
 		}
 		#endregion
 
+		#region [Constructors]
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UserParameters" /> class.
 		/// </summary>
@@ -66,5 +67,6 @@ namespace Kindly.API.Models.Repositories.Users
 			this.MinimumAge = MinimumAllowedAge;
 			this.MaximumAge = MaximumAllowedAge;
 		}
+		#endregion
 	}
 }

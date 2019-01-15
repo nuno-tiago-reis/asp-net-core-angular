@@ -3,6 +3,7 @@
 using Newtonsoft.Json;
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Users
@@ -13,6 +14,7 @@ namespace Kindly.API.Contracts.Users
 		/// <summary>
 		/// Gets or sets the roles
 		/// </summary>
+		[Required]
 		[JsonProperty(Order = 13)]
 		public ICollection<RoleDto> Roles { get; set; }
 	}
