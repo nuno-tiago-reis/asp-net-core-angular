@@ -1,13 +1,13 @@
 <div class="container mt-5">
 	<div class="row">
 		<div class="btn-group">
-			<button class="btn btn-primary" [(ngModel)]="this.filterParameters.container" btnRadio="{{this.ContainerModeUnread}}" (click)="this.getMessages()">
+			<button class="btn btn-primary" [(ngModel)]="this.filterParameters.container" btnRadio="{{this.containerModeUnread}}" (click)="this.getMessages()">
 				<i class="fa fa-envelope"></i> Unread
 			</button>
-			<button class="btn btn-primary" [(ngModel)]="this.filterParameters.container" btnRadio="{{this.ContainerModeInbox}}" (click)="this.getMessages()">
+			<button class="btn btn-primary" [(ngModel)]="this.filterParameters.container" btnRadio="{{this.containerModeInbox}}" (click)="this.getMessages()">
 				<i class="fa fa-envelope-open"></i> Inbox
 			</button>
-			<button class="btn btn-primary" [(ngModel)]="this.filterParameters.container" btnRadio="{{this.ContainerModeOutbox}}" (click)="this.getMessages()">
+			<button class="btn btn-primary" [(ngModel)]="this.filterParameters.container" btnRadio="{{this.containerModeOutbox}}" (click)="this.getMessages()">
 				<i class="fa fa-paper-plane"></i> Outbox
 			</button>
 		</div>
