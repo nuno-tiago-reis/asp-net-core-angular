@@ -34,6 +34,8 @@ using Newtonsoft.Json.Converters;
 
 using System.Text;
 
+using Swashbuckle.AspNetCore.Swagger;
+
 namespace Kindly.API
 {
 	public sealed class Startup
@@ -158,6 +160,12 @@ namespace Kindly.API
 					)
 				};
 			});
+
+			// Swagger
+			services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("v1", new Info { Title = "Kindly API", Version = "v1" });
+			});
 		}
 
 		/// <summary>
@@ -187,11 +195,24 @@ namespace Kindly.API
 				applicationBuilder.UseHsts();
 			}
 
+			// Enable middleware to serve generated Swagger as a JSON endpoint.
+			applicationBuilder.UseSwagger();
+
+			// Enable middleware to serve Swagger UI specifying the Swagger JSON endpoint.
+			applicationBuilder.UseSwaggerUI(options =>
+			{
+				options.SwaggerEndpoint("/swagger/v1/swagger.json", "Kindly API V1");
+				//options.RoutePrefix = string.Empty;
+			});
+
+			// Enable CORS
 			applicationBuilder.UseCors(action =>
 			{
 				action.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 			});
+			// Enable Authentication
 			applicationBuilder.UseAuthentication();
+			// Enable MVC
 			applicationBuilder.UseMvc();
 		}
 	}
