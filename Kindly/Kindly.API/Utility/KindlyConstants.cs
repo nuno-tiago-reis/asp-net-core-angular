@@ -15,12 +15,12 @@
 		/// <summary>
 		/// The app settings encryption key section.
 		/// </summary>
-		public const string AppSettingsEncryptionKey = "AppSettings:EncryptionKey";
+		public const string AppSettingsEncryptionKey = "EncryptionKey";
 
 		/// <summary>
 		/// The app settings cloudinary section.
 		/// </summary>
-		public const string AppSettingsCloudinary = "AppSettings:Cloudinary";
+		public const string AppSettingsCloudinary = "Cloudinary";
 
 		/// <summary>
 		/// The default connection section.
