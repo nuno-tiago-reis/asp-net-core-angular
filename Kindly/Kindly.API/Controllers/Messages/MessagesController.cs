@@ -16,6 +16,12 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Messages
 {
+	/// <summary>
+	/// Provides manipulation operations over the message resources (including CRUD).
+	/// Certain operations may only be invoked by the resource owner(s).
+	/// </summary>
+	/// 
+	/// <seealso cref="KindlyController" />
 	[Authorize]
 	[ApiController]
 	[ServiceFilter(typeof(KindlyActivityFilter))]

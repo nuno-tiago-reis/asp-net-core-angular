@@ -15,6 +15,12 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Users
 {
+	/// <summary>
+	/// Provides manipulation operations over the user resources (including CRUD).
+	/// Certain operations may only be invoked by the resource owner(s).
+	/// </summary>
+	/// 
+	/// <seealso cref="KindlyController" />
 	[Authorize]
 	[ApiController]
 	[ServiceFilter(typeof(KindlyActivityFilter))]

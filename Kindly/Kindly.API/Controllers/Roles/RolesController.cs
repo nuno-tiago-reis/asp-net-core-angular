@@ -15,6 +15,12 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Roles
 {
+	/// <summary>
+	/// Provides manipulation operations over the role resources (including CRUD).
+	/// These operations can only be invoked by administrators.
+	/// </summary>
+	/// 
+	/// <seealso cref="KindlyController" />
 	[Authorize(Roles = nameof(KindlyRoles.Administrator))]
 	[ApiController]
 	[ServiceFilter(typeof(KindlyActivityFilter))]

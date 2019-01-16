@@ -23,6 +23,12 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers
 {
+	/// <summary>
+	/// Provides operations related to authorization like login and registration.
+	/// Certain operations may only be invoked by the resource owner(s).
+	/// </summary>
+	/// 
+	/// <seealso cref="KindlyController" />
 	[ApiController]
 	[AllowAnonymous]
 	[ServiceFilter(typeof(KindlyActivityFilter))]

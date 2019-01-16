@@ -32,9 +32,10 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-using System.Text;
-
 using Swashbuckle.AspNetCore.Swagger;
+
+using System.IO;
+using System.Text;
 
 namespace Kindly.API
 {
@@ -165,6 +166,11 @@ namespace Kindly.API
 			services.AddSwaggerGen(options =>
 			{
 				options.SwaggerDoc("v1", new Info { Title = "Kindly API", Version = "v1" });
+
+				options.IncludeXmlComments
+				(
+					Path.Combine(System.AppContext.BaseDirectory, "Kindly.API.xml")
+				);
 			});
 		}
 
@@ -197,7 +203,6 @@ namespace Kindly.API
 
 			// Enable middleware to serve generated Swagger as a JSON endpoint.
 			applicationBuilder.UseSwagger();
-
 			// Enable middleware to serve Swagger UI specifying the Swagger JSON endpoint.
 			applicationBuilder.UseSwaggerUI(options =>
 			{
