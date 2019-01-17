@@ -77,6 +77,7 @@ import { RolesModalComponent } from './page/admin/roles-modal/roles-modal.compon
 
 // routes
 import { appRoutes as AppRoutes } from './routes';
+import { environment } from 'src/environments/environment.production';
 
 // jwt token
 export function getJwtToken()
@@ -113,14 +114,8 @@ export function getAlertConfig(): TooltipConfig
 		({
 			config:
 			{
-				whitelistedDomains:
-				[
-					'localhost:44351'
-				],
-				blacklistedRoutes:
-				[
-					'localhost:44351/api/auth'
-				],
+				whitelistedDomains: environment.whitelistedDomains,
+				blacklistedRoutes: environment.blacklistedRoutes,
 				tokenGetter: getJwtToken
 			}
 		}),

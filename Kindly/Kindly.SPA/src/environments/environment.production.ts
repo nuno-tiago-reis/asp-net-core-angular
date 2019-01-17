@@ -2,5 +2,15 @@ export const environment =
 {
 	production: true,
 
-	apiUrl: 'https://kindly-app.azurewebsites.net/api/'
+	whitelistedDomains:
+	[
+		'kindly-api-app.azurewebsites.net'
+	],
+
+	blacklistedRoutes:
+	[
+		'kindly-api-app.azurewebsites.net/api/auth'
+	],
+
+	apiUrl: 'https://kindly-api-app.azurewebsites.net/api/'
 };
