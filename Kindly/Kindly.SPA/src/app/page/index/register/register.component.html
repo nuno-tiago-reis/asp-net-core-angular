@@ -39,6 +39,31 @@
 
 	<div class="form-group">
 		<input
+			[ngClass]="{ 'is-invalid' : this.registerForm.get('password').errors && this.registerForm.get('password').touched }"
+			type="password"
+			class="form-control is-invalid"
+			name="password"
+			placeholder="Password"
+			formControlName="password">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('password').hasError('required')">The password field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('password').hasError('minlength')">The password field must have at least 10 characters</div>
+	</div>
+
+	<div class="form-group">
+		<input
+			[ngClass]="{ 'is-invalid' : (this.registerForm.get('confirmPassword').errors || this.registerForm.hasError('mismatch')) && this.registerForm.get('confirmPassword').touched }"
+			type="password"
+			class="form-control is-invalid"
+			name="confirmPassword"
+			placeholder="Confirm Password"
+			formControlName="confirmPassword">
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('confirmPassword').hasError('required')">The confirmed password field is required</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.get('confirmPassword').hasError('minlength')">The confirmed password field must have at least 10 characters</div>
+		<div class="invalid-feedback" *ngIf="this.registerForm.hasError('mismatch')">The password fields must match</div>
+	</div>
+
+	<div class="form-group">
+		<input
 			[ngClass]="{ 'is-invalid' : this.registerForm.get('phoneNumber').errors && this.registerForm.get('phoneNumber').touched }"
 			type="tel"
 			class="form-control is-invalid"
@@ -99,31 +124,6 @@
 			formControlName="country">
 		<div class="invalid-feedback" *ngIf="this.registerForm.get('country').hasError('required')">The country field is required</div>
 		<div class="invalid-feedback" *ngIf="this.registerForm.get('country').hasError('maxlength')">The country field cannot have more than 50 characters</div>
-	</div>
-
-	<div class="form-group">
-		<input
-			[ngClass]="{ 'is-invalid' : this.registerForm.get('password').errors && this.registerForm.get('password').touched }"
-			type="password"
-			class="form-control is-invalid"
-			name="password"
-			placeholder="Password"
-			formControlName="password">
-		<div class="invalid-feedback" *ngIf="this.registerForm.get('password').hasError('required')">The password field is required</div>
-		<div class="invalid-feedback" *ngIf="this.registerForm.get('password').hasError('minlength')">The password field must have at least 10 characters</div>
-	</div>
-
-	<div class="form-group">
-		<input
-			[ngClass]="{ 'is-invalid' : (this.registerForm.get('confirmPassword').errors || this.registerForm.hasError('mismatch')) && this.registerForm.get('confirmPassword').touched }"
-			type="password"
-			class="form-control is-invalid"
-			name="confirmPassword"
-			placeholder="Confirm Password"
-			formControlName="confirmPassword">
-		<div class="invalid-feedback" *ngIf="this.registerForm.get('confirmPassword').hasError('required')">The confirmed password field is required</div>
-		<div class="invalid-feedback" *ngIf="this.registerForm.get('confirmPassword').hasError('minlength')">The confirmed password field must have at least 10 characters</div>
-		<div class="invalid-feedback" *ngIf="this.registerForm.hasError('mismatch')">The password fields must match</div>
 	</div>
 
 	<div class="form-group text-center">
