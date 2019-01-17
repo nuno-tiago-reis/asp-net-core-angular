@@ -7,8 +7,8 @@
 		"anonymousAuthentication": true,
 		"iisExpress":
 		{
-			"applicationUrl": "http://localhost:62599",
-			"sslPort": 44350
+			"applicationUrl": "https://localhost:62599",
+			"sslPort": 62599
 		}
 	},
 
@@ -21,8 +21,7 @@
 			"executablePath": "C:\\Program Files\\NodeJS\\npm.cmd",
 			"workingDirectory": "..\\Kindly.SPA",
 			"launchBrowser": true,
-			"applicationUrl": "http://localhost:62599",
-			//"applicationUrl": "https://localhost:44350",
+			"applicationUrl": "https://localhost:62599",
 			"environmentVariables":
 			{
 				"ASPNETCORE_ENVIRONMENT": "Development"

@@ -77,7 +77,7 @@ import { RolesModalComponent } from './page/admin/roles-modal/roles-modal.compon
 
 // routes
 import { appRoutes as AppRoutes } from './routes';
-import { environment } from 'src/environments/environment.production';
+import { environment } from '../environments/environment';
 
 // jwt token
 export function getJwtToken()

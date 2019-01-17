@@ -4,12 +4,14 @@ export const environment =
 
 	whitelistedDomains:
 	[
-		'localhost:44351'
+		'localhost:44351',
+		'kindly.com:44351'
 	],
 
 	blacklistedRoutes:
 	[
-		'localhost:44351/api/auth'
+		'localhost:44351/api/auth',
+		'kindly.com:44351/api/auth'
 	],
 
 	apiUrl: 'https://localhost:44351/api/'
