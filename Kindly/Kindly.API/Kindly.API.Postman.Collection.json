@@ -905,7 +905,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes?includeRequestUser=false&mode=recipients",
+							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes?includeRequestUser=false&mode=senders",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -924,7 +924,7 @@
 								},
 								{
 									"key": "mode",
-									"value": "recipients"
+									"value": "senders"
 								}
 							]
 						}
@@ -964,6 +964,11 @@
 								{
 									"key": "Description",
 									"value": "My fifth picture.",
+									"type": "text"
+								},
+								{
+									"key": "IsProfilePicture",
+									"value": "true",
 									"type": "text"
 								}
 							]
@@ -1123,6 +1128,122 @@
 									"key": "Authorization",
 									"value": "",
 									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/pictures/{{kindly-picture-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"pictures",
+								"{{kindly-picture-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/pictures/{{kindly-picture-guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"pictures",
+								"{{kindly-picture-guid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUnapproved",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{kindly-token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44351/api/users/pictures/?pageNumber=1&pageSize=18&container=unapproved",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44351",
+							"path": [
+								"api",
+								"users",
+								"pictures",
+								""
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "18"
+								},
+								{
+									"key": "container",
+									"value": "unapproved"
 								}
 							]
 						}
