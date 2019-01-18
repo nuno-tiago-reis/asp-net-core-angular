@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "71736407-d55a-48bf-a543-8fb76f9facab",
+		"_postman_id": "15a3aaba-f04e-484e-b3e7-a9acf012a0b3",
 		"name": "Kindly",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -25,12 +25,12 @@
 							"raw": "{\n    \"knownAs\": \"Tony Stark\",\n    \"userName\": \"tony-stark\",\n    \"phoneNumber\": \"+351912345678\",\n    \"email\": \"nuno-tiago-reis-x@outlook.pt\",\n    \"gender\": \"male\",\n    \"birthDate\": \"1970-05-29\",\n    \"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark:”Genius, billionaire, playboy, philanthropist.”\",\n    \"lookingFor\": \"The end game.\",\n    \"interests\": \"Pepper Potts.\",\n    \"city\": \"New York\",\n    \"country\": \"United States of America\",\n    \"password\": \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/auth/register",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/auth/register",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"auth",
@@ -62,12 +62,12 @@
 							"raw": "{\n\t\"id\" : \"{{kindly-user-guid}}\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/auth/password",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/auth/password",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"auth",
@@ -99,12 +99,12 @@
 							"raw": "{\n\t\"id\" : \"{{kindly-user-guid}}\",\n\t\"oldPassword\" : \"kindly#2018\",\n\t\"newPassword\" : \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/auth/password",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/auth/password",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"auth",
@@ -131,12 +131,12 @@
 							"raw": "{\n\t\"id\" : \"{{kindly-user-guid}}\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/auth/login/id",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/auth/login/id",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"auth",
@@ -164,12 +164,12 @@
 							"raw": "{\n\t\"userName\" : \"tony-stark\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/auth/login/user-name",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/auth/login/user-name",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"auth",
@@ -197,12 +197,12 @@
 							"raw": "{\n\t\"email\" : \"nuno-tiago-reis-x@outlook.pt\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/auth/login/email-address",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/auth/login/email-address",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"auth",
@@ -230,12 +230,12 @@
 							"raw": "{\n\t\"userName\" : \"administrator\",\n\t\"password\" : \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/auth/login/user-name",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/auth/login/user-name",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"auth",
@@ -273,12 +273,12 @@
 							"raw": "{\n    \"knownAs\": \"Tony Stark\",\n    \"userName\": \"tony-stark\",\n    \"phoneNumber\": \"+351912345678\",\n    \"email\": \"nuno-tiago-reis-x@outlook.pt\",\n    \"gender\": \"male\",\n    \"birthDate\": \"1970-05-29\",\n    \"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark:”Genius, billionaire, playboy, philanthropist.”\",\n    \"lookingFor\": \"The end game.\",\n    \"interests\": \"Pepper Potts.\",\n    \"city\": \"New York\",\n    \"country\": \"United States of America\",\n    \"password\": \"kindly#2018\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users"
@@ -309,12 +309,12 @@
 							"raw": "{\n\t\"knownAs\": \"Tony Stark\",\n\t\"username\": \"tony-stark\",\n\t\"emailAddress\" : \"nuno-tiago-reis-x@outlook.pt\",\n\t\"phoneNumber\" : \"+351934323293\",\n\t\"gender\": \"male\",\n\t\"birthDate\": \"1970-05-29\",\n\t\"introduction\": \"Steve Rogers: “Big man in a suit of armor. Take that off, what are you?”\\nTony Stark: ”Genius, billionaire, playboy, philanthropist.”\",\n\t\"lookingFor\": \"The end game.\",\n\t\"interests\": \"Pepper Potts.\",\n\t\"city\": \"New York\",\n\t\"country\": \"United States of America\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -340,12 +340,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -371,12 +371,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -402,12 +402,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users?pageNumber=1&pageSize=15",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users?pageNumber=1&pageSize=15",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users"
@@ -453,12 +453,12 @@
 							"raw": "{\n\t\"name\": \"Very Important Person\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/roles",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/roles",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"roles"
@@ -489,12 +489,12 @@
 							"raw": "{\n\t\"name\": \"Very Important Person 2\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/roles/{{kindly-role-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/roles/{{kindly-role-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"roles",
@@ -520,12 +520,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/roles/{{kindly-role-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/roles/{{kindly-role-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"roles",
@@ -551,12 +551,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/roles/{{kindly-role-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/roles/{{kindly-role-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"roles",
@@ -582,12 +582,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/roles?pageNumber=1&pageSize=10",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/roles?pageNumber=1&pageSize=10",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"roles"
@@ -628,12 +628,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/roles/{{kindly-role-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/roles/{{kindly-role-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -661,12 +661,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/roles",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/roles",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -693,12 +693,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/roles",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/roles",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -724,12 +724,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/roles/{{kindly-role-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/roles/{{kindly-role-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -768,12 +768,12 @@
 							"raw": "{\n\t\"recipientID\": \"{{kindly-recipient-guid}}\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/likes",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -806,12 +806,12 @@
 							"raw": "{\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -839,12 +839,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -872,12 +872,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/likes/{{kindly-like-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -905,12 +905,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/likes?includeRequestUser=false&mode=senders",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/likes?includeRequestUser=false&mode=senders",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -974,12 +974,12 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/pictures",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1012,12 +1012,12 @@
 							"raw": "{\n    \"isProfilePicture\": true\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1045,12 +1045,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1078,12 +1078,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1111,12 +1111,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/pictures",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/pictures?",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1156,12 +1156,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/pictures/{{kindly-picture-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1188,12 +1188,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/pictures/{{kindly-picture-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/pictures/{{kindly-picture-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1220,12 +1220,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/pictures/?pageNumber=1&pageSize=18&container=unapproved",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/pictures/?pageNumber=1&pageSize=18&container=unapproved",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1277,12 +1277,12 @@
 							"raw": "{\n\t\"content\": \"Hello again! How are you doing?\",\n\t\"recipientID\": \"{{kindly-recipient-guid}}\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/messages",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1315,12 +1315,12 @@
 							"raw": "{\n    \"senderDeleted\": false,\n    \"recipientDeleted\": false,\n    \"isRead\": true,\n    \"readAt\": \"2019-01-03T15:37:00\"\n}"
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1348,12 +1348,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1381,12 +1381,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/messages/{{kindly-message-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1414,12 +1414,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages?container=outbox",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/messages?container=outbox",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
@@ -1452,12 +1452,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:44351/api/users/{{kindly-user-guid}}/messages/thread/{{kindly-recipient-guid}}",
+							"raw": "https://{{kindly-host}}:{{kindly-port}}/api/users/{{kindly-user-guid}}/messages/thread/{{kindly-recipient-guid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{kindly-host}}"
 							],
-							"port": "44351",
+							"port": "{{kindly-port}}",
 							"path": [
 								"api",
 								"users",
