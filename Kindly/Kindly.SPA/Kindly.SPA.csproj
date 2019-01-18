@@ -11,7 +11,7 @@
   </Target>
 
   <Target Name="NgRelease" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
-    <Exec WorkingDirectory="$(ProjectDir)" Command="ng build -ec --aot --prod" />
+    <Exec WorkingDirectory="$(ProjectDir)" Command="ng build -ec --aot --prod --build-optimizer=false" />
   </Target>
 
   <ItemGroup>
