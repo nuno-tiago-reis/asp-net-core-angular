@@ -110,7 +110,7 @@ export class MessagesComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving messages data.');
+				this.alertify.error('Problem retrieving the messages.');
 			}
 		);
 	}

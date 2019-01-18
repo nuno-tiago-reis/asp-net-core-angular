@@ -79,7 +79,7 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving the member list.');
+				this.alertify.error('Problem retrieving the members.');
 				this.router.navigate(['/home']);
 
 				return of(null);

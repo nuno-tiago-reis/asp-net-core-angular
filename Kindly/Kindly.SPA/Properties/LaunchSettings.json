@@ -7,13 +7,23 @@
 		"anonymousAuthentication": true,
 		"iisExpress":
 		{
-			"applicationUrl": "https://localhost:62599",
-			"sslPort": 62599
+			"applicationUrl": "https://127.0.0.1:44351",
+			"sslPort": 44351
 		}
 	},
 
 	"profiles":
 	{
+		"Kindly.SPA [IIS]":
+		{
+			"commandName": "IISExpress",
+			"launchBrowser": true,
+			"applicationUrl": "https://127.0.0.1:44351",
+			"environmentVariables":
+			{
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
 		"Kindly.SPA.Watch [NPM]":
 		{
 			"commandName": "Executable",
@@ -21,7 +31,7 @@
 			"executablePath": "C:\\Program Files\\NodeJS\\npm.cmd",
 			"workingDirectory": "..\\Kindly.SPA",
 			"launchBrowser": true,
-			"applicationUrl": "https://localhost:62599",
+			"applicationUrl": "https://kindly.com:62599",
 			"environmentVariables":
 			{
 				"ASPNETCORE_ENVIRONMENT": "Development"

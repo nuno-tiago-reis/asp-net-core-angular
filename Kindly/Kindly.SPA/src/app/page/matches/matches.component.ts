@@ -120,7 +120,7 @@ export class MatchesComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving lists data.');
+				this.alertify.error('Problem retrieving the matches.');
 			}
 		);
 	}

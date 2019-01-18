@@ -67,7 +67,7 @@ export class MatchesResolver implements Resolve<PaginatedResult<Like>>
 			catchError
 			((error) =>
 			{
-				this.alertify.error('Problem retrieving the lists.');
+				this.alertify.error('Problem retrieving the matches.');
 				this.router.navigate(['/home']);
 
 				return of(null);

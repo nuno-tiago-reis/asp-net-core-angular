@@ -28,12 +28,13 @@
 						"assets":
 						[
 							"src/favicon.ico",
-							"src/assets"
+							"src/assets",
+							"src/web.config"
 						],
 						"styles":
 						[
-							"./node_modules/bootstrap/dist/css/bootstrap.min.css",
-							"./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+							"node_modules/bootstrap/dist/css/bootstrap.min.css",
+							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
 							"src/styles.css"
 						],
 						"scripts":
@@ -78,7 +79,7 @@
 					"options":
 					{
 						"host": "kindly.com",
-						"port": 62599,
+						"port": 44351,
 						"browserTarget": "KindlyApp:build"
 					},
 					"configurations":

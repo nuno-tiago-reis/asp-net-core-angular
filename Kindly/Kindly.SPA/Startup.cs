@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,7 @@ namespace Kindly.SPA
 		/// <param name="configuration">The configuration.</param>
 		public Startup(IConfiguration configuration)
 		{
-			Configuration = configuration;
+			this.Configuration = configuration;
 		}
 
 		/// <summary>
@@ -46,7 +47,18 @@ namespace Kindly.SPA
 			{
 				appBuilder.UseHsts();
 			}
-  
+
+			appBuilder.Use(async (context, next) =>
+			{
+				await next.Invoke();
+
+				if (context.Response.StatusCode == 404)
+				{
+					context.Request.Path = new PathString("/index.html");
+					await next.Invoke();
+				}
+			});
+
 			appBuilder.UseHttpsRedirection();
 			appBuilder.UseDefaultFiles();
 			appBuilder.UseStaticFiles();
