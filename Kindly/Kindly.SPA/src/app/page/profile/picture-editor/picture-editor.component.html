@@ -1,65 +1,68 @@
 <div class="row">
-		<div *ngFor="let picture of this.pictures" class="col-sm-2 mb-2">
-			<img class="img-thumbnail p-1 mb-1" src="{{picture.url}}" alt="{{picture.url}}">
-			<div class="row justify-content-md-center">
-				<div class="editor-tooltip"  tooltip="{{this.getProfileTooltipMessage(picture)}}" [delay]="250">
-					<button type="button" class="btn btn-sm mr-1"
-							[ngClass]="picture.isProfilePicture ? 'btn-warning active' : 'btn-outline-secondary'"
-							(click)="this.setProfilePicture(picture)" [disabled]="picture.isProfilePicture">
-						<i class="fa fa-star"></i>
-					</button>
-				</div>
-				<div class="editor-tooltip" tooltip="{{this.getDeleteTooltipMessage(picture)}}" [delay]="250">
-					<button type="button" class="btn btn-sm btn-danger"
-							(click)="this.deletePicture(picture)" [disabled]="picture.isProfilePicture">
-						<i class="fa fa-trash-o"></i>
-					</button>
-				</div>
+	<div *ngFor="let picture of this.pictures" class="col-sm-2 mb-2 img-wrapper">
+		<img class="img-thumbnail p-1 mb-1" src="{{picture.url}}" alt="{{picture.url}}" [ngClass]="!picture.isApproved && 'not-approved'">
+		<div class="text-center img-text" *ngIf="!picture.isApproved">
+			<span class="text-danger">Awaiting approval</span>
+		</div>
+		<div class="row justify-content-md-center">
+			<div class="editor-tooltip" tooltip="{{this.getProfileTooltipMessage(picture)}}" [delay]="250">
+				<button type="button" class="btn btn-sm mr-1"
+						[ngClass]="picture.isProfilePicture ? 'btn-warning active' : 'btn-outline-secondary'"
+						(click)="this.setProfilePicture(picture)" [disabled]="picture.isProfilePicture">
+					<i class="fa fa-star"></i>
+				</button>
+			</div>
+			<div class="editor-tooltip" tooltip="{{this.getDeleteTooltipMessage(picture)}}" [delay]="250">
+				<button type="button" class="btn btn-sm btn-danger"
+						(click)="this.deletePicture(picture)" [disabled]="picture.isProfilePicture">
+					<i class="fa fa-trash-o"></i>
+				</button>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<div class="row mt-3">
-		<h3 class="ml-2">Upload pictures</h3>
-	</div>
+<div class="row mt-3">
+	<h3 class="ml-2">Upload pictures</h3>
+</div>
 
-	<div class="row mt-3">
+<div class="row mt-3">
 
-		<div class="col-md-3">
+	<div class="col-md-3">
 
-			<div ng2FileDrop
-				 [ngClass]="{'nv-file-over': this.hasFileOverDropZone}"
-				 (fileOver)="this.fileOverDropZone($event)"
-				 [uploader]="this.uploader"
-				 class="card bg-faded p-3 text-center mb-3">
-				<i class="fa fa-upload fa-3x"></i>
-				 Drop your pictures here
-			</div>
-
-			<div class="mt-2">
-				<strong>Single</strong>
-				<input class="mt-2" type="file" ng2FileSelect [uploader]="this.uploader" />
-			</div>
-
-			<div class="mt-2">
-				<strong>Multiple</strong>
-				<input type="file" ng2FileSelect [uploader]="this.uploader" multiple/><br/>
-			</div>
+		<div ng2FileDrop
+			 [ngClass]="{'nv-file-over': this.hasFileOverDropZone}"
+			 (fileOver)="this.fileOverDropZone($event)"
+			 [uploader]="this.uploader"
+			 class="card bg-faded p-3 text-center mb-3">
+			<i class="fa fa-upload fa-3x"></i>
+			Drop your pictures here
 		</div>
 
-		<div *ngIf="this.uploader?.queue?.length" class="col-md-9" style="margin-bottom: 40px">
+		<div class="mt-2">
+			<strong>Single</strong>
+			<input class="mt-2" type="file" ng2FileSelect [uploader]="this.uploader" />
+		</div>
 
-			<table class="table">
-				<thead>
+		<div class="mt-2">
+			<strong>Multiple</strong>
+			<input type="file" ng2FileSelect [uploader]="this.uploader" multiple /><br />
+		</div>
+	</div>
+
+	<div *ngIf="this.uploader?.queue?.length" class="col-md-9" style="margin-bottom: 40px">
+
+		<table class="table">
+			<thead>
 				<tr>
 					<th>Actions</th>
 					<th width="50%">Name</th>
 					<th>Size</th>
 				</tr>
-				</thead>
-				<tbody>
+			</thead>
+			<tbody>
 				<tr *ngFor="let item of this.uploader.queue">
-				<td nowrap>
+					<td nowrap>
 						<button type="button" class="btn btn-sm  btn-success mr-1"
 								(click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
 							<i class="fa fa-upload"></i>
@@ -72,28 +75,28 @@
 					<td><strong>{{ item?.file?.name }}</strong></td>
 					<td *ngIf="this.uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
 				</tr>
-				</tbody>
-			</table>
+			</tbody>
+		</table>
 
+		<div>
 			<div>
-				<div>
-					Progress:
-					<div class="progress mb-4">
-						<div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': this.uploader.progress + '%' }"></div>
-					</div>
+				Progress:
+				<div class="progress mb-4">
+					<div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': this.uploader.progress + '%' }"></div>
 				</div>
-				<button type="button" class="btn btn-success btn-sm ml-1 mr-1"
-						(click)="this.uploader.uploadAll()" [disabled]="!this.uploader.getNotUploadedItems().length">
-					<span class="fa fa-upload"></span> Upload
-				</button>
-				<button type="button" class="btn btn-warning btn-sm ml-1 mr-1"
-						(click)="this.uploader.cancelAll()" [disabled]="!this.uploader.isUploading">
-					<span class="fa fa-ban"></span> Cancel
-				</button>
-				<button type="button" class="btn btn-danger btn-sm ml-1 mr-1"
-						(click)="this.uploader.clearQueue()" [disabled]="!this.uploader.queue.length">
-					<span class="fa fa-trash"></span> Clean
-				</button>
 			</div>
+			<button type="button" class="btn btn-success btn-sm ml-1 mr-1"
+					(click)="this.uploader.uploadAll()" [disabled]="!this.uploader.getNotUploadedItems().length">
+				<span class="fa fa-upload"></span> Upload
+			</button>
+			<button type="button" class="btn btn-warning btn-sm ml-1 mr-1"
+					(click)="this.uploader.cancelAll()" [disabled]="!this.uploader.isUploading">
+				<span class="fa fa-ban"></span> Cancel
+			</button>
+			<button type="button" class="btn btn-danger btn-sm ml-1 mr-1"
+					(click)="this.uploader.clearQueue()" [disabled]="!this.uploader.queue.length">
+				<span class="fa fa-trash"></span> Clean
+			</button>
 		</div>
 	</div>
+</div>
