@@ -280,7 +280,7 @@ namespace Kindly.API.Controllers.Pictures
 		}
 
 		/// <summary>
-		/// Gets a users pictures.
+		/// Gets all the pictures.
 		/// </summary>
 		/// 
 		/// <param name="parameters">The parameters.</param>

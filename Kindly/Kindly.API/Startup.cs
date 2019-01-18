@@ -35,6 +35,7 @@ using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
 
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Kindly.API
@@ -92,6 +93,7 @@ namespace Kindly.API
 			{
 				options.UseSqlServer(this.Configuration.GetConnectionString(KindlyConstants.DefaultConnection));
 			});
+			services.BuildServiceProvider().GetService<KindlyContext>().Database.Migrate();
 
 			services.AddScoped<ILikeRepository, LikeRepository>();
 			services.AddScoped<IMessageRepository, MessageRepository>();
@@ -190,6 +192,7 @@ namespace Kindly.API
 				{
 					builder.Run(KindlyUtilities.ProcessException);
 				});
+
 				seeder.SeedUsers();
 			}
 			else
@@ -199,10 +202,18 @@ namespace Kindly.API
 					builder.Run(KindlyUtilities.ProcessException);
 				});
 				applicationBuilder.UseHsts();
+
+				seeder.SeedUsers();
 			}
 
 			// Enable middleware to serve generated Swagger as a JSON endpoint.
-			applicationBuilder.UseSwagger();
+			applicationBuilder.UseSwagger(options =>
+			{
+				options.PreSerializeFilters.Add((document, request) =>
+				{
+					document.Paths = document.Paths.ToDictionary(path => path.Key.ToLowerInvariant(), p => p.Value);
+				});
+			});
 			// Enable middleware to serve Swagger UI specifying the Swagger JSON endpoint.
 			applicationBuilder.UseSwaggerUI(options =>
 			{

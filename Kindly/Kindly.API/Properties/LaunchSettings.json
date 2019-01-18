@@ -7,8 +7,8 @@
 		"anonymousAuthentication": true,
 		"iisExpress":
 		{
-			"applicationUrl": "http://localhost:21571",
-			"sslPort": 44351
+			"applicationUrl": "https://127.0.0.1:44350",
+			"sslPort": 44350
 		}
 	},
 
@@ -18,8 +18,8 @@
 		{
 			"commandName": "IISExpress",
 			"launchBrowser": true,
-			"launchUrl": "api/values",
-			"applicationUrl": "https://localhost:44351",
+			"launchUrl": "swagger",
+			"applicationUrl": "https://127.0.0.1:44350",
 			"environmentVariables":
 			{
 				"ASPNETCORE_ENVIRONMENT": "Development"
@@ -29,8 +29,8 @@
 		{
 			"commandName": "Project",
 			"launchBrowser": false,
-			"launchUrl": "api/values",
-			"applicationUrl": "https://localhost:44351",
+			"launchUrl": "swagger",
+			"applicationUrl": "https://127.0.0.1:44350",
 			"environmentVariables":
 			{
 				"ASPNETCORE_ENVIRONMENT": "Development"
@@ -42,7 +42,7 @@
 			"commandLineArgs": "watch --project ..\\..\\..\\Kindly.API.csproj run",
 			"executablePath": "C:\\Program Files\\dotnet\\dotnet.exe",
 			"launchBrowser": true,
-			"applicationUrl": "https://localhost:44351",
+			"applicationUrl": "https://127.0.0.1:44350",
 			"environmentVariables":
 			{
 				"ASPNETCORE_ENVIRONMENT": "Development"
