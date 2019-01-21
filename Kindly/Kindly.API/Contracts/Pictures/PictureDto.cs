@@ -4,6 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Pictures
 {
+	/// <summary>
+	/// The data transfer object for the picture entity.
+	/// </summary>
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class PictureDto
 	{

@@ -12,6 +12,11 @@ using System.Collections.Generic;
 
 namespace Kindly.API.Models.Repositories.Users
 {
+	/// <summary>
+	/// Defines the user entity.
+	/// </summary>
+	/// 
+	/// <seealso cref="IdentityUser{Guid}" />
 	public class User : IdentityUser<Guid>
 	{
 		#region [Constants]
@@ -128,10 +133,24 @@ namespace Kindly.API.Models.Repositories.Users
 		#endregion
 	}
 
+	/// <summary>
+	/// The user genders.
+	/// </summary>
 	public enum Gender
 	{
+		/// <summary>
+		/// The gender is undefined.
+		/// </summary>
 		[UsedImplicitly] Undefined = 0,
+
+		/// <summary>
+		/// The gender is female.
+		/// </summary>
 		[UsedImplicitly] Female = 1,
+
+		/// <summary>
+		/// The gender is male.
+		/// </summary>
 		[UsedImplicitly] Male = 2
 	}
 }

@@ -10,13 +10,14 @@ using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Roles
 {
+	/// <inheritdoc />
 	public sealed class RoleRepository : IRoleRepository
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the role manager.
 		/// </summary>
-		public RoleManager<Role> RoleManager { get; set; }
+		private RoleManager<Role> RoleManager { get; set; }
 		#endregion
 
 		#region [Constructors]

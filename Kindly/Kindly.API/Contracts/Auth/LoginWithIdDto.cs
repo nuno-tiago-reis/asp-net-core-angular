@@ -1,8 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Auth
 {
+	/// <summary>
+	/// The request data transfer object for the log in with id operation.
+	/// </summary>
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class LoginWithIdDto
 	{
 		/// <summary>

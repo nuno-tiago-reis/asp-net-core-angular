@@ -10,13 +10,14 @@ using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Likes
 {
+	/// <inheritdoc />
 	public sealed class LikeRepository : ILikeRepository
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the context.
 		/// </summary>
-		public KindlyContext Context { get; set; }
+		private KindlyContext Context { get; set; }
 		#endregion
 
 		#region [Constructors]

@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Pictures
 {
+	/// <summary>
+	/// Provides CRUD methods over picture entities as well as other utility methods.
+	/// </summary>
+	/// 
+	/// <seealso cref="IEntityRepository{Picture, PictureParameters}" />
 	public interface IPictureRepository : IEntityRepository<Picture, PictureParameters>
 	{
 		/// <summary>

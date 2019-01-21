@@ -2,6 +2,9 @@
 
 namespace Kindly.API.Models.Repositories
 {
+	/// <summary>
+	/// Provides pagination parameters.
+	/// </summary>
 	public abstract class PaginationParameters
 	{
 		#region [Constants]

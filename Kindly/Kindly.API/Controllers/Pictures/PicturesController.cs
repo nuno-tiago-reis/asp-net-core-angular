@@ -170,7 +170,7 @@ namespace Kindly.API.Controllers.Pictures
 					this.User, picture, nameof(KindlyPolicies.AllowIfOwner)
 				);
 
-				if (result.Succeeded == false)
+				if (userID != this.GetInvocationUserID() || result.Succeeded == false)
 				{
 					return this.Unauthorized();
 				}
@@ -199,6 +199,11 @@ namespace Kindly.API.Controllers.Pictures
 		{
 			var picture = await this.Repository.Get(pictureID);
 			var pictureDto = this.Mapper.Map<PictureDto>(picture);
+
+			if (picture.UserID != userID)
+			{
+				return this.NotFound();
+			}
 
 			return this.Ok(pictureDto);
 		}

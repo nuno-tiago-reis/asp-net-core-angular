@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Kindly.API.Models.Repositories.Identity
 {
+	/// <summary>
+	/// Implements the user login entity framework configuration.
+	/// </summary>
+	/// 
+	/// <seealso cref="IEntityTypeConfiguration{User}" />
 	public sealed class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
 	{
 		/// <inheritdoc />

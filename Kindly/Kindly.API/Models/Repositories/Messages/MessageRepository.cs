@@ -11,13 +11,14 @@ using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Messages
 {
+	/// <inheritdoc />
 	public sealed class MessageRepository : IMessageRepository
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the context.
 		/// </summary>
-		public KindlyContext Context { get; set; }
+		private KindlyContext Context { get; set; }
 		#endregion
 
 		#region [Constructors]

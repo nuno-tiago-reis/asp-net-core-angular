@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class DeletedConfirmedContactsColumnsFromUsersTable : Migration
 	{
 		/// <inheritdoc />
@@ -9,14 +14,14 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropColumn
 			(
-				name: "EmailAddressConfirmed",
-				table: "Users"
+				"EmailAddressConfirmed",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "PhoneNumberConfirmed",
-				table: "Users"
+				"PhoneNumberConfirmed",
+				"Users"
 			);
 		}
 
@@ -25,16 +30,16 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AddColumn<bool>
 			(
-				name: "EmailAddressConfirmed",
-				table: "Users",
+				"EmailAddressConfirmed",
+				"Users",
 				nullable: false,
 				defaultValue: false
 			);
 
 			migrationBuilder.AddColumn<bool>
 			(
-				name: "PhoneNumberConfirmed",
-				table: "Users",
+				"PhoneNumberConfirmed",
+				"Users",
 				nullable: false,
 				defaultValue: false
 			);

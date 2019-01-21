@@ -4,6 +4,9 @@ using System;
 
 namespace Kindly.API.Models.Repositories.Messages
 {
+	/// <summary>
+	/// Defines the message entity.
+	/// </summary>
 	public class Message
 	{
 		#region [Constants]

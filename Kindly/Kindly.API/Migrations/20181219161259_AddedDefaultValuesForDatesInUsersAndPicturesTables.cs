@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedDefaultValuesForDatesInUsersAndPicturesTables : Migration
 	{
 		/// <inheritdoc />
@@ -10,8 +15,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<DateTime>
 			(
-				name: "LastActiveAt",
-				table: "Users",
+				"LastActiveAt",
+				"Users",
 				nullable: false,
 				defaultValueSql: "GetUtcDate()",
 				oldClrType: typeof(DateTime)
@@ -19,8 +24,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<DateTime>
 			(
-				name: "CreatedAt",
-				table: "Users",
+				"CreatedAt",
+				"Users",
 				nullable: false,
 				defaultValueSql: "GetUtcDate()",
 				oldClrType: typeof(DateTime)
@@ -28,8 +33,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<DateTime>
 			(
-				name: "AddedAt",
-				table: "Pictures",
+				"AddedAt",
+				"Pictures",
 				nullable: false,
 				defaultValueSql: "GetUtcDate()",
 				oldClrType: typeof(DateTime)
@@ -41,8 +46,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<DateTime>
 			(
-				name: "LastActiveAt",
-				table: "Users",
+				"LastActiveAt",
+				"Users",
 				nullable: false,
 				oldClrType: typeof(DateTime),
 				oldDefaultValueSql: "GetUtcDate()"
@@ -50,8 +55,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<DateTime>
 			(
-				name: "CreatedAt",
-				table: "Users",
+				"CreatedAt",
+				"Users",
 				nullable: false,
 				oldClrType: typeof(DateTime),
 				oldDefaultValueSql: "GetUtcDate()"
@@ -59,8 +64,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<DateTime>
 			(
-				name: "AddedAt",
-				table: "Pictures",
+				"AddedAt",
+				"Pictures",
 				nullable: false,
 				oldClrType: typeof(DateTime),
 				oldDefaultValueSql: "GetUtcDate()"

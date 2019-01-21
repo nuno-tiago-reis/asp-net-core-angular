@@ -7,6 +7,11 @@ using System.Collections.Generic;
 
 namespace Kindly.API.Models.Repositories.Roles
 {
+	/// <summary>
+	/// Defines the role entity.
+	/// </summary>
+	/// 
+	/// <seealso cref="IdentityRole{Guid}" />
 	public class Role : IdentityRole<Guid>
 	{
 		#region [Constants]

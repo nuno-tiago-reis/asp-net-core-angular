@@ -7,13 +7,19 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Likes
 {
+	/// <summary>
+	/// Implements the owner handler for the likes controller.
+	/// </summary>
+	/// 
+	/// <seealso cref="LikesController"/>.
+	/// <seealso cref="ResourceOwnerHandler{Like}" />
 	public sealed class LikesOwnerHandler : ResourceOwnerHandler<Like>
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
-		public ILikeRepository Repository { get; set; }
+		private ILikeRepository Repository { get; set; }
 		#endregion
 
 		#region [Methods]

@@ -5,6 +5,11 @@ using System.Security.Claims;
 
 namespace Kindly.API.Controllers
 {
+	/// <summary>
+	/// Implements a generic handler.
+	/// </summary>
+	/// 
+	/// <seealso cref="AuthorizationHandler{TRequirement, TResource}" />
 	public abstract class GenericHandler<TRequirement, TResource> : AuthorizationHandler<TRequirement, TResource>
 		where TRequirement : IAuthorizationRequirement
 	{
@@ -17,6 +22,11 @@ namespace Kindly.API.Controllers
 		}
 	}
 
+	/// <summary>
+	/// Implements a generic handler.
+	/// </summary>
+	/// 
+	/// <seealso cref="AuthorizationHandler{TRequirement}" />
 	public abstract class GenericHandler<TRequirement> : AuthorizationHandler<TRequirement>
 		where TRequirement : IAuthorizationRequirement
 	{

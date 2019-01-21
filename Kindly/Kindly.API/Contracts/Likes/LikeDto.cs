@@ -6,6 +6,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Likes
 {
+	/// <summary>
+	/// The data transfer object for the like entity.
+	/// </summary>
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class LikeDto
 	{
@@ -45,23 +48,5 @@ namespace Kindly.API.Contracts.Likes
 		[Required]
 		[DataType(DataType.Date)]
 		public DateTime CreatedAt { get; set; }
-
-		/// <summary>
-		/// Cleans the sender.
-		/// </summary>
-		public void RemoveSender()
-		{
-			this.SenderID = null;
-			this.Sender = null;
-		}
-
-		/// <summary>
-		/// Cleans the recipient.
-		/// </summary>
-		public void RemoveRecipient()
-		{
-			this.RecipientID = null;
-			this.Recipient = null;
-		}
 	}
 }

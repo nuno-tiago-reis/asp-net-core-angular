@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -12,6 +13,10 @@ using Newtonsoft.Json.Serialization;
 
 namespace Kindly.API.Utility
 {
+	/// <summary>
+	/// Provides miscellaneous extension methods.
+	/// </summary>
+	[SuppressMessage("ReSharper", "UnusedParameter.Global")]
 	public static class KindlyExtensions
 	{
 		#region [Properties]
@@ -47,7 +52,7 @@ namespace Kindly.API.Utility
 		/// </summary>
 		/// 
 		/// <param name="value">The value.</param>
-		public static string SpacesFromCamel(this string value)
+		private static string SpacesFromCamel(this string value)
 		{
 			if (value.Length <= 0)
 				return value;

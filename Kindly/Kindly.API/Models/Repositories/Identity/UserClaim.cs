@@ -4,6 +4,11 @@ using System;
 
 namespace Kindly.API.Models.Repositories.Identity
 {
+	/// <summary>
+	/// Defines the user claim entity.
+	/// </summary>
+	/// 
+	/// <seealso cref="IdentityUserClaim{Guid}" />
 	public class UserClaim : IdentityUserClaim<Guid>
 	{
 		/// <summary>

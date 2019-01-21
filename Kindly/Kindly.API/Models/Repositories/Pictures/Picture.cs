@@ -4,6 +4,9 @@ using Kindly.API.Models.Repositories.Users;
 
 namespace Kindly.API.Models.Repositories.Pictures
 {
+	/// <summary>
+	/// Defines the picture entity.
+	/// </summary>
 	public class Picture
 	{
 		#region [Constants]

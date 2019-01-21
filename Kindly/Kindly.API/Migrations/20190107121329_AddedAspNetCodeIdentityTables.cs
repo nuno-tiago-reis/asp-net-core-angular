@@ -1,92 +1,96 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-
-using System;
 
 namespace Kindly.API.Migrations
 {
-	public partial class AddedAspNetCodeIdentityTables : Migration
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
+	public partial class AddedAspNetCoreIdentityTables : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_Users_SourceID",
-				table: "Likes"
+				"FK_Likes_Users_SourceID",
+				"Likes"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_Users_TargetID",
-				table: "Likes"
+				"FK_Likes_Users_TargetID",
+				"Likes"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Messages_Users_RecipientID",
-				table: "Messages"
+				"FK_Messages_Users_RecipientID",
+				"Messages"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Messages_Users_SenderID",
-				table: "Messages"
+				"FK_Messages_Users_SenderID",
+				"Messages"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Pictures_Users_UserID",
-				table: "Pictures"
+				"FK_Pictures_Users_UserID",
+				"Pictures"
 			);
 
 			migrationBuilder.DropPrimaryKey
 			(
-				name: "PK_Users",
-				table: "Users"
+				"PK_Users",
+				"Users"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_EmailAddress",
-				table: "Users"
+				"IX_Users_EmailAddress",
+				"Users"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_PhoneNumber",
-				table: "Users"
+				"IX_Users_PhoneNumber",
+				"Users"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_UserName",
-				table: "Users"
+				"IX_Users_UserName",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "PasswordSalt",
-				table: "Users"
+				"PasswordSalt",
+				"Users"
 			);
 
 			migrationBuilder.RenameTable
 			(
-				name: "Users",
+				"Users",
 				newName: "AspNetUsers"
 			);
 
 			migrationBuilder.RenameColumn
 			(
-				name: "EmailAddress",
-				table: "AspNetUsers",
-				newName: "Email"
+				"EmailAddress",
+				"AspNetUsers",
+				"Email"
 			);
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "PasswordHash",
-				table: "AspNetUsers",
+				"PasswordHash",
+				"AspNetUsers",
 				nullable: true,
 				oldClrType: typeof(byte[]),
 				oldNullable: true
@@ -94,111 +98,109 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<int>
 			(
-				name: "AccessFailedCount",
-				table: "AspNetUsers",
+				"AccessFailedCount",
+				"AspNetUsers",
 				nullable: false,
 				defaultValue: 0
 			);
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "ConcurrencyStamp",
-				table: "AspNetUsers",
+				"ConcurrencyStamp",
+				"AspNetUsers",
 				nullable: true
 			);
 
 			migrationBuilder.AddColumn<bool>
 			(
-				name: "EmailConfirmed",
-				table: "AspNetUsers",
+				"EmailConfirmed",
+				"AspNetUsers",
 				nullable: false,
 				defaultValue: false
 			);
 
 			migrationBuilder.AddColumn<bool>
 			(
-				name: "LockoutEnabled",
-				table: "AspNetUsers",
+				"LockoutEnabled",
+				"AspNetUsers",
 				nullable: false,
 				defaultValue: false
 			);
 
 			migrationBuilder.AddColumn<DateTimeOffset>
 			(
-				name: "LockoutEnd",
-				table: "AspNetUsers",
+				"LockoutEnd",
+				"AspNetUsers",
 				nullable: true
 			);
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "NormalizedEmail",
-				table: "AspNetUsers",
+				"NormalizedEmail",
+				"AspNetUsers",
 				maxLength: 256,
 				nullable: true
 			);
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "NormalizedUserName",
-				table: "AspNetUsers",
+				"NormalizedUserName",
+				"AspNetUsers",
 				maxLength: 256,
 				nullable: true
 			);
 
 			migrationBuilder.AddColumn<bool>
 			(
-				name: "PhoneNumberConfirmed",
-				table: "AspNetUsers",
+				"PhoneNumberConfirmed",
+				"AspNetUsers",
 				nullable: false,
 				defaultValue: false
 			);
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "SecurityStamp",
-				table: "AspNetUsers",
+				"SecurityStamp",
+				"AspNetUsers",
 				nullable: true
 			);
 
 			migrationBuilder.AddColumn<bool>
 			(
-				name: "TwoFactorEnabled",
-				table: "AspNetUsers",
+				"TwoFactorEnabled",
+				"AspNetUsers",
 				nullable: false,
 				defaultValue: false
 			);
 
 			migrationBuilder.AddPrimaryKey
 			(
-				name: "PK_AspNetUsers",
-				table: "AspNetUsers",
-				column: "ID"
+				"PK_AspNetUsers",
+				"AspNetUsers",
+				"ID"
 			);
 
 			migrationBuilder.CreateTable
 			(
-				name: "AspNetRoles",
-				columns: table => new
+				"AspNetRoles",
+				table => new
 				{
 					ID = table.Column<Guid>(nullable: false),
 					Name = table.Column<string>(maxLength: 256, nullable: true),
 					NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
 					ConcurrencyStamp = table.Column<string>(nullable: true)
 				},
-				constraints: table =>
-				{
-					table.PrimaryKey("PK_AspNetRoles", x => x.ID);
-				}
+				constraints: table => { table.PrimaryKey("PK_AspNetRoles", x => x.ID); }
 			);
 
 			migrationBuilder.CreateTable
 			(
-				name: "AspNetUserClaims",
-				columns: table => new
+				"AspNetUserClaims",
+				table => new
 				{
 					Id = table.Column<int>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("SqlServer:ValueGenerationStrategy",
+							SqlServerValueGenerationStrategy.IdentityColumn),
 					UserID = table.Column<Guid>(nullable: false),
 					ClaimType = table.Column<string>(nullable: true),
 					ClaimValue = table.Column<string>(nullable: true)
@@ -208,10 +210,10 @@ namespace Kindly.API.Migrations
 					table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
 					table.ForeignKey
 					(
-						name: "FK_AspNetUserClaims_AspNetUsers_UserID",
-						column: x => x.UserID,
-						principalTable: "AspNetUsers",
-						principalColumn: "ID",
+						"FK_AspNetUserClaims_AspNetUsers_UserID",
+						x => x.UserID,
+						"AspNetUsers",
+						"ID",
 						onDelete: ReferentialAction.Cascade
 					);
 				}
@@ -219,8 +221,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.CreateTable
 			(
-				name: "AspNetUserLogins",
-				columns: table => new
+				"AspNetUserLogins",
+				table => new
 				{
 					LoginProvider = table.Column<string>(nullable: false),
 					ProviderKey = table.Column<string>(nullable: false),
@@ -229,13 +231,13 @@ namespace Kindly.API.Migrations
 				},
 				constraints: table =>
 				{
-					table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+					table.PrimaryKey("PK_AspNetUserLogins", x => new {x.LoginProvider, x.ProviderKey});
 					table.ForeignKey
 					(
-						name: "FK_AspNetUserLogins_AspNetUsers_UserID",
-						column: x => x.UserID,
-						principalTable: "AspNetUsers",
-						principalColumn: "ID",
+						"FK_AspNetUserLogins_AspNetUsers_UserID",
+						x => x.UserID,
+						"AspNetUsers",
+						"ID",
 						onDelete: ReferentialAction.Cascade
 					);
 				}
@@ -243,8 +245,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.CreateTable
 			(
-				name: "AspNetUserTokens",
-				columns: table => new
+				"AspNetUserTokens",
+				table => new
 				{
 					UserID = table.Column<Guid>(nullable: false),
 					LoginProvider = table.Column<string>(nullable: false),
@@ -253,13 +255,13 @@ namespace Kindly.API.Migrations
 				},
 				constraints: table =>
 				{
-					table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserID, x.LoginProvider, x.Name });
+					table.PrimaryKey("PK_AspNetUserTokens", x => new {x.UserID, x.LoginProvider, x.Name});
 					table.ForeignKey
 					(
-						name: "FK_AspNetUserTokens_AspNetUsers_UserID",
-						column: x => x.UserID,
-						principalTable: "AspNetUsers",
-						principalColumn: "ID",
+						"FK_AspNetUserTokens_AspNetUsers_UserID",
+						x => x.UserID,
+						"AspNetUsers",
+						"ID",
 						onDelete: ReferentialAction.Cascade
 					);
 				}
@@ -267,11 +269,12 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.CreateTable
 			(
-				name: "AspNetRoleClaims",
-				columns: table => new
+				"AspNetRoleClaims",
+				table => new
 				{
 					Id = table.Column<int>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+						.Annotation("SqlServer:ValueGenerationStrategy",
+							SqlServerValueGenerationStrategy.IdentityColumn),
 					RoleID = table.Column<Guid>(nullable: false),
 					ClaimType = table.Column<string>(nullable: true),
 					ClaimValue = table.Column<string>(nullable: true)
@@ -281,10 +284,10 @@ namespace Kindly.API.Migrations
 					table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
 					table.ForeignKey
 					(
-						name: "FK_AspNetRoleClaims_AspNetRoles_RoleID",
-						column: x => x.RoleID,
-						principalTable: "AspNetRoles",
-						principalColumn: "ID",
+						"FK_AspNetRoleClaims_AspNetRoles_RoleID",
+						x => x.RoleID,
+						"AspNetRoles",
+						"ID",
 						onDelete: ReferentialAction.Cascade
 					);
 				}
@@ -292,29 +295,29 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.CreateTable
 			(
-				name: "AspNetUserRoles",
-				columns: table => new
+				"AspNetUserRoles",
+				table => new
 				{
 					UserID = table.Column<Guid>(nullable: false),
 					RoleID = table.Column<Guid>(nullable: false)
 				},
 				constraints: table =>
 				{
-					table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserID, x.RoleID });
+					table.PrimaryKey("PK_AspNetUserRoles", x => new {x.UserID, x.RoleID});
 					table.ForeignKey
 					(
-						name: "FK_AspNetUserRoles_AspNetRoles_RoleID",
-						column: x => x.RoleID,
-						principalTable: "AspNetRoles",
-						principalColumn: "ID",
+						"FK_AspNetUserRoles_AspNetRoles_RoleID",
+						x => x.RoleID,
+						"AspNetRoles",
+						"ID",
 						onDelete: ReferentialAction.Cascade
 					);
 					table.ForeignKey
 					(
-						name: "FK_AspNetUserRoles_AspNetUsers_UserID",
-						column: x => x.UserID,
-						principalTable: "AspNetUsers",
-						principalColumn: "ID",
+						"FK_AspNetUserRoles_AspNetUsers_UserID",
+						x => x.UserID,
+						"AspNetUsers",
+						"ID",
 						onDelete: ReferentialAction.Cascade
 					);
 				}
@@ -322,122 +325,122 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetUsers_Email",
-				table: "AspNetUsers",
-				column: "Email"
+				"IX_AspNetUsers_Email",
+				"AspNetUsers",
+				"Email"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetUsers_NormalizedEmail",
-				table: "AspNetUsers",
-				column: "NormalizedEmail"
+				"IX_AspNetUsers_NormalizedEmail",
+				"AspNetUsers",
+				"NormalizedEmail"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetUsers_NormalizedUserName",
-				table: "AspNetUsers",
-				column: "NormalizedUserName",
+				"IX_AspNetUsers_NormalizedUserName",
+				"AspNetUsers",
+				"NormalizedUserName",
 				unique: true,
 				filter: "[NormalizedUserName] IS NOT NULL"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetUsers_PhoneNumber",
-				table: "AspNetUsers",
-				column: "PhoneNumber"
+				"IX_AspNetUsers_PhoneNumber",
+				"AspNetUsers",
+				"PhoneNumber"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetUsers_UserName",
-				table: "AspNetUsers",
-				column: "UserName"
+				"IX_AspNetUsers_UserName",
+				"AspNetUsers",
+				"UserName"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetRoleClaims_RoleID",
-				table: "AspNetRoleClaims",
-				column: "RoleID"
+				"IX_AspNetRoleClaims_RoleID",
+				"AspNetRoleClaims",
+				"RoleID"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetRoles_NormalizedName",
-				table: "AspNetRoles",
-				column: "NormalizedName",
+				"IX_AspNetRoles_NormalizedName",
+				"AspNetRoles",
+				"NormalizedName",
 				unique: true,
 				filter: "[NormalizedName] IS NOT NULL"
 			);
 
 			migrationBuilder.CreateIndex(
-				name: "IX_AspNetUserClaims_UserID",
-				table: "AspNetUserClaims",
-				column: "UserID");
+				"IX_AspNetUserClaims_UserID",
+				"AspNetUserClaims",
+				"UserID");
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetUserLogins_UserID",
-				table: "AspNetUserLogins",
-				column: "UserID"
+				"IX_AspNetUserLogins_UserID",
+				"AspNetUserLogins",
+				"UserID"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_AspNetUserRoles_RoleID",
-				table: "AspNetUserRoles",
-				column: "RoleID"
+				"IX_AspNetUserRoles_RoleID",
+				"AspNetUserRoles",
+				"RoleID"
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_SourceID",
-				table: "Likes",
-				column: "SourceID",
-				principalTable: "AspNetUsers",
+				"FK_Likes_AspNetUsers_SourceID",
+				"Likes",
+				"SourceID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_TargetID",
-				table: "Likes",
-				column: "TargetID",
-				principalTable: "AspNetUsers",
+				"FK_Likes_AspNetUsers_TargetID",
+				"Likes",
+				"TargetID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Messages_AspNetUsers_RecipientID",
-				table: "Messages",
-				column: "RecipientID",
-				principalTable: "AspNetUsers",
+				"FK_Messages_AspNetUsers_RecipientID",
+				"Messages",
+				"RecipientID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Messages_AspNetUsers_SenderID",
-				table: "Messages",
-				column: "SenderID",
-				principalTable: "AspNetUsers",
+				"FK_Messages_AspNetUsers_SenderID",
+				"Messages",
+				"SenderID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Pictures_AspNetUsers_UserID",
-				table: "Pictures",
-				column: "UserID",
-				principalTable: "AspNetUsers",
+				"FK_Pictures_AspNetUsers_UserID",
+				"Pictures",
+				"UserID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Cascade
 			);
@@ -448,174 +451,175 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_SourceID",
-				table: "Likes"
+				"FK_Likes_AspNetUsers_SourceID",
+				"Likes"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_TargetID",
-				table: "Likes"
+				"FK_Likes_AspNetUsers_TargetID",
+				"Likes"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Messages_AspNetUsers_RecipientID",
-				table: "Messages"
+				"FK_Messages_AspNetUsers_RecipientID",
+				"Messages"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Messages_AspNetUsers_SenderID",
-				table: "Messages"
+				"FK_Messages_AspNetUsers_SenderID",
+				"Messages"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Pictures_AspNetUsers_UserID",
-				table: "Pictures"
+				"FK_Pictures_AspNetUsers_UserID",
+				"Pictures"
 			);
 
 			migrationBuilder.DropTable
 			(
-				name: "AspNetRoleClaims"
+				"AspNetRoleClaims"
 			);
 
 			migrationBuilder.DropTable
 			(
-				name: "AspNetUserClaims"
+				"AspNetUserClaims"
 			);
 
 			migrationBuilder.DropTable
 			(
-				name: "AspNetUserLogins"
+				"AspNetUserLogins"
 			);
 
 			migrationBuilder.DropTable
 			(
-				name: "AspNetUserRoles"
+				"AspNetUserRoles"
 			);
 
 			migrationBuilder.DropTable
 			(
-				name: "AspNetUserTokens"
+				"AspNetUserTokens"
 			);
 
 			migrationBuilder.DropTable
 			(
-				name: "AspNetRoles"
+				"AspNetRoles"
 			);
 
 			migrationBuilder.DropPrimaryKey
 			(
-				name: "PK_AspNetUsers",
-				table: "AspNetUsers"
+				"PK_AspNetUsers",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_AspNetUsers_Email",
-				table: "AspNetUsers"
+				"IX_AspNetUsers_Email",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_AspNetUsers_NormalizedEmail",
-				table: "AspNetUsers"
+				"IX_AspNetUsers_NormalizedEmail",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_AspNetUsers_NormalizedUserName",
-				table: "AspNetUsers"
+				"IX_AspNetUsers_NormalizedUserName",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_AspNetUsers_PhoneNumber",
-				table: "AspNetUsers"
+				"IX_AspNetUsers_PhoneNumber",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_AspNetUsers_UserName",
-				table: "AspNetUsers"
+				"IX_AspNetUsers_UserName",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "AccessFailedCount",
-				table: "AspNetUsers"
+				"AccessFailedCount",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "ConcurrencyStamp",
-				table: "AspNetUsers"
+				"ConcurrencyStamp",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "EmailConfirmed",
-				table: "AspNetUsers"
+				"EmailConfirmed",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "LockoutEnabled",
-				table: "AspNetUsers"
+				"LockoutEnabled",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "LockoutEnd",
-				table: "AspNetUsers"
+				"LockoutEnd",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "NormalizedEmail",
-				table: "AspNetUsers"
+				"NormalizedEmail",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "NormalizedUserName",
-				table: "AspNetUsers"
+				"NormalizedUserName",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "PhoneNumberConfirmed",
-				table: "AspNetUsers"
+				"PhoneNumberConfirmed",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "SecurityStamp",
-				table: "AspNetUsers"
+				"SecurityStamp",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "TwoFactorEnabled",
-				table: "AspNetUsers"
+				"TwoFactorEnabled",
+				"AspNetUsers"
 			);
 
 			migrationBuilder.RenameTable
 			(
-				name: "AspNetUsers",
+				"AspNetUsers",
 				newName: "Users"
 			);
 
 			migrationBuilder.RenameColumn
 			(
-				name: "Email",
-				table: "Users",
-				newName: "EmailAddress"
+				"Email",
+				"Users",
+				"EmailAddress"
 			);
 
 			#region [Alter Column byte => varchar]
+
 			/*migrationBuilder.AlterColumn<byte[]>
 			(
 				name: "PasswordHash",
@@ -627,8 +631,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<byte[]>
 			(
-				name: "PasswordHashTmp",
-				table: "Users",
+				"PasswordHashTmp",
+				"Users",
 				nullable: true
 			);
 
@@ -636,102 +640,103 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.DropColumn
 			(
-				name: "PasswordHash",
-				table: "Users"
+				"PasswordHash",
+				"Users"
 			);
 
 			migrationBuilder.RenameColumn
 			(
-				name: "PasswordHashTmp",
-				table: "Users",
-				newName: "PasswordHash"
+				"PasswordHashTmp",
+				"Users",
+				"PasswordHash"
 			);
+
 			#endregion
 
 			migrationBuilder.AddColumn<byte[]>
 			(
-				name: "PasswordSalt",
-				table: "Users",
+				"PasswordSalt",
+				"Users",
 				nullable: true
 			);
 
 			migrationBuilder.AddPrimaryKey
 			(
-				name: "PK_Users",
-				table: "Users",
-				column: "ID"
+				"PK_Users",
+				"Users",
+				"ID"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_EmailAddress",
-				table: "Users",
-				column: "EmailAddress",
+				"IX_Users_EmailAddress",
+				"Users",
+				"EmailAddress",
 				unique: true
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_PhoneNumber",
-				table: "Users",
-				column: "PhoneNumber",
+				"IX_Users_PhoneNumber",
+				"Users",
+				"PhoneNumber",
 				unique: true
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_UserName",
-				table: "Users",
-				column: "UserName",
+				"IX_Users_UserName",
+				"Users",
+				"UserName",
 				unique: true
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_Users_SourceID",
-				table: "Likes",
-				column: "SourceID",
-				principalTable: "Users",
+				"FK_Likes_Users_SourceID",
+				"Likes",
+				"SourceID",
+				"Users",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_Users_TargetID",
-				table: "Likes",
-				column: "TargetID",
-				principalTable: "Users",
+				"FK_Likes_Users_TargetID",
+				"Likes",
+				"TargetID",
+				"Users",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Messages_Users_RecipientID",
-				table: "Messages",
-				column: "RecipientID",
-				principalTable: "Users",
+				"FK_Messages_Users_RecipientID",
+				"Messages",
+				"RecipientID",
+				"Users",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Messages_Users_SenderID",
-				table: "Messages",
-				column: "SenderID",
-				principalTable: "Users",
+				"FK_Messages_Users_SenderID",
+				"Messages",
+				"SenderID",
+				"Users",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Pictures_Users_UserID",
-				table: "Pictures",
-				column: "UserID",
-				principalTable: "Users",
+				"FK_Pictures_Users_UserID",
+				"Pictures",
+				"UserID",
+				"Users",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Cascade
 			);

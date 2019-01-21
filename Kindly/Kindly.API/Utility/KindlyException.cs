@@ -6,18 +6,23 @@ using System.Linq;
 
 namespace Kindly.API.Utility
 {
+	/// <summary>
+	/// Implements a custom exception that allows for a list of error messages..
+	/// </summary>
+	/// 
+	/// <seealso cref="Exception" />
 	public sealed class KindlyException : Exception
 	{
 		#region [Properties]
 		/// <value>
 		/// The messages.
 		/// </value>
-		public string[] Messages { get; set; }
+		public string[] Messages { get; private set; }
 
 		/// <summary>
 		/// Whether the exception is due to a missing resource.
 		/// </summary>
-		public bool MissingResource { get; set; }
+		public bool MissingResource { get; private set; }
 		#endregion
 
 		#region [Constructors]

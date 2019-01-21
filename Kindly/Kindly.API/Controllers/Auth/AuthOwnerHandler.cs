@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Auth
 {
+	/// <summary>
+	/// Implements the owner handler for the authorization controller.
+	/// </summary>
+	/// 
+	/// <seealso cref="AuthController"/>.
+	/// <seealso cref="ResourceOwnerHandler{User}" />
 	public sealed class AuthOwnerHandler : ResourceOwnerHandler<User>
 	{
 		#region [Methods]

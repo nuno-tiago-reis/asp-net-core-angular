@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Kindly.API.Models.Repositories.Messages
 {
+	/// <summary>
+	/// Implements the message entity framework configuration.
+	/// </summary>
+	/// 
+	/// <seealso cref="IEntityTypeConfiguration{User}" />
 	public sealed class MessageConfiguration : IEntityTypeConfiguration<Message>
 	{
 		/// <inheritdoc />

@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Users
 {
+	/// <summary>
+	/// Provides CRUD methods over user entities as well as other utility methods.
+	/// </summary>
+	/// 
+	/// <seealso cref="IEntityRepository{User, UserParameters}" />
 	public interface IUserRepository : IEntityRepository<User, UserParameters>
 	{
 		/// <summary>

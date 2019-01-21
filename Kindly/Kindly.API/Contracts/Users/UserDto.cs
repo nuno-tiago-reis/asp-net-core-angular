@@ -8,6 +8,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Users
 {
+	/// <summary>
+	/// The data transfer object for the user entity.
+	/// </summary>
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public class UserDto
 	{

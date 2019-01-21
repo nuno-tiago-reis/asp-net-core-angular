@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedIsApprovedColumnToPicturesTable : Migration
 	{
 		/// <inheritdoc />
@@ -9,17 +14,17 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AddColumn<bool>
 			(
-				name: "IsApproved",
-				table: "Pictures",
+				"IsApproved",
+				"Pictures",
 				nullable: false,
 				defaultValue: false
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Messages_SenderID_RecipientID",
-				table: "Messages",
-				columns: new[] { "SenderID", "RecipientID" },
+				"IX_Messages_SenderID_RecipientID",
+				"Messages",
+				new[] {"SenderID", "RecipientID"},
 				unique: false
 			);
 		}
@@ -29,14 +34,14 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Messages_SenderID_RecipientID",
-				table: "Messages"
+				"IX_Messages_SenderID_RecipientID",
+				"Messages"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "IsApproved",
-				table: "Pictures"
+				"IsApproved",
+				"Pictures"
 			);
 		}
 	}

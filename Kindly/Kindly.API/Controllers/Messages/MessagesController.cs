@@ -51,7 +51,6 @@ namespace Kindly.API.Controllers.Messages
 		)
 		: base(mapper, authorizationService)
 		{
-			this.Mapper = mapper;
 			this.Repository = repository;
 		}
 		#endregion
@@ -186,7 +185,7 @@ namespace Kindly.API.Controllers.Messages
 				this.User, message, nameof(KindlyPolicies.AllowIfOwner)
 			);
 
-			if (result.Succeeded == false)
+			if (userID != this.GetInvocationUserID() || result.Succeeded == false)
 			{
 				return this.Unauthorized();
 			}

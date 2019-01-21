@@ -11,18 +11,19 @@ using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Users
 {
+	/// <inheritdoc />
 	public sealed class UserRepository : IUserRepository
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the context.
 		/// </summary>
-		public KindlyContext Context { get; set; }
+		private KindlyContext Context { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user manager.
 		/// </summary>
-		public UserManager<User> UserManager { get; set; }
+		private UserManager<User> UserManager { get; set; }
 		#endregion
 
 		#region [Constructors]

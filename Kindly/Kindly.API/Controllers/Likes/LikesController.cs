@@ -175,7 +175,7 @@ namespace Kindly.API.Controllers.Likes
 				this.User, like, nameof(KindlyPolicies.AllowIfOwner)
 			);
 
-			if (result.Succeeded == false)
+			if (userID != this.GetInvocationUserID() || result.Succeeded == false)
 			{
 				return this.Unauthorized();
 			}
@@ -215,9 +215,9 @@ namespace Kindly.API.Controllers.Likes
 			PagedList<Like> likes;
 			IEnumerable<LikeDto> likeDtos;
 
-			switch (parameters.Mode)
+			switch (parameters.Container)
 			{
-				case LikeMode.Recipients:
+				case LikeContainer.Recipients:
 					likes = await this.Repository.GetBySenderUser(userID, parameters);
 					likeDtos = likes.Select(l => this.Mapper.Map<LikeDto>(l)).ToList();
 
@@ -225,10 +225,13 @@ namespace Kindly.API.Controllers.Likes
 						break;
 
 					foreach (var likeDto in likeDtos)
-						likeDto.RemoveSender();
+					{
+						likeDto.SenderID = null;
+						likeDto.Sender = null;
+					}
 					break;
 
-				case LikeMode.Senders:
+				case LikeContainer.Senders:
 					likes = await this.Repository.GetByRecipientUser(userID, parameters);
 					likeDtos = likes.Select(l => this.Mapper.Map<LikeDto>(l)).ToList();
 
@@ -236,11 +239,14 @@ namespace Kindly.API.Controllers.Likes
 						break;
 
 					foreach (var likeDto in likeDtos)
-						likeDto.RemoveRecipient();
+					{
+						likeDto.RecipientID = null;
+						likeDto.Recipient = null;
+					}
 					break;
 
 				default:
-					throw new ArgumentOutOfRangeException(nameof(parameters.Mode), parameters.Mode, null);
+					throw new ArgumentOutOfRangeException(nameof(parameters.Container), parameters.Container, null);
 			}
 
 			this.Response.AddPaginationHeader(new PaginationHeader

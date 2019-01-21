@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Kindly.API.Models.Repositories.Likes
 {
+	/// <summary>
+	/// Implements the like entity framework configuration.
+	/// </summary>
+	/// 
+	/// <seealso cref="IEntityTypeConfiguration{User}" />
 	public sealed class LikeConfiguration : IEntityTypeConfiguration<Like>
 	{
 		/// <inheritdoc />

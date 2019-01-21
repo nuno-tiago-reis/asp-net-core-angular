@@ -40,12 +40,15 @@ using System.Text;
 
 namespace Kindly.API
 {
+	/// <summary>
+	/// Implements the start-up flow.
+	/// </summary>
 	public sealed class Startup
 	{
 		/// <summary>
 		/// Gets the configuration.
 		/// </summary>
-		public IConfiguration Configuration { get; }
+		private IConfiguration Configuration { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Startup"/> class.

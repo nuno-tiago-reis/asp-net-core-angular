@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedPicturesTable : Migration
 	{
 		/// <inheritdoc />
@@ -10,8 +15,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.CreateTable
 			(
-				name: "Pictures",
-				columns: table => new
+				"Pictures",
+				table => new
 				{
 					ID = table.Column<Guid>(nullable: false),
 					Url = table.Column<string>(maxLength: 200, nullable: false),
@@ -24,25 +29,25 @@ namespace Kindly.API.Migrations
 				{
 					table.PrimaryKey("PK_Pictures", x => x.ID);
 					table.ForeignKey(
-						name: "FK_Pictures_Users_UserID",
-						column: x => x.UserID,
-						principalTable: "Users",
-						principalColumn: "ID",
+						"FK_Pictures_Users_UserID",
+						x => x.UserID,
+						"Users",
+						"ID",
 						onDelete: ReferentialAction.Cascade);
 				});
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Pictures_UserID",
-				table: "Pictures",
-				column: "UserID"
+				"IX_Pictures_UserID",
+				"Pictures",
+				"UserID"
 			);
 		}
 
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.DropTable(name: "Pictures");
+			migrationBuilder.DropTable("Pictures");
 		}
 	}
 }

@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedPublicIdColumnToPicturesTable : Migration
 	{
 		/// <inheritdoc />
@@ -9,8 +14,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AddColumn<string>
 			(
-				name: "PublicID",
-				table: "Pictures",
+				"PublicID",
+				"Pictures",
 				maxLength: 200,
 				nullable: false,
 				defaultValue: null
@@ -22,8 +27,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropColumn
 			(
-				name: "PublicID",
-				table: "Pictures"
+				"PublicID",
+				"Pictures"
 			);
 		}
 	}

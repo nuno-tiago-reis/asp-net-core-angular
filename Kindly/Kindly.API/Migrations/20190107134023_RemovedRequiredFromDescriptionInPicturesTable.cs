@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class RemovedRequiredFromDescriptionInPicturesTable : Migration
 	{
 		/// <inheritdoc />
@@ -9,8 +14,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Description",
-				table: "Pictures",
+				"Description",
+				"Pictures",
 				maxLength: 200,
 				nullable: true,
 				oldClrType: typeof(string),
@@ -23,8 +28,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Description",
-				table: "Pictures",
+				"Description",
+				"Pictures",
 				maxLength: 200,
 				nullable: false,
 				oldClrType: typeof(string),

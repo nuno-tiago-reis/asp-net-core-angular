@@ -5,71 +5,72 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kindly.API.Migrations
 {
-    [DbContext(typeof(KindlyContext))]
-    [Migration("20181214151420_AddedUsersTable")]
-    partial class AddedUsersTable
-    {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
-        {
+#pragma warning disable 1591
+	[DbContext(typeof(KindlyContext))]
+	[Migration("20181214151420_AddedUsersTable")]
+	partial class AddedUsersTable
+	{
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
+		{
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+			modelBuilder
+				.HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+				.HasAnnotation("Relational:MaxIdentifierLength", 128)
+				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Kindly.API.Models.User", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("Kindly.API.Models.User", b =>
+			{
+				b.Property<Guid>("ID")
+					.ValueGeneratedOnAdd();
 
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasMaxLength(200);
+				b.Property<string>("EmailAddress")
+					.IsRequired()
+					.HasMaxLength(200);
 
-                    b.Property<bool>("EmailAddressConfirmed");
+				b.Property<bool>("EmailAddressConfirmed");
 
-                    b.Property<byte[]>("PasswordHash");
+				b.Property<byte[]>("PasswordHash");
 
-                    b.Property<byte[]>("PasswordSalt");
+				b.Property<byte[]>("PasswordSalt");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(200);
+				b.Property<string>("PhoneNumber")
+					.IsRequired()
+					.HasMaxLength(200);
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+				b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(200);
+				b.Property<string>("UserName")
+					.IsRequired()
+					.HasMaxLength(200);
 
-                    b.HasKey("ID");
+				b.HasKey("ID");
 
-                    b.HasIndex("EmailAddress");
+				b.HasIndex("EmailAddress");
 
-                    b.HasIndex("PhoneNumber");
+				b.HasIndex("PhoneNumber");
 
-                    b.HasIndex("UserName");
+				b.HasIndex("UserName");
 
-                    b.ToTable("Users");
-                });
+				b.ToTable("Users");
+			});
 
-            modelBuilder.Entity("Kindly.API.Models.Value", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+			modelBuilder.Entity("Kindly.API.Models.Value", b =>
+			{
+				b.Property<int>("ID")
+					.ValueGeneratedOnAdd()
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Content");
+				b.Property<string>("Content");
 
-                    b.HasKey("ID");
+				b.HasKey("ID");
 
-                    b.ToTable("Values");
-                });
+				b.ToTable("Values");
+			});
 #pragma warning restore 612, 618
-        }
-    }
+		}
+	}
+#pragma warning restore 1591
 }

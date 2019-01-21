@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Likes
 {
+	/// <summary>
+	/// Provides CRUD methods over like entities as well as other utility methods.
+	/// </summary>
+	/// 
+	/// <seealso cref="IEntityRepository{Like, LikeParameters}" />
 	public interface ILikeRepository : IEntityRepository<Like, LikeParameters>
 	{
 		/// <summary>

@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories.Messages
 {
+	/// <summary>
+	/// Provides CRUD methods over message entities as well as other utility methods.
+	/// </summary>
+	/// 
+	/// <seealso cref="IEntityRepository{Message, MessageParameters}" />
 	public interface IMessageRepository : IEntityRepository<Message, MessageParameters>
 	{
 		/// <summary>

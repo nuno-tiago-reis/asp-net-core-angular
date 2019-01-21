@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedLikesTable : Migration
 	{
 		/// <inheritdoc />

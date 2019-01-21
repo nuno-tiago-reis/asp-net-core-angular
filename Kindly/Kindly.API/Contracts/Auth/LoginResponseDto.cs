@@ -1,9 +1,14 @@
 ﻿using Kindly.API.Contracts.Users;
 
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Auth
 {
+	/// <summary>
+	/// The response data transfer object for the log in operation.
+	/// </summary>
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class LoginResponseDto
 	{
 		/// <summary>

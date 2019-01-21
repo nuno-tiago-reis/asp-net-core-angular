@@ -6,6 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kindly.API.Utility.Collections
 {
+	/// <summary>
+	/// Provides pagination over a generic list.
+	/// </summary>
+	/// 
+	/// <typeparam name="T"></typeparam>
+	/// <seealso cref="List{T}" />
 	public sealed class PagedList<T> : List<T> where T : class
 	{
 		#region [Properties]

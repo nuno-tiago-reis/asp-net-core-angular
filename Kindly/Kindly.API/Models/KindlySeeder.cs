@@ -13,13 +13,14 @@ using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
 namespace Kindly.API.Models
 {
-	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	/// <summary>
+	/// Implements the kindly database seeder.
+	/// </summary>
 	public sealed class KindlySeeder
 	{
 		#region [Constants]
@@ -38,22 +39,22 @@ namespace Kindly.API.Models
 		/// <summary>
 		/// The user manager.
 		/// </summary>
-		private readonly UserManager<User> UserManager;
+		private readonly UserManager<User> userManager;
 
 		/// <summary>
 		/// The role manager.
 		/// </summary>
-		private readonly RoleManager<Role> RoleManager;
+		private readonly RoleManager<Role> roleManager;
 
 		/// <summary>S
 		/// The cloudinary proxy.
 		/// </summary>
-		private readonly Cloudinary Cloudinary;
+		private readonly Cloudinary cloudinary;
 
 		/// <summary>
 		/// The administrator user.
 		/// </summary>
-		private readonly User Administrator = new User
+		private readonly User administrator = new User
 		{
 			KnownAs = "Administrator",
 			UserName = "administrator",
@@ -84,9 +85,9 @@ namespace Kindly.API.Models
 				IOptions<CloudinarySettings> cloudinarySettings
 			)
 			{
-				this.UserManager = userManager;
-				this.RoleManager = roleManager;
-				this.Cloudinary = new Cloudinary(new Account
+				this.userManager = userManager;
+				this.roleManager = roleManager;
+				this.cloudinary = new Cloudinary(new Account
 				(
 					cloudinarySettings.Value.Cloud,
 					cloudinarySettings.Value.ApiKey,
@@ -101,28 +102,28 @@ namespace Kindly.API.Models
 		/// </summary>
 		public void SeedUsers()
 		{
-			if (!this.RoleManager.Roles.Any())
+			if (!this.roleManager.Roles.Any())
 			{
 				var roles = Enum.GetNames(typeof(KindlyRoles));
 
 				// Create the roles
 				foreach (string role in roles)
 				{
-					this.RoleManager.CreateAsync(new Role { Name = role }).Wait();
+					this.roleManager.CreateAsync(new Role { Name = role }).Wait();
 				}
 			}
 
-			if (!this.UserManager.Users.Any(u => u.UserName == Administrator.UserName))
+			if (!this.userManager.Users.Any(u => u.UserName == this.administrator.UserName))
 			{
 				// Create the administrator
-				this.UserManager.CreateAsync(Administrator, DefaultUserPassword).Wait();
+				this.userManager.CreateAsync(this.administrator, DefaultUserPassword).Wait();
 				// Create the administrators roles
-				this.UserManager.AddToRoleAsync(Administrator, nameof(KindlyRoles.Member)).Wait();
-				this.UserManager.AddToRoleAsync(Administrator, nameof(KindlyRoles.Moderator)).Wait();
-				this.UserManager.AddToRoleAsync(Administrator, nameof(KindlyRoles.Administrator)).Wait();
+				this.userManager.AddToRoleAsync(this.administrator, nameof(KindlyRoles.Member)).Wait();
+				this.userManager.AddToRoleAsync(this.administrator, nameof(KindlyRoles.Moderator)).Wait();
+				this.userManager.AddToRoleAsync(this.administrator, nameof(KindlyRoles.Administrator)).Wait();
 			}
 
-			if ( this.UserManager.Users.Any(u => u.UserName == Administrator.UserName) && this.UserManager.Users.Count() == 1)
+			if ( this.userManager.Users.Any(u => u.UserName == this.administrator.UserName) && this.userManager.Users.Count() == 1)
 			{
 				var users = JsonConvert.DeserializeObject<List<User>>
 				(
@@ -135,27 +136,35 @@ namespace Kindly.API.Models
 					// Create the pictures
 					foreach (var picture in user.Pictures)
 					{
-						var uploadParameters = new ImageUploadParams
+						try
 						{
-							File = new FileDescription(picture.Url),
-							Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
-						};
+							var uploadParameters = new ImageUploadParams
+							{
+								File = new FileDescription(picture.Url),
+								Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
+							};
 
-						var uploadResult = this.Cloudinary.Upload(uploadParameters);
-						if (uploadResult.Error != null)
-							throw new ArgumentException("There was an error uploading the picture: " + uploadResult.Error.Message);
+							var uploadResult = this.cloudinary.Upload(uploadParameters);
+							if (uploadResult.Error != null)
+								throw new ArgumentException("There was an error uploading the picture: " + uploadResult.Error.Message);
 
-						picture.Url = uploadResult.SecureUri.ToString();
-						picture.PublicID = uploadResult.PublicId;
-						picture.IsApproved = true;
+							picture.Url = uploadResult.SecureUri.ToString();
+							picture.PublicID = uploadResult.PublicId;
+							picture.IsApproved = true;
 
-						Console.WriteLine($"Uploaded picture {picture.PublicID} for {user.UserName}");
+							Console.WriteLine($"Uploaded picture {picture.PublicID} for {user.UserName}");
+						}
+						catch(Exception exception)
+						{
+							Console.WriteLine(exception.Message);
+							Console.WriteLine(exception.StackTrace);
+						}
 					}
 
 					// Create the user
-					this.UserManager.CreateAsync(user, DefaultUserPassword).Wait();
+					this.userManager.CreateAsync(user, DefaultUserPassword).Wait();
 					// Create the users roles
-					this.UserManager.AddToRoleAsync(user, nameof(KindlyRoles.Member)).Wait();
+					this.userManager.AddToRoleAsync(user, nameof(KindlyRoles.Member)).Wait();
 				}
 			}
 		}

@@ -7,6 +7,11 @@ using System;
 
 namespace Kindly.API.Models.Repositories.Identity
 {
+	/// <summary>
+	/// Defines the user role entity.
+	/// </summary>
+	/// 
+	/// <seealso cref="IdentityUserRole{Guid}" />
 	public class UserRole : IdentityUserRole<Guid>
 	{
 		/// <summary>

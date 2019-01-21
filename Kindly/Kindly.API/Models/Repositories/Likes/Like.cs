@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Kindly.API.Models.Repositories.Users;
 
-using Kindly.API.Models.Repositories.Users;
+using System;
 
 namespace Kindly.API.Models.Repositories.Likes
 {
+	/// <summary>
+	/// Defines the like entity.
+	/// </summary>
 	public class Like
 	{
 		#region [Constants]

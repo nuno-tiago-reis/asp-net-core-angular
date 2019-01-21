@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Users
 {
+	/// <summary>
+	/// Implements the owner handler for the users controller.
+	/// </summary>
+	/// 
+	/// <seealso cref="UsersController"/>.
+	/// <seealso cref="ResourceOwnerHandler{User}" />
 	public sealed class UsersOwnerHandler : ResourceOwnerHandler<User>
 	{
 		#region [Methods]

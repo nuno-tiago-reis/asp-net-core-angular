@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Utility
 {
+	/// <summary>
+	/// Provides miscellaneous utility methods.
+	/// </summary>
 	public static class KindlyUtilities
 	{
 		/// <summary>

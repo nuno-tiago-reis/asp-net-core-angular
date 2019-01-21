@@ -8,13 +8,18 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers
 {
+	/// <summary>
+	/// Implements the elevated user handler.
+	/// </summary>
+	/// 
+	/// <seealso cref="GenericHandler{ElevatedUserRequirement}" />
 	public sealed class ElevatedUserHandler : GenericHandler<ElevatedUserRequirement>
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the user manager.
 		/// </summary>
-		public UserManager<User> UserManager { get; set; }
+		private UserManager<User> UserManager { get; set; }
 		#endregion
 
 		#region [Methods]

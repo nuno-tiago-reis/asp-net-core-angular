@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Kindly.API.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="automapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="CloudinaryDotNet" Version="1.6.0" />

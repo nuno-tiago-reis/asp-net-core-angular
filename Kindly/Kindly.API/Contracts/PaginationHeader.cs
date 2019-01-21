@@ -1,5 +1,8 @@
 ﻿namespace Kindly.API.Contracts
 {
+	/// <summary>
+	/// The data transfer object for the pagination header.
+	/// </summary>
 	public sealed class PaginationHeader
 	{
 		#region [Properties]

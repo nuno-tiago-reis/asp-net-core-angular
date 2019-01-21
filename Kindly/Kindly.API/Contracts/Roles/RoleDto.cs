@@ -4,6 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Roles
 {
+	/// <summary>
+	/// The data transfer object for the role entity.
+	/// </summary>
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class RoleDto
 	{

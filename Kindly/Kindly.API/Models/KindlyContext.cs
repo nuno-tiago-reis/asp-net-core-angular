@@ -12,6 +12,11 @@ using System;
 
 namespace Kindly.API.Models
 {
+	/// <summary>
+	/// Implements the kindly database context for entity framework.
+	/// </summary>
+	/// 
+	/// <seealso cref="IdentityDbContext{User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken}" />
 	public class KindlyContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 	{
 		#region [Properties]

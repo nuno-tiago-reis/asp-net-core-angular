@@ -7,13 +7,19 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Messages
 {
+	/// <summary>
+	/// Implements the owner handler for the messages controller.
+	/// </summary>
+	/// 
+	/// <seealso cref="MessagesController"/>.
+	/// <seealso cref="ResourceOwnerHandler{Message}" />
 	public sealed class MessagesOwnerHandler : ResourceOwnerHandler<Message>
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
-		public IMessageRepository Repository { get; set; }
+		private IMessageRepository Repository { get; set; }
 		#endregion
 
 		#region [Methods]

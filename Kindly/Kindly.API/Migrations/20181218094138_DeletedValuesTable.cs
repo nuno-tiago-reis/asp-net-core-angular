@@ -3,12 +3,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class DeletedValuesTable : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.DropTable(name: "Values");
+			migrationBuilder.DropTable("Values");
 		}
 
 		/// <inheritdoc />
@@ -16,8 +21,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.CreateTable
 			(
-				name: "Values",
-				columns: table => new
+				"Values",
+				table => new
 				{
 					ID = table.Column<int>(nullable: false).Annotation
 					(
@@ -25,10 +30,7 @@ namespace Kindly.API.Migrations
 					),
 					Content = table.Column<string>(nullable: true)
 				},
-				constraints: table =>
-				{
-					table.PrimaryKey("PK_Values", x => x.ID);
-				}
+				constraints: table => { table.PrimaryKey("PK_Values", x => x.ID); }
 			);
 		}
 	}

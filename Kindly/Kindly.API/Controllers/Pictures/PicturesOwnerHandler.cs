@@ -7,13 +7,19 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Controllers.Pictures
 {
+	/// <summary>
+	/// Implements the owner handler for the pictures controller.
+	/// </summary>
+	/// 
+	/// <seealso cref="PicturesController"/>.
+	/// <seealso cref="ResourceOwnerHandler{Picture}" />
 	public sealed class PicturesOwnerHandler : ResourceOwnerHandler<Picture>
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the repository.
 		/// </summary>
-		public IPictureRepository Repository { get; set; }
+		private IPictureRepository Repository { get; set; }
 		#endregion
 
 		#region [Methods]

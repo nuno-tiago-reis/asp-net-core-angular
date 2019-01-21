@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedUniqueColumnsToUsersTable : Migration
 	{
 		/// <inheritdoc />
@@ -9,43 +14,43 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_EmailAddress",
-				table: "Users"
+				"IX_Users_EmailAddress",
+				"Users"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_PhoneNumber",
-				table: "Users"
+				"IX_Users_PhoneNumber",
+				"Users"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_UserName",
-				table: "Users"
+				"IX_Users_UserName",
+				"Users"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_EmailAddress",
-				table: "Users",
-				column: "EmailAddress",
+				"IX_Users_EmailAddress",
+				"Users",
+				"EmailAddress",
 				unique: true
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_PhoneNumber",
-				table: "Users",
-				column: "PhoneNumber",
+				"IX_Users_PhoneNumber",
+				"Users",
+				"PhoneNumber",
 				unique: true
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_UserName",
-				table: "Users",
-				column: "UserName",
+				"IX_Users_UserName",
+				"Users",
+				"UserName",
 				unique: true
 			);
 		}
@@ -55,41 +60,41 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_EmailAddress",
-				table: "Users"
+				"IX_Users_EmailAddress",
+				"Users"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_PhoneNumber",
-				table: "Users"
+				"IX_Users_PhoneNumber",
+				"Users"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Users_UserName",
-				table: "Users"
+				"IX_Users_UserName",
+				"Users"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_EmailAddress",
-				table: "Users",
-				column: "EmailAddress"
+				"IX_Users_EmailAddress",
+				"Users",
+				"EmailAddress"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_PhoneNumber",
-				table: "Users",
-				column: "PhoneNumber"
+				"IX_Users_PhoneNumber",
+				"Users",
+				"PhoneNumber"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_UserName",
-				table: "Users",
-				column: "UserName"
+				"IX_Users_UserName",
+				"Users",
+				"UserName"
 			);
 		}
 	}

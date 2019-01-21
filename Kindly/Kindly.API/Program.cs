@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Kindly.API
 {
+	/// <summary>
+	/// Implements the entry point.
+	/// </summary>
 	public sealed class Program
 	{
 		/// <summary>
@@ -19,7 +22,7 @@ namespace Kindly.API
 		/// </summary>
 		/// <param name="args">The arguments.</param>
 		/// <returns></returns>
-		public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+		private static IWebHostBuilder CreateWebHostBuilder(string[] args)
 		{
 			return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
 		}

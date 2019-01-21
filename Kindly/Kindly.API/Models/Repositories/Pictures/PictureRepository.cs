@@ -10,13 +10,14 @@ using System.Linq;
 
 namespace Kindly.API.Models.Repositories.Pictures
 {
+	/// <inheritdoc />
 	public sealed class PictureRepository : IPictureRepository
 	{
 		#region [Properties]
 		/// <summary>
 		/// Gets or sets the context.
 		/// </summary>
-		public KindlyContext Context { get; set; }
+		private KindlyContext Context { get; set; }
 		#endregion
 
 		#region [Constructors]

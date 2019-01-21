@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace Kindly.API.Utility
 {
+	/// <summary>
+	/// Implements a filter that registers a users activity after invoking the api.
+	/// </summary>
+	/// 
+	/// <seealso cref="IAsyncActionFilter" />
 	public sealed class KindlyActivityFilter : IAsyncActionFilter
 	{
 		/// <inheritdoc />

@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class ChangedColumnLengthsInUsersTable : Migration
 	{
 		/// <inheritdoc />
@@ -9,8 +14,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "LookingFor",
-				table: "Users",
+				"LookingFor",
+				"Users",
 				maxLength: 250,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -19,8 +24,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Introduction",
-				table: "Users",
+				"Introduction",
+				"Users",
 				maxLength: 500,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -29,8 +34,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Interests",
-				table: "Users",
+				"Interests",
+				"Users",
 				maxLength: 250,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -39,8 +44,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<bool>
 			(
-				name: "IsProfilePicture",
-				table: "Pictures",
+				"IsProfilePicture",
+				"Pictures",
 				nullable: false,
 				defaultValue: false,
 				oldClrType: typeof(bool)
@@ -54,20 +59,21 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "LookingFor",
-				table: "Users",
+				"LookingFor",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				oldClrType: typeof(string),
 				oldMaxLength: 250
 			);
-	
-			migrationBuilder.Sql("UPDATE Users SET Introduction = LEFT(Introduction, 200) WHERE LEN(Introduction) > 200");
+
+			migrationBuilder.Sql(
+				"UPDATE Users SET Introduction = LEFT(Introduction, 200) WHERE LEN(Introduction) > 200");
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Introduction",
-				table: "Users",
+				"Introduction",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -78,8 +84,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Interests",
-				table: "Users",
+				"Interests",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -88,8 +94,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<bool>
 			(
-				name: "IsProfilePicture",
-				table: "Pictures",
+				"IsProfilePicture",
+				"Pictures",
 				nullable: false,
 				oldClrType: typeof(bool),
 				oldDefaultValue: false

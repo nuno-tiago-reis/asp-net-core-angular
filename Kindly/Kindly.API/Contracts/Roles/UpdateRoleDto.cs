@@ -3,6 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Roles
 {
+	/// <summary>
+	/// The request data transfer object for the update role operation.
+	/// </summary>
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class UpdateRoleDto
 	{

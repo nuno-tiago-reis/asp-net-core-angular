@@ -8,6 +8,11 @@ using System.Security.Claims;
 
 namespace Kindly.API.Controllers
 {
+	/// <summary>
+	/// Provides generic operations over the invoking user.
+	/// </summary>
+	/// 
+	/// <seealso cref="ControllerBase" />
 	public abstract class KindlyController : ControllerBase
 	{
 		#region [Properties]

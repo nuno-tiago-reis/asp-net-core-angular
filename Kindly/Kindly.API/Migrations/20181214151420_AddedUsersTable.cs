@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedUsersTable : Migration
 	{
 		/// <inheritdoc />
@@ -10,8 +15,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.CreateTable
 			(
-				name: "Users",
-				columns: table => new
+				"Users",
+				table => new
 				{
 					ID = table.Column<Guid>(nullable: false),
 					UserName = table.Column<string>(maxLength: 200, nullable: false),
@@ -22,38 +27,35 @@ namespace Kindly.API.Migrations
 					PasswordHash = table.Column<byte[]>(nullable: true),
 					PasswordSalt = table.Column<byte[]>(nullable: true)
 				},
-				constraints: table =>
-				{
-					table.PrimaryKey("PK_Users", x => x.ID);
-				}
+				constraints: table => { table.PrimaryKey("PK_Users", x => x.ID); }
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_EmailAddress",
-				table: "Users",
-				column: "EmailAddress"
+				"IX_Users_EmailAddress",
+				"Users",
+				"EmailAddress"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_PhoneNumber",
-				table: "Users",
-				column: "PhoneNumber"
+				"IX_Users_PhoneNumber",
+				"Users",
+				"PhoneNumber"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Users_UserName",
-				table: "Users",
-				column: "UserName"
+				"IX_Users_UserName",
+				"Users",
+				"UserName"
 			);
 		}
 
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.DropTable(name: "Users");
+			migrationBuilder.DropTable("Users");
 		}
 	}
 }

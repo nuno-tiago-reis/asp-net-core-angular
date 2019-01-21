@@ -1,5 +1,8 @@
 ﻿namespace Kindly.API.Utility
 {
+	/// <summary>
+	/// Provides miscellaneous constants.
+	/// </summary>
 	public static class KindlyConstants
 	{
 		/// <summary>

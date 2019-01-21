@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedTriggersOnDeleteUsers : Migration
 	{
 		/// <inheritdoc />
@@ -9,80 +14,81 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_SourceID",
-				table: "Likes"
+				"FK_Likes_AspNetUsers_SourceID",
+				"Likes"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_TargetID",
-				table: "Likes"
+				"FK_Likes_AspNetUsers_TargetID",
+				"Likes"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Likes_SourceID_TargetID",
-				table: "Likes"
+				"IX_Likes_SourceID_TargetID",
+				"Likes"
 			);
 
 			migrationBuilder.RenameColumn
 			(
-				name: "TargetID",
-				table: "Likes",
-				newName: "SenderID"
+				"TargetID",
+				"Likes",
+				"SenderID"
 			);
 
 			migrationBuilder.RenameColumn
 			(
-				name: "SourceID",
-				table: "Likes",
-				newName: "RecipientID"
+				"SourceID",
+				"Likes",
+				"RecipientID"
 			);
 
 			migrationBuilder.RenameIndex
 			(
-				name: "IX_Likes_TargetID",
+				"IX_Likes_TargetID",
 				table: "Likes",
 				newName: "IX_Likes_SenderID"
 			);
 
 			migrationBuilder.RenameIndex
 			(
-				name: "IX_Likes_SourceID",
+				"IX_Likes_SourceID",
 				table: "Likes",
 				newName: "IX_Likes_RecipientID"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Likes_SenderID_RecipientID",
-				table: "Likes",
-				columns: new[] { "SenderID", "RecipientID" },
+				"IX_Likes_SenderID_RecipientID",
+				"Likes",
+				new[] {"SenderID", "RecipientID"},
 				unique: true
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_RecipientID",
-				table: "Likes",
-				column: "RecipientID",
-				principalTable: "AspNetUsers",
+				"FK_Likes_AspNetUsers_RecipientID",
+				"Likes",
+				"RecipientID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_SenderID",
-				table: "Likes",
-				column: "SenderID",
-				principalTable: "AspNetUsers",
+				"FK_Likes_AspNetUsers_SenderID",
+				"Likes",
+				"SenderID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
-			migrationBuilder.Sql
+			/*migrationBuilder.Sql
 			(@"
+				GO
 				CREATE TRIGGER [TR_AspNetUsers_Delete]
 				ON [AspNetUsers]
 				INSTEAD OF DELETE
@@ -96,7 +102,7 @@ namespace Kindly.API.Migrations
 					DELETE FROM [AspNetUsers] WHERE [ID] IN (SELECT [ID] FROM DELETED)
 				END
 				GO
-			");
+			");*/
 		}
 
 		/// <inheritdoc />
@@ -110,74 +116,74 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_RecipientID",
-				table: "Likes"
+				"FK_Likes_AspNetUsers_RecipientID",
+				"Likes"
 			);
 
 			migrationBuilder.DropForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_SenderID",
-				table: "Likes"
+				"FK_Likes_AspNetUsers_SenderID",
+				"Likes"
 			);
 
 			migrationBuilder.DropIndex
 			(
-				name: "IX_Likes_SenderID_RecipientID",
-				table: "Likes"
+				"IX_Likes_SenderID_RecipientID",
+				"Likes"
 			);
 
 			migrationBuilder.RenameColumn
 			(
-				name: "SenderID",
-				table: "Likes",
-				newName: "TargetID"
+				"SenderID",
+				"Likes",
+				"TargetID"
 			);
 
 			migrationBuilder.RenameColumn
 			(
-				name: "RecipientID",
-				table: "Likes",
-				newName: "SourceID"
+				"RecipientID",
+				"Likes",
+				"SourceID"
 			);
 
 			migrationBuilder.RenameIndex
 			(
-				name: "IX_Likes_SenderID",
+				"IX_Likes_SenderID",
 				table: "Likes",
 				newName: "IX_Likes_TargetID"
 			);
 
 			migrationBuilder.RenameIndex
 			(
-				name: "IX_Likes_RecipientID",
+				"IX_Likes_RecipientID",
 				table: "Likes",
 				newName: "IX_Likes_SourceID"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Likes_SourceID_TargetID",
-				table: "Likes",
-				columns: new[] { "SourceID", "TargetID" },
+				"IX_Likes_SourceID_TargetID",
+				"Likes",
+				new[] {"SourceID", "TargetID"},
 				unique: true
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_SourceID",
-				table: "Likes",
-				column: "SourceID",
-				principalTable: "AspNetUsers",
+				"FK_Likes_AspNetUsers_SourceID",
+				"Likes",
+				"SourceID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);
 
 			migrationBuilder.AddForeignKey
 			(
-				name: "FK_Likes_AspNetUsers_TargetID",
-				table: "Likes",
-				column: "TargetID",
-				principalTable: "AspNetUsers",
+				"FK_Likes_AspNetUsers_TargetID",
+				"Likes",
+				"TargetID",
+				"AspNetUsers",
 				principalColumn: "ID",
 				onDelete: ReferentialAction.Restrict
 			);

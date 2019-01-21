@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedMessagesTable : Migration
 	{
 		/// <inheritdoc />
@@ -11,8 +15,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.CreateTable
 			(
-				name: "Messages",
-				columns: table => new
+				"Messages",
+				table => new
 				{
 					ID = table.Column<Guid>(nullable: false),
 					Content = table.Column<string>(maxLength: 200, nullable: false),
@@ -28,39 +32,39 @@ namespace Kindly.API.Migrations
 				{
 					table.PrimaryKey("PK_Messages", x => x.ID);
 					table.ForeignKey(
-						name: "FK_Messages_Users_RecipientID",
-						column: x => x.RecipientID,
-						principalTable: "Users",
-						principalColumn: "ID",
+						"FK_Messages_Users_RecipientID",
+						x => x.RecipientID,
+						"Users",
+						"ID",
 						onDelete: ReferentialAction.Restrict);
 					table.ForeignKey(
-						name: "FK_Messages_Users_SenderID",
-						column: x => x.SenderID,
-						principalTable: "Users",
-						principalColumn: "ID",
+						"FK_Messages_Users_SenderID",
+						x => x.SenderID,
+						"Users",
+						"ID",
 						onDelete: ReferentialAction.Restrict);
 				}
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Messages_RecipientID",
-				table: "Messages",
-				column: "RecipientID"
+				"IX_Messages_RecipientID",
+				"Messages",
+				"RecipientID"
 			);
 
 			migrationBuilder.CreateIndex
 			(
-				name: "IX_Messages_SenderID",
-				table: "Messages",
-				column: "SenderID"
+				"IX_Messages_SenderID",
+				"Messages",
+				"SenderID"
 			);
 		}
 
 		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.DropTable(name: "Messages");
+			migrationBuilder.DropTable("Messages");
 		}
 	}
 }

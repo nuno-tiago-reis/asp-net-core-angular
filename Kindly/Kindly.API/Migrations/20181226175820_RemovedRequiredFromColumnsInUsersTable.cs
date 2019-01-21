@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class RemovedRequiredFromColumnsInUsersTable : Migration
 	{
 		/// <inheritdoc />
@@ -9,8 +14,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "LookingFor",
-				table: "Users",
+				"LookingFor",
+				"Users",
 				maxLength: 250,
 				nullable: true,
 				oldClrType: typeof(string),
@@ -19,8 +24,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Introduction",
-				table: "Users",
+				"Introduction",
+				"Users",
 				maxLength: 500,
 				nullable: true,
 				oldClrType: typeof(string),
@@ -29,8 +34,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Interests",
-				table: "Users",
+				"Interests",
+				"Users",
 				maxLength: 250,
 				nullable: true,
 				oldClrType: typeof(string),
@@ -43,8 +48,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "LookingFor",
-				table: "Users",
+				"LookingFor",
+				"Users",
 				maxLength: 250,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -54,8 +59,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Introduction",
-				table: "Users",
+				"Introduction",
+				"Users",
 				maxLength: 500,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -65,8 +70,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "Interests",
-				table: "Users",
+				"Interests",
+				"Users",
 				maxLength: 250,
 				nullable: false,
 				oldClrType: typeof(string),

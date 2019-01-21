@@ -6,6 +6,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Messages
 {
+	/// <summary>
+	/// The data transfer object for the message entity.
+	/// </summary>
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class MessageDto
 	{

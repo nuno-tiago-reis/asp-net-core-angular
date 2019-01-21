@@ -1,47 +1,51 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
+﻿using Kindly.API.Utility.Collections;
 
-using Kindly.API.Utility.Collections;
+using System;
+using System.Threading.Tasks;
 
 namespace Kindly.API.Models.Repositories
 {
-	[SuppressMessage("ReSharper", "InconsistentNaming")]
-	public interface IEntityRepository<T, in P> where T : class where P : PaginationParameters
+	/// <summary>
+	/// Provides CRUD methods over an entity.
+	/// </summary>
+	/// 
+	/// <typeparam name="TEntity"></typeparam>
+	/// <typeparam name="TParameters"></typeparam>
+	public interface IEntityRepository<TEntity, in TParameters> where TEntity : class where TParameters : PaginationParameters
 	{
 		/// <summary>
 		/// Creates the specified entity.
 		/// </summary>
 		/// 
-		/// <param name="picture">The entity.</param>
-		Task<T> Create(T picture);
+		/// <param name="entity">The entity.</param>
+		Task<TEntity> Create(TEntity entity);
 
 		/// <summary>
 		/// Updates the specified entity.
 		/// </summary>
 		/// 
 		/// <param name="entity">The entity.</param>
-		Task<T> Update(T entity);
+		Task<TEntity> Update(TEntity entity);
 
 		/// <summary>
 		/// Deletes the specified entity.
 		/// </summary>
 		/// 
-		/// <param name="pictureID">The entity identifier.</param>
-		Task Delete(Guid pictureID);
+		/// <param name="entityID">The entity identifier.</param>
+		Task Delete(Guid entityID);
 
 		/// <summary>
 		/// Gets a entity by entity id.
 		/// </summary>
 		/// 
 		/// <param name="entityID">The entity identifier.</param>
-		Task<T> Get(Guid entityID);
+		Task<TEntity> Get(Guid entityID);
 
 		/// <summary>
 		/// Gets all the entities using pagination.
 		/// </summary>
 		/// 
 		/// <param name="parameters">The parameters.</param>
-		Task<PagedList<T>> GetAll(P parameters = null);
+		Task<PagedList<TEntity>> GetAll(TParameters parameters = null);
 	}
 }

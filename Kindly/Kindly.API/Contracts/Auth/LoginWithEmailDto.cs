@@ -1,7 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kindly.API.Contracts.Auth
 {
+	/// <summary>
+	/// The request data transfer object for the log in with email operation.
+	/// </summary>
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class LoginWithEmailDto
 	{
 		/// <summary>

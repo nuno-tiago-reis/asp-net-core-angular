@@ -13,13 +13,17 @@ using Kindly.API.Models.Repositories.Users;
 using Kindly.API.Models.Repositories.Roles;
 using Kindly.API.Utility;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Kindly.API.Contracts.Settings
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="AutoMapperProfile"/> class.
+	/// Implements the auto mapper profile.
 	/// </summary>
+	/// 
+	/// <seealso cref="Profile" />
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class AutoMapperProfile : Profile
 	{
 		/// <summary>

@@ -1,5 +1,8 @@
 ﻿namespace Kindly.API.Utility.Settings
 {
+	/// <summary>
+	/// Provides the cloudinary settings.
+	/// </summary>
 	public sealed class CloudinarySettings
 	{
 		/// <summary>

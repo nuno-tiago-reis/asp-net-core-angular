@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kindly.API.Migrations
 {
+	/// <summary>
+	/// Implements an entity framework migration.
+	/// </summary>
+	/// 
+	/// <seealso cref="Migration" />
 	public partial class AddedColumnsToUsersTable : Migration
 	{
 		/// <inheritdoc />
@@ -10,8 +15,8 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "UserName",
-				table: "Users",
+				"UserName",
+				"Users",
 				maxLength: 25,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -20,8 +25,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "PhoneNumber",
-				table: "Users",
+				"PhoneNumber",
+				"Users",
 				maxLength: 15,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -30,8 +35,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "EmailAddress",
-				table: "Users",
+				"EmailAddress",
+				"Users",
 				maxLength: 254,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -39,17 +44,17 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<DateTime>
 			(
-				name: "BirthDate",
-				table: "Users",
-				type: "Date",
+				"BirthDate",
+				"Users",
+				"Date",
 				nullable: false,
 				defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
 			);
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "City",
-				table: "Users",
+				"City",
+				"Users",
 				maxLength: 50,
 				nullable: false,
 				defaultValue: ""
@@ -57,8 +62,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "Country",
-				table: "Users",
+				"Country",
+				"Users",
 				maxLength: 50,
 				nullable: false,
 				defaultValue: ""
@@ -66,16 +71,16 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<DateTime>
 			(
-				name: "CreatedAt",
-				table: "Users",
+				"CreatedAt",
+				"Users",
 				nullable: false,
 				defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
 			);
 
 			migrationBuilder.AddColumn<int>
 			(
-				name: "Gender",
-				table: "Users",
+				"Gender",
+				"Users",
 				maxLength: 10,
 				nullable: false,
 				defaultValue: 0
@@ -83,8 +88,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "Interests",
-				table: "Users",
+				"Interests",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				defaultValue: ""
@@ -92,8 +97,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "Introduction",
-				table: "Users",
+				"Introduction",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				defaultValue: ""
@@ -101,8 +106,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "KnownAs",
-				table: "Users",
+				"KnownAs",
+				"Users",
 				maxLength: 25,
 				nullable: false,
 				defaultValue: ""
@@ -110,16 +115,16 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AddColumn<DateTime>
 			(
-				name: "LastActiveAt",
-				table: "Users",
+				"LastActiveAt",
+				"Users",
 				nullable: false,
 				defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
 			);
 
 			migrationBuilder.AddColumn<string>
 			(
-				name: "LookingFor",
-				table: "Users",
+				"LookingFor",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				defaultValue: ""
@@ -131,68 +136,68 @@ namespace Kindly.API.Migrations
 		{
 			migrationBuilder.DropColumn
 			(
-				name: "BirthDate",
-				table: "Users"
+				"BirthDate",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "City",
-				table: "Users"
+				"City",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "Country",
-				table: "Users"
+				"Country",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "CreatedAt",
-				table: "Users"
+				"CreatedAt",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "Gender",
-				table: "Users"
+				"Gender",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "Interests",
-				table: "Users"
+				"Interests",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "Introduction",
-				table: "Users"
+				"Introduction",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "KnownAs",
-				table: "Users"
+				"KnownAs",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "LastActiveAt",
-				table: "Users"
+				"LastActiveAt",
+				"Users"
 			);
 
 			migrationBuilder.DropColumn
 			(
-				name: "LookingFor",
-				table: "Users"
+				"LookingFor",
+				"Users"
 			);
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "UserName",
-				table: "Users",
+				"UserName",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -201,8 +206,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "PhoneNumber",
-				table: "Users",
+				"PhoneNumber",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				oldClrType: typeof(string),
@@ -211,8 +216,8 @@ namespace Kindly.API.Migrations
 
 			migrationBuilder.AlterColumn<string>
 			(
-				name: "EmailAddress",
-				table: "Users",
+				"EmailAddress",
+				"Users",
 				maxLength: 200,
 				nullable: false,
 				oldClrType: typeof(string),

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Kindly.API.Contracts.Pictures
 {
+	/// <summary>
+	/// The request data transfer object for the create picture operation.
+	/// </summary>
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public sealed class CreatePictureDto
 	{

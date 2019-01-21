@@ -2,6 +2,11 @@
 
 namespace Kindly.API.Models.Repositories.Users
 {
+	/// <summary>
+	/// Provides pagination parameters as well as filtering over the user queries.
+	/// </summary>
+	/// 
+	/// <seealso cref="PaginationParameters" />
 	public sealed class UserParameters : PaginationParameters
 	{
 		#region [Constants]
