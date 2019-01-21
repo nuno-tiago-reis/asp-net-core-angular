@@ -145,7 +145,7 @@ export class LikesService
 
 		if (filterParameters != null)
 		{
-			parameters = parameters.append('mode', filterParameters.mode);
+			parameters = parameters.append('container', filterParameters.container);
 			parameters = parameters.append('includeRequestUser', filterParameters.includeRequestUser.toString());
 		}
 

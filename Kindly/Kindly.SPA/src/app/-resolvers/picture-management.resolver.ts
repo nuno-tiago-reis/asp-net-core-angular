@@ -58,9 +58,9 @@ export class PictureManagementResolver implements Resolve<PaginatedResult<Pictur
 		return this.picturesApi.getAllForAdministration(this.pageNumber, this.pageSize, filterParameters).pipe
 		(
 			catchError
-			((error) =>
+			((error: any) =>
 			{
-				this.alertify.error('Problem retrieving the pictures list.');
+				this.alertify.error('An error occured while retrieving the pictures.');
 				this.router.navigate(['/home']);
 
 				return of(null);

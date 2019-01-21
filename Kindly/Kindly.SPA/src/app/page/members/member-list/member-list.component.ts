@@ -132,7 +132,7 @@ export class MemberListComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving the members.');
+				this.alertify.error('An error occured while retrieving the members.');
 			}
 		);
 	}

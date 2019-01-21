@@ -12,7 +12,7 @@ import { User } from '../../-models/user';
 import { Like } from '../../-models/like';
 import { Pagination } from '../../-models/pagination';
 import { PaginatedResult } from '../../-models/paginated-result';
-import { LikeMode, LikeParameters } from '../../-services/likes/likes.models';
+import { LikeContainer, LikeParameters } from '../../-services/likes/likes.models';
 
 @Component
 ({
@@ -39,14 +39,14 @@ export class MatchesComponent implements OnInit
 	public filterParameters: LikeParameters;
 
 	/**
-	 * The like mode for the senders (uses that like me).
+	 * The like container for the senders (uses that like me).
 	 */
-	public readonly likeModeSenders: LikeMode = LikeMode.Senders;
+	public readonly likeContainerSenders: LikeContainer = LikeContainer.Senders;
 
 	/**
-	 * The like mode for the recipients (users that i like).
+	 * The like container for the recipients (users that i like).
 	 */
-	public readonly likeModeRecipients: LikeMode = LikeMode.Recipients;
+	public readonly likeContainerRecipients: LikeContainer = LikeContainer.Recipients;
 
 	/**
 	 * Creates an instance of the matches component.
@@ -66,7 +66,7 @@ export class MatchesComponent implements OnInit
 	{
 		this.filterParameters =
 		{
-			mode: LikeMode.Senders,
+			container: LikeContainer.Senders,
 			includeRequestUser: false
 		};
 	}
@@ -82,7 +82,7 @@ export class MatchesComponent implements OnInit
 
 			for (const like of data['likes'].results as Like[])
 			{
-				if (this.filterParameters.mode === LikeMode.Senders)
+				if (this.filterParameters.container === LikeContainer.Senders)
 					this.users.push(like.sender);
 				else
 					this.users.push(like.recipient);
@@ -111,7 +111,7 @@ export class MatchesComponent implements OnInit
 		(
 			(body: PaginatedResult<Like>) =>
 			{
-				if (this.filterParameters.mode === LikeMode.Senders)
+				if (this.filterParameters.container === LikeContainer.Senders)
 					this.users = body.results.map(like => like.sender);
 				else
 					this.users = body.results.map(like => like.recipient);
@@ -120,7 +120,7 @@ export class MatchesComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving the matches.');
+				this.alertify.error('An error occured while retrieving the matches.');
 			}
 		);
 	}

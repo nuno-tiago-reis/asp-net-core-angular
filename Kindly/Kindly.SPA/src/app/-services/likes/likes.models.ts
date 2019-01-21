@@ -8,7 +8,7 @@ export interface UpdateRequest
 	recipientID: string;
 }
 
-export enum LikeMode
+export enum LikeContainer
 {
 	Recipients = 'recipients',
 	Senders = 'senders'
@@ -16,6 +16,6 @@ export enum LikeMode
 
 export interface LikeParameters
 {
-	mode: LikeMode;
+	container: LikeContainer;
 	includeRequestUser: boolean;
 }

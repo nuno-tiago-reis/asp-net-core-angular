@@ -104,7 +104,7 @@ export class MemberMessagesComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving profile messages data.');
+				this.alertify.error('An error occured while retrieving the profile messages.');
 			}
 		);
 	}
@@ -125,7 +125,7 @@ export class MemberMessagesComponent implements OnInit
 			},
 			error =>
 			{
-				this.alertify.error(error);
+				this.alertify.error('An error occured while sending the message.');
 			}
 		);
 	}
@@ -140,14 +140,14 @@ export class MemberMessagesComponent implements OnInit
 		{
 			this.messagesApi.delete(message.id, this.authApi.user.id).subscribe
 			(
-				(next) =>
+				(next: void) =>
 				{
 					this.messages.splice(this.messages.findIndex(p => p.id === message.id), 1);
-					this.alertify.success('The message was deleted.');
+					this.alertify.success('You have deleted the message.');
 				},
-				(error) =>
+				(error: any) =>
 				{
-					this.alertify.error(error);
+					this.alertify.error('An error occured while deleting the message.');
 				}
 			);
 		},

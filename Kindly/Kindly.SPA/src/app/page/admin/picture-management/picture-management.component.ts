@@ -89,7 +89,7 @@ export class PictureManagementComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving pictures data.');
+				this.alertify.error('An error occured while retrieving the pictures.');
 			}
 		);
 	}
@@ -105,11 +105,11 @@ export class PictureManagementComponent implements OnInit
 		{
 			this.pictures.splice(this.pictures.findIndex(p => p.id === pictureID), 1);
 
-			this.alertify.success('Approved the picture.');
+			this.alertify.success('You have approved the picture.');
 		},
-		(error) =>
+		(error: any) =>
 		{
-			this.alertify.error('Problem approving picture.');
+			this.alertify.error('An error occured while approving the picture.');
 		});
 	}
 
@@ -124,11 +124,11 @@ export class PictureManagementComponent implements OnInit
 		{
 			this.pictures.splice(this.pictures.findIndex(p => p.id === pictureID), 1);
 
-			this.alertify.success('Rejected the picture.');
+			this.alertify.success('You have rejected the picture.');
 		},
-		(error) =>
+		(error: any) =>
 		{
-			this.alertify.error('Problem rejecting picture.');
+			this.alertify.error('An error occured while rejecting the picture.');
 		});
 	}
 }

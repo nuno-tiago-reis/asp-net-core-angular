@@ -87,7 +87,7 @@ export class MemberCardComponent implements OnInit
 			},
 			(error) =>
 			{
-				this.alertify.error(error);
+				this.alertify.error(`An error occured while liking ${this.user.knownAs}.`);
 			}
 		);
 	}
@@ -109,7 +109,7 @@ export class MemberCardComponent implements OnInit
 			},
 			(error) =>
 			{
-				this.alertify.error(error);
+				this.alertify.error(`An error occured while unliking ${this.user.knownAs}.`);
 			}
 		);
 	}

@@ -12,7 +12,7 @@ import { AlertifyService } from '../-services/alertify/alertify.service';
 // models
 import { Like } from '../-models/like';
 import { PaginatedResult } from '../-models/paginated-result';
-import { LikeMode, LikeParameters } from '../-services/likes/likes.models';
+import { LikeContainer, LikeParameters } from '../-services/likes/likes.models';
 
 @Injectable()
 export class MatchesResolver implements Resolve<PaginatedResult<Like>>
@@ -32,7 +32,7 @@ export class MatchesResolver implements Resolve<PaginatedResult<Like>>
 	 */
 	public readonly filterParameters: LikeParameters =
 	{
-		mode: LikeMode.Senders,
+		container: LikeContainer.Senders,
 		includeRequestUser: false
 	};
 
@@ -65,9 +65,9 @@ export class MatchesResolver implements Resolve<PaginatedResult<Like>>
 		return this.likesApi.getAll(this.authApi.user.id, this.pageNumber, this.pageSize, this.filterParameters).pipe
 		(
 			catchError
-			((error) =>
+			((error: any) =>
 			{
-				this.alertify.error('Problem retrieving the matches.');
+				this.alertify.error('An error occured while retrieving the matches.');
 				this.router.navigate(['/home']);
 
 				return of(null);

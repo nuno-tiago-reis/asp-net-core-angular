@@ -64,9 +64,9 @@ export class MessagesResolver implements Resolve<PaginatedResult<Message>>
 		return this.messagesApi.getAll(this.authApi.user.id, this.pageNumber, this.pageSize, this.filterParameters).pipe
 		(
 			catchError
-			((error) =>
+			((error: any) =>
 			{
-				this.alertify.error('Problem retrieving the messages.');
+				this.alertify.error('An error occured while retrieving the messages.');
 				this.router.navigate(['/home']);
 
 				return of(null);

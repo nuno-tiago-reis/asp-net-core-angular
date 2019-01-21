@@ -77,9 +77,9 @@ export class MemberListResolver implements Resolve<PaginatedResult<User>>
 		return this.usersApi.getAll(this.pageNumber, this.pageSize, this.filterParameters).pipe
 		(
 			catchError
-			((error) =>
+			((error: any) =>
 			{
-				this.alertify.error('Problem retrieving the members.');
+				this.alertify.error('An error occured while retrieving the members.');
 				this.router.navigate(['/home']);
 
 				return of(null);

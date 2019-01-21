@@ -93,7 +93,7 @@ export class MemberManagementComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving members data.');
+				this.alertify.error('An error occured while retrieving the members.');
 			}
 		);
 	}
@@ -135,11 +135,11 @@ export class MemberManagementComponent implements OnInit
 								user.roles.push({ id: '', name: roleName });
 							});
 
-							this.alertify.success('Updated the users roles.');
+							this.alertify.success('You have updated the users roles.');
 						},
 						(error: any) =>
 						{
-							this.alertify.error('Problem updating user roles.');
+							this.alertify.error('An error occured while updating the users roles.');
 						}
 					);
 				}

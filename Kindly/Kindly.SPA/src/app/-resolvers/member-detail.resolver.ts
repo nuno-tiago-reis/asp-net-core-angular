@@ -41,9 +41,9 @@ export class MemberDetailResolver implements Resolve<User>
 		return this.usersApi.get(route.params['id']).pipe
 		(
 			catchError
-			((error) =>
+			((error: any) =>
 			{
-				this.alertify.error('Problem retrieving the member detail.');
+				this.alertify.error('An error occured while retrieving the member detail.');
 				this.router.navigate(['/members']);
 
 				return of(null);

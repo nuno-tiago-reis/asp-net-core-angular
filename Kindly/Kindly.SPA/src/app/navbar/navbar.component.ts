@@ -61,7 +61,7 @@ export class NavBarComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error(error);
+				this.alertify.error('An error occured while logging in.');
 			}
 		);
 	}

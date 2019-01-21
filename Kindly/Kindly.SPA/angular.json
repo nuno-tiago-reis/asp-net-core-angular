@@ -80,7 +80,10 @@
 					{
 						"host": "kindly.com",
 						"port": 44351,
-						"browserTarget": "KindlyApp:build"
+						"browserTarget": "KindlyApp:build",
+						"ssl": true,
+						"sslKey": ".\\certificate\\kindly.com.key",
+						"sslCert": ".\\certificate\\kindly.com.crt"
 					},
 					"configurations":
 					{

@@ -162,7 +162,7 @@ export class ProfileEditorComponent implements OnInit
 
 			this.usersApi.update(this.user.id, updateRequest).subscribe
 			(
-				(next) =>
+				(next: void) =>
 				{
 					// emit the known as change
 					this.authApi.setKnownAs(this.user.knownAs);
@@ -170,11 +170,11 @@ export class ProfileEditorComponent implements OnInit
 					this.profileForm.reset(this.user);
 					this.contactsForm.reset(this.user);
 
-					this.alertify.success('Profile updated succesfully');
+					this.alertify.success('You have updated the profile.');
 				},
-				(error) =>
+				(error: any) =>
 				{
-					this.alertify.error(error);
+					this.alertify.error('An error occured while updating the profile.');
 				},
 			);
 		}

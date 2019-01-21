@@ -124,14 +124,14 @@ export class RegisterComponent implements OnInit
 			(
 				(user: User) =>
 				{
-					this.alertify.success('Registered successfully.');
+					this.alertify.success('You have registered successfully.');
 					this.submitRegistry.emit(this.registerRequest);
 
 					return user;
 				},
 				(error: any) =>
 				{
-					this.alertify.error(error);
+					this.alertify.error('An error occured while registrating.');
 				},
 				() =>
 				{

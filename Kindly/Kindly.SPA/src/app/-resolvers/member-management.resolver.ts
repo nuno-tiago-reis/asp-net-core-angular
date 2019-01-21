@@ -52,9 +52,9 @@ export class MemberManagementResolver implements Resolve<PaginatedResult<User>>
 		return this.usersApi.getAllWithRoles(this.pageNumber, this.pageSize).pipe
 		(
 			catchError
-			((error) =>
+			((error: any) =>
 			{
-				this.alertify.error('Problem retrieving the member list.');
+				this.alertify.error('An error occured while retrieving the members.');
 				this.router.navigate(['/home']);
 
 				return of(null);

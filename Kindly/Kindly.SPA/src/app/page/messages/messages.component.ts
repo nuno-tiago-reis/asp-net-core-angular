@@ -110,7 +110,7 @@ export class MessagesComponent implements OnInit
 			},
 			(error: any) =>
 			{
-				this.alertify.error('Problem retrieving the messages.');
+				this.alertify.error('An error occured while retrieving the messages.');
 			}
 		);
 	}
@@ -125,14 +125,14 @@ export class MessagesComponent implements OnInit
 		{
 			this.messagesApi.delete(message.id, this.authApi.user.id).subscribe
 			(
-				(next) =>
+				(next: void) =>
 				{
 					this.messages.splice(this.messages.findIndex(p => p.id === message.id), 1);
-					this.alertify.success('The message was deleted.');
+					this.alertify.success('You have deleted the message.');
 				},
-				(error) =>
+				(error: any) =>
 				{
-					this.alertify.error(error);
+					this.alertify.error('An error occured while deleting the message.');
 				}
 			);
 		},

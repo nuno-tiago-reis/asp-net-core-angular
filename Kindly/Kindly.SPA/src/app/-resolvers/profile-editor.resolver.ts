@@ -46,9 +46,9 @@ export class ProfileEditorResolver implements Resolve<User>
 		return this.usersApi.get(id).pipe
 		(
 			catchError
-			((error) =>
+			((error: any) =>
 			{
-				this.alertify.error('Problem retrieving the profile.');
+				this.alertify.error('An error occured while retrieving the profile.');
 				this.router.navigate(['/home']);
 
 				return of(null);

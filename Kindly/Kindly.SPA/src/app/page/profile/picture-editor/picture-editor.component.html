@@ -5,7 +5,7 @@
 			<span class="text-danger">Awaiting approval</span>
 		</div>
 		<div class="row justify-content-md-center">
-			<div class="editor-tooltip" tooltip="{{this.getProfileTooltipMessage(picture)}}" [delay]="250">
+			<div class="editor-tooltip"  tooltip="{{this.getProfileTooltipMessage(picture)}}" [delay]="250">
 				<button type="button" class="btn btn-sm mr-1"
 						[ngClass]="picture.isProfilePicture ? 'btn-warning active' : 'btn-outline-secondary'"
 						(click)="this.setProfilePicture(picture)" [disabled]="picture.isProfilePicture">
@@ -36,7 +36,7 @@
 			 [uploader]="this.uploader"
 			 class="card bg-faded p-3 text-center mb-3">
 			<i class="fa fa-upload fa-3x"></i>
-			Drop your pictures here
+			 Drop your pictures here
 		</div>
 
 		<div class="mt-2">
@@ -46,7 +46,7 @@
 
 		<div class="mt-2">
 			<strong>Multiple</strong>
-			<input type="file" ng2FileSelect [uploader]="this.uploader" multiple /><br />
+			<input type="file" ng2FileSelect [uploader]="this.uploader" multiple/><br/>
 		</div>
 	</div>
 
@@ -54,27 +54,27 @@
 
 		<table class="table">
 			<thead>
-				<tr>
-					<th>Actions</th>
-					<th width="50%">Name</th>
-					<th>Size</th>
-				</tr>
+			<tr>
+				<th>Actions</th>
+				<th width="50%">Name</th>
+				<th>Size</th>
+			</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let item of this.uploader.queue">
-					<td nowrap>
-						<button type="button" class="btn btn-sm  btn-success mr-1"
-								(click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-							<i class="fa fa-upload"></i>
-						</button>
-						<button type="button" class="btn btn-sm btn-danger ml-1"
-								(click)="item.remove()">
-							<i class="fa fa-trash-o"></i>
-						</button>
-					</td>
-					<td><strong>{{ item?.file?.name }}</strong></td>
-					<td *ngIf="this.uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-				</tr>
+			<tr *ngFor="let item of this.uploader.queue">
+			<td nowrap>
+					<button type="button" class="btn btn-sm  btn-success mr-1"
+							(click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+						<i class="fa fa-upload"></i>
+					</button>
+					<button type="button" class="btn btn-sm btn-danger ml-1"
+							(click)="item.remove()">
+						<i class="fa fa-trash-o"></i>
+					</button>
+				</td>
+				<td><strong>{{ item?.file?.name }}</strong></td>
+				<td *ngIf="this.uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+			</tr>
 			</tbody>
 		</table>
 

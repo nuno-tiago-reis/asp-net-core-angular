@@ -103,15 +103,15 @@ export class PictureEditorComponent implements OnInit
 
 				this.pictures.push(picture);
 
-				// console.log(`Uploaded ${item.file.name} successfully.`);
-				this.alertify.success(`Uploaded ${item.file.name} successfully.`);
+				// console.log(`You have uploaded ${item.file.name} successfully.`);
+				this.alertify.success(`You have uploaded ${item.file.name} successfully.`);
 			}
 		};
 
 		this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) =>
 		{
 			// console.error(`An error occured uploading ${item.file.name}: ${response}`);
-			this.alertify.error(response);
+			this.alertify.error(`An error occured while uploading ${item.file.name}.`);
 		};
 	}
 
@@ -134,7 +134,7 @@ export class PictureEditorComponent implements OnInit
 
 		this.picturesApi.update(picture.id, picture.userID, picture).subscribe
 		(
-			(next) =>
+			(next: void) =>
 			{
 				// update the previous profile picture
 				const profilePictures = this.pictures.filter(p => p.isProfilePicture);
@@ -147,11 +147,11 @@ export class PictureEditorComponent implements OnInit
 				// emit the profile picture change
 				this.authApi.setProfilePictureUrl(picture.url);
 
-				this.alertify.success('The profile picture was updated.');
+				this.alertify.success('You have updated the profile picture.');
 			},
-			(error) =>
+			(error: any) =>
 			{
-				this.alertify.error(error);
+				this.alertify.error('An error occured while updating the picture.');
 			}
 		);
 	}
@@ -166,14 +166,14 @@ export class PictureEditorComponent implements OnInit
 		{
 			this.picturesApi.delete(picture.id, picture.userID).subscribe
 			(
-				(next) =>
+				(next: void) =>
 				{
 					this.pictures.splice(this.pictures.findIndex(p => p.id === picture.id), 1);
-					this.alertify.success('The picture was deleted.');
+					this.alertify.success('You have deleted the picture.');
 				},
-				(error) =>
+				(error: any) =>
 				{
-					this.alertify.error(error);
+					this.alertify.error('An error occured while deleting the picture.');
 				}
 			);
 		},
