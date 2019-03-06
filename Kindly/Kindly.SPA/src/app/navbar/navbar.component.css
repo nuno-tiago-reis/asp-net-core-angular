@@ -1,7 +1,8 @@
 nav
 {
-	padding-bottom: 0;
-	max-height: 54px;
+	height: 50px;
+	margin: 0;
+	padding: 0;
 	border-bottom: 4px solid black;
 }
 
@@ -15,13 +16,11 @@ nav img
 {
 	max-height: 45px;
 	border: 1px solid black;
-	margin-bottom: 7.5px;
 }
 
 nav form
 {
 	max-height: 35px;
-	margin-bottom: 7.5px!important;
 }
 
 nav form input
@@ -79,7 +78,7 @@ li.nav-item > a.nav-link
 	background-color: transparent;
 	border-bottom: 3px solid transparent;
 	transition: border-bottom ease-in-out .15s;
-	padding-bottom: 10px;
+	padding-bottom: 5px;
 }
 
 	.navbar-brand:focus,
