@@ -66,9 +66,9 @@ namespace Kindly.API.Controllers.Pictures
 			this.Repository = repository;
 			this.Cloudinary = new Cloudinary(new Account
 			(
-				cloud: cloudinarySettings.Value.Cloud,
-				apiKey: cloudinarySettings.Value.ApiKey,
-				apiSecret: cloudinarySettings.Value.ApiSecret
+				cloudinarySettings.Value.Cloud,
+				cloudinarySettings.Value.ApiKey,
+				cloudinarySettings.Value.ApiSecret
 			));
 		}
 		#endregion
