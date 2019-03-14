@@ -1,5 +1,6 @@
 {
 	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
 	"defaultProject": "KindlyApp",
 	"newProjectRoot": "projects",
 	"projects":
@@ -7,7 +8,7 @@
 		"KindlyApp":
 		{
 			"root": "",
-			"sourceRoot": "src",
+			"sourceRoot": "source",
 			"projectType": "application",
 			"prefix": "app",
 			"schematics":
@@ -21,21 +22,21 @@
 					"options":
 					{
 						"outputPath": "wwwroot",
-						"index": "src/index.html",
-						"main": "src/main.ts",
-						"polyfills": "src/polyfills.ts",
-						"tsConfig": "src/tsconfig.app.json",
+						"index": "source/index.html",
+						"main": "source/main.ts",
+						"polyfills": "source/polyfills.ts",
+						"tsConfig": "source/tsconfig.app.json",
 						"assets":
 						[
-							"src/favicon.ico",
-							"src/assets",
-							"src/web.config"
+							"source/assets",
+							"source/favicon.ico",
+							"source/web.config"
 						],
 						"styles":
 						[
 							"node_modules/bootstrap/dist/css/bootstrap.min.css",
 							"node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-							"src/styles.css"
+							"source/styles.css"
 						],
 						"scripts":
 						[
@@ -49,8 +50,8 @@
 							"fileReplacements":
 							[
 								{
-									"replace": "src/environments/environment.ts",
-									"with": "src/environments/environment.production.ts"
+									"replace": "source/environments/environment.ts",
+									"with": "source/environments/environment.production.ts"
 								}
 							],
 							"optimization": true,
@@ -78,9 +79,9 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options":
 					{
+						"browserTarget": "KindlyApp:build",
 						"host": "kindly.com",
 						"port": 44351,
-						"browserTarget": "KindlyApp:build",
 						"ssl": true,
 						"sslKey": ".\\certificate\\kindly.com.key",
 						"sslCert": ".\\certificate\\kindly.com.crt"
@@ -106,23 +107,23 @@
 					"builder": "@angular-devkit/build-angular:karma",
 					"options":
 					{
-						"main": "src/test.ts",
-						"polyfills": "src/polyfills.ts",
-						"tsConfig": "src/tsconfig.spec.json",
-						"karmaConfig": "src/karma.conf.js",
+						"main": "source/test.ts",
+						"polyfills": "source/polyfills.ts",
+						"tsConfig": "source/tsconfig.spec.json",
+						"karmaConfig": "source/karma.conf.js",
 						"styles":
 						[
 							"./node_modules/bootstrap/dist/css/bootstrap.min.css",
 							"./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-							"src/styles.css"
+							"source/styles.css"
 						],
 						"scripts":
 						[
 						],
 						"assets":
 						[
-							"src/favicon.ico",
-							"src/assets"
+							"source/favicon.ico",
+							"source/assets"
 						]
 					}
 				},
@@ -133,8 +134,8 @@
 					{
 						"tsConfig":
 						[
-							"src/tsconfig.app.json",
-							"src/tsconfig.spec.json"
+							"source/tsconfig.app.json",
+							"source/tsconfig.spec.json"
 						],
 						"exclude":
 						[
@@ -146,7 +147,7 @@
 		},
 		"KindlyApp-e2e":
 		{
-			"root": "e2e/",
+			"root": "tests/",
 			"projectType": "application",
 			"prefix": "",
 			"architect":
@@ -156,7 +157,7 @@
 					"builder": "@angular-devkit/build-angular:protractor",
 					"options":
 					{
-						"protractorConfig": "e2e/protractor.conf.js",
+						"protractorConfig": "tests/protractor.conf.js",
 						"devServerTarget": "KindlyApp:serve"
 					},
 					"configurations":
@@ -172,7 +173,7 @@
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options":
 					{
-						"tsConfig": "e2e/tsconfig.e2e.json",
+						"tsConfig": "tests/tsconfig.e2e.json",
 						"exclude":
 						[
 							"**/node_modules/**"
@@ -181,6 +182,5 @@
 				}
 			}
 		}
-	},
-	"version": 1
+	}
 }
